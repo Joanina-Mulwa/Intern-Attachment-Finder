@@ -1,0 +1,151 @@
+<div class="container">
+    <div class="card mt-5">
+        <div class="row  p-5">
+            <div class="col-md-6 hide-sm">
+                <h2 class="mb-3 text-center">Find Intern . Give internships . Connect</h2>
+                <!-- <h2 class="mb-3 text-center">Lets Grow Together</h2> -->
+                <h4 class="text-center">Enabling growth by connecting, finding and giving internships!</h4>
+                <img class="landing-image" src="assets/InternConnect2.png" style="width: 550px; height: 450px;" />
+            </div>
+            <div class="col-md-6">
+                <div class="justify-content-center">
+                    <div *ngIf="!forgotPass">
+
+                        <form role="form">
+                            <div *ngIf="!showRegister">
+                                <div class="row">
+                                    <div class="col-md-3 mb-5">
+                                        <h4>Login</h4>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div *ngIf="loginFailure" class="alert alert-dismissible alert-danger fade show"
+                                            role="alert">
+                                            {{loginFailure}}
+                                            <button type="button" class="btn-close" aria-label="Close"
+                                                data-bs-dismiss="alert"></button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="mb-4">
+                                    <label class="mb-2" for="email"><strong>Email</strong></label>
+                                    <input type="email" name="email" class="form-control"
+                                        [(ngModel)]="userLogins.email">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="mb-2" for="password"><strong>Password</strong></label>
+                                    <input type="password" name="password" class="form-control"
+                                        [(ngModel)]="userLogins.password">
+                                    <small class="text-primary" type="text" (click)="forgotPassword()">Forgot
+                                        Password?</small>
+                                </div>
+                                <button class="btn btn-secondary form-control mt-3 mb-3" (click)="loginUser()"
+                                    [disabled]="!userLogins.email || !userLogins.password">LOGIN</button>
+                            </div>
+                            <div *ngIf="showRegister">
+                                <div class="row">
+                                    <div class="col-md-3 mb-5">
+                                        <h4>Register</h4>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div *ngIf="registerSuccess"
+                                            class="alert alert-dismissible alert-success fade show" role="alert">
+                                            {{registerSuccess}}
+                                            <button type="button" class="btn-close" aria-label="Close"
+                                                data-bs-dismiss="alert"></button>
+                                        </div>
+                                        <div *ngIf="registerFailure"
+                                            class="alert alert-dismissible alert-danger fade show" role="alert">
+                                            {{registerFailure}}
+                                            <button type="button" class="btn-close" aria-label="Close"
+                                                data-bs-dismiss="alert"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="mb-2" for="email"><strong>Email</strong></label>
+                                    <input type="text" name="email" class="form-control" [(ngModel)]="userLogins.email">
+                                </div>
+                                <div class="mb-5">
+                                    <label class="mb-2" for="password"><strong>Password</strong></label>
+                                    <input type="password" name="password" class="form-control"
+                                        [(ngModel)]="userLogins.password">
+                                </div>
+                                <button class="text-center btn btn-secondary form-control mt-3 mb-3"
+                                    (click)="registerUser()"
+                                    [disabled]="!userLogins.email || !userLogins.password">CREATE ACCOUNT</button>
+
+
+                            </div>
+
+
+
+                            <div>
+                                <div class="row p-4">
+                                    <hr class="col-md-6">
+                                    Or
+                                    <hr class="col-md-5">
+                                </div>
+                                <div class="row justify-content-center mb-1">
+                                    <button class="col-md-4 btn btn-outline-primary" (click)="loginWithGoogle()">
+                                        {{showRegister ? 'Sign Up' : 'Sign In'}} with Google
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div class="mt-5">
+                                <p *ngIf="showRegister">Already existing account? <a class="blue-text cursor-pointer"
+                                        (click)="showRegister = !showRegister ; reset()"><strong>Login</strong></a></p>
+                                <p *ngIf="!showRegister">Dont have an account? <a class="blue-text cursor-pointer"
+                                        (click)="showRegister = !showRegister ; reset()"> <strong>Register</strong></a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div *ngIf="forgotPass">
+
+                        <div class="row">
+                            <div class="col-md-3 mb-5">
+                                <button class="btn btn-outline-secondary mt-3 mb-5" (click)="backToLogin()"> <i
+                                        class="fa-solid fa-backward"></i> Back</button>
+                            </div>
+                            <div class="col-md-7">
+                                <div *ngIf="resetPassSuccess" class="alert alert-dismissible alert-success fade show"
+                                    role="alert">
+                                    {{resetPassSuccess}}
+                                    <button type="button" class="btn-close" aria-label="Close"
+                                        data-bs-dismiss="alert"></button>
+                                </div>
+                                <div *ngIf="resetPassFailure" class="alert alert-dismissible alert-danger fade show"
+                                    role="alert">
+                                    {{resetPassFailure}}
+                                    <button type="button" class="btn-close" aria-label="Close"
+                                        data-bs-dismiss="alert"></button>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="mb-4">
+                            <label class="mb-2" for="email"><strong>Email</strong></label>
+                            <input type="text" name="email" class="form-control" [(ngModel)]="userLogins.email">
+                        </div>
+                        <div class="mb-5">
+                            <label class="mb-2" for="password"><strong>Password</strong></label>
+                            <input type="password" name="password" class="form-control"
+                                [(ngModel)]="userLogins.password">
+                        </div>
+                        <button class="btn btn-secondary form-control mt-3 mb-3" (click)="resetPassword()"
+                            [disabled]="!userLogins.email || !userLogins.password">RESET PASSWORD</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,13 @@
+.landing-image {
+    width: 90%;
+    height: auto;
+    filter: drop-shadow(0 3px 40px #18224b44);
+  }
+  
+  .hr-text {
+    position: relative;
+    border: none;
+    height: 1px;
+    background: #999;
+  }
+  
