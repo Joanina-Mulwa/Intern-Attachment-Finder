@@ -1,0 +1,48 @@
+      .profile-item {
+      border: 1px solid #f1f1f1;
+      cursor: pointer;
+  
+      &:hover {
+        border: 1px solid #3c4043;
+  
+        .user-name{
+          text-decoration: underline;
+        }
+  
+        .dropdown {
+          opacity: 1;
+        }
+      }
+  
+      img {
+        border: 1px solid #f1f1f1;
+      }
+  
+      .user-name {
+        font-size: 1.2rem;
+        color: #5f6063;
+      }
+  
+      .company-name {
+        color: #80868b;
+        font-size: 0.9rem;
+      }
+  
+      .tech-alert {
+        font-size: 0.8rem;
+        display: inline-block;
+        margin-bottom: 5px;
+      }
+    }
+  
+  
+  @media (max-width:770px) {
+  
+    .profile-item{
+      .user-name {
+        font-size: 1rem!important;
+      }
+    }
+  
+  }
+  

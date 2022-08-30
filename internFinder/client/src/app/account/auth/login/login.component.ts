@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserLoginService } from 'src/app/services/user-login.service';
-
+import { UserService } from 'src/app/services/user.service';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
+import { TokenService } from 'src/app/services/token.service';
+import { Authority } from 'src/app/entities/users/user-bio-model';
+export { userLogins } from 'src/app/account/auth/login/userLoginsModel'
 
 @Component({
   selector: 'app-login',
@@ -10,10 +13,12 @@ import { UserLoginService } from 'src/app/services/user-login.service';
 })
 export class LoginComponent implements OnInit {
   constructor(
-    protected userLoginService: UserLoginService, 
-    protected router: Router, 
-   
-    ) { }
+    protected userService: UserService,
+    protected router: Router,
+    protected socialAuthService: SocialAuthService,
+    protected tokenService: TokenService
+
+  ) { }
   index = 1;
   username: any;
   users: any[] = [];
@@ -21,176 +26,253 @@ export class LoginComponent implements OnInit {
   registerSuccess = '';
   registerFailure = '';
   showRegister = false;
-  forgotPass=false;
-  resetPassFailure='';
-  resetPassSuccess='';
+  forgotPass = false;
+  resetPassFailure = '';
+  resetPassSuccess = '';
+  socialUser!: SocialUser;
+  isLoggedIn!: boolean;
 
   userLogins = {
     email: '',
-    password: ''
+    password: '',
+    authority: ''
   };
+  
+
+  showPassword!: boolean;
+  authority!: Authority;
+
 
   ngOnInit(): void {
+    this.socialAuthService.authState.subscribe(user => {
+
+      this.socialUser = user;
+      console.log("The user is" + user);
+    });
+
+    console.log("logins with button click is",this.userLogins);
+
+    
+
   }
+
+  // togglePassword():void{
+  //   this.showPassword = !this.showPassword
+  // }
 
   reset(): void {
     this.userLogins = {
       email: '',
-      password: ''
+      password: '',
+      authority: ''
     }
+  }
+  setAuthority(authority: string): void {
+    this.authority = authority as Authority;
+    this.userLogins.authority=this.authority;
+    console.log("User choose authority is",this.authority)
   }
 
   loginUser(): void {
     this.showRegister = false;
     console.log("User to be logged in : ", this.userLogins);
-    
-    this.userLoginService.loginUser(this.userLogins).subscribe(
-      (res) => {
-        console.log(res);
-        if (res == null) {
 
-          this.userLoginService.findByEmail(this.userLogins.email).subscribe(
-            (res)=>{
+    this.userService.loginUser(this.userLogins).subscribe(
+      {
+        next: (res)=>{
+          console.log("response to log in is: ",res);
+          console.log("Authority is : ",res.authority);
+          this.userLogins.authority=res.authority;
+       console.log("User to be logged in with authority is : ", this.userLogins);
+          this.tokenService.saveToken(this.userLogins.email,res.bearerToken);
+
+          console.log("Got token ,", res.bearerToken)
+
+          console.log("Successfull login, " + this.userLogins.email)
+          //this.router.navigate(['/internships'])
+          this.getCategory();
+
+        },
+        error:(err)=>{
+          console.log("User login failure : ", err)
+
+          this.userService.findByEmail(this.userLogins.email).subscribe(
+            (res) => {
               console.log("email is: ", res)
-              if(res == null){
-  
+              if (res == null) {
                 this.loginFailure = "Register, user " + this.userLogins.email + " does not exist";
                 setTimeout(
-                  ()=>{
+                  () => {
                     this.reset();
-                    this.loginFailure='';
-                    this.showRegister=true;
-                  },3000
+                    this.loginFailure = '';
+                    this.showRegister = true;
+                  }, 3000
                 )
               }
-              else{
+              else {
                 this.loginFailure = "Incorrect credentials..Try Again"
                 setTimeout(() => {
                   this.loginFailure = '';
                 }, 3000);
-      
+  
               }
             },
-      
+  
           )
-
-        } else {
-          console.log("Successfull login, "+ this.userLogins.email)
-          this.router.navigate(['/users'])
+  
+          this.loginFailure = "Invalid usernae or password"
+          setTimeout(() => {
+            this.loginFailure = '';
+          }, 3000);
 
         }
-
-      },
-      (err) => { console.log("User login failure : ", err) }
+        
+      
+      }
+  
 
     )
   }
 
-  loginWithGoogle(): void {
- 
-    //this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  getCategory(): void {
+    this.userService.findCategory(this.userLogins.email).subscribe(
+      (res) => {
+        console.log(res)
+        if (res == null) {
+          this.router.navigate(['/internships'])
+        }
+        else {
+          this.router.navigate(['/users'])
+        }
+      }
+    )
   }
 
 
-  registerUser(): void {
-    this.showRegister = true;
-    console.log(this.userLogins);
-    this.userLoginService.findByEmail(this.userLogins.email).subscribe(
-      (res) => {
-        console.log(res)
-        if (res != null) {
-          this.registerFailure = "Login, User "+ this.userLogins.email +" already exists";
+
+loginWithGoogle(): void {
+
+  this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+}
+
+// signOut(): void {
+//   this.socialAuthService.signOut();
+//this.tokenService.clearToken();
+
+// }
+
+
+
+registerUser(): void {
+  this.showRegister = true;
+  console.log(this.userLogins);
+  this.userService.findByEmail(this.userLogins.email).subscribe(
+    (res) => {
+      console.log(res)
+      if (res != null) {
+        this.registerFailure = "Login, User " + this.userLogins.email + " already exists";
+        setTimeout(
+          () => {
+            this.reset();
+            this.registerFailure = '';
+            this.showRegister = false;
+          }, 3000
+        )
+      }
+      else {
+        if (this.userLogins.password.length <= 3) {
+          this.registerFailure = "Enter valid password(too short)"
           setTimeout(
             () => {
               this.reset();
               this.registerFailure = '';
-              this.showRegister=false;
             }, 3000
           )
         }
         else {
-          if (this.userLogins.password.length <= 3) {
-            this.registerFailure = "Enter valid password(too short)"
-            setTimeout(
-              ()=>{
-                this.reset();
-                this.registerFailure='';
-              },3000
-            )
-          }
-          else {
-            console.log("user to be registered : ", this.userLogins)
-            this.userLoginService.registerUser(this.userLogins).subscribe(
-              (res) => {
-                console.log(res)
-                this.registerSuccess="Registration sucessfull. Login to proceed";
-                setTimeout(
-                  () => {
-                    this.registerSuccess = '';
-                    this.reset();
-                this.showRegister=false;
-                  }, 3000
-                )
-                
-                
-              }
-            )
-          }
+          this.userLogins.authority=this.authority;
+          console.log("user to be registered : ", this.userLogins)
+         
+          this.userService.registerUser(this.userLogins).subscribe(
+            (res) => {
+              console.log(res)
+              this.registerSuccess = "Registration sucessfull. Login to proceed";
+              setTimeout(
+                () => {
+                  this.registerSuccess = '';
+                  this.reset();
+                  this.showRegister = false;
+                }, 3000
+              )
 
-        }
-      }
 
-    )
-
-  }
-
-  forgotPassword():void{
-    this.forgotPass=true;
-  }
-  resetPassword():void{
-    console.log("About to reset password")
-    this.userLoginService.findByEmail(this.userLogins.email).subscribe(
-      (res)=>{
-        if(res == null){
-          this.resetPassFailure="User" +this.userLogins.email+" is not registered in the system. Register";
-          setTimeout(
-            ()=>{
-              this.reset();
-              this.resetPassFailure='';
-              this.backToRegister();
-
-            },3000
-          )
-        }
-        else{
-          this.userLoginService.resetPassword(this.userLogins).subscribe(
-            (res)=>{
-              this.resetPassSuccess="Password successfuly reset, Login";
-          setTimeout(
-            () => {
-              this.reset();
-              this.resetPassSuccess='';
-              this.backToLogin();
-
-            },3000
-            )
             }
           )
-          }
-      },
-      (err)=>{
-        console.log("Error reseting password")
+        }
+
       }
-    )
- 
-  }
-  backToLogin():void{
-    this.forgotPass=false;
-  }
-  backToRegister():void{
-    this.forgotPass=false;
-    this.showRegister=true;
-  }
+    }
+
+  )
+
+}
+
+
+
+forgotPassword(): void {
+  this.forgotPass = true;
+  this.reset();
+}
+resetPassword(): void {
+  console.log("About to reset password")
+    this.userService.findByEmail(this.userLogins.email).subscribe(
+    (res) => {
+      if (res == null) {
+        this.resetPassFailure = "User" + this.userLogins.email + " is not registered in the system. Register";
+        setTimeout(
+          () => {
+            this.reset();
+            this.resetPassFailure = '';
+            this.backToRegister();
+
+          }, 3000
+        )
+      }
+      else {
+        this.userService.resetPassword(this.userLogins).subscribe(
+          (res) => {
+            this.resetPassSuccess = "Password successfuly reset, Login";
+            setTimeout(
+              () => {
+                this.reset();
+                this.resetPassSuccess = '';
+                this.backToLogin();
+
+              }, 3000
+            )
+          }
+        )
+      }
+    },
+    (err) => {
+      console.log("Error reseting password")
+    }
+  )
+
+}
+backToLogin(): void {
+  this.forgotPass = false;
+  this.reset();
+}
+backToRegister(): void {
+  this.forgotPass = false;
+  this.showRegister = true;
+}
+
 
 
 }
+
+
+
+

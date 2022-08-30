@@ -1,0 +1,53 @@
+<nav *ngIf="showNavbar" class="navbar navbar-expand-lg navbar-light bg-light mb-2">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="../../assets/images/logo2.png" height="40px" width="40px" alt="">
+           Intern Finder</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div >
+            <form class="d-flex  me-5 ">
+                <div *ngIf="showPostInternship" class="col-md-3 text-center me-3 ">
+                    <a href="post-internship">
+                        <span><i class="fas fa-pen-nib"></i></span>
+                        <h6>Post Internships</h6>
+                    </a>
+                </div>
+                <div class="col-md-3 text-center me-4">
+                    <a href="internships">
+                        <span><i class="fas fa-briefcase"></i></span>
+                        <h6>Find Internships</h6>
+                    </a>
+                </div>
+                
+                <div class="col-md-3 text-center me-3">
+                    <a href="users">
+                        <span><i class="fas fa-users"></i></span>
+                        <h6>Members</h6>
+                    </a>
+                </div>
+                <!-- <div class="col-md-3 text-center">
+                    <a href="admin">
+                        <span><i class="fas fa-crown"></i></span>
+                        <h6>Admin</h6>
+                    </a>
+                </div> -->
+                
+             
+                <div class="col-md-3 text-center ">
+                    <a href="profile">
+                        <span><i class="fas fa-crown"></i></span>
+                        <h6>Profile</h6>
+                    </a>
+                    <a hidden>
+                        <div class="mt-2">
+                        <button class="btn btn-outline-primary" [routerLink]="''">Login</button>
+                    </div>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>

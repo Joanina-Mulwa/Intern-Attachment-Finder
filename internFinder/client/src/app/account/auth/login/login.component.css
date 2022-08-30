@@ -10,4 +10,22 @@
     height: 1px;
     background: #999;
   }
+
+  .hide {
+    display: none;
+  }
+  .inner-addon { 
+      position: relative; 
+  }
+  .inner-addon .far {
+    position: absolute;
+    padding: 10px 30px;
+    z-index: 100;
+    cursor: pointer;
+  }
+  .left-addon .far  { left:  0px; }
+  .right-addon .far { right: 0px; }
+   
+  .left-addon input  { padding-left:  30px; }
+  .right-addon input { padding-right: 30px; }
   

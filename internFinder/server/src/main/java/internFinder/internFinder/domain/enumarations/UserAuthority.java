@@ -1,6 +1,7 @@
 package internFinder.internFinder.domain.enumarations;
 
 public enum UserAuthority {
-  SUPPORT, USER
+  STUDENT, EMPLOYER, SUPPORT, OTHER, MEMBER
+
 
 }
