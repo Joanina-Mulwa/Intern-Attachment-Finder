@@ -61,6 +61,14 @@ public class User {
 
     private String companyEmail;
 
+    private String companyLocation;
+
+    private String companyDescription;
+
+    private String companyWorkingHours;
+
+    private String companyLogo;
+
 
     public User() {
     }
@@ -248,15 +256,46 @@ public class User {
         this.companyEmail = companyEmail;
     }
 
+    public String getCompanyLocation() {
+        return companyLocation;
+    }
+
+    public void setCompanyLocation(String companyLocation) {
+        this.companyLocation = companyLocation;
+    }
+
+    public String getCompanyDescription() {
+        return companyDescription;
+    }
+
+    public void setCompanyDescription(String companyDescription) {
+        this.companyDescription = companyDescription;
+    }
+
+    public String getCompanyWorkingHours() {
+        return companyWorkingHours;
+    }
+
+    public void setCompanyWorkingHours(String companyWorkingHours) {
+        this.companyWorkingHours = companyWorkingHours;
+    }
+
+    public String getCompanyLogo() {
+        return companyLogo;
+    }
+
+    public void setCompanyLogo(String companyLogo) {
+        this.companyLogo = companyLogo;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
+                "email='" + email + '\'' +
                 ", password='" + password + '\'' +
-//                ", category=" + category +
                 ", authority=" + authority +
                 ", identityProvider=" + identityProvider +
+                ", name='" + name + '\'' +
                 ", active=" + active +
                 ", roles='" + roles + '\'' +
                 ", permissions='" + permissions + '\'' +
@@ -270,6 +309,10 @@ public class User {
                 ", skills='" + skills + '\'' +
                 ", companyName='" + companyName + '\'' +
                 ", companyEmail='" + companyEmail + '\'' +
+                ", companyLocation='" + companyLocation + '\'' +
+                ", companyDescription='" + companyDescription + '\'' +
+                ", companyWorkingHours='" + companyWorkingHours + '\'' +
+                ", companyLogo='" + companyLogo + '\'' +
                 '}';
     }
 }

@@ -45,9 +45,9 @@ export class UserService {
     return this.httpClient.put<any>(this.apiServerURL + "/api/update", user)
   }
 
-  getCurrentUser():Observable<any>{
-    return this.httpClient.get<any>(this.apiServerURL + "/api/user/profile")
-  }
+  // getCurrentUser():Observable<any>{
+  //   return this.httpClient.get<any>(this.apiServerURL + "/api/user/profile")
+  // }
 
   findAllUsers():Observable<any>{
     return this.httpClient.get<any>(this.apiServerURL +"/api/findAll")

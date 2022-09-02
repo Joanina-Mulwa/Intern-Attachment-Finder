@@ -130,7 +130,7 @@ public class UserService {
     }
 
 
-    public void updateUser(UserBioDTO userBioDTO) throws UserNotFoundException {
+    public User updateUser(UserBioDTO userBioDTO) throws UserNotFoundException {
         log.debug("Request to update user : {}", userBioDTO);
 
         //get the user
@@ -151,9 +151,13 @@ public class UserService {
             user.setSkills(userBioDTO.getSkills());
             user.setCompanyName(userBioDTO.getCompanyName());
             user.setCompanyEmail(userBioDTO.getCompanyEmail());
+            user.setCompanyLocation(userBioDTO.getCompanyLocation());
+            user.setCompanyDescription(userBioDTO.getCompanyDescription());
+            user.setCompanyWorkingHours(userBioDTO.getCompanyWorkingHours());
+            user.setCompanyLogo(userBioDTO.getCompanyLogo());
 
             //Update the user info
-            userRepository.save(user);
+            return userRepository.save(user);
 
         } else {
             throw new UserNotFoundException("No user found with id " + userBioDTO.getEmail());

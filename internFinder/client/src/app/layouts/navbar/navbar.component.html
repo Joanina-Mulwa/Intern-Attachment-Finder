@@ -2,30 +2,34 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="../../assets/images/logo2.png" height="40px" width="40px" alt="">
-           Intern Finder</a>
+            Intern Finder</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div >
-            <form class="d-flex  me-5 ">
-                <div *ngIf="showPostInternship" class="col-md-3 text-center me-3 ">
+        <div>
+            <form class="d-flex   ">
+                <div class="col-md-1 text-center me-2"></div>
+                <div class="col-md-1 text-center me-2"></div>
+                <div class="col-md-1 text-center me-2"></div>
+                <div class="col-md-1 text-center me-2"></div>
+                <div *ngIf="showPostInternship" class="col-md-2 text-center  ">
                     <a href="post-internship">
                         <span><i class="fas fa-pen-nib"></i></span>
                         <h6>Post Internships</h6>
                     </a>
                 </div>
-                <div class="col-md-3 text-center me-4">
+                <div class="col-md-2 text-center">
                     <a href="internships">
                         <span><i class="fas fa-briefcase"></i></span>
                         <h6>Find Internships</h6>
                     </a>
                 </div>
-                
-                <div class="col-md-3 text-center me-3">
+
+                <div class="col-md-2 text-center  me-2 ">
                     <a href="users">
                         <span><i class="fas fa-users"></i></span>
-                        <h6>Members</h6>
+                        <h6>Finder Members</h6>
                     </a>
                 </div>
                 <!-- <div class="col-md-3 text-center">
@@ -34,18 +38,30 @@
                         <h6>Admin</h6>
                     </a>
                 </div> -->
-                
-             
-                <div class="col-md-3 text-center ">
-                    <a href="profile">
-                        <span><i class="fas fa-crown"></i></span>
-                        <h6>Profile</h6>
-                    </a>
-                    <a hidden>
-                        <div class="mt-2">
-                        <button class="btn btn-outline-primary" [routerLink]="''">Login</button>
+                <div class="col-md-2 text-center ">
+
+                    <div>
+                        <img src="{{profile.profileImageUrl}}" onError="this.src='assets/images/plain-user.png'"
+                            class="avatar img-circle" height="50px" width="50px">
                     </div>
-                    </a>
+                    <h6 style="display:inline">Me</h6>
+                    <p style="display:inline" class="dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <p></p>
+                        <p></p>
+                        <p></p><p></p><p></p>
+                    <div style="display:inline" class="dropleft w3-right">
+                        <ul class="dropdown-menu" data-toggle="bottom-right" style="right:0">
+
+                            <li style='padding:5px' class="dropdown-submenu">Signed in as {{profile.username}} </li>
+                            <li style='padding:5px' class="dropdown-submenu">({{userEmail}})</li>
+                            <li class="dropdown-divider"></li>
+
+                            <button class="btn btn-outline-secondary dropdown-item" (click)="logOut()">Log out</button>
+
+                        </ul>
+                    </div>
+
                 </div>
             </form>
         </div>

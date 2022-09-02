@@ -5,3 +5,6 @@ h6{
 a{ 
     text-decoration: none;
 }
+img {
+    border-radius: 50%;
+  }

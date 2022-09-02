@@ -1,5 +1,5 @@
-<div class="container-fluid justify-content-center">
-    <!-- <div class="mt-2">
+<div class="container-fluid ">
+  <!-- <div class="mt-2">
         <div align="center">
     
             <div>
@@ -72,55 +72,78 @@
             </div>
         </div>
     </div> -->
-    
 
+<div class="container">
 
-    <div class="row">
-        <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let user of users">
-          <div class="card profile-item">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-2 col-2 pt-2">
-                  <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="card-img-top " onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
-                  <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
-                  <!-- {{userBio.profileImageUrl}} -->
-                  <svg *ngIf="!user.profileImageUrl" class="img-fluid rounded float-start" width="100%" height="43" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image" preserveAspectRatio="xMidYMid slice"
-                    focusable="false">
-                    <title></title>
-                    <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%" fill="#202a44" dy=".3em" font-size="large" font-weight="bold">{{user?.email?.slice(0, 1) | uppercase}}</text>
-                  </svg>
-                  <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
+  <div class="row">
+    <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let user of users">
+      <div class="card profile-item " [routerLink]="['/users', user.email]">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-2 col-2 pt-2">
+              <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="card-img-top "
+                onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+              <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
+              <!-- {{userBio.profileImageUrl}} -->
+              <svg *ngIf="!user.profileImageUrl" class="img-fluid rounded float-start" width="100%" height="43"
+                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
+                preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title></title>
+                <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%" fill="#202a44" dy=".3em"
+                  font-size="large" font-weight="bold">{{user?.email?.slice(0, 1) | uppercase}}</text>
+              </svg>
+              <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
                                     onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+            </div>
+            <div class="STUDENT col-md-10 col-10">
+              <div class="row">
+                <div class="col-7">
+                  <h4>@{{user.username}}</h4>
+                  <h6 class="user-name" [routerLink]="['/users', user.email]">{{user.email}}
+                    <!-- <i class="fas fa-flag" data-toggle="modal" data-target="#reportModal" (click)="getEntity('USER',userBio.id)"></i> Report -->
+
+                  </h6>
                 </div>
-                <div class="col-md-10 col-10">
-                  <div class="row">
-                    <div class="col-7">
-                        <h4>@{{user.username}}</h4>
-                      <h6 class="user-name" >{{user.email}}
-                        <!-- <i class="fas fa-flag" data-toggle="modal" data-target="#reportModal" (click)="getEntity('USER',userBio.id)"></i> Report -->
-  
-                      </h6>
-                    </div>
-                    <div class="col-5 pe-0 text-end">
-                      <span *ngIf="user.companyName" class="company-name p-1 mx-0" title="Company">
-                        {{user?.companyName}}
-                        <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
-                      </span>
-                
-                    </div>
-                    <div class="mt-1">
-                      <span class="alert alert-info tech-alert p-1 mx-1" *ngFor="let skill of user.skillsList">
-                        #{{skill}}
-                      </span>
-                    </div>
-                  </div>
+                <div class="col-5 pe-0 text-end">
+                  <span *ngIf="user.companyName" class="company-name p-1 mx-0" title="Company">
+                    {{user?.companyName}}
+                    <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                  </span>
+
+                </div>
+                <div class="mt-1">
+                  <span class="alert alert-info tech-alert p-1 mx-1" *ngFor="let skill of user.skillsList">
+                    #{{skill}}
+                  </span>
                 </div>
               </div>
             </div>
+            <div hidden class="Employer">
+              <div class="row">
+                <div class="col-7">
+                  <h4>{{user.companyName}}</h4>
+                  <h6 class="user-name" [routerLink]="['/users', user.email]">{{user.email}}
+                    <!-- <i class="fas fa-flag" data-toggle="modal" data-target="#reportModal" (click)="getEntity('USER',userBio.id)"></i> Report -->
+
+                  </h6>
+                </div>
+                <div class="col-5 pe-0 text-end">
+                  <span *ngIf="user.companyName" class="company-name p-1 mx-0" title="Company">
+                    {{user?.companyName}}
+                    <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
           </div>
         </div>
-  
       </div>
+    </div>
 
+  </div>
+</div>
 
 </div>

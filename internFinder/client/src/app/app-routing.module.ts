@@ -5,7 +5,9 @@ import { LoginComponent } from './account/auth/login/login.component';
 import { ProfileComponent } from './account/auth/profile/profile.component';
 import { InternshipsComponent } from './entities/internships/internships.component';
 import { PostInternshipsComponent } from './entities/post-internships/post-internships.component';
-import { UsersComponent } from './entities/users/users.component';
+import { BioDetailComponent } from './entities/users/bio-detail/bio-detail.component';
+import { BioEditComponent } from './entities/users/bio-edit/bio-edit.component';
+import { UsersComponent } from './entities/users/users/users.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 
 const routes: Routes = [
@@ -37,6 +39,15 @@ const routes: Routes = [
     path: 'post-internship',
     component: PostInternshipsComponent
   },
+  {
+    path: 'users/:email',
+    component: BioDetailComponent
+  },
+  {
+    path: 'user/edit',
+    component: BioEditComponent
+  },
+
 
 ];
 

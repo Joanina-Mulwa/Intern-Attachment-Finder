@@ -23,7 +23,6 @@ export class InternshipsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getCurrentUser();
     this.findAllinternships();
     this.getCurrentLoggedInUsername();
     //this.getUsername2();
@@ -53,15 +52,6 @@ export class InternshipsComponent implements OnInit {
 
 }
 
-
-
-
-  getCurrentUser():void{
-    this.userService.getCurrentUser().subscribe(
-      (res)=>{console.log(res)},
-      (err)=>{console.log(err)}
-    )
-  }
 
   findAllinternships():void{
     this.postInternshipService.findAll().subscribe(

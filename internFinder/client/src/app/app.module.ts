@@ -8,12 +8,13 @@ import { GoogleLoginProvider } from "angularx-social-login";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './account/auth/login/login.component';
-import { UsersComponent } from './entities/users/users.component';
+import { UsersComponent } from './entities/users/users/users.component';
 import { InternshipsComponent } from './entities/internships/internships.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { PostInternshipsComponent } from './entities/post-internships/post-internships.component';
 import { ProfileComponent } from './account/auth/profile/profile.component';
-
+import { BioDetailComponent } from './entities/users/bio-detail/bio-detail.component';
+import { BioEditComponent } from './entities/users/bio-edit/bio-edit.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,9 @@ import { ProfileComponent } from './account/auth/profile/profile.component';
     InternshipsComponent,
     NavbarComponent,
     PostInternshipsComponent,
-    ProfileComponent
+    ProfileComponent,
+    BioDetailComponent,
+    BioEditComponent,
   ],
   imports: [
     BrowserModule,

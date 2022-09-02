@@ -6,16 +6,21 @@ export class UserBio{
      profileImageUrl?: string;
      username?: string;
      institution?: string;
-     programme?: string;
+     programme?: Programme;
      course?: string;
      skills?: string;
      skillsList?: string[];
      experience?: string;
+     createdOn?:Date;
      //Company
      companyName?: string;
      companyEmail?: string;
      companyPhoneNumber?: string;
-
+     companyLocation?:string;
+     companyDescription?:string;
+     companyWorkingHours?:string;
+     companyLogo?:string;
+     
 
 
     constructor(
@@ -26,15 +31,21 @@ export class UserBio{
         profileImageUrl?: string,
         username?: string,
         institution?: string,
-        programme?: string,
+        programme?: Programme,
         course?: string,
         skills?: string,
         skillsList?: string[],
         experience?: string,
+        createdOn?:Date,
         //Company
         companyName?: string,
         companyEmail?: string,
         companyPhoneNumber?: string,
+        companyLocation?:string,
+        companyDescription?:string,
+        companyWorkingHours?:string,
+        companyLogo?:string,
+        
    
     ){
         this.id=id;
@@ -49,9 +60,14 @@ export class UserBio{
         this.skills=skills;
         this.skillsList=skillsList;
         this.experience=experience;
+        this.createdOn=createdOn;
         this.companyName=companyName;
         this.companyEmail=companyEmail;
         this.companyPhoneNumber=companyPhoneNumber;
+        this.companyLocation=companyLocation;
+        this.companyDescription=companyDescription;
+        this.companyWorkingHours=companyWorkingHours;
+        this.companyLogo=companyLogo;
 
     }
 }
@@ -66,4 +82,12 @@ export enum EmploymentStatus{
 export enum Authority{
     EMPLOYER = 'EMPLOYER',
     STUDENT = 'STUDENT'
+}
+
+export enum Programme{
+    DEGREE = 'DEGREE',
+    DIPLOMA = 'DIPLOMA',
+    CERTIFICATE = 'CERTIFICATE',
+    POSTGRADUATE = 'POST-GRADUATE'
+
 }

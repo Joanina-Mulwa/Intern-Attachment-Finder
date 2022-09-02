@@ -30,7 +30,9 @@ export class PostInternshipsComponent implements OnInit {
     responsibilities: '',
     important: '',
     period: '',
-    internshipStatus: 'ACTIVE'
+    internshipStatus: 'ACTIVE',
+    createdOn: '',
+    createdBy: '',
   }
  
 
@@ -59,7 +61,10 @@ export class PostInternshipsComponent implements OnInit {
       responsibilities: '',
       important: '',
       period: '',
-      internshipStatus: 'ACTIVE'
+      internshipStatus: 'ACTIVE',
+      createdOn: '',
+      createdBy: '',
+  
     }
   
   }
@@ -71,7 +76,9 @@ export class PostInternshipsComponent implements OnInit {
       (res)=>{
         //console.log("The authority 2 is",res.authority)
         this.reset();
-        console.log(res)}
+        console.log(res);
+
+      }
     )
   }
 

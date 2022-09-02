@@ -35,7 +35,7 @@
                                 <div class="mb-4">
                                     <div class="form-group inner-addon right-addon">
                                         <label class="mb-2" for="password"><strong>Password</strong></label>
-                                        <div class="input-group col-6 mx-auto">
+                                        <div class="input-group mx-auto">
                                             <input name="password" [type]="showPassword ? 'text' : 'password'"
                                                 class="form-control pwd-control" id="password-field"
                                                 placeholder="Password" [(ngModel)]="userLogins.password">
@@ -79,25 +79,27 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                    <div>
-                                        <div class="row justify-content-center text-center">
-                                            <div class="card pt-2">
-                                                <h5 class="text-center"> What best describes your current status?</h5>
-                                                <div class="d-flex justify-content-around mt-3 mb-4">
-                                                    <button class="btn btn-outline-primary" (click)="setAuthority('STUDENT')"> I am a
-                                                        Student</button>
-                                                    <!-- <button type="button" onclick="studentDetails()" value = "Display">student</button>-->
-                            
-                                                    <button class="btn btn-outline-primary" (click)="setAuthority('EMPLOYER')" >I am a
-                                                        Employer </button>
-                                                </div>
+
+                                <div>
+                                    <div class="row justify-content-center text-center">
+                                        <div class="card pt-2">
+                                            <h5 class="text-center"> What best describes your current status?</h5>
+                                            <div class="d-flex justify-content-around mt-3 mb-4">
+                                                <button class="btn btn-outline-primary"
+                                                    (click)="setAuthority('STUDENT')"> I am a
+                                                    Student</button>
+                                                <!-- <button type="button" onclick="studentDetails()" value = "Display">student</button>-->
+
+                                                <button class="btn btn-outline-primary"
+                                                    (click)="setAuthority('EMPLOYER')">I am a
+                                                    Employer </button>
                                             </div>
                                         </div>
-                            
-                                        <br>
                                     </div>
-                                
+
+                                    <br>
+                                </div>
+
                                 <div class="mb-4">
                                     <label class="mb-2" for="email"><strong>Email</strong></label>
                                     <input type="text" name="email" class="form-control" [(ngModel)]="userLogins.email">
@@ -105,7 +107,7 @@
                                 <div class="mb-5">
                                     <div class="form-group inner-addon right-addon">
                                         <label class="mb-2" for="password"><strong>Password</strong></label>
-                                        <div class="input-group col-6 mx-auto">
+                                        <div class="input-group mx-auto">
                                             <input name="password" [type]="showPassword ? 'text' : 'password'"
                                                 class="form-control pwd-control" id="password-field"
                                                 placeholder="Password" [(ngModel)]="userLogins.password">
@@ -122,12 +124,13 @@
                                 </div>
                                 <button class="text-center btn btn-secondary form-control mt-3 mb-3"
                                     (click)="registerUser()"
-                                    [disabled]="!userLogins.email || !userLogins.password || !userLogins.authority">CREATE ACCOUNT</button>
+                                    [disabled]="!userLogins.email || !userLogins.password || !userLogins.authority">CREATE
+                                    ACCOUNT</button>
                             </div>
 
                             <div>
                                 <div class="row p-4">
-                                    <hr class="col-md-6">
+                                    <hr class="col-md-5">
                                     Or
                                     <hr class="col-md-5">
                                 </div>

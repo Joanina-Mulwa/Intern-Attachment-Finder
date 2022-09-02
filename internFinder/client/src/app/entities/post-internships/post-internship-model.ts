@@ -13,7 +13,9 @@ export class PostInternship{
     responsibilities?: string;
     important?: string;
     period?: number;
-    internshipStatus?: InternshipStatus
+    internshipStatus?: InternshipStatus;
+    createdOn?: string;
+    createdBy?: string;
     constructor(
     id?: number,
     internshipTitle?:string,
@@ -29,7 +31,10 @@ export class PostInternship{
     responsibilities?: string,
     important?: string, 
     period?: number,
-    internshipStatus?: InternshipStatus
+    internshipStatus?: InternshipStatus,
+    createdOn?: string,
+    createdBy?: string,
+
     ){
         this.id=id;
         this.internshipTitle=internshipTitle;
@@ -46,6 +51,8 @@ export class PostInternship{
         this.important=important;
         this.period=period;
         this.internshipStatus=internshipStatus;
+        this.createdOn=createdOn;
+        this.createdBy=createdBy;
     }
 }
 export enum WorkPlaceType{
