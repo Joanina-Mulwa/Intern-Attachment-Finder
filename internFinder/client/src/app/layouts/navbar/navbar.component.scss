@@ -1,0 +1,36 @@
+h6{
+    color: black;
+    
+}
+a{ 
+    text-decoration: none;
+}
+img {
+    border-radius: 50%;
+  }
+.active-route {
+    border-bottom: 2px solid #3c4043!important;
+    font-weight: 600!important;
+  }
+@media (max-width:760px) {
+    .navbar {
+      background-color: #f8f9fa;
+  
+      .container-fluid {
+        height: 56px;
+      }
+    }
+  }
+  .dropdown-menu {
+    min-width: 100px;
+    max-height: 80vh;
+    overflow-y: scroll;
+    border-radius: 8px!important;
+    border: 1px solid #8f8888;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+   
+
+
+    
+  }

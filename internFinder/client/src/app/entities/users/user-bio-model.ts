@@ -20,6 +20,10 @@ export class UserBio{
      companyDescription?:string;
      companyWorkingHours?:string;
      companyLogo?:string;
+     companyIndustry?: string;
+     companyWebsite?: string;
+     companyNumberOfEmployees?: number;
+     companyPostalAddress?: string;
      
 
 
@@ -45,6 +49,10 @@ export class UserBio{
         companyDescription?:string,
         companyWorkingHours?:string,
         companyLogo?:string,
+        companyIndustry?: string,
+        companyWebsite?: string,
+        companyNumberOfEmployees?: number,
+        companyPostalAddress?: string,
         
    
     ){
@@ -68,6 +76,10 @@ export class UserBio{
         this.companyDescription=companyDescription;
         this.companyWorkingHours=companyWorkingHours;
         this.companyLogo=companyLogo;
+        this.companyIndustry=companyIndustry;
+        this.companyWebsite=companyWebsite;
+        this.companyNumberOfEmployees=companyNumberOfEmployees;
+        this.companyPostalAddress=companyPostalAddress;
 
     }
 }

@@ -32,6 +32,8 @@ public class PostInternship {
     @Enumerated(EnumType.STRING)
     public InternshipType internshipType;
 
+    public Long internshipPeriod;
+
     public String reportingDate;
 
     public String vacancy;
@@ -98,6 +100,14 @@ public class PostInternship {
 
     public InternshipType getInternshipType() {
         return internshipType;
+    }
+
+    public Long getInternshipPeriod() {
+        return internshipPeriod;
+    }
+
+    public void setInternshipPeriod(Long internshipPeriod) {
+        this.internshipPeriod = internshipPeriod;
     }
 
     public void setEmploymentType(InternshipType internshipType) {
@@ -191,13 +201,14 @@ public class PostInternship {
                 ", internshipStatus=" + internshipStatus +
                 ", location='" + location + '\'' +
                 ", internshipType=" + internshipType +
+                ", internshipPeriod=" + internshipPeriod +
                 ", reportingDate='" + reportingDate + '\'' +
                 ", vacancy='" + vacancy + '\'' +
                 ", description='" + description + '\'' +
                 ", skills='" + skills + '\'' +
                 ", responsibilities='" + responsibilities + '\'' +
                 ", important='" + important + '\'' +
-                ", createdOn='" + createdOn + '\'' +
+                ", createdOn=" + createdOn +
                 ", createdBy='" + createdBy + '\'' +
                 '}';
     }

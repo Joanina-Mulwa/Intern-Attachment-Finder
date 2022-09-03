@@ -28,13 +28,13 @@
                         <div class="content">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <h4 class="section-title">{{internshipDetail.internshipTitle}}</h4>
+                                    <h4 class="section-title">{{internshipDetail.internshipTitle}} {{internshipId}}</h4>
                                 </div>
                                 <div class="col-2 pe-3 text-end">
                                     <button class="btn btn-outline-secondary btn-edit-internship"
-                                        *ngIf="isPostedByMe">Edit internship</button>
+                                        *ngIf="isPostedByMe" [routerLink]="['/internship/edit', internshipId]">Edit internship</button>
                                     <button class="btn btn-outline-secondary btn-edit-internship"
-                                        *ngIf="!isEmployer">Apply internship</button>
+                                        *ngIf="!isEmployer && internshipDetail.internshipStatus == 'ACTIVE'">Apply internship</button>
                                 </div>
                                 
                             </div>
@@ -53,6 +53,13 @@
                                     <span class="bold-text"> {{internshipDetail.companyEmail}}</span>
                                 </span>
 
+                            </div>
+
+                            <div >
+                                <i *ngIf="internshipDetail.internshipStatus === 'ACTIVE'"
+                                    class="fas fa-check-circle">{{internshipDetail.internshipStatus}}</i>
+                                <i *ngIf="internshipDetail.internshipStatus === 'CLOSED'"
+                                    class="fas fa-times-circle">{{internshipDetail.internshipStatus}}</i>
                             </div>
 
 

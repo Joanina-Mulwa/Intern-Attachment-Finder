@@ -2,11 +2,14 @@
 
     <div *ngIf="userBioDetail" class="container">
 
-        <button class="btn btn-back btn-outline-secondary" [routerLink]="['/users']">
+        <button class="btn btn-back btn-outline-secondary mb-3" [routerLink]="['/users']">
             <span><i class="fas fa-arrow-left"></i></span> Intern Finder members
         </button>
+        <div class="card p-3">
 
-        <div class="row mt-4">
+        
+
+        <div class="row">
             <div class="col-md-3 text-center ">
                 <div class="image-holder">
                     <img *ngIf="userBioDetail.profileImageUrl" src={{userBioDetail.profileImageUrl}}
@@ -25,18 +28,24 @@
             <div class="col-md-9">
 
                 <div class="content">
-                    <h4 class="section-title">About {{userBioDetail.username}}</h4>
+                    
 
                     <div class="row">
                         <div class="col-md-6">
-                            <h4 class="profile-name">{{userBioDetail.name}}</h4>
+                           
+                            <h4 class="section-title" style="text-decoration: underline">About : {{userBioDetail.username}}</h4>
 
                         </div>
                         <div class="col-md-6 text-end">
-                            <button class="btn btn-edit-profile" *ngIf="isMe" [routerLink]="['/user/edit']">Edit
+                            <button class="btn btn-outline-secondary btn-edit-profile" *ngIf="isMe" [routerLink]="['/user/edit']">Edit
                                 profile</button>
                         </div>
                     </div>
+                    
+
+                    <p *ngIf="userBioDetail.name && userBioDetail.institution" class="profile-name">{{userBioDetail.name}} , student at {{userBioDetail.institution}}</p>
+                    
+                    <p *ngIf="userBioDetail.programme" class="profile-name">current level of education is {{userBioDetail.programme}}</p>
 
                     <div *ngIf="userBioDetail.companyName" class="mt-2">
                         <span class="description">
@@ -51,7 +60,7 @@
                     <div class="mt-2">
                         <span class="description"><i class="fas fa-history me-3"></i>Joined Intern Finder
                             {{userBioDetail.createdOn}}</span>
-                        <span class="px-2"><i class="far fa-clock"></i> Last seen 2 days ago</span>
+                        <!-- <span class="px-2"><i class="far fa-clock"></i> Last seen 2 days ago</span> -->
                     </div>
 
                     <h4 *ngIf="userBioDetail.skillsList" class="section-title mt-4">Skills</h4>
@@ -61,10 +70,11 @@
                             <label class="pe-2"># {{skill}}</label>
                         </span>
                     </div>
+                    
                 </div>
             </div>
         </div>
-
+    </div>
 
 
     </div>

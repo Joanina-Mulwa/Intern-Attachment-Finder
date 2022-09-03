@@ -50,6 +50,14 @@ public class UserBioDTO {
 
     private String companyLogo;
 
+    private String companyIndustry;
+
+    private String companyWebsite;
+
+    private Long companyNumberOfEmployees;
+
+    private String companyPostalAddress;
+
     public UserBioDTO() {
     }
 
@@ -72,6 +80,10 @@ public class UserBioDTO {
         this.setCompanyDescription(user.getCompanyDescription());
         this.setCompanyWorkingHours(user.getCompanyWorkingHours());
         this.setCompanyLogo(user.getCompanyLogo());
+        this.setCompanyIndustry(user.getCompanyIndustry());
+        this.setCompanyWebsite(user.getCompanyWebsite());
+        this.setCompanyNumberOfEmployees(user.getCompanyNumberOfEmployees());
+        this.setCompanyPostalAddress(user.getCompanyPostalAddress());
 
     }
 

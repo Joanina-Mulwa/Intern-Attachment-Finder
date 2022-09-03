@@ -29,6 +29,8 @@ export class BioDetailComponent implements OnInit {
 
       
     });
+
+   
     
   }
   
@@ -43,6 +45,10 @@ export class BioDetailComponent implements OnInit {
       (res)=>{
         console.log("User details is", res)
         this.userBioDetail = res;
+        if (this.userBioDetail?.skills) {
+          this.userBioDetail.skillsList = this.userBioDetail.skills.split(",");
+    
+        }
         console.log("User this.userBioDetai is", this.userBioDetail)   
       },
       (err)=>{

@@ -69,6 +69,14 @@ public class User {
 
     private String companyLogo;
 
+    private String companyIndustry;
+
+    private String companyWebsite;
+
+    private Long companyNumberOfEmployees;
+
+    private String companyPostalAddress;
+
 
     public User() {
     }
@@ -288,6 +296,38 @@ public class User {
         this.companyLogo = companyLogo;
     }
 
+    public String getCompanyIndustry() {
+        return companyIndustry;
+    }
+
+    public void setCompanyIndustry(String companyIndustry) {
+        this.companyIndustry = companyIndustry;
+    }
+
+    public String getCompanyWebsite() {
+        return companyWebsite;
+    }
+
+    public void setCompanyWebsite(String companyWebsite) {
+        this.companyWebsite = companyWebsite;
+    }
+
+    public Long getCompanyNumberOfEmployees() {
+        return companyNumberOfEmployees;
+    }
+
+    public void setCompanyNumberOfEmployees(Long companyNumberOfEmployees) {
+        this.companyNumberOfEmployees = companyNumberOfEmployees;
+    }
+
+    public String getCompanyPostalAddress() {
+        return companyPostalAddress;
+    }
+
+    public void setCompanyPostalAddress(String companyPostalAddress) {
+        this.companyPostalAddress = companyPostalAddress;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -313,6 +353,10 @@ public class User {
                 ", companyDescription='" + companyDescription + '\'' +
                 ", companyWorkingHours='" + companyWorkingHours + '\'' +
                 ", companyLogo='" + companyLogo + '\'' +
+                ", companyIndustry='" + companyIndustry + '\'' +
+                ", companyWebsite='" + companyWebsite + '\'' +
+                ", companyNumberOfEmployees=" + companyNumberOfEmployees +
+                ", companyPostalAddress='" + companyPostalAddress + '\'' +
                 '}';
     }
 }

@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { UserService } from 'src/app/services/user.service';
-import { Authority, UserBio } from '../users/user-bio-model';
-import { InternshipType, InternshipStatus, WorkPlaceType } from './post-internship-model';
+import { WorkPlaceType, InternshipType, InternshipStatus } from '../../post-internships/post-internship-model';
 
 @Component({
-  selector: 'app-post-internships',
-  templateUrl: './post-internships.component.html',
-  styleUrls: ['./post-internships.component.css']
+  selector: 'app-internship-edit',
+  templateUrl: './internship-edit.component.html',
+  styleUrls: ['./internship-edit.component.css']
 })
-export class PostInternshipsComponent implements OnInit {
+export class InternshipEditComponent implements OnInit {
 
   constructor(
     protected postInternshipService : PostInternshipService,
     protected userService: UserService,
     protected router: Router,
+    protected route: ActivatedRoute,
     ) { }
   internship = {
     id: undefined as any,
@@ -38,6 +38,7 @@ export class PostInternshipsComponent implements OnInit {
   }
 
   companyDetails!: '';
+  internshipId!: number;
  
 
 
@@ -48,6 +49,13 @@ export class PostInternshipsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentUser()
+    this.route.params.subscribe(params => {
+      this.internshipId = params['id'];
+      console.log("We want to edit profile of intenrhsip of is  ", this.internshipId)
+      
+      
+    });
+    this.findInternshipById()
     
     
   }
@@ -76,21 +84,23 @@ export class PostInternshipsComponent implements OnInit {
   }
 
 
-  postinternship(): void{    
+  updateinternship(): void{    
     this.internship.companyEmail= JSON.parse(localStorage.getItem('currentUser')!).email;
     this.internship.companyName=this.companyDetails;
-    console.log("About to create internship ", this.internship);
+    console.log("About to update internship ", this.internship);
     this.router.navigate(['/internships'])
-    this.postInternshipService.createInternship(this.internship).subscribe(
+    this.postInternshipService.updateInternship(this.internship).subscribe(
       (res)=>{
        
         
-        console.log("created this internship",res);
+        console.log("updated this internship",res);
+        window.location.reload();
         this.router.navigate(['/internships'])
+        
 
       },
       (err)=>{
-        console.log("error creating internship",err)
+        console.log("error updating internship",err)
       }
     )
   }
@@ -113,7 +123,7 @@ export class PostInternshipsComponent implements OnInit {
       (res)=>{
 
         this.companyDetails = res;
-        console.log("jhherrreeee company name details posting confirmation is", res.name);
+        console.log("jhherrreeee company name details posting confirmation is", this.internship.id);
         this.companyDetails=res.name;    
       },
       (err)=>{
@@ -123,5 +133,16 @@ export class PostInternshipsComponent implements OnInit {
 
   }
 
-}
+  findInternshipById(): void{
+    console.log("Want to find internship of id ", this.internshipId)
+    this.postInternshipService.findInternshipById(this.internshipId).subscribe(
+      (res)=>{
+        console.log("Found internship this", res);
+        this.internship=res;
+      },
+      (err)=>{console.log("Failed to find internship of id ", this.internshipId)}
+    )
+  }
 
+
+}

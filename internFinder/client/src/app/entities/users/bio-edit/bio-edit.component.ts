@@ -14,7 +14,7 @@ export class BioEditComponent implements OnInit {
     protected userService: UserService,
     protected router: Router,
   ) { }
-  authority!: Authority;
+  
 userEmail: any;
   profile={
     id: undefined as any,
@@ -37,8 +37,14 @@ userEmail: any;
     companyDescription:'',
     companyWorkingHours:'',
     companyLogo:'',
+    companyIndustry: '',
+    companyWebsite: '',
+    companyNumberOfEmployees: '',
+    companyPostalAddress:'',
 
   }
+
+  isStudent: boolean= false;
 
   programmes = [Programme.DEGREE,Programme.DIPLOMA, Programme.CERTIFICATE, Programme.POSTGRADUATE];
 
@@ -58,6 +64,17 @@ userEmail: any;
       (res)=>{
         this.profile=res;
         console.log("User details to update is", this.profile)
+        if(res.authority === Authority.STUDENT){
+          this.isStudent = true;
+
+        }
+        else if(res.authority === Authority.EMPLOYER){
+          this.isStudent = false;
+        }
+        else{
+          console.log("Error fetching logged in authority")
+        }
+
         
       },
       (err)=>{

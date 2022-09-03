@@ -16,6 +16,7 @@ import { ProfileComponent } from './account/auth/profile/profile.component';
 import { BioDetailComponent } from './entities/users/bio-detail/bio-detail.component';
 import { BioEditComponent } from './entities/users/bio-edit/bio-edit.component';
 import { InternshipDetailComponent } from './entities/internships/internship-detail/internship-detail.component';
+import { InternshipEditComponent } from './entities/internships/internship-edit/internship-edit.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +30,7 @@ import { InternshipDetailComponent } from './entities/internships/internship-det
     BioEditComponent,
     InternshipDetailComponent,
     InternshipDetailComponent,
+    InternshipEditComponent,
   ],
   imports: [
     BrowserModule,

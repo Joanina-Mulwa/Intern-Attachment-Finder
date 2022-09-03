@@ -4,6 +4,7 @@ import { LoginWithGoogleComponent } from './account/auth/login-with-google/login
 import { LoginComponent } from './account/auth/login/login.component';
 import { ProfileComponent } from './account/auth/profile/profile.component';
 import { InternshipDetailComponent } from './entities/internships/internship-detail/internship-detail.component';
+import { InternshipEditComponent } from './entities/internships/internship-edit/internship-edit.component';
 import { InternshipsComponent } from './entities/internships/internships/internships.component';
 import { PostInternshipsComponent } from './entities/post-internships/post-internships.component';
 import { BioDetailComponent } from './entities/users/bio-detail/bio-detail.component';
@@ -51,6 +52,10 @@ const routes: Routes = [
   {
     path: 'internship/:id',
     component: InternshipDetailComponent
+  },
+  {
+    path: 'internship/edit/:id',
+    component: InternshipEditComponent
   },
 
 

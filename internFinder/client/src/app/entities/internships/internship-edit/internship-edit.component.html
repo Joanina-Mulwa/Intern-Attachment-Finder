@@ -50,8 +50,8 @@
                                         <select autocomplete="on" class="form-control" name="internshipType" type="text"
                                             [(ngModel)]="internship.internshipType">
                                             <option selected disabled>Select correct answer</option>
-                                            <option *ngFor="let internshipType of internshipTypes; let i = index"
-                                                [value]="i">
+                                            <option *ngFor="let internshipType of internshipTypes"
+                                                >
                                                 {{internshipType}}
                                             </option>
                                         </select>
@@ -154,9 +154,9 @@
                                 <div class="row">
                                     <div class="col-md-2">
 
-                                        <button class="btn btn-outline-primary form-control" (click)="postinternship()"
+                                        <button class="btn btn-outline-primary form-control" (click)="updateinternship()"
                                             [disabled]="!internship.internshipTitle || !internship.workPlaceType || !internship.location ||
-                                                !internship.reportingDate || !internship.vacancy || !internship.description || !internship.skills">POST</button>
+                                                !internship.reportingDate || !internship.vacancy || !internship.description || !internship.skills">Update</button>
 
 
                                         <!-- <button *ngIf="userBio.id" class="btn btn-outline-primary form-control"

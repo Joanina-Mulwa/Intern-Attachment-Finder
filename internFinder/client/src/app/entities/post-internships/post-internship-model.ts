@@ -12,7 +12,7 @@ export class PostInternship{
     skills?: string;
     responsibilities?: string;
     important?: string;
-    period?: number;
+    internshipPeriod?: number;
     internshipStatus?: InternshipStatus;
     createdOn?: string;
     createdBy?: string;
@@ -30,7 +30,7 @@ export class PostInternship{
     skills?: string,
     responsibilities?: string,
     important?: string, 
-    period?: number,
+    internshipPeriod?: number,
     internshipStatus?: InternshipStatus,
     createdOn?: string,
     createdBy?: string,
@@ -49,7 +49,7 @@ export class PostInternship{
         this.skills=skills;
         this.responsibilities=responsibilities;
         this.important=important;
-        this.period=period;
+        this.internshipPeriod=internshipPeriod;
         this.internshipStatus=internshipStatus;
         this.createdOn=createdOn;
         this.createdBy=createdBy;

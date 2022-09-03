@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
 
   showPassword!: boolean;
   authority!: Authority;
+  isAuthorityButtonVisible: boolean = true;
 
 
   ngOnInit(): void {
@@ -61,6 +62,7 @@ export class LoginComponent implements OnInit {
   // }
 
   reset(): void {
+    this.isAuthorityButtonVisible=true;
     this.userLogins = {
       email: '',
       password: '',
@@ -71,9 +73,19 @@ export class LoginComponent implements OnInit {
     this.authority = authority as Authority;
     this.userLogins.authority = this.authority;
     console.log("User choose authority is", this.authority)
+    this.isAuthorityButtonVisible=false;
+  }
+
+  changeAuthority(): void{
+    this.userLogins.authority='';
+    console.log("User removed authority ", this.userLogins.authority)
+    this.isAuthorityButtonVisible=true
+
   }
 
   loginUser(): void {
+    
+
     this.showRegister = false;
     console.log("User to be logged in : ", this.userLogins);
 

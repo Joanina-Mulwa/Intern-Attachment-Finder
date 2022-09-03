@@ -7,50 +7,29 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div>
-            <form class="d-flex   ">
-                <div class="col-md-1 text-center me-2"></div>
-                <div class="col-md-1 text-center me-2"></div>
-                <div class="col-md-1 text-center me-2"></div>
-                <div class="col-md-1 text-center me-2"></div>
-                <div *ngIf="showPostInternship" class="col-md-2 text-center  ">
-                    <a href="post-internship">
-                        <span><i class="fas fa-pen-nib"></i></span>
-                        <h6>Post Internships</h6>
-                    </a>
-                </div>
-                <div class="col-md-2 text-center">
-                    <a href="internships">
-                        <span><i class="fas fa-briefcase"></i></span>
-                        <h6>Find Internships</h6>
-                    </a>
-                </div>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item" [ngClass]="{'active-route':router.url.includes('post-internship')}">
+                    <a class="nav-link" [routerLink]="'/post-internship'">Post Internship&nbsp;</a>
+                </li>
 
-                <div class="col-md-2 text-center  me-2 ">
-                    <a href="users">
-                        <span><i class="fas fa-users"></i></span>
-                        <h6>Finder Members</h6>
-                    </a>
-                </div>
-                <!-- <div class="col-md-3 text-center">
-                    <a href="admin">
-                        <span><i class="fas fa-crown"></i></span>
-                        <h6>Admin</h6>
-                    </a>
-                </div> -->
-                <div class="col-md-2 text-center ">
+                <li class="nav-item" [ngClass]="{'active-route':router.url.includes('internships')}">
+                    <a class="nav-link" [routerLink]="'/internships'">Internships&nbsp;</a>
+                </li>
 
-                    <div>
+                <li class="nav-item" [ngClass]="{'active-route':router.url.includes('users')}">
+                    <a class="nav-link" [routerLink]="'/users'">Members&nbsp;</a>
+                </li>
+                <li>
+
                         <img src="{{profile.profileImageUrl}}" onError="this.src='assets/images/plain-user.png'"
-                            class="avatar img-circle" height="50px" width="50px">
-                    </div>
-                    <h6 style="display:inline">Me</h6>
+                            class="avatar img-circle" height="35px" width="40px">
+                    <h6 style="display:inline">&nbsp;&nbsp;&nbsp;&nbsp;</h6>
                     <p style="display:inline" class="dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <p></p>
-                        <p></p>
-                        <p></p><p></p><p></p>
-                    <div style="display:inline" class="dropleft w3-right">
+                   
+                    <div  class="dropleft w3-right">
+                        <div></div>
                         <ul class="dropdown-menu" data-toggle="bottom-right" style="right:0">
 
                             <li style='padding:5px' class="dropdown-submenu">Signed in as {{profile.username}} </li>
@@ -62,8 +41,8 @@
                         </ul>
                     </div>
 
-                </div>
-            </form>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

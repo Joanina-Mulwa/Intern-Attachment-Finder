@@ -7,14 +7,14 @@ import { Authority } from 'src/app/entities/users/user-bio-model';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
 
 
   constructor(
     protected userService: UserService,
-    protected router: Router,
+    public router: Router,
     
   ) { }
 

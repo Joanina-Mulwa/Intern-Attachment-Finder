@@ -1,16 +1,12 @@
-<div class="container">
+<div class="container-fluid">
 
     <div class="row justify-content-center">
 
 
 
         <div class="card col-md-6  pb-3">
-            <div class="mt-3 mb-4">
-
-                <button class="btn btn-outline-secondary"> <i class="fas fa-arrow-left"></i> Change category</button>
-            </div>
             <form role="form">
-                <div class="STUDENT">
+                <div *ngIf="isStudent" class="STUDENT">
                     <div class="row mt-3 mb-3">
                         <div class="col-md-6">
                             <label for="username">Username</label>
@@ -62,63 +58,79 @@
                     </div>
 
                 </div>
-                <div class="EMPLOYER">
+                <div *ngIf="!isStudent" class="EMPLOYER">
                    
                         <div class="row mt-3 mb-3">
                             <div class="col-md-6">
-                                <label for="companyName">Company Name</label>
-                                <input readonly type="text" class="form-control" name="companyName"
-                                    [(ngModel)]="profile.companyName">
+                                <label for="companyName">Company Name *</label>
+                                <input *ngIf="!profile.name" type="text" class="form-control" name="companyName"
+                                    [(ngModel)]="profile.name">
+                                <input *ngIf="profile.name" readonly type="text" class="form-control" name="companyName"
+                                    [(ngModel)]="profile.name">
                             </div>
                             <div class="col-md-6">
-                                <label for="companyEmail">companyEmail</label>
-                                <input readonly type="text" class="form-control" name="companyEmail" [(ngModel)]="profile.companyEmail">
+                                <label for="companyEmail">companyEmail *</label>
+                                <input readonly type="text" class="form-control" name="companyEmail" [(ngModel)]="profile.email">
                             </div>
                         </div>
     
-                        <div class="mt-3 mb-3">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" name="name" [(ngModel)]="profile.name">
-                        </div>
-    
-                        <div class=" mb-3">
-                            <label for="name">Institution</label>
-                            <input type="text" class="form-control" name="Iinstitution" [(ngModel)]="profile.institution">
-                        </div>
+                       
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="name">Programme</label>
+                                <label for="name">Company Logo *</label>
                                
-                                <select autocomplete="on" class="form-control" name="programme" type="text" [(ngModel)]="profile.programme">
-                                    <option selected disabled>Select correct answer</option>
-    
-                                    <option *ngFor="let programme of programmes" >{{programme}}</option>
-                                   
-                                  </select>
+                                <input type="text" class="form-control" name="course" [(ngModel)]="profile.companyLogo">
                                 
                             </div>
                             <div class="col-md-6">
-                                <label for="name">Course</label>
-                                <input type="text" class="form-control" name="course" [(ngModel)]="profile.course">
+                                <label for="name">Company Website</label>
+                                <input type="text" class="form-control" name="course" [(ngModel)]="profile.companyWebsite">
                             </div>
                         </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="name">Company Location *</label>
+                                <input type="text" class="form-control" name="course" [(ngModel)]="profile.companyLocation">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="name">Company contact phone number</label>
+                                <input type="text" class="form-control" name="course" [(ngModel)]="profile.companyPhoneNumber">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="name">Company Industry *</label>
+                                <input type="text" class="form-control" name="course" [(ngModel)]="profile.companyIndustry">
+                            </div>
+                             <div class="col-md-6">
+                                <label for="name">Current number of employees</label>
+                                <input type="text" class="form-control" name="course" [(ngModel)]="profile.companyNumberOfEmployees">
+                            </div> 
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="name">Company Description *</label>
+                                <textarea name="companyDescription" class="form-control" cols="15" rows="5" [(ngModel)]="profile.companyDescription"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="name">Company Postal Address</label>
+                                <textarea name="companyPostalAddress" class="form-control"  cols="15" rows="5" [(ngModel)]="profile.companyPostalAddress"></textarea>
+                            </div>
+                        </div>
+                       
     
     
-                        <div class="mb-3">
-                            <label for="skills">Skills <small>( Add skills with comma separation)</small></label>
-                            <input type="text" class="form-control" name="skills" placeholder="eg CSS , Javascript , Docker"
-                                [(ngModel)]="profile.skills">
-                        </div>
-                        <div class=" mb-3">
-                            <label for="name">Experience</label>
-                            <textarea type="text" class="form-control" name="experience" [(ngModel)]="profile.experience"></textarea>
-                        </div>
     
                   
 
                 </div>
                 <div class="col-md-2" align="centre">
-                    <button class="btn btn-outline-primary form-control" (click)="updateUser()">Update</button>
+                    <button *ngIf="isStudent" class="btn btn-outline-primary form-control" (click)="updateUser()"
+                    [disabled]="!profile.name || profile.institution || profile.programme || profile.course">Update</button>
+
+                    <button *ngIf="!isStudent" class="btn btn-outline-primary form-control" (click)="updateUser()"
+                    [disabled]="!profile.companyLogo || !profile.companyLocation || !profile.companyIndustry || !profile.companyDescription">Update</button>
 
                 </div>
             </form>

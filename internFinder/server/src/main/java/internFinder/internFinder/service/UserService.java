@@ -155,6 +155,10 @@ public class UserService {
             user.setCompanyDescription(userBioDTO.getCompanyDescription());
             user.setCompanyWorkingHours(userBioDTO.getCompanyWorkingHours());
             user.setCompanyLogo(userBioDTO.getCompanyLogo());
+            user.setCompanyIndustry(userBioDTO.getCompanyIndustry());
+            user.setCompanyWebsite(userBioDTO.getCompanyWebsite());
+            user.setCompanyNumberOfEmployees(userBioDTO.getCompanyNumberOfEmployees());
+            user.setCompanyPostalAddress(userBioDTO.getCompanyPostalAddress());
 
             //Update the user info
             return userRepository.save(user);

@@ -24,6 +24,12 @@ public class PostInternshipResource {
         log.debug("Rest request to create internship {} ", postInternship);
         return postInternshipService.createInternship(postInternship);
     }
+
+    @PutMapping("/updateInternship")
+    public PostInternship updateInternship(@RequestBody PostInternship postInternship){
+        log.debug("Rest request to create internship {} ", postInternship);
+        return postInternshipService.updateInternship(postInternship);
+    }
     @GetMapping("/findAllInternships")
     public List<PostInternship> findAllInternships(){
         log.debug("REST request to find all internships");

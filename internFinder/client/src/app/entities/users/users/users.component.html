@@ -97,12 +97,13 @@
               </div>
               <div class="STUDENT col-md-10 col-10">
                 <div class="row">
-                  <div class="col-7">
-                    <h4>{{user.username}}</h4>
+                  <div class="col-8">
+                    <h4 *ngIf="user.authority == 'STUDENT'">{{user.username}}</h4>
+                    <h4 *ngIf="user.authority == 'EMPLOYER'" >{{user.name}}</h4>
                     
                   </div>
 
-                  <div class="col-5 pe-0 text-end">
+                  <div class="col-4 pe-0 text-end">
                     <span *ngIf="user.authority" class="company-name p-1 mx-0">
                       {{user?.authority}}
                       <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
@@ -114,13 +115,6 @@
 
                 </h6>
 
-                <div class="col-5 pe-0 text-end">
-                  <span *ngIf="user.companyName" class="company-name p-1 mx-0" title="Company">
-                    {{user?.companyName}}
-                    <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
-                  </span>
-
-                </div>
                 <div class="mt-1">
                   <span class="alert alert-info tech-alert p-1 mx-1" *ngFor="let skill of user.skillsList">
                     #{{skill}}
