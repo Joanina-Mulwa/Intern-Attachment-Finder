@@ -72,8 +72,15 @@ export class NavbarComponent implements OnInit {
         console.log("User details is", res)
         this.profile=res;
         if(res.authority === Authority.EMPLOYER){
-          this.showPostInternship=true;
+          this.showPostInternship=true; 
         }
+        else if (res.authority === Authority.STUDENT){
+          this.showPostInternship=false
+        }
+        else{
+          console.log("Error fetching user authority")
+        }
+        
       },
       (err)=>{
         console.log("Error fetching current user details", err)

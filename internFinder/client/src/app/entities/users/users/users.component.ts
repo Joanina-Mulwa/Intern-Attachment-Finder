@@ -13,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 export class UsersComponent implements OnInit {
 
   constructor(
-    protected userSrvice: UserService
+    protected userService: UserService
     ) 
     { }
 
@@ -31,7 +31,7 @@ export class UsersComponent implements OnInit {
 
 
   getAllUsers():void{
-    this.userSrvice.findAllUsers().subscribe(
+    this.userService.findAllUsers().subscribe(
       (res) => {
         console.log("here",res);
         //console.log("The authority 2 is",res.authority)

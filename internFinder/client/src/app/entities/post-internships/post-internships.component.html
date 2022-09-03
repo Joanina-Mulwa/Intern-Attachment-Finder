@@ -11,6 +11,21 @@
                             <div class="col-md-2"></div>
                             <div class="card bg-light  p-3 col-md-8">
 
+                                <div class="row mb-3">
+
+
+                                     <div class="col-md-6">
+                                        <label for="companyName">Company Name  </label>
+                                        <input readonly type="text" class="form-control" name="companyName"
+                                            [(ngModel)]="companyDetails">
+                                    </div> 
+                                    <div class="col-md-6">
+                                        <label for="companyEmail">Company Email * </label>
+                                        <input readonly type="email" class="form-control" name="companyEmail"
+                                            [(ngModel)]="internship.companyEmail">
+                                    </div> 
+                                </div>
+
                                 <div class=" row mb-3">
                                     <div>
                                         <label for="internshipTitle">internship Title * </label>
@@ -23,20 +38,11 @@
                                 </div>
                                 <div class="row mb-3">
 
-
-                                    <div>
-                                        <label for="companyName">Company Name * </label>
-                                        <input type="text" class="form-control" name="companyName"
-                                            [(ngModel)]="internship.companyName">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-
-                                    <div class="col-md-6">
-                                        <label for="companyEmail">Company Email * </label>
-                                        <input type="email" class="form-control" name="companyEmail"
-                                            [(ngModel)]="internship.companyEmail">
-                                    </div>
+                                     <div class="col-md-6">
+                                        <label for="companyEmail">Paid * </label>
+                                        <input  type="email" class="form-control" name="companyEmail"
+                                            >
+                                    </div> 
                                     <div class="col-md-6">
                                         <label for="internshipType">Internship type *</label>
                                         <select autocomplete="on" class="form-control" name="internshipType" type="text"
@@ -147,7 +153,7 @@
                                     <div class="col-md-2">
 
                                         <button class="btn btn-outline-primary form-control" (click)="postinternship()"
-                                            [disabled]="!internship.internshipTitle || !internship.companyName || !internship.companyEmail || !internship.workPlaceType || !internship.location ||
+                                            [disabled]="!internship.internshipTitle || !internship.workPlaceType || !internship.location ||
                                                 !internship.reportingDate || !internship.vacancy || !internship.description || !internship.skills">POST</button>
 
 

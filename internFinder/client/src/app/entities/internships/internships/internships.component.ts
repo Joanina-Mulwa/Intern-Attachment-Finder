@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
-import { PostInternship } from '../post-internships/post-internship-model';
+import { PostInternship } from '../../post-internships/post-internship-model';
 
 @Component({
   selector: 'app-internships',

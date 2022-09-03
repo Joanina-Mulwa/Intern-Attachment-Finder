@@ -19,4 +19,8 @@ export class PostInternshipService {
     return this.httpClient.get<PostInternship[]>(this.apiServerURL+ "/api/findAllInternships");
   }
 
+  findInternshipById(id: number): Observable<any>{
+    return this.httpClient.get<any>(this.apiServerURL+ "/api/findInternshipById/" + id);
+  }
+
 }

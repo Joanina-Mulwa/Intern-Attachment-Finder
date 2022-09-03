@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { UserService } from 'src/app/services/user.service';
-import { Authority } from '../users/user-bio-model';
+import { Authority, UserBio } from '../users/user-bio-model';
 import { InternshipType, InternshipStatus, WorkPlaceType } from './post-internship-model';
 
 @Component({
@@ -13,7 +14,8 @@ export class PostInternshipsComponent implements OnInit {
 
   constructor(
     protected postInternshipService : PostInternshipService,
-    protected userService: UserService
+    protected userService: UserService,
+    protected router: Router,
     ) { }
   internship = {
     id: undefined as any,
@@ -34,6 +36,8 @@ export class PostInternshipsComponent implements OnInit {
     createdOn: '',
     createdBy: '',
   }
+
+  companyDetails!: '';
  
 
 
@@ -43,6 +47,8 @@ export class PostInternshipsComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getCurrentUser()
+    
     
   }
   reset(): void{
@@ -70,14 +76,21 @@ export class PostInternshipsComponent implements OnInit {
   }
 
 
-  postinternship(): void{
+  postinternship(): void{    
+    this.internship.companyEmail= JSON.parse(localStorage.getItem('currentUser')!).email;
+    this.internship.companyName=this.companyDetails;
     console.log("About to create internship ", this.internship);
+    this.router.navigate(['/internships'])
     this.postInternshipService.createInternship(this.internship).subscribe(
       (res)=>{
-        //console.log("The authority 2 is",res.authority)
-        this.reset();
-        console.log(res);
+       
+        
+        console.log("created this internship",res);
+        this.router.navigate(['/internships'])
 
+      },
+      (err)=>{
+        console.log("error creating internship",err)
       }
     )
   }
@@ -85,8 +98,29 @@ export class PostInternshipsComponent implements OnInit {
   findAlinternships():void{
     this.postInternshipService.findAll().subscribe(
       (res)=>{
-        console.log("Found internships ", res)}
+        console.log("Found internships ", res)
+        
+      }  
+
     )
+  }
+
+  getCurrentUser(): void{
+    console.log("Current logged in username",JSON.parse(localStorage.getItem('currentUser')!).email);
+    this.internship.companyEmail=JSON.parse(localStorage.getItem('currentUser')!).email;
+    console.log("current posting person is ", this.internship.companyEmail)
+    this.userService.findByEmail(this.internship.companyEmail).subscribe(
+      (res)=>{
+
+        this.companyDetails = res;
+        console.log("jhherrreeee company name details posting confirmation is", res.name);
+        this.companyDetails=res.name;    
+      },
+      (err)=>{
+        console.log("Error fetching current user details", err)
+      }
+    )
+
   }
 
 }

@@ -9,12 +9,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './account/auth/login/login.component';
 import { UsersComponent } from './entities/users/users/users.component';
-import { InternshipsComponent } from './entities/internships/internships.component';
+import { InternshipsComponent } from './entities/internships/internships/internships.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { PostInternshipsComponent } from './entities/post-internships/post-internships.component';
 import { ProfileComponent } from './account/auth/profile/profile.component';
 import { BioDetailComponent } from './entities/users/bio-detail/bio-detail.component';
 import { BioEditComponent } from './entities/users/bio-edit/bio-edit.component';
+import { InternshipDetailComponent } from './entities/internships/internship-detail/internship-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +27,8 @@ import { BioEditComponent } from './entities/users/bio-edit/bio-edit.component';
     ProfileComponent,
     BioDetailComponent,
     BioEditComponent,
+    InternshipDetailComponent,
+    InternshipDetailComponent,
   ],
   imports: [
     BrowserModule,

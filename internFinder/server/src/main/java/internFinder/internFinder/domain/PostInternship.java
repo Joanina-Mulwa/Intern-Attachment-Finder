@@ -5,6 +5,8 @@ import internFinder.internFinder.domain.enumarations.InternshipType;
 import internFinder.internFinder.domain.enumarations.WorkPlaceType;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Entity
@@ -41,6 +43,10 @@ public class PostInternship {
     public String responsibilities;
 
     public String important;
+
+    private LocalDateTime createdOn;
+
+    private String createdBy;
 
     public Long getId() {
         return id;
@@ -154,6 +160,26 @@ public class PostInternship {
         this.important = important;
     }
 
+    public void setInternshipType(InternshipType internshipType) {
+        this.internshipType = internshipType;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
     @Override
     public String toString() {
         return "PostInternship{" +
@@ -171,6 +197,8 @@ public class PostInternship {
                 ", skills='" + skills + '\'' +
                 ", responsibilities='" + responsibilities + '\'' +
                 ", important='" + important + '\'' +
+                ", createdOn='" + createdOn + '\'' +
+                ", createdBy='" + createdBy + '\'' +
                 '}';
     }
 }
