@@ -5,6 +5,7 @@ import internFinder.internFinder.domain.enumarations.InternshipType;
 import internFinder.internFinder.domain.enumarations.WorkPlaceType;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -46,7 +47,7 @@ public class PostInternship {
 
     public String important;
 
-    private LocalDateTime createdOn;
+    private LocalDate createdOn;
 
     private String createdBy;
 
@@ -174,11 +175,11 @@ public class PostInternship {
         this.internshipType = internshipType;
     }
 
-    public LocalDateTime getCreatedOn() {
+    public LocalDate getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(LocalDateTime createdOn) {
+    public void setCreatedOn(LocalDate createdOn) {
         this.createdOn = createdOn;
     }
 

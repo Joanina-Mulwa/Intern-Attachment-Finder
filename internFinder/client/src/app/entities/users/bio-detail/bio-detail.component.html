@@ -7,74 +7,92 @@
         </button>
         <div class="card p-3">
 
-        
 
-        <div class="row">
-            <div class="col-md-3 text-center ">
-                <div class="image-holder">
-                    <img *ngIf="userBioDetail.profileImageUrl" src={{userBioDetail.profileImageUrl}}
-                        class="card-img-top " onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
-                    <svg *ngIf="!userBioDetail.profileImageUrl" class="img-fluid rounded float-start" width="100%"
-                        height="100%" xmlns="http://www.w3.org/2000/svg" role="img"
-                        aria-label="Placeholder: Responsive image" preserveAspectRatio="xMidYMid slice"
-                        focusable="false">
-                        <rect width="90%" height="auto" fill="#e1e1e1"></rect>
-                        <text x="40%" y="50%" fill="#202a44" dy=".3em" dx="-.1em" font-size="10ch"
-                            font-weight="bold">{{userBioDetail?.username?.slice(0, 1) | uppercase}}</text>
-                    </svg>
+
+            <div class="row">
+                <div class="col-md-3 text-center ">
+                    <div class="image-holder">
+                        <img *ngIf="userBioDetail.profileImageUrl" src={{userBioDetail.profileImageUrl}}
+                            class="card-img-top " onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                        <svg *ngIf="!userBioDetail.profileImageUrl" class="img-fluid rounded float-start" width="100%"
+                            height="100%" xmlns="http://www.w3.org/2000/svg" role="img"
+                            aria-label="Placeholder: Responsive image" preserveAspectRatio="xMidYMid slice"
+                            focusable="false">
+                            <rect width="90%" height="auto" fill="#e1e1e1"></rect>
+                            <text x="40%" y="50%" fill="#202a44" dy=".3em" dx="-.1em" font-size="10ch"
+                                font-weight="bold">{{userBioDetail?.username?.slice(0, 1) | uppercase}}</text>
+                        </svg>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-md-9">
+                <div class="col-md-9">
 
-                <div class="content">
-                    
+                    <div class="content">
 
-                    <div class="row">
-                        <div class="col-md-6">
-                           
-                            <h4 class="section-title" style="text-decoration: underline">About : {{userBioDetail.username}}</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <h4 class="section-title" style="text-decoration: underline">About :
+                                    {{userBioDetail.name ? userBioDetail.name : userBioDetail.username}}</h4>
+
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <button class="btn btn-outline-secondary btn-edit-profile" *ngIf="isMe"
+                                    [routerLink]="['/user/edit']">Edit
+                                    profile</button>
+                            </div>
+                        </div>
+
+                        <div class="STUDENT">
+                            <p *ngIf="userBioDetail.name && userBioDetail.institution" class="profile-name">
+                                {{userBioDetail.name}} , student at {{userBioDetail.institution}}</p>
+
+                            <p *ngIf="userBioDetail.programme" class="profile-name">current level of education is
+                                {{userBioDetail.programme}}</p>
+
+                                <div class="mt-2">
+                                    <span class="description"><i class="fas fa-history me-3"></i>Joined Intern Finder
+                                        {{userBioDetail.createdOn}}</span>
+        
+                                </div>
+
+                            <h4 *ngIf="userBioDetail.skillsList" class="section-title mt-4">Skills</h4>
+                        
+
+                            <div class="mt-2">
+                                <span class="alert alert-info p-1 me-3" *ngFor="let skill of userBioDetail.skillsList">
+                                    <label class="pe-2"># {{skill}}</label>
+                                </span>
+                            </div>
 
                         </div>
-                        <div class="col-md-6 text-end">
-                            <button class="btn btn-outline-secondary btn-edit-profile" *ngIf="isMe" [routerLink]="['/user/edit']">Edit
-                                profile</button>
+
+                        <div class="EMPLOYER">
+                            <div *ngIf="userBioDetail.companyName" class="mt-2">
+                                <span class="description">
+                                    <i class="fas fa-briefcase me-3"></i>
+                                    <span class="bold-text">{{userBioDetail.companyEmail}}</span>
+                                    <span class="bold-text">{{userBioDetail.companyName}}</span>
+                                </span>
+
+                            </div>
+
                         </div>
-                    </div>
-                    
 
-                    <p *ngIf="userBioDetail.name && userBioDetail.institution" class="profile-name">{{userBioDetail.name}} , student at {{userBioDetail.institution}}</p>
-                    
-                    <p *ngIf="userBioDetail.programme" class="profile-name">current level of education is {{userBioDetail.programme}}</p>
 
-                    <div *ngIf="userBioDetail.companyName" class="mt-2">
-                        <span class="description">
-                            <i class="fas fa-briefcase me-3"></i>
-                            <span class="bold-text">{{userBioDetail.companyEmail}}</span>
-                            <span class="bold-text">{{userBioDetail.companyName}}</span>
-                        </span>
+
+
+
+
+
+
+
+
 
                     </div>
-
-
-                    <div class="mt-2">
-                        <span class="description"><i class="fas fa-history me-3"></i>Joined Intern Finder
-                            {{userBioDetail.createdOn}}</span>
-                        <!-- <span class="px-2"><i class="far fa-clock"></i> Last seen 2 days ago</span> -->
-                    </div>
-
-                    <h4 *ngIf="userBioDetail.skillsList" class="section-title mt-4">Skills</h4>
-
-                    <div class="mt-2">
-                        <span class="alert alert-info p-1 me-3" *ngFor="let skill of userBioDetail.skillsList">
-                            <label class="pe-2"># {{skill}}</label>
-                        </span>
-                    </div>
-                    
                 </div>
             </div>
         </div>
-    </div>
 
 
     </div>

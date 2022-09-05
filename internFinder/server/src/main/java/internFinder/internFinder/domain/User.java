@@ -1,11 +1,11 @@
 package internFinder.internFinder.domain;
 
 import com.sun.istack.NotNull;
-import internFinder.internFinder.domain.enumarations.Category;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

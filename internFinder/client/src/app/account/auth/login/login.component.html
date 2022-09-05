@@ -2,10 +2,12 @@
     <div class="card mt-5">
         <div class="row  p-5">
             <div class="col-md-6 hide-sm">
-                <h2 class="mb-3 text-center">Find Intern . Give internships . Connect</h2>
+                <h2 class="mb-3 text-center">Find Intern . Give internships</h2>
                 <!-- <h2 class="mb-3 text-center">Lets Grow Together</h2> -->
-                <h4 class="text-center">Enabling growth by connecting, finding and giving internships!</h4>
-                <img class="landing-image" src="assets/InternConnect2.png" style="width: 550px; height: 450px;" />
+                <h4 class="text-center">Enabling growth by finding and giving internships!</h4>
+                <p></p> 
+                <img class="landing-image" src="assets/InternConnect2.png"
+                    style="width: 550px; height: 450px;" />
             </div>
             <div class="col-md-6">
                 <div class="justify-content-center">
@@ -81,7 +83,8 @@
                                 </div>
 
                                 <div>
-                                    <div *ngIf="isAuthorityButtonVisible" class="row justify-content-center text-center">
+                                    <div *ngIf="isAuthorityButtonVisible"
+                                        class="row justify-content-center text-center">
                                         <div class="card pt-2">
                                             <h5 class="text-center"> What best describes your current status?</h5>
                                             <div class="d-flex justify-content-around mt-3 mb-4">
@@ -97,7 +100,8 @@
                                         </div>
                                     </div>
                                     <div *ngIf="!isAuthorityButtonVisible">
-                                        <button class="btn btn-outline-secondary" (click)="changeAuthority()"><span><i class="fas fa-arrow-left"></i></span> Change status</button>
+                                        <button class="btn btn-outline-secondary" (click)="changeAuthority()"><span><i
+                                                    class="fas fa-arrow-left"></i></span> Change status</button>
 
                                     </div>
 

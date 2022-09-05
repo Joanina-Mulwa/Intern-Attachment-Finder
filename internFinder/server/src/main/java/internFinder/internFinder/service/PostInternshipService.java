@@ -7,6 +7,7 @@ import internFinder.internFinder.repository.PostInternshipRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class PostInternshipService {
         internship.setResponsibilities(postInternship.getResponsibilities());
         internship.setImportant(postInternship.getImportant());
         internship.setCreatedBy(postInternship.getCreatedBy());
-        internship.setCreatedOn(LocalDateTime.now());
+        internship.setCreatedOn(LocalDate.now());
         return postInternshipRepository.save(internship);
     }
 
@@ -65,7 +66,7 @@ public class PostInternshipService {
             postInternship1.setResponsibilities(postInternship.getResponsibilities());
             postInternship1.setImportant(postInternship.getImportant());
             postInternship1.setCreatedBy(postInternship.getCreatedBy());
-            postInternship1.setCreatedOn(LocalDateTime.now());
+            postInternship1.setCreatedOn(LocalDate.now());
             return postInternshipRepository.save(postInternship1);
         }else {
             throw new UserNotFoundException("No internship found with id " + postInternship.getId());
@@ -77,6 +78,12 @@ public class PostInternshipService {
     public List<PostInternship> findAllInternships(){
         log.debug("Request to find all internships");
         return  postInternshipRepository.findAll();
+    }
+
+    public List<PostInternship> search(String text) {
+        log.debug("Request to search internship with text : {}", text);
+
+        return postInternshipRepository.findByInternshipTitleContainingOrCompanyNameContainingOrCompanyEmailContainingOrLocationContainingOrDescriptionContainingOrSkillsContaining(text, text, text, text, text, text);
     }
 
     public Optional<PostInternship> findInternshipById(Long id){

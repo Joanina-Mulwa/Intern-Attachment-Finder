@@ -73,9 +73,36 @@
         </div>
     </div> -->
 
+  <div class="ml-5 pl-5">
+    <div class="ml-5 pl-5"></div>
+
+
+    <div class="input-group col-md-7 mb-3 ml-5 pl-5 ">
+      <div class="ml-4"></div>
+      <input type="text" class="form-control ml-5" placeholder="Search a user" (keyup)="searchUser()"
+        [(ngModel)]="searchText">
+      <div class="input-group-append">
+        <button class="btn btn-secondary" type="button" [ngClass]="{'activate-button':searchText}"
+          (click)="searchUser()">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="donut-wrapper" *ngIf="loading">
+    <div class="donut multi"></div>
+  </div>
+
+  <div class="text-center my-5" *ngIf="users?.length === 0 && !loading">
+    <p class="text-muted">No Users found</p>
+  </div>
   <div class="container">
 
     <div class="row">
+
       <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let user of users">
         <div class="card profile-item " [routerLink]="['/users', user.email]">
           <div class="card-body">
@@ -99,8 +126,8 @@
                 <div class="row">
                   <div class="col-8">
                     <h4 *ngIf="user.authority == 'STUDENT'">{{user.username}}</h4>
-                    <h4 *ngIf="user.authority == 'EMPLOYER'" >{{user.name}}</h4>
-                    
+                    <h4 *ngIf="user.authority == 'EMPLOYER'">{{user.name}}</h4>
+
                   </div>
 
                   <div class="col-4 pe-0 text-end">

@@ -1,178 +1,187 @@
 <div class="container-fluid justify-content-center">
-    <div >
-    <div class="mt-2">
-        <div>
-            <form role="form">
-                <div align="centre">
-                    <div >
-                        <div class="row">
+    <div>
+        <div class="ml-5 pl-5">
+            <div class="ml-5 pl-5">
+                <div class="ml-5 pl-1">
+                    <button class="btn btn-back btn-outline-secondary mb-3 ml-5" [routerLink]="['/internship', internship.id]">
+                        <span><i class="fas fa-arrow-left"></i></span> Back
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2">
+            <div>
+                <form role="form">
+                    <div align="centre">
+                        <div>
+                            <div class="row">
 
 
-                            <div class="col-md-2"></div>
-                            <div class="card bg-light  p-3 col-md-8">
+                                <div class="col-md-2"></div>
+                                <div class="card bg-light  p-3 col-md-8">
 
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="companyName">Company Name *</label>
-                                        <input *ngIf="!companyDetails" type="text" class="form-control" name="companyName"
-                                            [(ngModel)]="companyDetails">
-                                        <input *ngIf="companyDetails" readonly type="text" class="form-control" name="companyName"
-                                            [(ngModel)]="companyDetails">
-                                    </div>
-
-                                     
-                                    <div class="col-md-6">
-                                        <label for="companyEmail">Company Email * </label>
-                                        <input readonly type="email" class="form-control" name="companyEmail"
-                                            [(ngModel)]="internship.companyEmail">
-                                    </div> 
-                                </div>
-
-                                <div class=" row mb-3">
-                                    <div>
-                                        <label for="internshipTitle">internship Title * </label>
-                                        <input type="text" class="form-control" name="internshipTitle"
-                                            [(ngModel)]="internship.internshipTitle">
-                                    </div>
-
-
-
-                                </div>
-                                <div class="row mb-3">
-
-                                     <div class="col-md-6">
-                                        <label for="companyEmail">Paid * </label>
-                                        <input  type="email" class="form-control" name="companyEmail"
-                                            >
-                                    </div> 
-                                    <div class="col-md-6">
-                                        <label for="internshipType">Internship type *</label>
-                                        <select autocomplete="on" class="form-control" name="internshipType" type="text"
-                                            [(ngModel)]="internship.internshipType">
-                                            <option selected disabled>Select correct answer</option>
-                                            <option *ngFor="let internshipType of internshipTypes"
-                                                >
-                                                {{internshipType}}
-                                            </option>
-                                        </select>
-
-                                    </div>
-
-
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="workPlaceType">Place of work *</label>
-                                        <select autocomplete="on" class="form-control" name="institution" type="text"
-                                            [(ngModel)]="internship.workPlaceType">
-                                            <option selected disabled>Select correct answer</option>
-                                            <option *ngFor="let workPlaceType of workPlaceTypes">
-                                                {{workPlaceType}}
-                                            </option>
-                                        </select>
-
-                                    </div>
-                    
-                                    <div *ngIf="internship.workPlaceType === 'ONSITE' || internship.workPlaceType === 'HYBRID'"
-                                        class="mb-3 col-md-6">
-                                        <label for="location">internship Location * </label>
-                                        <input type="text" class="form-control" name="location"
-                                            [(ngModel)]="internship.location">
-                                    </div>
-
-
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="status">Status *</label>
-                                        <select autocomplete="on" class="form-control" name="status" type="text"
-                                            [(ngModel)]="internship.internshipStatus">
-                                            <option selected disabled>Select correct answer</option>
-                                            <option *ngFor="let status of internshipStatus">
-                                                {{status}}
-                                            </option>
-                                        </select>
-
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="reportingDate"> Reporting Date * </label>
-                                        <input type="date" class="form-control" name="reportingDate"
-                                            [(ngModel)]="internship.reportingDate">
-                                    </div>
-                    
-                                    
-
-
-                                </div>
-
-                                <div>
                                     <div class="row mb-3">
-                                        <div class="mb-3 col-md-6">
-                                            <label for="internshipPeriod">internship Period * </label>
-                                            <input type="number" class="form-control" name="internshipPeriod"
-                                                [(ngModel)]="internship.internshipPeriod">
+                                        <div class="col-md-6">
+                                            <label for="companyName">Company Name *</label>
+                                            <input *ngIf="!companyDetails" type="text" class="form-control"
+                                                name="companyName" [(ngModel)]="companyDetails">
+                                            <input *ngIf="companyDetails" readonly type="text" class="form-control"
+                                                name="companyName" [(ngModel)]="companyDetails">
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <label for="companyEmail">Company Email * </label>
+                                            <input readonly type="email" class="form-control" name="companyEmail"
+                                                [(ngModel)]="internship.companyEmail">
+                                        </div>
+                                    </div>
+
+                                    <div class=" row mb-3">
+                                        <div>
+                                            <label for="internshipTitle">internship Title * </label>
+                                            <input type="text" class="form-control" name="internshipTitle"
+                                                [(ngModel)]="internship.internshipTitle">
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="row mb-3">
+
+                                        <div class="col-md-6">
+                                            <label for="companyEmail">Paid * </label>
+                                            <input type="email" class="form-control" name="companyEmail">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="vacancy">Vacancies Left * </label>
-                                            <input type="number" class="form-control" name="vacancy"
-                                                [(ngModel)]="internship.vacancy">
+                                            <label for="internshipType">Internship type *</label>
+                                            <select autocomplete="on" class="form-control" name="internshipType"
+                                                type="text" [(ngModel)]="internship.internshipType">
+                                                <option selected disabled>Select correct answer</option>
+                                                <option *ngFor="let internshipType of internshipTypes">
+                                                    {{internshipType}}
+                                                </option>
+                                            </select>
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="workPlaceType">Place of work *</label>
+                                            <select autocomplete="on" class="form-control" name="institution"
+                                                type="text" [(ngModel)]="internship.workPlaceType">
+                                                <option selected disabled>Select correct answer</option>
+                                                <option *ngFor="let workPlaceType of workPlaceTypes">
+                                                    {{workPlaceType}}
+                                                </option>
+                                            </select>
+
+                                        </div>
+
+                                        <div *ngIf="internship.workPlaceType === 'ONSITE' || internship.workPlaceType === 'HYBRID'"
+                                            class="mb-3 col-md-6">
+                                            <label for="location">internship Location * </label>
+                                            <input type="text" class="form-control" name="location"
+                                                [(ngModel)]="internship.location">
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="status">Status *</label>
+                                            <select autocomplete="on" class="form-control" name="status" type="text"
+                                                [(ngModel)]="internship.internshipStatus">
+                                                <option selected disabled>Select correct answer</option>
+                                                <option *ngFor="let status of internshipStatus">
+                                                    {{status}}
+                                                </option>
+                                            </select>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="reportingDate"> Reporting Date * </label>
+                                            <input type="date" class="form-control" name="reportingDate"
+                                                [(ngModel)]="internship.reportingDate">
+                                        </div>
+
+
+
+
+                                    </div>
+
+                                    <div>
+                                        <div class="row mb-3">
+                                            <div class="mb-3 col-md-6">
+                                                <label for="internshipPeriod">internship Period * </label>
+                                                <input type="number" class="form-control" name="internshipPeriod"
+                                                    [(ngModel)]="internship.internshipPeriod">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="vacancy">Vacancies Left * </label>
+                                                <input type="number" class="form-control" name="vacancy"
+                                                    [(ngModel)]="internship.vacancy">
+                                            </div>
+
                                         </div>
 
                                     </div>
 
-                                </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="description">internship Description * <small> (What the
+                                                    internship
+                                                    Entails)</small> </label>
+                                            <textarea type="text" class="form-control" name="description"
+                                                [(ngModel)]="internship.description"></textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="skills">Required skills * </label>
+                                            <textarea type="text" class="form-control" name="skills"
+                                                [(ngModel)]="internship.skills"></textarea>
+                                        </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="description">internship Description * <small> (What the internship
-                                                Entails)</small> </label>
-                                        <textarea type="text" class="form-control" name="description"
-                                            [(ngModel)]="internship.description"></textarea>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="skills">Required skills * </label>
-                                        <textarea type="text" class="form-control" name="skills"
-                                            [(ngModel)]="internship.skills"></textarea>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="responsibilities">internship Responsibilities </label>
+                                            <textarea type="text" class="form-control" name="responsibilities"
+                                                [(ngModel)]="internship.responsibilities"></textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="important">Important Info </label>
+                                            <textarea type="text" class="form-control" name="important"
+                                                [(ngModel)]="internship.important"></textarea>
+                                        </div>
+
                                     </div>
 
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="responsibilities">internship Responsibilities </label>
-                                        <textarea type="text" class="form-control" name="responsibilities"
-                                            [(ngModel)]="internship.responsibilities"></textarea>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="important">Important Info </label>
-                                        <textarea type="text" class="form-control" name="important"
-                                            [(ngModel)]="internship.important"></textarea>
-                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
 
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-2">
-
-                                        <button class="btn btn-outline-primary form-control" (click)="updateinternship()"
-                                            [disabled]="!internship.internshipTitle || !internship.workPlaceType || !internship.location ||
+                                            <button class="btn btn-outline-primary form-control"
+                                                (click)="updateinternship()"
+                                                [disabled]="!internship.internshipTitle || !internship.workPlaceType || !internship.location ||
                                                 !internship.reportingDate || !internship.vacancy || !internship.description || !internship.skills">Update</button>
 
 
-                                        <!-- <button *ngIf="userBio.id" class="btn btn-outline-primary form-control"
+                                            <!-- <button *ngIf="userBio.id" class="btn btn-outline-primary form-control"
                                     (click)="updateUser()"
                                     [disabled]="!userBio.name || !userBio.email || !userBio.description || !userBio.internshipTitle || !userBio.skills">Update</button> -->
+                                        </div>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </form>
+                </form>
+            </div>
+
         </div>
-
-    </div>
     </div>
 </div>

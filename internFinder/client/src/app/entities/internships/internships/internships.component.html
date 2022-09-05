@@ -1,4 +1,28 @@
 <div class="container-fluid ">
+
+
+    <div class="col-md-6 input-group  mb-3">
+        <input type="text" class="form-control" placeholder="Search an internship" (keyup)="searchInternship()"
+            [(ngModel)]="searchText">
+        <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" [ngClass]="{'activate-button':searchText}"
+                (click)="searchInternship()">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+
+    </div>
+
+
+
+    <div class="donut-wrapper" *ngIf="loading">
+        <div class="donut multi"></div>
+    </div>
+
+    <div class="text-center my-5" *ngIf="internships?.length === 0 && !loading">
+        <p class="text-muted">No internships found</p>
+    </div>
+
     <div class="row">
         <div class="col-12 col-lg-3 col-md-6 mb-2" *ngFor="let internship of internships">
             <div class="card profile-item " [routerLink]="['/internship', internship.id]">
@@ -27,7 +51,7 @@
 
                                 <h4>{{internship.internshipTitle}}</h4>
                             </div>
-                            <div >
+                            <div>
                                 <span *ngIf="internship.companyName" class="company-name p-1 mx-0" title="Company">
                                     Company: {{internship?.companyName}}
                                     <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
@@ -39,7 +63,7 @@
 
                                 </span>
                             </div>
-                            <div >
+                            <div>
                                 <i *ngIf="internship.internshipStatus === 'ACTIVE'"
                                     class="fas fa-check-circle">{{internship.internshipStatus}}</i>
                                 <i *ngIf="internship.internshipStatus === 'CLOSED'"

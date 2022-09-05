@@ -45,6 +45,11 @@ export class BioDetailComponent implements OnInit {
       (res)=>{
         console.log("User details is", res)
         this.userBioDetail = res;
+        let date = new Date().toJSON().slice(0, 10);
+
+        this.userBioDetail!.createdOn = date;
+        console.log("New creation dTE IS ", this.userBioDetail!.createdOn)
+
         if (this.userBioDetail?.skills) {
           this.userBioDetail.skillsList = this.userBioDetail.skills.split(",");
     

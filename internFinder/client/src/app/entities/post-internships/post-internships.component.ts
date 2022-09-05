@@ -86,6 +86,7 @@ export class PostInternshipsComponent implements OnInit {
        
         
         console.log("created this internship",res);
+        window.location.reload();
         this.router.navigate(['/internships'])
 
       },
@@ -95,15 +96,15 @@ export class PostInternshipsComponent implements OnInit {
     )
   }
 
-  findAlinternships():void{
-    this.postInternshipService.findAll().subscribe(
-      (res)=>{
-        console.log("Found internships ", res)
+  // findAlinternships():void{
+  //   this.postInternshipService.findAll().subscribe(
+  //     (res)=>{
+  //       console.log("Found internships ", res)
         
-      }  
+  //     }  
 
-    )
-  }
+  //   )
+  // }
 
   getCurrentUser(): void{
     console.log("Current logged in username",JSON.parse(localStorage.getItem('currentUser')!).email);

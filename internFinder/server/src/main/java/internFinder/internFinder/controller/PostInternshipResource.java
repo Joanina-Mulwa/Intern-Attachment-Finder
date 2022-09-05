@@ -1,6 +1,7 @@
 package internFinder.internFinder.controller;
 
 import internFinder.internFinder.domain.PostInternship;
+import internFinder.internFinder.domain.User;
 import internFinder.internFinder.service.PostInternshipService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,17 @@ public class PostInternshipResource {
     public List<PostInternship> findAllInternships(){
         log.debug("REST request to find all internships");
         return postInternshipService.findAllInternships();
+    }
+
+    @GetMapping("/internship/search")
+    public List<PostInternship> findAll(@RequestParam(required = false) String text) {
+        log.debug("REST request to search all internships with text : {}", text);
+
+        if (text == null) {
+            text = "";
+        }
+
+        return postInternshipService.search(text);
     }
 
     @GetMapping("/findInternshipById/{id}")

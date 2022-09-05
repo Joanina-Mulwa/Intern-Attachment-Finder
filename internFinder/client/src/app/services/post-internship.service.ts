@@ -22,6 +22,10 @@ export class PostInternshipService {
     return this.httpClient.get<PostInternship[]>(this.apiServerURL+ "/api/findAllInternships");
   }
 
+  searchInternship(text?: string): Observable<any>{
+    return this.httpClient.get<any>(this.apiServerURL + "/api/internship/search?text=" + text)
+  }
+
   findInternshipById(id: number): Observable<any>{
     return this.httpClient.get<any>(this.apiServerURL+ "/api/findInternshipById/" + id);
   }

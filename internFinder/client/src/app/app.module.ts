@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SocialLoginModule,SocialAuthServiceConfig} from "angularx-social-login";
 import { GoogleLoginProvider } from "angularx-social-login";
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './account/auth/login/login.component';
 import { UsersComponent } from './entities/users/users/users.component';
@@ -39,7 +40,8 @@ import { InternshipEditComponent } from './entities/internships/internship-edit/
     ReactiveFormsModule,
     HttpClientModule,
     SocialLoginModule,
-    CommonModule
+    CommonModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {

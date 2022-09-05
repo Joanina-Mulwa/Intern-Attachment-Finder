@@ -50,6 +50,11 @@ export class UserService {
   // }
 
   findAllUsers():Observable<any>{
-    return this.httpClient.get<any>(this.apiServerURL +"/api/findAll")
+    return this.httpClient.get<any>(this.apiServerURL + "/api/findAll")
   }
+
+  searchUser(text?: string): Observable<any>{
+    return this.httpClient.get<any>(this.apiServerURL + "/api/user/search?text=" + text)
+  }
+
 }

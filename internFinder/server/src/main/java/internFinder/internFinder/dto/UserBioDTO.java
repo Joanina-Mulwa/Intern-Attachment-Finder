@@ -6,6 +6,7 @@ import internFinder.internFinder.domain.enumarations.UserAuthority;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Data
 public class UserBioDTO {
@@ -67,7 +68,7 @@ public class UserBioDTO {
         this.setAuthority(user.getAuthority());
         this.setProfileImageUrl(user.getProfileImageUrl());
         this.setCreatedOn(user.getCreatedOn());
-        this.setCreatedOn(user.getCreatedBy());
+        this.setCreatedBy(user.getCreatedBy());
         this.setName(user.getName());
         this.setUsername(user.getUsername());
         this.setInstitution(user.getInstitution());

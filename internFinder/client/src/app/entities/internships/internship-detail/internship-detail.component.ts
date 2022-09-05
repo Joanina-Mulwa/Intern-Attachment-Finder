@@ -35,7 +35,7 @@ export class InternshipDetailComponent implements OnInit {
 
       
     });
-    this.findAllinternships();
+    // this.findAllinternships();
     this.getCurrentLoggedInUsername();
   }
 
@@ -84,13 +84,13 @@ export class InternshipDetailComponent implements OnInit {
 }
  
  
-   findAllinternships():void{
-     this.postInternshipService.findAll().subscribe(
-       (res)=>{
-         console.log("Found internships ", res)
+  //  findAllinternships():void{
+  //    this.postInternshipService.findAll().subscribe(
+  //      (res)=>{
+  //        console.log("Found internships ", res)
          
-     }
-     )
-   }
+  //    }
+  //    )
+  //  }
 
 }

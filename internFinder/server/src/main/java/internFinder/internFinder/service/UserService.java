@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import static internFinder.internFinder.domain.enumarations.UserAuthority.STUDENT;
@@ -66,6 +67,12 @@ public class UserService {
          return userRepository.findAll();
     }
 
+    public List<User> search(String text) {
+        log.debug("Request to search user with text : {}", text);
+
+        return userRepository.findByUsernameContainingOrNameContaining(text, text);
+    }
+
     public List<User> findAll() {
         log.debug("Request to find All users");
         return userRepository.findAll();
@@ -81,7 +88,7 @@ public class UserService {
 
         saveUser.setUsername(getUsernameFromEmail(email));
         saveUser.setIdentityProvider(IdentityProvider.LOCAL);
-        saveUser.setCreatedOn(LocalDateTime.now().toString());
+        saveUser.setCreatedOn(String.valueOf(LocalDate.now()));
         saveUser.setCreatedBy(email);
         saveUser.setRoles(String.valueOf(authority));
         saveUser.setPermissions(READ.name());
@@ -169,6 +176,8 @@ public class UserService {
 
 
     }
+
+
 
 
     public Optional<User> getUserById(Long id) {

@@ -44,7 +44,8 @@ userEmail: any;
 
   }
 
-  isStudent: boolean= false;
+  isStudent?: boolean;
+  loading: boolean=false;
 
   programmes = [Programme.DEGREE,Programme.DIPLOMA, Programme.CERTIFICATE, Programme.POSTGRADUATE];
 
@@ -58,14 +59,18 @@ userEmail: any;
   }
 
   getCurrentUser(): void{
+    this.loading=true;
     console.log("Current logged in username",JSON.parse(localStorage.getItem('currentUser')!).email);
     this.userEmail=JSON.parse(localStorage.getItem('currentUser')!).email;
     this.userService.findByEmail(this.userEmail).subscribe(
       (res)=>{
-        this.profile=res;
-        console.log("User details to update is", this.profile)
+       
         if(res.authority === Authority.STUDENT){
+          this.loading=false;
           this.isStudent = true;
+          this.profile=res;
+          console.log("User details to update is", this.profile)
+          
 
         }
         else if(res.authority === Authority.EMPLOYER){

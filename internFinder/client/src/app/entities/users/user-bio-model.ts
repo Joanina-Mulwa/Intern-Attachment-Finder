@@ -11,7 +11,7 @@ export class UserBio{
      skills?: string;
      skillsList?: string[];
      experience?: string;
-     createdOn?:Date;
+     createdOn?: string;
      //Company
      companyName?: string;
      companyEmail?: string;
@@ -40,7 +40,7 @@ export class UserBio{
         skills?: string,
         skillsList?: string[],
         experience?: string,
-        createdOn?:Date,
+        createdOn?:string,
         //Company
         companyName?: string,
         companyEmail?: string,

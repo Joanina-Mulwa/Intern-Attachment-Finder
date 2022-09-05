@@ -21,20 +21,26 @@
                     <a class="nav-link" [routerLink]="'/users'">Members&nbsp;</a>
                 </li>
                 <li>
-
+                    <a>
                         <img src="{{profile.profileImageUrl}}" onError="this.src='assets/images/plain-user.png'"
-                            class="avatar img-circle" height="35px" width="40px">
+                            class="avatar img-circle" height="35px" width="40px" [routerLink]="['/users', userEmail]">
+                    </a>
+
                     <h6 style="display:inline">&nbsp;&nbsp;&nbsp;&nbsp;</h6>
                     <p style="display:inline" class="dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   
-                    <div  class="dropleft w3-right">
+
+                    <div class="dropleft w3-right">
                         <div></div>
                         <ul class="dropdown-menu" data-toggle="bottom-right" style="right:0">
 
                             <li style='padding:5px' class="dropdown-submenu">Signed in as {{profile.username}} </li>
                             <li style='padding:5px' class="dropdown-submenu">({{userEmail}})</li>
                             <li class="dropdown-divider"></li>
+                            <button class="btn btn-outline-secondary dropdown-item"
+                                [routerLink]="['/users', userEmail]">Profile</button>
+                            <li class="dropdown-divider"></li>
+
 
                             <button class="btn btn-outline-secondary dropdown-item" (click)="logOut()">Log out</button>
 

@@ -182,6 +182,17 @@ public class UserResource {
         return userService.getAllUsersBio();
     }
 
+    @GetMapping("/user/search")
+    public List<User> findAll(@RequestParam(required = false) String text) {
+        log.debug("REST request to search all users with text : {}", text);
+
+        if (text == null) {
+            text = "";
+        }
+
+        return userService.search(text);
+    }
+
     @GetMapping("/getCategory/{email}")
     public UserAuthority getCategory(@PathVariable String email){
         System.out.println("REST request to get category for user " + email);
