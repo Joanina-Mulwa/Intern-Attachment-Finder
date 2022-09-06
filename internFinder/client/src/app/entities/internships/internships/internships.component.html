@@ -15,77 +15,78 @@
 
 
 
-    <div class="donut-wrapper" *ngIf="loading">
+     <div class="donut-wrapper" *ngIf="loading">
         <div class="donut multi"></div>
-    </div>
+    </div> 
 
-    <div class="text-center my-5" *ngIf="internships?.length === 0 && !loading">
-        <p class="text-muted">No internships found</p>
-    </div>
 
-    <div class="row">
-        <div class="col-12 col-lg-3 col-md-6 mb-2" *ngFor="let internship of internships">
-            <div class="card profile-item " [routerLink]="['/internship', internship.id]">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-2">
-                            <!-- <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="card-img-top "
+<div class="text-center my-5" *ngIf="internships?.length === 0 && !loading">
+    <p class="text-muted">No internships found</p>
+</div>
+
+<div class="row">
+    <div class="col-12 col-lg-3 col-md-6 mb-2" *ngFor="let internship of internships">
+        <div class="card profile-item " [routerLink]="['/internship', internship.id]">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-2">
+                        <!-- <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="card-img-top "
                             onError="this.onerror=null; this.src='assets/images/plain-user.png' "> -->
-                            <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
-                            <!-- {{userBio.profileImageUrl}} -->
-                            <svg class="img-fluid rounded float-start" width="100%" height="43"
-                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
-                                preserveAspectRatio="xMidYMid slice" focusable="false">
-                                <title></title>
-                                <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%"
-                                    fill="#202a44" dy=".3em" font-size="large"
-                                    font-weight="bold">{{internship?.companyEmail?.slice(0, 1) | uppercase}}</text>
-                            </svg>
-                            <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
+                        <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
+                        <!-- {{userBio.profileImageUrl}} -->
+                        <svg class="img-fluid rounded float-start" width="100%" height="43"
+                            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
+                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <title></title>
+                            <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%" fill="#202a44"
+                                dy=".3em" font-size="large" font-weight="bold">{{internship?.companyEmail?.slice(0, 1) |
+                                uppercase}}</text>
+                        </svg>
+                        <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
                                         onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+                    </div>
+                    <div class="col-md-10">
+
+
+                        <div class="ml-1">
+
+                            <h4>{{internship.internshipTitle}}</h4>
                         </div>
-                        <div class="col-md-10">
+                        <div>
+                            <span *ngIf="internship.companyName" class="company-name p-1 mx-0" title="Company">
+                                Company: {{internship?.companyName}}
+                                <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                            </span>
+                        </div>
+                        <div>
+                            <span class="company-name p-1 mx-0">
+                                Location: {{internship?.location}}
 
-
-                            <div class="ml-1">
-
-                                <h4>{{internship.internshipTitle}}</h4>
-                            </div>
-                            <div>
-                                <span *ngIf="internship.companyName" class="company-name p-1 mx-0" title="Company">
-                                    Company: {{internship?.companyName}}
-                                    <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
-                                </span>
-                            </div>
-                            <div>
-                                <span class="company-name p-1 mx-0">
-                                    Location: {{internship?.location}}
-
-                                </span>
-                            </div>
-                            <div>
-                                <i *ngIf="internship.internshipStatus === 'ACTIVE'"
-                                    class="fas fa-check-circle">{{internship.internshipStatus}}</i>
-                                <i *ngIf="internship.internshipStatus === 'CLOSED'"
-                                    class="fas fa-times-circle">{{internship.internshipStatus}}</i>
-                            </div>
+                            </span>
+                        </div>
+                        <div>
+                            <i *ngIf="internship.internshipStatus === 'ACTIVE'"
+                                class="fas fa-check-circle">{{internship.internshipStatus}}</i>
+                            <i *ngIf="internship.internshipStatus === 'CLOSED'"
+                                class="fas fa-times-circle">{{internship.internshipStatus}}</i>
                         </div>
                     </div>
-                    <div>
-
-
-                        <div class="col-12 pe-0 text-end">
-
-                            <button class="btn btn-outline-secondary" [routerLink]="['/internship', internship.id]">see
-                                details <i class="fas fa-chevron-circle-right"></i></button>
-                        </div>
-                    </div>
-
                 </div>
+                <div>
+
+
+                    <div class="col-12 pe-0 text-end">
+
+                        <button class="btn btn-outline-secondary" [routerLink]="['/internship', internship.id]">see
+                            details <i class="fas fa-chevron-circle-right"></i></button>
+                    </div>
+                </div>
+
             </div>
         </div>
-
     </div>
+
+</div>
 
 
 

@@ -20,7 +20,7 @@ export class InternshipsComponent implements OnInit {
   category: Boolean = false;
   internships!: PostInternship[];
   username!: string;
-  loading=false;
+  loading = false;
   searchText: string = '';
   //today = new Date().toJSON().slice(0, 10)
   //date?: string
@@ -58,28 +58,33 @@ export class InternshipsComponent implements OnInit {
 
 
   findAllinternships(): void {
-    this.loading=true;
+    this.loading = true;
     this.postInternshipService.findAll().subscribe(
       (res) => {
-        this.loading=true;
-        this.loading=false;
+        this.loading = true;
+        this.loading = false;
         console.log("Found internships ", res)
         let date = new Date().toJSON().slice(0, 10);
         this.internships = res;
 
         this.internships.forEach((internship: any) => {
-          if (internship.reportingDate === date) {
-            internship.skillsList = internship.skills.split(",");
+          internship.skillsList = internship.skills.split(",");
+          if (internship.reportingDate === date && internship.internshipStatus === InternshipStatus.ACTIVE) {
             internship.internshipStatus = InternshipStatus.CLOSED;
+            this.postInternshipService.updateInternship(internship).subscribe(
+              (res) => {
+                console.log(" updated internship to ,", res)
+              },
+              (err)=>{
+                console.log("error updating internship", err)
+              }
 
-          }
-        });
-
-          
+            )}
+          });
       }
     )
   }
-  searchInternship():void{
+  searchInternship(): void {
     this.loading = true;
     this.postInternshipService.searchInternship(this.searchText).subscribe(
       result => {
@@ -95,14 +100,14 @@ export class InternshipsComponent implements OnInit {
           }
         });
 
-      
+
         console.log("Search produces internships:", this.internships)
       },
       error => {
         console.error('error getting searched internship', error);
       }
     )
-  
+
   }
 
 }

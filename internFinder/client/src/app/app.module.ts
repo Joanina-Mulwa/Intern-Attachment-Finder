@@ -18,6 +18,10 @@ import { BioDetailComponent } from './entities/users/bio-detail/bio-detail.compo
 import { BioEditComponent } from './entities/users/bio-edit/bio-edit.component';
 import { InternshipDetailComponent } from './entities/internships/internship-detail/internship-detail.component';
 import { InternshipEditComponent } from './entities/internships/internship-edit/internship-edit.component';
+import { ApplyInternshipComponent } from './entities/apply-internship/apply-internship.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+//import { MDBBootstrapModule } from 'angular-bootstrap-md';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +36,7 @@ import { InternshipEditComponent } from './entities/internships/internship-edit/
     InternshipDetailComponent,
     InternshipDetailComponent,
     InternshipEditComponent,
+    ApplyInternshipComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +46,9 @@ import { InternshipEditComponent } from './entities/internships/internship-edit/
     HttpClientModule,
     SocialLoginModule,
     CommonModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AngularEditorModule,
+    //MDBBootstrapModule.forRoot(),
   ],
   providers: [
     {

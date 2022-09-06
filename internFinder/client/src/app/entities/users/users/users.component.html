@@ -137,13 +137,14 @@
                     </span>
                   </div>
                 </div>
-                <h6 class="user-name" [routerLink]="['/users', user.email]">{{user.email}}
+                <h6 *ngIf="user.companyIndustry"class="company-industry">Deals with {{user.companyIndustry}}</h6>
+                <p class="company-industry" [routerLink]="['/users', user.email]">{{user.email}}
                   <!-- <i class="fas fa-flag" data-toggle="modal" data-target="#reportModal" (click)="getEntity('USER',userBio.id)"></i> Report -->
 
-                </h6>
+                </p>
 
                 <div class="mt-1">
-                  <span class="alert alert-info tech-alert p-1 mx-1" *ngFor="let skill of user.skillsList">
+                  <span class="alert alert-info tech-alert p-1 mx-1" *ngFor="let skill of user.skillsList" [innerHTML]="skill">
                     #{{skill}}
                   </span>
                 </div>

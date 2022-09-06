@@ -16,6 +16,8 @@ export class PostInternship{
     internshipStatus?: InternshipStatus;
     createdOn?: string;
     createdBy?: string;
+    minimumQualification?: MinimumQualification;
+    experienceLevel?:ExperienceLevel;
     constructor(
     id?: number,
     internshipTitle?:string,
@@ -34,6 +36,10 @@ export class PostInternship{
     internshipStatus?: InternshipStatus,
     createdOn?: string,
     createdBy?: string,
+    minimumQualification?: MinimumQualification,
+    experienceLevel?:ExperienceLevel,
+
+
 
     ){
         this.id=id;
@@ -53,6 +59,9 @@ export class PostInternship{
         this.internshipStatus=internshipStatus;
         this.createdOn=createdOn;
         this.createdBy=createdBy;
+        this.minimumQualification=minimumQualification;
+        this.experienceLevel=experienceLevel;
+
     }
 }
 export enum WorkPlaceType{
@@ -69,4 +78,17 @@ export enum InternshipType{
 export enum InternshipStatus{
     ACTIVE = 'ACTIVE',
     CLOSED = 'CLOSED'
+}
+export enum MinimumQualification{    
+    CERTIFICATE = 'Certificate',
+    DIPLOMA = 'Diploma',
+    DEGREE = 'Degree',
+    POSTGRADUATE = 'Post-Graduate'
+}
+
+export enum ExperienceLevel{
+    BEGINNER = 'Beginner (less than 1 year)',
+    INTERMEDIATE = 'Intermediate (2 - 3 years)',
+    MIDLEVEL = 'MidLevel (3 - 5 years)',
+    EXPERT = 'Expert (over 5 years)'
 }

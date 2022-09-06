@@ -59,6 +59,10 @@ public class UserBioDTO {
 
     private String companyPostalAddress;
 
+    private String companyPhoneNumber;
+
+    private String experienceLevel;
+
     public UserBioDTO() {
     }
 
@@ -85,6 +89,8 @@ public class UserBioDTO {
         this.setCompanyWebsite(user.getCompanyWebsite());
         this.setCompanyNumberOfEmployees(user.getCompanyNumberOfEmployees());
         this.setCompanyPostalAddress(user.getCompanyPostalAddress());
+        this.setCompanyPhoneNumber(user.getCompanyPhoneNumber());
+        this.setExperienceLevel(user.getExperienceLevel());
 
     }
 

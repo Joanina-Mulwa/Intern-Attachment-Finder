@@ -41,6 +41,8 @@ public class PostInternshipService {
         internship.setImportant(postInternship.getImportant());
         internship.setCreatedBy(postInternship.getCreatedBy());
         internship.setCreatedOn(LocalDate.now());
+        internship.setMinimumQualification(postInternship.getMinimumQualification());
+        internship.setExperienceLevel(postInternship.getExperienceLevel());
         return postInternshipRepository.save(internship);
     }
 
@@ -67,6 +69,8 @@ public class PostInternshipService {
             postInternship1.setImportant(postInternship.getImportant());
             postInternship1.setCreatedBy(postInternship.getCreatedBy());
             postInternship1.setCreatedOn(LocalDate.now());
+            postInternship1.setMinimumQualification(postInternship.getMinimumQualification());
+            postInternship1.setExperienceLevel(postInternship.getExperienceLevel());
             return postInternshipRepository.save(postInternship1);
         }else {
             throw new UserNotFoundException("No internship found with id " + postInternship.getId());

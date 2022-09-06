@@ -1,8 +1,6 @@
 package internFinder.internFinder.domain;
 
-import internFinder.internFinder.domain.enumarations.InternshipStatus;
-import internFinder.internFinder.domain.enumarations.InternshipType;
-import internFinder.internFinder.domain.enumarations.WorkPlaceType;
+import internFinder.internFinder.domain.enumarations.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -50,6 +48,10 @@ public class PostInternship {
     private LocalDate createdOn;
 
     private String createdBy;
+
+    private String minimumQualification;
+
+    private String experienceLevel;
 
     public Long getId() {
         return id;
@@ -191,6 +193,22 @@ public class PostInternship {
         this.createdBy = createdBy;
     }
 
+    public String getMinimumQualification() {
+        return minimumQualification;
+    }
+
+    public void setMinimumQualification(String  minimumQualification) {
+        this.minimumQualification = minimumQualification;
+    }
+
+    public String getExperienceLevel() {
+        return experienceLevel;
+    }
+
+    public void setExperienceLevel(String experienceLevel) {
+        this.experienceLevel = experienceLevel;
+    }
+
     @Override
     public String toString() {
         return "PostInternship{" +
@@ -211,6 +229,8 @@ public class PostInternship {
                 ", important='" + important + '\'' +
                 ", createdOn=" + createdOn +
                 ", createdBy='" + createdBy + '\'' +
+                ", minimumQualification='" + minimumQualification + '\'' +
+                ", experienceLevel='" + experienceLevel + '\'' +
                 '}';
     }
 }

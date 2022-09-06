@@ -29,3 +29,11 @@
     }
     
   }
+  .editor{
+    width: 600px;
+    min-height: 300px;
+}
+::ng-deep .angular-editor-textarea {
+    background: #fff!important;
+    min-height: 200px!important;
+  }

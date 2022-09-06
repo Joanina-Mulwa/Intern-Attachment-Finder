@@ -33,6 +33,9 @@ export class BioDetailComponent implements OnInit {
    
     
   }
+  back(): void{
+    window.history.back();
+  }
   
 
   checkIfMe(): void{
@@ -54,6 +57,7 @@ export class BioDetailComponent implements OnInit {
           this.userBioDetail.skillsList = this.userBioDetail.skills.split(",");
     
         }
+        
         console.log("User this.userBioDetai is", this.userBioDetail)   
       },
       (err)=>{

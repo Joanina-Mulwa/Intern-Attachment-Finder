@@ -166,6 +166,8 @@ public class UserService {
             user.setCompanyWebsite(userBioDTO.getCompanyWebsite());
             user.setCompanyNumberOfEmployees(userBioDTO.getCompanyNumberOfEmployees());
             user.setCompanyPostalAddress(userBioDTO.getCompanyPostalAddress());
+            user.setCompanyPhoneNumber(userBioDTO.getCompanyPhoneNumber());
+            user.setExperienceLevel(userBioDTO.getExperienceLevel());
 
             //Update the user info
             return userRepository.save(user);

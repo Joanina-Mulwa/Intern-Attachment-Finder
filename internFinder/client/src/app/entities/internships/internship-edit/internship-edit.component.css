@@ -1,0 +1,4 @@
+::ng-deep .angular-editor-textarea {
+    background: #fff !important;
+     min-height: 200px !important; 
+}

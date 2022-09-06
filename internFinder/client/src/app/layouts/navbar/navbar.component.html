@@ -9,7 +9,7 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
-                <li class="nav-item" [ngClass]="{'active-route':router.url.includes('post-internship')}">
+                <li *ngIf="showPostInternship" class="nav-item" [ngClass]="{'active-route':router.url.includes('post-internship')}">
                     <a class="nav-link" [routerLink]="'/post-internship'">Post Internship&nbsp;</a>
                 </li>
 

@@ -2,8 +2,8 @@
 
     <div *ngIf="userBioDetail" class="container">
 
-        <button class="btn btn-back btn-outline-secondary mb-3" [routerLink]="['/users']">
-            <span><i class="fas fa-arrow-left"></i></span> Intern Finder members
+        <button class="btn btn-back btn-outline-secondary mb-3" (click)="back()">
+            <span><i class="fas fa-arrow-left"></i></span> Back
         </button>
         <div class="card p-3">
 
@@ -43,54 +43,82 @@
                             </div>
                         </div>
 
-                        <div class="STUDENT">
+                        <div *ngIf="userBioDetail.authority == 'STUDENT'" class="STUDENT">
                             <p *ngIf="userBioDetail.name && userBioDetail.institution" class="profile-name">
                                 {{userBioDetail.name}} , student at {{userBioDetail.institution}}</p>
 
-                            <p *ngIf="userBioDetail.programme" class="profile-name">current level of education is
+                            <p *ngIf="userBioDetail.programme" class="profile-name">Current level of education is
                                 {{userBioDetail.programme}}</p>
-
-                                <div class="mt-2">
-                                    <span class="description"><i class="fas fa-history me-3"></i>Joined Intern Finder
-                                        {{userBioDetail.createdOn}}</span>
-        
-                                </div>
-
-                            <h4 *ngIf="userBioDetail.skillsList" class="section-title mt-4">Skills</h4>
-                        
+                            <p *ngIf="userBioDetail.course">Scope of study is {{userBioDetail.course}}</p>
+                            <p *ngIf="userBioDetail.experienceLevel">Experience level: {{userBioDetail.experienceLevel}}
+                            </p>
 
                             <div class="mt-2">
-                                <span class="alert alert-info p-1 me-3" *ngFor="let skill of userBioDetail.skillsList">
-                                    <label class="pe-2"># {{skill}}</label>
-                                </span>
+                                <p class="ml-3"><i class="far fa-envelope me-3"></i><a
+                                        href="mailto:{{userBioDetail.email}}">{{userBioDetail.email}}</a></p>
+
+                            </div>
+
+                            <div class="mt-2 ml-3">
+                                <span class="description"><i class="fas fa-history me-3"></i>Joined Intern Finder
+                                    {{userBioDetail.createdOn}}</span>
+
+                            </div>
+
+                            <h4 *ngIf="userBioDetail.skillsList" class="section-title mt-4">Skills</h4>
+
+                            <div class="mt-1">
+                                <div class="alert alert-info tech-alert p-1 mx-1"
+                                    *ngFor="let skill of userBioDetail.skillsList" [innerHTML]="skill">
+
+                                    #{{skill}}
+
+                                </div>
                             </div>
 
                         </div>
 
-                        <div class="EMPLOYER">
-                            <div *ngIf="userBioDetail.companyName" class="mt-2">
-                                <span class="description">
-                                    <i class="fas fa-briefcase me-3"></i>
-                                    <span class="bold-text">{{userBioDetail.companyEmail}}</span>
-                                    <span class="bold-text">{{userBioDetail.companyName}}</span>
-                                </span>
+                        <div *ngIf="userBioDetail.authority == 'EMPLOYER'" class="EMPLOYER">
+                            <p>{{userBioDetail.name}} is a {{userBioDetail.companyIndustry}} company based in
+                                {{userBioDetail.companyLocation}} with an average of
+                                {{userBioDetail.companyNumberOfEmployees}} employees</p>
+                            <div class="mt-2 mb-2">
+                                <span class="description"><i class="fas fa-history me-3"></i>Joined Intern Finder
+                                    {{userBioDetail.createdOn}}</span>
 
+                            </div>
+                            <p *ngIf="userBioDetail.companyDescription" style="text-decoration: underline">Description
+                            </p>
+                            <p [innerHTML]="userBioDetail.companyDescription">
+                                <li>
+                                    <ul>{{userBioDetail.companyDescription}}</ul>
+                                </li>
+                            </p>
+                            <p>For more info : </p>
+                            <p *ngIf="userBioDetail.companyWebsite" class="ml-3"><i class="fas fa-globe me-3"></i><a
+                                    href="{{userBioDetail.companyWebsite}}" target="_blank">
+                                    {{userBioDetail.companyWebsite}}</a> </p>
+                            <p class="ml-3"><i class="far fa-envelope me-3"></i><a
+                                    href="mailto:{{userBioDetail.email}}">{{userBioDetail.email}}</a></p>
+                            <p *ngIf="userBioDetail.companyWebsite" class="ml-3"><i class="fas fa-phone-alt me-3"></i>
+                                {{userBioDetail.companyPhoneNumber}}</p>
+                            <div *ngIf="userBioDetail.companyPostalAddress" class="ml-3"><i
+                                    class="fas fa-map-marker-alt">&nbsp;&nbsp;&nbsp;</i>
+                                <p style="display:inline" [innerHTML]="userBioDetail.companyPostalAddress">
+                                    {{userBioDetail.companyPostalAddress}}</p>
                             </div>
 
                         </div>
-
-
-
-
-
-
-
-
-
-
 
                     </div>
                 </div>
+                <hr>
+<!--                 
+                 <mdb-tabs [justified]="true">
+                    <mdb-tab title="Link">Tab content 1</mdb-tab>
+                    <mdb-tab title="Very very very very long link">Tab content 2</mdb-tab>
+                    <mdb-tab title="Another link">Tab content 3</mdb-tab>
+                  </mdb-tabs>  -->
             </div>
         </div>
 

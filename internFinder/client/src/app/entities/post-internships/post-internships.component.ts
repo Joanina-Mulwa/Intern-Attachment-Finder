@@ -3,7 +3,7 @@ import { Route, Router } from '@angular/router';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { UserService } from 'src/app/services/user.service';
 import { Authority, UserBio } from '../users/user-bio-model';
-import { InternshipType, InternshipStatus, WorkPlaceType } from './post-internship-model';
+import { InternshipType, InternshipStatus, WorkPlaceType, MinimumQualification, ExperienceLevel } from './post-internship-model';
 
 @Component({
   selector: 'app-post-internships',
@@ -32,9 +32,11 @@ export class PostInternshipsComponent implements OnInit {
     responsibilities: '',
     important: '',
     internshipPeriod: '',
-    internshipStatus: 'ACTIVE',
+    internshipStatus: '',
     createdOn: '',
     createdBy: '',
+    minimumQualification:'',
+    experienceLevel:'',
   }
 
   companyDetails!: '';
@@ -44,6 +46,8 @@ export class PostInternshipsComponent implements OnInit {
   workPlaceTypes=[WorkPlaceType.ONSITE, WorkPlaceType.REMOTE, WorkPlaceType.HYBRID];
   internshipTypes=[InternshipType.FULLTIME, InternshipType.PARTTIME, InternshipType.CONTRACT, InternshipType.VOLUNTEER]
   internshipStatus = [InternshipStatus.ACTIVE, InternshipStatus.CLOSED]
+  minimumQualifications=[MinimumQualification.CERTIFICATE, MinimumQualification.DIPLOMA, MinimumQualification.DEGREE, MinimumQualification.POSTGRADUATE]
+  experienceLevels=[ExperienceLevel.BEGINNER, ExperienceLevel.INTERMEDIATE, ExperienceLevel.INTERMEDIATE, ExperienceLevel.EXPERT]
 
 
   ngOnInit(): void {
@@ -70,10 +74,16 @@ export class PostInternshipsComponent implements OnInit {
       internshipStatus: 'ACTIVE',
       createdOn: '',
       createdBy: '',
+      minimumQualification:'',
+      experienceLevel:'',
   
     }
   
   }
+
+  counter(i: number) {
+    return new Array(i);
+}
 
 
   postinternship(): void{    
