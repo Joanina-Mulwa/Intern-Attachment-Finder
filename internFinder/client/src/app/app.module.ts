@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+//import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';  
 import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -20,8 +21,7 @@ import { InternshipDetailComponent } from './entities/internships/internship-det
 import { InternshipEditComponent } from './entities/internships/internship-edit/internship-edit.component';
 import { ApplyInternshipComponent } from './entities/apply-internship/apply-internship.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-//import { MDBBootstrapModule } from 'angular-bootstrap-md';
-
+//import { TabsModule} from 'ngx-bootstrap/tabs';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +48,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     CommonModule,
     BrowserAnimationsModule,
     AngularEditorModule,
+    //TabsModule.forRoot(),
     //MDBBootstrapModule.forRoot(),
   ],
   providers: [

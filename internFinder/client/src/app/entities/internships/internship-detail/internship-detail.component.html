@@ -46,9 +46,9 @@
                                         {{internshipDetail.internshipStatus}}</i>
                                 </div>
                                 <div class="col-3 pe-3 text-end">
-                                    <button class="btn btn-outline-secondary btn-edit-internship" *ngIf="isPostedByMe"
+                                    <button class="btn btn-outline-primary btn-edit-internship" *ngIf="isPostedByMe"
                                         [routerLink]="['/internship/edit', internshipId]">Edit internship</button>
-                                    <button class="btn btn-outline-secondary btn-apply-internship"
+                                    <button class="btn btn-outline-primary btn-apply-internship"
                                         *ngIf="!isEmployer && internshipDetail.internshipStatus == 'ACTIVE'"
                                         [routerLink]="['/internship/apply', internshipId]">Apply
                                         internship</button>

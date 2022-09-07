@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { UserService } from 'src/app/services/user.service';
+import { ApplyInternship } from '../../apply-internship/apply-internship-model';
 import { Authority, CompanyIndustry, Course, ExperienceLevel, Institution, Programme } from '../user-bio-model';
 
 @Component({
@@ -13,6 +15,7 @@ export class BioEditComponent implements OnInit {
   constructor(
     protected userService: UserService,
     protected router: Router,
+    protected applyInternship: ApplyInternshipService,
   ) { }
   
 userEmail: any;
@@ -51,6 +54,7 @@ userEmail: any;
   selectedFile: any;
   imgURL: any;
 
+  appliedInternships!: ApplyInternship
 
   programmes = [Programme.DEGREE,Programme.DIPLOMA, Programme.CERTIFICATE, Programme.POSTGRADUATE];
   institutions = [Institution.DEKUT, Institution.LAIKIPIA, Institution.JKUAT, Institution.MOI, Institution.KMTC];
@@ -60,6 +64,11 @@ userEmail: any;
 
   ngOnInit(): void {
     this.getCurrentUser();
+   
+  }
+
+  back():void{
+    window.history.back();
   }
 
   onFileChanged(event: any) {
@@ -72,7 +81,6 @@ userEmail: any;
       };
     }
   }
-
   url: any;
   msg = "";
 
@@ -98,8 +106,6 @@ userEmail: any;
       this.profile.profileImageUrl = this.url;
     }
   }
-
-
 
   previousState(): void {
     window.history.back();
@@ -175,5 +181,9 @@ userEmail: any;
       (err)=>{console.log("error updating user", err)}
     )
   }
+
+
   
 }
+
+

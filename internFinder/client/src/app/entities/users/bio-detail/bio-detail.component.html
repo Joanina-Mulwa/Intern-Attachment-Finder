@@ -37,7 +37,7 @@
 
                             </div>
                             <div class="col-md-6 text-end">
-                                <button class="btn btn-outline-secondary btn-edit-profile" *ngIf="isMe"
+                                <button class="btn btn-outline-primary btn-edit-profile" *ngIf="isMe"
                                     [routerLink]="['/user/edit']">Edit
                                     profile</button>
                             </div>
@@ -64,7 +64,6 @@
                                     {{userBioDetail.createdOn}}</span>
 
                             </div>
-
                             <h4 *ngIf="userBioDetail.skillsList" class="section-title mt-4">Skills</h4>
 
                             <div class="mt-1">
@@ -74,6 +73,17 @@
                                     #{{skill}}
 
                                 </div>
+                            </div>
+                            <div>
+                                <h4>Applied internships</h4>
+                                <div class="mt-2 ml-3">
+                                    <span class="description"><i class="fas fa-history me-3"></i>Applied
+                                    </span>
+
+
+
+                                </div>
+
                             </div>
 
                         </div>
@@ -113,12 +123,91 @@
                     </div>
                 </div>
                 <hr>
-<!--                 
-                 <mdb-tabs [justified]="true">
+                <div hidden>
+                    <!-- Tabs navs -->
+                    <ul class="nav nav-tabs nav-justified mb-3" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="tab-1" data-mdb-toggle="tab" href="#ex3-tabs-1" role="tab"
+                                aria-controls="ex3-tabs-1" aria-selected="true">Posted Internships</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ex3-tab-2" data-mdb-toggle="tab" href="#ex3-tabs-2" role="tab"
+                                aria-controls="ex3-tabs-2" aria-selected="false">Applicants</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="ex3-tab-3" data-mdb-toggle="tab" href="#ex3-tabs-3" role="tab"
+                                aria-controls="ex3-tabs-3" aria-selected="false">Closed</a>
+                        </li>
+                    </ul>
+                    <!-- Tabs navs -->
+
+                    <!-- Tabs content -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="ex3-tabs-1" role="tabpanel"
+                            aria-labelledby="ex3-tab-1">
+                            Tab 1 content
+                        </div>
+                        <div class="tab-pane fade" id="ex3-tabs-2" role="tabpanel" aria-labelledby="ex3-tab-2">
+                            Tab 2 content
+                        </div>
+                        <div class="tab-pane fade" id="ex3-tabs-3" role="tabpanel" aria-labelledby="ex3-tab-3">
+                            Tab 3 content
+                        </div>
+                    </div>
+                </div>
+
+                <body hidden>
+
+
+                    <div class="tabs">
+                        <span data-tab-value="#tab_1">Tab-1</span>
+                        <span data-tab-value="#tab_2">Tab-2</span>
+                        <span data-tab-value="#tab_3">Tab-3</span>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tabs__tab active" id="tab_1" data-tab-info>
+                            <p>Welcome to GeeksforGeek.</p>
+
+                        </div>
+                        <div class="tabs__tab" id="tab_2" data-tab-info>
+                            <p>Hello Everyone.</p>
+
+                        </div>
+                        <div class="tabs__tab" id="tab_3" data-tab-info>
+                            <p>Learn cool stuff.</p>
+
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        const tabs = document.querySelectorAll('[data-tab-value]')
+                        const tabInfos = document.querySelectorAll('[data-tab-info]')
+
+                        tabs.forEach(tab => {
+                            tab.addEventListener('click', () => {
+                                const target = document
+                                    .querySelector(tab.dataset.tabValue);
+
+                                tabInfos.forEach(tabInfo => {
+                                    tabInfo.classList.remove('active')
+                                })
+                                target.classList.add('active');
+                            })
+                        })
+                    </script>
+                </body>
+
+               
+
+                <!-- Tabs content -->
+
+                <!-- <mdb-tabs [justified]="true">
                     <mdb-tab title="Link">Tab content 1</mdb-tab>
                     <mdb-tab title="Very very very very long link">Tab content 2</mdb-tab>
                     <mdb-tab title="Another link">Tab content 3</mdb-tab>
                   </mdb-tabs>  -->
+                <hr>
+
             </div>
         </div>
 

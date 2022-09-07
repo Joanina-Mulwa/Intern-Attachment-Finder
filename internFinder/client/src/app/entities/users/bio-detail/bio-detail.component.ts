@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { UserService } from 'src/app/services/user.service';
+import { ApplyInternship } from '../../apply-internship/apply-internship-model';
 import { Authority, UserBio } from '../user-bio-model';
 
 @Component({
@@ -13,6 +15,7 @@ export class BioDetailComponent implements OnInit {
   constructor(
     protected userService: UserService,
     protected route: ActivatedRoute,
+    protected applyInternship: ApplyInternshipService,
   ) { }
 
   userBioDetail?: UserBio;
@@ -20,24 +23,43 @@ export class BioDetailComponent implements OnInit {
   userEmail!: string;
   username!: string;
   isMe: boolean=false;
+  applications!: ApplyInternship[];
+
+  
 
   ngOnInit(): void {
+    
     this.route.params.subscribe(params => {
       this.userEmail = params['email'];
       console.log("We want to view profile of ", this.userEmail)
-      this.checkIfMe();
+      this.getAppliedInternshipByMe();
+      this.checkIfMe();  
+    });   
+  }
+  getAppliedInternshipByMe(): void{
+    this.applyInternship.findByAppliedBy(this.userEmail).subscribe(
+      (res)=>{
+        console.log("I have aplied for this internships from res, ", res)
 
-      
-    });
+       
+        this.applications = res;
+        console.log("I have aplied for this internships, ", this.applications)
+  
 
-   
-    
+  
+        this.applications.forEach((application: any) => {
+          console.log("internships aplied by, ", application.appliedBy)
+          
+        });
+      },
+      (err)=>{console.log("error fetching internhips applied", err)}
+
+    )
+
   }
   back(): void{
     window.history.back();
   }
-  
-
   checkIfMe(): void{
     console.log("Current logged in username",JSON.parse(localStorage.getItem('currentUser')!).email);
     this.loggedInUserEmail=JSON.parse(localStorage.getItem('currentUser')!).email;
@@ -49,15 +71,11 @@ export class BioDetailComponent implements OnInit {
         console.log("User details is", res)
         this.userBioDetail = res;
         let date = new Date().toJSON().slice(0, 10);
-
         this.userBioDetail!.createdOn = date;
         console.log("New creation dTE IS ", this.userBioDetail!.createdOn)
-
         if (this.userBioDetail?.skills) {
           this.userBioDetail.skillsList = this.userBioDetail.skills.split(",");
-    
         }
-        
         console.log("User this.userBioDetai is", this.userBioDetail)   
       },
       (err)=>{
@@ -66,6 +84,11 @@ export class BioDetailComponent implements OnInit {
     )
 
   }
+
+  getPostedInternships(): void{
+  }
+
+
 
 
 
