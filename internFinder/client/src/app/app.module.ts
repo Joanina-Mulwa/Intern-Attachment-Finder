@@ -4,8 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';  
 import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { SocialLoginModule,SocialAuthServiceConfig} from "angularx-social-login";
-import { GoogleLoginProvider } from "angularx-social-login";
+// import { SocialLoginModule,SocialAuthServiceConfig} from "angularx-social-login";
+// import { GoogleLoginProvider } from "angularx-social-login";
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -44,7 +44,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SocialLoginModule,
+   // SocialLoginModule,
     CommonModule,
     BrowserAnimationsModule,
     AngularEditorModule,
@@ -52,19 +52,26 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     //MDBBootstrapModule.forRoot(),
   ],
   providers: [
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: true,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('475049910206-mfg3ar2rrrvl9jjn30i9okqge6ehotv4.apps.googleusercontent.com')
-          }
-        ]
-      }as SocialAuthServiceConfig
-    }
+    
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
+//   providers: [
+//     {
+//       provide: 'SocialAuthServiceConfig',
+//       useValue: {
+//         autoLogin: true,
+//         providers: [
+//           {
+//             id: GoogleLoginProvider.PROVIDER_ID,
+//             provider: new GoogleLoginProvider('475049910206-mfg3ar2rrrvl9jjn30i9okqge6ehotv4.apps.googleusercontent.com')
+//           }
+//         ]
+//       }as SocialAuthServiceConfig
+//     }
+//   ],
+//   bootstrap: [AppComponent]
+// })
+//export class AppModule { }

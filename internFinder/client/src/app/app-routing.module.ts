@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginWithGoogleComponent } from './account/auth/login-with-google/login-with-google.component';
+//import { LoginWithGoogleComponent } from './account/auth/login-with-google/login-with-google.component';
 import { LoginComponent } from './account/auth/login/login.component';
 import { ProfileComponent } from './account/auth/profile/profile.component';
 import { ApplyInternshipComponent } from './entities/apply-internship/apply-internship.component';
@@ -26,10 +26,10 @@ const routes: Routes = [
     path: 'users',
     component: UsersComponent
   },
-  {
-    path: 'loginWithGoogle',
-    component: LoginWithGoogleComponent
-  },
+  // {
+  //   path: 'loginWithGoogle',
+  //   component: LoginWithGoogleComponent
+  // },
   {
     path: 'internships',
     component: InternshipsComponent

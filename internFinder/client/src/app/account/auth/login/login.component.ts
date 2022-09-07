@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
+//import { GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
 import { TokenService } from 'src/app/services/token.service';
 import { Authority } from 'src/app/entities/users/user-bio-model';
 export { userLogins } from 'src/app/account/auth/login/userLoginsModel'
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   constructor(
     protected userService: UserService,
     protected router: Router,
-    protected socialAuthService: SocialAuthService,
+    //protected socialAuthService: SocialAuthService,
     protected tokenService: TokenService
 
   ) { }
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   forgotPass = false;
   resetPassFailure = '';
   resetPassSuccess = '';
-  socialUser!: SocialUser;
+  //socialUser!: SocialUser;
   isLoggedIn!: boolean;
 
   userLogins = {
@@ -45,11 +45,11 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.socialAuthService.authState.subscribe(user => {
+    // this.socialAuthService.authState.subscribe(user => {
 
-      this.socialUser = user;
-      console.log("The user is" + user);
-    });
+    //   this.socialUser = user;
+    //   console.log("The user is" + user);
+    // });
 
     console.log("logins with button click is", this.userLogins);
 
@@ -175,10 +175,10 @@ export class LoginComponent implements OnInit {
 
 
 
-  loginWithGoogle(): void {
+  // loginWithGoogle(): void {
 
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
+  //   this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  // }
 
   // signOut(): void {
   //   this.socialAuthService.signOut();
