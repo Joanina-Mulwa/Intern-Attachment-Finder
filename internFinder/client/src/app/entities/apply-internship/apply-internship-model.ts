@@ -1,5 +1,4 @@
 export class ApplyInternship {
-    [x: string]: any;
     id?: number;
     internshipId?: number;
     appliedBy?: string;

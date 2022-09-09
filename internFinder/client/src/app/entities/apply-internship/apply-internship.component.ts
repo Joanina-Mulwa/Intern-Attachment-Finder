@@ -117,8 +117,12 @@ export class ApplyInternshipComponent implements OnInit {
     this.application!.appliedOn = date;
     //this.application.postedBy=this.internshipDetail!.companyEmail;
     console.log("About to create application", this.application)
+    
     this.applyInternship.applyInternship(this.application).subscribe(
-      (res)=>{console.log("created appliccation",res)},
+      (res)=>{
+        console.log("created appliccation",res)
+        this.router.navigate(['/users/', this.currentEmail])
+      },
       (err)=>{console.log(err)}
     )
     

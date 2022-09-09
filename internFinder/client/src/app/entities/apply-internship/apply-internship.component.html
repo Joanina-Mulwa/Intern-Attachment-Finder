@@ -31,7 +31,7 @@
                     <div class="col-md-6">
                         <p class="mt-2">Introduce yourself:</p>
                         <textarea name="introduction"
-                            placeholder="Tell us more about yourself. This is an opportunity to differentiate yourself from the crowd. But say in a 500 word limit. You can highlight skills and experience you have here.
+                            placeholder="Tell us more about yourself. This is an opportunity to differentiate yourself from the crowd. But say in a 5000 word limit. You can highlight skills and experience you have here.
                             Example : I am very excited about this role and i believe i have the skills and experience to suceed in this role. through my (Enter yor major) i have learned ... I also offer other releveant skills for example ... that i acquired through my work in ..."
                             cols="53" rows="10" [(ngModel)]="application.introduction"></textarea>
                     </div>
@@ -52,13 +52,13 @@
                     </div>
                 </div>
 
-                <div class="mt-3">
+                <!-- <div class="mt-3">
                     <label for="resume">
                         <p style="display:inline">Attach your resume / CV</p>
                     </label>
                     <input type="file" class="form-control" name="resume" id="file-id" [(ngModel)]="application.resume">
 
-                </div>
+                </div> -->
 
                 <div class="mt-5">
                     <button *ngIf="!profileCompleteSuccess" class="btn btn-outline-primary"

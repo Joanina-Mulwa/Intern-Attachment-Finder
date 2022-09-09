@@ -2,13 +2,22 @@
 
     <div *ngIf="internshipDetail" class="container">
 
+        <div class="row">
+            <div class="col-md-10">
+                <button class="btn btn-back btn-outline-secondary mb-3 " [routerLink]="['/internships']">
+                    <span><i class="fas fa-arrow-left"></i></span> Internships
+                </button>
+            </div>
+            <div *ngIf="isPostedByMe" class="col-md-2">
+                <button class="btn btn-back btn-outline-secondary mb-3" [routerLink]="['/applicants', internshipDetail.id]">
+                    <span><i class="fas fa-user-check"></i></span> Applications
+                </button>
+            </div>
+        </div>
 
-        <button class="btn btn-back btn-outline-secondary mb-3" [routerLink]="['/internships']">
-            <span><i class="fas fa-arrow-left"></i></span> Internships
-        </button>
-        <div class="card p-3">
+        <div>
 
-            <div>
+            <div class="card p-3">
                 <div class="row">
                     <div class="col-md-3 col-2 text-center ">
                         <div class="image-holder" [routerLink]="['/users', internshipDetail.companyEmail]"
@@ -20,7 +29,7 @@
                                 preserveAspectRatio="xMidYMid slice" focusable="false">
                                 <rect width="90%" height="auto" fill="#e1e1e1"></rect>
                                 <text x="40%" y="50%" fill="#202a44" dy=".3em" dx="-.1em" font-size="10ch"
-                                    font-weight="bold">{{internshipDetail?.companyName?.slice(0, 1) | uppercase}}</text>
+                                    font-weight="bold">{{internshipDetail.companyName?.slice(0, 1) | uppercase}}</text>
 
                             </svg>
                             <p class="profile-name" [routerLink]="['/users', internshipDetail.companyEmail]"
@@ -34,6 +43,7 @@
                         <div class="content">
                             <div class="row">
 
+
                                 <div class="col-md-9">
                                     <h4 style="display:inline; text-decoration: underline" class="section-title">
                                         {{internshipDetail.internshipTitle}}</h4>
@@ -44,17 +54,23 @@
                                     <i *ngIf="internshipDetail.internshipStatus === 'CLOSED'"
                                         class="fas fa-times-circle">
                                         {{internshipDetail.internshipStatus}}</i>
+
                                 </div>
                                 <div class="col-3 pe-3 text-end">
+
                                     <button class="btn btn-outline-primary btn-edit-internship" *ngIf="isPostedByMe"
-                                        [routerLink]="['/internship/edit', internshipId]">Edit internship</button>
+                                        [routerLink]="['/internship/edit', internshipId]"><i class="fas fa-user-edit"></i> Edit internship</button>
                                     <button class="btn btn-outline-primary btn-apply-internship"
-                                        *ngIf="!isEmployer && internshipDetail.internshipStatus == 'ACTIVE'"
+                                        *ngIf="!isEmployer && internshipDetail.internshipStatus == 'ACTIVE' && !internshipApplied "
                                         [routerLink]="['/internship/apply', internshipId]">Apply
                                         internship</button>
                                     <button disabled class="btn btn-outline-secondary "
-                                        *ngIf="!isEmployer && internshipDetail.internshipStatus == 'CLOSED'">
+                                        *ngIf="!isEmployer && internshipDetail.internshipStatus == 'CLOSED' && !internshipApplied">
                                         <i class="fas fa-times-circle"></i> Internship Closed
+                                    </button>
+                                    <button disabled class="btn btn-outline-secondary "
+                                        *ngIf="!isEmployer && internshipApplied">
+                                        <i class="fas fa-times-circle"></i> Internship Applied
                                     </button>
                                 </div>
 
@@ -78,80 +94,84 @@
                             </p>
                         </div>
                     </div>
-                    <hr>
-                    <h4 style="text-decoration: underline">Internship Description</h4>
-                    <p [innerHTML]="internshipDetail.description">
-                        {{internshipDetail.description}}
-                    </p>
-                    <h4 style="text-decoration: underline">Internship Skills and Requirements</h4>
-                    <p [innerHTML]="internshipDetail.skills">
-                        {{internshipDetail.skills}}
-                    </p>
-                    <ul>
-                        <li>
-                            <p>Minimum Qualification : {{internshipDetail.minimumQualification}}</p>
-                        </li>
-                        <li>
-                            <p>Required Experience Level : {{internshipDetail.experienceLevel}}</p>
-                        </li>
-                        <li>
-                            <p>Internship Period <small>( in months )</small> : {{internshipDetail.internshipPeriod}}
-                                months</p>
-                        </li>
-                        <li>
-                            <p>Internship Types : {{internshipDetail.internshipType}}</p>
-                        </li>
-                    </ul>
-                    <div *ngIf="internshipDetail.responsibilities">
-                        <h4 style="text-decoration: underline">Intern Responsibilities</h4>
-                        <p [innerHTML]="internshipDetail.responsibilities">
-                            {{internshipDetail.responsibilities}}
-                        </p>
 
-                    </div>
-                    <div *ngIf="internshipDetail.important">
-                        <h4 style="text-decoration: underline">Important Information</h4>
-                        <p [innerHTML]="internshipDetail.important">
-                            {{internshipDetail.important}}
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div hidden class="col-md-9">
-
-                    <div class="content">
-                        <h4 class="section-title">{{internshipDetail.internshipTitle}}</h4>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h4 class="profile-name">{{internshipDetail.companyName}}</h4>
-
-                            </div>
-
-                        </div>
-
-                        <div *ngIf="internshipDetail.companyName" class="mt-2">
-                            <span class="description">
-                                <i class="fas fa-briefcase me-3"></i>
-                                <span class="bold-text">{{internshipDetail.companyEmail}}</span>
-                                <span class="bold-text">{{internshipDetail.companyName}}</span>
-                            </span>
-
-                        </div>
-
-
-                        <div class="mt-2">
-                            <span class="description"><i class="fas fa-history me-3"></i>Joined Intern Finder
-                                {{internshipDetail.createdOn}}</span>
-                            <span class="px-2"><i class="far fa-clock"></i> Last seen 2 days ago</span>
-                        </div>
-
-
-                    </div>
                 </div>
             </div>
+            <div class="card p-3 mt-3 mb-5">
+                <h4 style="text-decoration: underline">Internship Description</h4>
+                <p [innerHTML]="internshipDetail.description">
+                    {{internshipDetail.description}}
+                </p>
+                <h4 style="text-decoration: underline">Internship Skills and Requirements</h4>
+                <p [innerHTML]="internshipDetail.skills">
+                    {{internshipDetail.skills}}
+                </p>
+                <ul>
+                    <li>
+                        <p>Minimum Qualification : {{internshipDetail.minimumQualification}}</p>
+                    </li>
+                    <li>
+                        <p>Required Experience Level : {{internshipDetail.experienceLevel}}</p>
+                    </li>
+                    <li>
+                        <p>Internship Period <small>( in months )</small> : {{internshipDetail.internshipPeriod}}
+                            months</p>
+                    </li>
+                    <li>
+                        <p>Internship Types : {{internshipDetail.internshipType}}</p>
+                    </li>
+                </ul>
+                <div *ngIf="internshipDetail.responsibilities">
+                    <h4 style="text-decoration: underline">Intern Responsibilities</h4>
+                    <p [innerHTML]="internshipDetail.responsibilities">
+                        {{internshipDetail.responsibilities}}
+                    </p>
+
+                </div>
+                <div *ngIf="internshipDetail.important">
+                    <h4 style="text-decoration: underline">Important Information</h4>
+                    <p [innerHTML]="internshipDetail.important">
+                        {{internshipDetail.important}}
+                    </p>
+
+                </div>
+            </div>
+
+
+
+            <div hidden class="col-md-9">
+
+                <div class="content">
+                    <h4 class="section-title">{{internshipDetail.internshipTitle}}</h4>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="profile-name">{{internshipDetail.companyName}}</h4>
+
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="internshipDetail.companyName" class="mt-2">
+                        <span class="description">
+                            <i class="fas fa-briefcase me-3"></i>
+                            <span class="bold-text">{{internshipDetail.companyEmail}}</span>
+                            <span class="bold-text">{{internshipDetail.companyName}}</span>
+                        </span>
+
+                    </div>
+
+
+                    <div class="mt-2">
+                        <span class="description"><i class="fas fa-history me-3"></i>Joined Intern Finder
+                            {{internshipDetail.createdOn}}</span>
+                        <span class="px-2"><i class="far fa-clock"></i> Last seen 2 days ago</span>
+                    </div>
+
+
+                </div>
+            </div>
+
 
             <div hidden class="mt-2">
                 <div>

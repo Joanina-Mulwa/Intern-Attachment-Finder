@@ -20,4 +20,16 @@ export class ApplyInternshipService {
   findByAppliedBy(appliedBy: string): Observable<any>{
     return this.httpClient.get<any> (this.API_ENDPOINT + "/api/findByAppliedBy/" + appliedBy)
   }
+
+  findApplicationById(id: number): Observable<any>{
+    return this.httpClient.get<any>( this.API_ENDPOINT + "/api/findApplicationById/" + id)
+  }
+
+  findApplicationsByInternshipId(internshipId: number): Observable<any>{
+    return this.httpClient.get<any>( this.API_ENDPOINT + "/api/findApplicationsByInternshipId/" + internshipId)
+  }
+
+  // searchApplicant(text?: string): Observable<any>{
+  //   return this.httpClient.get<any>(this.API_ENDPOINT + "/api/applicant/search?text=" + text)
+  // }
 }

@@ -21,7 +21,9 @@ import { InternshipDetailComponent } from './entities/internships/internship-det
 import { InternshipEditComponent } from './entities/internships/internship-edit/internship-edit.component';
 import { ApplyInternshipComponent } from './entities/apply-internship/apply-internship.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-//import { TabsModule} from 'ngx-bootstrap/tabs';
+import { TabsModule} from 'ngx-bootstrap/tabs';
+import { ApplicationComponent } from './entities/applications/application/application.component';
+import { ApplicantsComponent } from './entities/applications/applicants/applicants.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +39,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     InternshipDetailComponent,
     InternshipEditComponent,
     ApplyInternshipComponent,
+    ApplicationComponent,
+    ApplicantsComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +52,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     CommonModule,
     BrowserAnimationsModule,
     AngularEditorModule,
-    //TabsModule.forRoot(),
+    TabsModule.forRoot(),
     //MDBBootstrapModule.forRoot(),
   ],
   providers: [

@@ -153,7 +153,8 @@ export class LoginComponent implements OnInit {
         if (res != null) {
           console.log("here", res);
           if (res === Authority.EMPLOYER) {
-            this.router.navigate(['/user/edit'])
+            //this.router.navigate(['/users/edit'])
+            this.router.navigate(['internships']);
           }
           else if (res === Authority.STUDENT) {
             this.router.navigate(['internships']);

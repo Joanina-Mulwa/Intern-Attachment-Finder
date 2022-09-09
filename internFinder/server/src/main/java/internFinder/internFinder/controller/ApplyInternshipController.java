@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -28,4 +29,27 @@ public class ApplyInternshipController {
         log.debug("REST request to find internships applied by : {}", appliedBy);
         return applyInternshipService.findByAppliedBy(appliedBy);
     }
+
+    @GetMapping("/findApplicationsByInternshipId/{internshipId}")
+    public List<ApplyInternship> findByInternshipId(@PathVariable Long internshipId){
+        log.debug("REST request to find application of internship id {} ", internshipId);
+        return applyInternshipService.findApplicationByInternshipId(internshipId);
+    }
+
+    @GetMapping("/findApplicationById")
+    public Optional<ApplyInternship> findApplicationById(@PathVariable Long id){
+        log.debug("REST request to find application by id {} ", id);
+        return applyInternshipService.findApplicationById(id);
+    }
+
+//    @GetMapping("/applicant/search")
+//    public List<ApplyInternship> findAll(@RequestParam(required = false) String text) {
+//        log.debug("REST request to search all applicants with text : {}", text);
+//
+//        if (text == null) {
+//            text = "";
+//        }
+//
+//        return applyInternshipService.search(text);
+//    }
 }

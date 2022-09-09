@@ -1,0 +1,65 @@
+<div class="container justify-content-center">
+    <div class="row">
+        <div class="col-md-1 ml-2">
+
+            <button class="btn btn-back btn-outline-secondary mb-3" (click)="back()">
+                <span><i class="fas fa-arrow-left"></i></span> Applicants
+            </button>
+
+        </div>
+
+    </div>
+    <div class="container">
+        <div class="card">
+
+            <div class="m-3">
+                <h5 style="text-decoration: underline">Application Letter by
+                    {{applicationForcurrentInternship?.appliedBy}}</h5>
+
+
+
+                <div>
+                    <h5 class="mt-2">Personal Profile:</h5>
+
+
+                    <p>{{applicationForcurrentInternship?.introduction}}</p>
+                </div>
+
+
+                <p>{{applicationForcurrentInternship?.reason}}</p>
+
+                <div *ngIf="userBioDetails?.skillsList" style="display: inline" class="mt-1 col-md-6">
+                    <h5>Skills</h5>
+
+                    <p *ngFor="let skill of userBioDetails?.skillsList" [innerHTML]="skill">
+                        {{skill}}
+                    </p>
+                </div>
+
+                <h5>Experience</h5>
+
+                <h5 class="mt-2">Strengths</h5>
+                <p>{{applicationForcurrentInternship?.strength}}</p>
+
+                <h5 class="mt-2">Weaknesses</h5>
+                <p>{{applicationForcurrentInternship?.weakness}}</p>
+
+
+                <div class="row m-2 ">
+                    <div class="col-md-6">
+                        <button class="btn btn-outline-secondary"
+                        [routerLink]="['/applicants', internshipId]">Reject</button>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <button class="btn btn-outline-primary"
+                            [routerLink]="['/applicants', internshipId]">Approve</button>
+                    </div>
+                </div>
+
+               
+            </div>
+
+        </div>
+    </div>
+
+</div>

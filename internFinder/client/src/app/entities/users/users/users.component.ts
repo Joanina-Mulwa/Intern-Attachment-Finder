@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 // import { UserBioService } from '../services/user-bio.service';
- import { UserBio } from '../user-bio-model';
+ import { Authority, UserBio } from '../user-bio-model';
 
 
 @Component({
@@ -21,6 +21,9 @@ export class UsersComponent implements OnInit {
   username?: any;
   loading = false;
   searchText: string = '';
+  usersStudent: UserBio[]=[];
+  usersEmployer: UserBio[]=[];
+  usersGuest: UserBio[]=[];
 
 
   ngOnInit(): void {
@@ -36,18 +39,45 @@ export class UsersComponent implements OnInit {
     this.loading=true;
     this.userService.findAllUsers().subscribe(
       (res) => {
-        this.loading=false;
         console.log("here",res);
         //console.log("The authority 2 is",res.authority)
         let date = new Date().toJSON().slice(0, 10);
         this.users = res;
+        this.loading=false
         this.users.forEach((user: any) => {
           user.createdOn=date;
           if (user.skills) {
             user.skillsList = user.skills.split(",");
 
           }
+          if(user.authority === Authority.STUDENT){
+            this.usersStudent.push(user);
+            
+
+            
+
+          }
+          else if(user.authority === Authority.EMPLOYER){
+            this.usersEmployer.push(user)
+            
+
+
+          }
+          else{
+            this.usersGuest.push(user);
+            
+
+
+          }
+
+
         });
+
+        console.log("users are", this.users);
+        console.log("student users are", this.usersStudent);
+        console.log("employer users are", this.usersEmployer);
+        console.log("guest users are", this.usersGuest);
+
        
         // this.users.forEach((user: any) => {
         //   if (user.email) {
@@ -73,7 +103,9 @@ export class UsersComponent implements OnInit {
           }
         });
       
-        console.log("Search produces users:", this.users)
+        console.log("Search produces users:", this.users) ;
+
+
       },
       error => {
         console.error('error getting searched user', error);

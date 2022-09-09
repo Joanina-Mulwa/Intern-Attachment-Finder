@@ -41,4 +41,20 @@ public class ApplyInternshipService {
         return internship;
 
     }
+
+    public List<ApplyInternship> findApplicationByInternshipId(Long internshipId){
+        log.debug("Request to find applications of internship id {} ", internshipId);
+        return applyInternshipRepository.findByInternshipId(internshipId);
+    }
+
+    public Optional<ApplyInternship> findApplicationById(Long id){
+        log.debug("Request to find application of id {} ", id);
+        return applyInternshipRepository.findById(id);
+    }
+
+//    public List<ApplyInternship> search(String text) {
+//        log.debug("Request to applicant with text : {}", text);
+//
+//        return applyInternshipRepository.findByAppliedByContainingOrIntroductionContainingOrReasonContainingOrStrengthContainingOrWeaknessContaining(text, text, text, text, text);
+//    }
 }

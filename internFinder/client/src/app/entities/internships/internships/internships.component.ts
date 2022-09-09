@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
+import { ApplyInternship } from '../../apply-internship/apply-internship-model';
 import { InternshipStatus, PostInternship } from '../../post-internships/post-internship-model';
 
 @Component({
@@ -14,7 +16,8 @@ export class InternshipsComponent implements OnInit {
   constructor(
     protected userService: UserService,
     protected postInternshipService: PostInternshipService,
-    protected tokenService: TokenService
+    protected tokenService: TokenService,
+    protected applyInternship: ApplyInternshipService,
   ) {
   }
   category: Boolean = false;
@@ -22,6 +25,10 @@ export class InternshipsComponent implements OnInit {
   username!: string;
   loading = false;
   searchText: string = '';
+  userEmail!: string;
+  applications!: ApplyInternship[];
+  appliedInternshipIdArray: any[] = []
+  isApplied: boolean = false;
   //today = new Date().toJSON().slice(0, 10)
   //date?: string
 
@@ -52,6 +59,7 @@ export class InternshipsComponent implements OnInit {
     console.log("Current logged in user token", this.tokenService.getToken());
     console.log("Current logged in username and token ", this.tokenService.getUsername());
     console.log("Current logged in username", JSON.parse(localStorage.getItem('currentUser')!).email);
+    this.userEmail = JSON.parse(localStorage.getItem('currentUser')!).email
 
 
   }
@@ -75,12 +83,26 @@ export class InternshipsComponent implements OnInit {
               (res) => {
                 console.log(" updated internship to ,", res)
               },
-              (err)=>{
+              (err) => {
                 console.log("error updating internship", err)
               }
+            )
+          }
+          //check internships i have applied for
+          this.applyInternship.findByAppliedBy(this.userEmail).subscribe(
+            (res) => {
+              this.applications = res;
+              this.applications.forEach((application: any) => {
+                if (application.internshipId === internship.id) {
+                  this.appliedInternshipIdArray.push(internship.id)
+                  console.log("length is", this.appliedInternshipIdArray.length)
+                }
+              })
+            },
+            (err) => { console.log(err) }
+          )
+        });
 
-            )}
-          });
       }
     )
   }
