@@ -40,8 +40,7 @@
                                                 name="minimumQualification"
                                                 [(ngModel)]="internship.minimumQualification">
 
-                                                <option
-                                                    *ngFor="let minimumQualification of minimumQualifications">
+                                                <option *ngFor="let minimumQualification of minimumQualifications">
                                                     {{minimumQualification}}
                                                 </option>
                                             </select>
@@ -58,14 +57,14 @@
                                                 </option>
                                             </select>
                                         </div>
-                                        
-                                 
+
+
                                         <div *ngIf="internship.workPlaceType === 'ONSITE' || internship.workPlaceType === 'HYBRID'"
-                                        class="mb-3 col-md-6">
-                                        <label for="location">internship Location * </label>
-                                        <input type="text" class="form-control" name="location"
-                                            [(ngModel)]="internship.location">
-                                    </div>
+                                            class="mb-3 col-md-6">
+                                            <label for="location">internship Location * </label>
+                                            <input type="text" class="form-control" name="location"
+                                                [(ngModel)]="internship.location">
+                                        </div>
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-md-6">
@@ -84,7 +83,7 @@
                                             <input type="date" class="form-control" name="reportingDate"
                                                 [(ngModel)]="internship.reportingDate">
                                         </div>
-                                     
+
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-md-6">
@@ -130,7 +129,7 @@
                                                 </select>
 
                                             </div>
-                                            <div class="col-md-6">
+                                            <!-- <div class="col-md-6">
                                                 <label for="vacancy">Vacancies Left * </label>
                                                 <select autocomplete="on" style="height: 35px; width: 588px;"
                                                     name="vacancy" type="text" [(ngModel)]="internship.vacancy">
@@ -140,7 +139,7 @@
                                                     </option>
                                                 </select>
 
-                                            </div>
+                                            </div> -->
 
                                         </div>
 
@@ -155,16 +154,18 @@
                                                     internship
                                                     Entails)</small> </label>
                                             <angular-editor class="editor form-control"
-                                                [placeholder]="'Enter internship description'" cols="55" rows="155" style="height: auto"
-                                                name="description" [(ngModel)]="internship.description">
+                                                [placeholder]="'Enter internship description'" cols="55" rows="155"
+                                                style="height: auto" name="description"
+                                                [(ngModel)]="internship.description">
                                             </angular-editor>
 
                                         </div>
                                         <div class="col-md-6">
                                             <label for="skills">Required skills * </label>
                                             <angular-editor class="editor form-control"
-                                                [placeholder]="'Enter required skills'" cols="55" rows="155" style="height: auto"
-                                                name="skills" [(ngModel)]="internship.skills"></angular-editor>
+                                                [placeholder]="'Enter required skills'" cols="55" rows="155"
+                                                style="height: auto" name="skills" [(ngModel)]="internship.skills">
+                                            </angular-editor>
                                         </div>
 
                                     </div>
@@ -172,16 +173,18 @@
                                         <div class="col-md-6">
                                             <label for="responsibilities">internship Responsibilities </label>
                                             <angular-editor class="editor form-control"
-                                                [placeholder]="'Enter required responsibilities'" cols="55" rows="155" style="height: auto"
-                                                name="responsibilities" [(ngModel)]="internship.responsibilities">
+                                                [placeholder]="'Enter required responsibilities'" cols="55" rows="155"
+                                                style="height: auto" name="responsibilities"
+                                                [(ngModel)]="internship.responsibilities">
                                             </angular-editor>
 
                                         </div>
                                         <div class="col-md-6">
                                             <label for="important">Important Info </label>
                                             <angular-editor class="editor form-control"
-                                                [placeholder]="'Enter important info'" cols="55" rows="155" style="height: auto"
-                                                name="important" [(ngModel)]="internship.important"></angular-editor>
+                                                [placeholder]="'Enter important info'" cols="55" rows="155"
+                                                style="height: auto" name="important"
+                                                [(ngModel)]="internship.important"></angular-editor>
 
                                         </div>
 
@@ -192,8 +195,7 @@
 
                                             <button class="btn btn-outline-primary form-control"
                                                 (click)="postinternship()"
-                                                [disabled]="!internship.internshipTitle || !internship.workPlaceType ||
-                                                !internship.reportingDate || !internship.vacancy || !internship.description || !internship.skills">POST</button>
+                                                [disabled]="!internship.internshipTitle || !internship.minimumQualification || !internship.internshipType || !internship.reportingDate || !internship.workPlaceType || !internship.experienceLevel || !internship.internshipStatus || !internship.internshipPeriod|| !internship.description || !internship.skills">POST</button>
 
 
                                             <!-- <button *ngIf="userBio.id" class="btn btn-outline-primary form-control"

@@ -29,6 +29,8 @@ public class ApplyInternship {
 
     public String resume;
 
+    public String status;
+
     public Long getId() {
         return id;
     }
@@ -109,9 +111,17 @@ public class ApplyInternship {
         this.resume = resume;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "InternshipApplication{" +
+        return "ApplyInternship{" +
                 "id=" + id +
                 ", internshipId=" + internshipId +
                 ", appliedBy='" + appliedBy + '\'' +
@@ -121,7 +131,8 @@ public class ApplyInternship {
                 ", reason='" + reason + '\'' +
                 ", strength='" + strength + '\'' +
                 ", weakness='" + weakness + '\'' +
-                ", resume=" + resume +
+                ", resume='" + resume + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

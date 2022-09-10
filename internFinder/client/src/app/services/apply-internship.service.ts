@@ -17,6 +17,10 @@ export class ApplyInternshipService {
     return this.httpClient.post<any> (this.API_ENDPOINT + "/api/applyInternship" , application)
   }
 
+  updateInternshipApplication(application: any): Observable<any>{
+    return this.httpClient.put<any> (this.API_ENDPOINT + "/api/updateInternshipApplication", application)
+  }
+
   findByAppliedBy(appliedBy: string): Observable<any>{
     return this.httpClient.get<any> (this.API_ENDPOINT + "/api/findByAppliedBy/" + appliedBy)
   }

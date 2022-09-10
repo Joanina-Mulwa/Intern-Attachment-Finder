@@ -1,5 +1,5 @@
 <div class="container justify-content-center">
-    <div class="row">
+    
         <div class="col-md-1 ml-2">
 
             <button class="btn btn-back btn-outline-secondary mb-3" (click)="back()">
@@ -8,13 +8,14 @@
 
         </div>
 
-    </div>
-    <div class="container">
+   
+    <div class="container m-3">
         <div class="card">
 
             <div class="m-3">
                 <h5 style="text-decoration: underline">Application Letter by
-                    {{applicationForcurrentInternship?.appliedBy}}</h5>
+                    <a href="mailto:{{applicationForcurrentInternship?.appliedBy}}"> {{applicationForcurrentInternship?.appliedBy}}</a>
+                    </h5>
 
 
 
@@ -47,12 +48,21 @@
 
                 <div class="row m-2 ">
                     <div class="col-md-6">
-                        <button class="btn btn-outline-secondary"
-                        [routerLink]="['/applicants', internshipId]">Reject</button>
+                        <button *ngIf="applicationForcurrentInternship?.status === null" class="btn btn-outline-secondary" 
+                        (click)="updateInternshipApplication('REJECTED')">Reject</button>
+                    
                     </div>
                     <div class="col-md-6 text-end">
-                        <button class="btn btn-outline-primary"
-                            [routerLink]="['/applicants', internshipId]">Approve</button>
+                        <button *ngIf="applicationForcurrentInternship?.status === null" class="btn btn-outline-primary"
+                             (click)="updateInternshipApplication('APPROVED')">Approve</button>
+                    </div>
+                    <div class="col-md-12 text-end">
+                        <button *ngIf="applicationForcurrentInternship?.status === 'APPROVED'" class="btn btn-outline-primary"
+                             (click)="updateInternshipApplication('REJECTED')">Change to Reject</button>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <button *ngIf="applicationForcurrentInternship?.status === 'REJECTED'" class="btn btn-outline-primary"
+                             (click)="updateInternshipApplication('APPROVED')">Change to Approve</button>
                     </div>
                 </div>
 

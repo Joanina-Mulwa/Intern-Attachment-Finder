@@ -9,6 +9,7 @@ export class ApplyInternship {
     strength?: string;
     weakness?: string;
     resume?: string;
+    status?: Status;
     constructor(
         id?: number,
         internshipId?: number,
@@ -20,6 +21,7 @@ export class ApplyInternship {
         strength?: string,
         weakness?: string,
         resume?: string,
+        status?: Status,
     ) {
         this.id = id;
         this.internshipId = internshipId;
@@ -31,5 +33,11 @@ export class ApplyInternship {
         this.strength = strength;
         this.weakness = weakness;
         this.resume = resume;
+        this.status=status;
     }
+}
+export enum Status{
+    APPROVED = 'APPROVED',
+    REJECTED = 'REJECTED',
+    IGNORED = 'IGNORED',
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Route } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { UserService } from 'src/app/services/user.service';
-import { ApplyInternship } from '../../apply-internship/apply-internship-model';
+import { ApplyInternship, Status } from '../../apply-internship/apply-internship-model';
 import { UserBio } from '../../users/user-bio-model';
 
 @Component({
@@ -16,12 +16,16 @@ export class ApplicationComponent implements OnInit {
     protected applicationApplied: ApplyInternshipService,
     protected route: ActivatedRoute,
     protected userBio: UserService,
+    protected router: Router,
   ) { }
   userEmail!: string;
   applications?: ApplyInternship[];
   internshipId!: number;
   applicationForcurrentInternship?: ApplyInternship;
   userBioDetails!: UserBio;
+  
+  
+
 
   ngOnInit(): void {
  
@@ -72,6 +76,21 @@ export class ApplicationComponent implements OnInit {
       },
       (err)=>{console.log("Error fetching user bio")}
     )
+  }
+
+  updateInternshipApplication(status: any): void{
+    this.applicationForcurrentInternship!.status = status as Status;
+    console.log("About to application", this.applicationForcurrentInternship)
+    this.applicationApplied.updateInternshipApplication(this.applicationForcurrentInternship).subscribe(
+      (res)=>{
+        console.log("Updated internship to", res)
+        this.router.navigate(['/applicants', this.internshipId])
+       
+        //window.location.reload();
+    },
+      (err)=>{console.log("Error updating", err)}
+    )
+
   }
 
 }

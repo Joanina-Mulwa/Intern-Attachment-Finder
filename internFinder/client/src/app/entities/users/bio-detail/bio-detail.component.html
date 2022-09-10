@@ -1,8 +1,5 @@
 <div class="container-fluid member-detail">
-
     <div *ngIf="userBioDetail" class="container mb-5">
-
-
         <button class="btn btn-back btn-outline-secondary mb-3" (click)="back()">
             <span><i class="fas fa-arrow-left"></i></span> Back
         </button>
@@ -10,11 +7,7 @@
             <div class="donut multi"></div>
         </div>
         <div class="card">
-
             <div class="pl-3 pr-3 pt-3 pb-3">
-
-
-
                 <div class="row">
                     <div class="col-md-3 text-center ">
                         <div class="image-holder">
@@ -31,11 +24,8 @@
                             </svg>
                         </div>
                     </div>
-
                     <div class="col-md-9">
-
                         <div class="content">
-
                             <div class="row">
                                 <div class="col-md-6">
 
@@ -45,7 +35,7 @@
                                 </div>
                                 <div class="col-md-6 text-end">
                                     <button class="btn btn-outline-primary btn-edit-profile" *ngIf="isMe"
-                                        [routerLink]="['/user/edit']">Edit
+                                        [routerLink]="['/user/edit']"><i class="fas fa-user-edit"></i> Edit
                                         profile</button>
                                 </div>
                             </div>
@@ -152,6 +142,26 @@
             </div>
         </div>
 
+        <div *ngIf="userBioDetail.authority == 'STUDENT' && userBioDetail.about" class="card mt-3">
+
+
+            <h4 class="section-title mt-2 ml-3">About {{userBioDetail.name}}</h4>
+
+            <div class="mt-1 ml-3">
+                {{userBioDetail.about}}
+            </div>
+        </div>
+
+        <div *ngIf="userBioDetail.authority == 'STUDENT' && userBioDetail.experience" class="card mt-3">
+
+
+            <h4 class="section-title mt-2 ml-3">Experience</h4>
+
+            <div class="mt-1 ml-3" [innerHTML]="userBioDetail.experience">
+                {{userBioDetail.experience}}
+            </div>
+        </div>
+
         <div *ngIf="userBioDetail.authority == 'STUDENT' && userBioDetail.skillsList" class="card mt-3">
 
 
@@ -172,7 +182,9 @@
                 <tabset>
                     <tab heading="Internships Applied">
 
-
+                        <div class="donut-wrapper" *ngIf="loading">
+                            <div class="donut multi"></div>
+                        </div>
 
                         <div class="text-center my-5" *ngIf="applications?.length === 0 && !loading">
                             <p class="text-muted">You have not applied for any internships yet</p>
@@ -181,7 +193,7 @@
                             <div class="row">
                                 <div *ngFor="let internshipDetail of internshipDetails"
                                     class="col-12 col-lg-4 col-md-6 mb-2">
-                                    <div class="card profile-item" [routerLink]="['/internship', internshipDetail.id]">
+                                    <div class="card profile-item">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-3">
@@ -252,22 +264,253 @@
                         </div>
                     </tab>
                     <tab heading="Shortlisted Internships">
+
+                        <div class="donut-wrapper" *ngIf="loading">
+                            <div class="donut multi"></div>
+                        </div>
+                        <div class="text-center my-5" *ngIf="approvedInternshipsDetails?.length === 0 && !loading">
+                            <p class="text-muted">You have not been shortlisted in any internship</p>
+                        </div>
+
                         <div class="m-3">
-                            <div class="donut-wrapper" *ngIf="loading">
-                                <div class="donut multi"></div>
+                            <div class="row">
+                                <div *ngFor="let approvedInternshipDetails of approvedInternshipsDetails"
+                                    class="col-12 col-lg-4 col-md-6 mb-2">
+                                    <div class="card profile-item">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <!-- <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="card-img-top "
+                                                                onError="this.onerror=null; this.src='assets/images/plain-user.png' "> -->
+                                                    <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
+                                                    <!-- {{userBio.profileImageUrl}} -->
+                                                    <svg class="img-fluid rounded float-start" width="100%" height="43"
+                                                        xmlns="http://www.w3.org/2000/svg" role="img"
+                                                        aria-label="Placeholder: Responsive image"
+                                                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                                                        <title></title>
+                                                        <rect width="100%" height="100%" fill="#e1e1e1"></rect><text
+                                                            x="40%" y="50%" fill="#202a44" dy=".3em" font-size="large"
+                                                            font-weight="bold">{{approvedInternshipDetails?.companyName?.slice(0,
+                                                            1) |
+                                                            uppercase}}</text>
+                                                    </svg>
+                                                    <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
+                                                                            onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+                                                </div>
+                                                <div class="col-md-9">
+
+
+                                                    <div class="ml-1">
+
+                                                        <h4>{{approvedInternshipDetails?.internshipTitle}}</h4>
+                                                    </div>
+                                                    <div>
+                                                        <span *ngIf="approvedInternshipDetails?.companyName"
+                                                            class="company-name p-1 mx-0" title="Company">
+                                                            {{approvedInternshipDetails?.companyName}}
+                                                            <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="company-name p-1 mx-0">
+                                                            Location: {{approvedInternshipDetails?.location}}
+
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <i *ngIf="approvedInternshipDetails?.internshipStatus === 'ACTIVE'"
+                                                            class="fas fa-check-circle">
+                                                            {{approvedInternshipDetails?.internshipStatus}}</i>
+                                                        <i *ngIf="approvedInternshipDetails?.internshipStatus === 'CLOSED'"
+                                                            class="fas fa-times-circle">
+                                                            {{approvedInternshipDetails?.internshipStatus}}</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+
+
+                                                <div class="col-12 pe-0 text-end">
+
+                                                    <button class="btn btn-outline-secondary"
+                                                        [routerLink]="['/internship', approvedInternshipDetails.id]">see
+                                                        details <i class="fas fa-chevron-circle-right"></i></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
+                        </div>
+
+                    </tab>
+                    <tab heading="Rejected Internships">
+                        <div class="donut-wrapper" *ngIf="loading">
+                            <div class="donut multi"></div>
+                        </div>
+                        <div class="text-center my-5" *ngIf="rejectedInternshipsDetails?.length === 0 && !loading">
+                            <p class="text-muted">You have not been rejected in any internship</p>
+                        </div>
+
+                        <div class="m-3">
+                            <div class="row">
+                                <div *ngFor="let rejectedInternshipDetails of rejectedInternshipsDetails"
+                                    class="col-12 col-lg-4 col-md-6 mb-2">
+                                    <div class="card profile-item">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <!-- <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="card-img-top "
+                                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' "> -->
+                                                    <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
+                                                    <!-- {{userBio.profileImageUrl}} -->
+                                                    <svg class="img-fluid rounded float-start" width="100%" height="43"
+                                                        xmlns="http://www.w3.org/2000/svg" role="img"
+                                                        aria-label="Placeholder: Responsive image"
+                                                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                                                        <title></title>
+                                                        <rect width="100%" height="100%" fill="#e1e1e1"></rect><text
+                                                            x="40%" y="50%" fill="#202a44" dy=".3em" font-size="large"
+                                                            font-weight="bold">{{rejectedInternshipDetails?.companyName?.slice(0,
+                                                            1) |
+                                                            uppercase}}</text>
+                                                    </svg>
+                                                    <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
+                                                                        onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+                                                </div>
+                                                <div class="col-md-9">
 
 
-                            <div class="text-center my-5" *ngIf="applications?.length === 0 && !loading">
-                                <p class="text-muted">You have not been shortlisted in any internship</p>
+                                                    <div class="ml-1">
+
+                                                        <h4>{{rejectedInternshipDetails?.internshipTitle}}</h4>
+                                                    </div>
+                                                    <div>
+                                                        <span *ngIf="rejectedInternshipDetails?.companyName"
+                                                            class="company-name p-1 mx-0" title="Company">
+                                                            {{rejectedInternshipDetails?.companyName}}
+                                                            <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="company-name p-1 mx-0">
+                                                            Location: {{rejectedInternshipDetails?.location}}
+
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <i *ngIf="rejectedInternshipDetails?.internshipStatus === 'ACTIVE'"
+                                                            class="fas fa-check-circle">
+                                                            {{rejectedInternshipDetails?.internshipStatus}}</i>
+                                                        <i *ngIf="rejectedInternshipDetails?.internshipStatus === 'CLOSED'"
+                                                            class="fas fa-times-circle">
+                                                            {{rejectedInternshipDetails?.internshipStatus}}</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+
+
+                                                <div class="col-12 pe-0 text-end">
+
+                                                    <button class="btn btn-outline-secondary"
+                                                        [routerLink]="['/internship', rejectedInternshipDetails.id]">see
+                                                        details <i class="fas fa-chevron-circle-right"></i></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </tab>
-                    <!-- <tab heading="Rejected Internships">
-                            <div class="m-3">
-                                tab3
+                    <tab heading="Pending Internships">
+                        <div class="donut-wrapper" *ngIf="loading">
+                            <div class="donut multi"></div>
+                        </div>
+                        <div class="text-center my-5" *ngIf="pendingInternshipsDetails?.length === 0 && !loading">
+                            <p class="text-muted">All applications have response</p>
+                        </div>
+
+                        <div class="m-3">
+                            <div class="row">
+                                <div *ngFor="let pendingInternshipDetails of pendingInternshipsDetails"
+                                    class="col-12 col-lg-4 col-md-6 mb-2">
+                                    <div class="card profile-item" [>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <!-- <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="card-img-top "
+                                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' "> -->
+                                                    <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
+                                                    <!-- {{userBio.profileImageUrl}} -->
+                                                    <svg class="img-fluid rounded float-start" width="100%" height="43"
+                                                        xmlns="http://www.w3.org/2000/svg" role="img"
+                                                        aria-label="Placeholder: Responsive image"
+                                                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                                                        <title></title>
+                                                        <rect width="100%" height="100%" fill="#e1e1e1"></rect><text
+                                                            x="40%" y="50%" fill="#202a44" dy=".3em" font-size="large"
+                                                            font-weight="bold">{{pendingInternshipDetails?.companyName?.slice(0,
+                                                            1) |
+                                                            uppercase}}</text>
+                                                    </svg>
+                                                    <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
+                                                                        onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+                                                </div>
+                                                <div class="col-md-9">
+
+
+                                                    <div class="ml-1">
+
+                                                        <h4>{{pendingInternshipDetails?.internshipTitle}}</h4>
+                                                    </div>
+                                                    <div>
+                                                        <span *ngIf="pendingInternshipDetails?.companyName"
+                                                            class="company-name p-1 mx-0" title="Company">
+                                                            {{pendingInternshipDetails?.companyName}}
+                                                            <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="company-name p-1 mx-0">
+                                                            Location: {{pendingInternshipDetails?.location}}
+
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <i *ngIf="pendingInternshipDetails?.internshipStatus === 'ACTIVE'"
+                                                            class="fas fa-check-circle">
+                                                            {{pendingInternshipDetails?.internshipStatus}}</i>
+                                                        <i *ngIf="pendingInternshipDetails?.internshipStatus === 'CLOSED'"
+                                                            class="fas fa-times-circle">
+                                                            {{pendingInternshipDetails?.internshipStatus}}</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+
+
+                                                <div class="col-12 pe-0 text-end">
+
+                                                    <button class="btn btn-outline-secondary"
+                                                        [routerLink]="['/internship', pendingInternshipDetails.id]">see
+                                                        details <i class="fas fa-chevron-circle-right"></i></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                        </tab> -->
+                        </div>
+                    </tab>
 
                 </tabset>
             </div>
@@ -275,7 +518,7 @@
 
         <div id='tabEmployer' *ngIf="userBioDetail.authority == 'EMPLOYER'" class="justify-content">
             <tabset>
-                <tab  class="card" heading="Posted Internships">
+                <tab class="card" heading="Posted Internships ({{internshipsPostedByMe.length}})">
                     <div class="m-3">
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
@@ -292,7 +535,7 @@
                         <div class="row">
                             <div class="col-12 col-lg-3 col-md-6 mb-2"
                                 *ngFor="let internshipPostedByMe of internshipsPostedByMe">
-                                <div class="card profile-item " [routerLink]="['/internship', internshipPostedByMe.id]">
+                                <div class="card profile-item ">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-3">
@@ -364,7 +607,7 @@
                     </div>
 
                 </tab>
-                <tab class="card" heading="Active Internships">
+                <tab class="card" heading="Active Internships ({{activeInternshipsPostedByMe.length}})">
                     <div class="m-3">
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
@@ -380,10 +623,6 @@
                         <div class="row">
                             <div *ngFor="let activeInternshipPostedByMe of activeInternshipsPostedByMe"
                                 class="col-12 col-lg-3 col-md-6 mb-2">
-
-
-
-
                                 <div class="card profile-item ">
                                     <div class="card-body">
                                         <div class="row">
@@ -454,7 +693,7 @@
 
                     </div>
                 </tab>
-                <tab class="card" heading="Expired/Closed Internships">
+                <tab class="card" heading="Expired/Closed Internships ({{closedInternshipsPostedByMe.length}})">
                     <div class="m-3">
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
@@ -524,10 +763,48 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div class="row">
+                                            <div class="col-md-6 mt-3">
+
+                                                <i data-toggle="modal" data-target="#exampleModal"(click)="softDelete(closedInternshipPostedByMe.internshipTitle, closedInternshipPostedByMe.id)"
+                                                    class="myDIV fas fa-trash"></i>
+                                                <div class="hide">DELETE</div>
+
+                                            </div>
+                                          
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Delete {{deleteTitle}}
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Are you sure you want to delete internship {{deleteTitle}} ? </p>
+                                                            <p>This action is irreversible!</p>
+                                                        
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteInternship(deleteId)">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
 
-                                            <div class="col-12 pe-0 text-end">
+
+
+                                            <div class="col-md-6">
+
 
                                                 <button class="btn btn-outline-secondary"
                                                     [routerLink]="['/internship', closedInternshipPostedByMe.id]">see
@@ -539,6 +816,8 @@
                                 </div>
 
 
+
+
                             </div>
                         </div>
 
@@ -546,6 +825,40 @@
                 </tab>
 
             </tabset>
+        </div>
+
+        <div class="col-md-4 mt-3">
+           
+            
+            <div type="button" data-toggle="modal" data-target="#exampleModal2" class="btn btn-danger" (click)="softDeleteAccount()">Delete Account</div>
+               <!-- Modal -->
+               <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"
+               aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                   <div class="modal-content">
+                       <div class="modal-header">
+                           <h5 class="modal-title" id="exampleModalLabel">Delete {{userEmail}}
+                           </h5>
+                           <button type="button" class="close" data-dismiss="modal"
+                               aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                           </button>
+                       </div>
+                       <div class="modal-body">
+                           <p>Are you sure you want to delete your account {{userEmail}} ? </p>
+                           <p>This action is irreversible!</p>
+                       
+                       </div>
+                       <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary"
+                               data-dismiss="modal">Close</button>
+                           <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteAccount()">Delete</button>
+                       </div>
+                   </div>
+               </div>
+           </div>
+
+
         </div>
 
 

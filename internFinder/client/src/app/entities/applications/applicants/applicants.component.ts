@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
+import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { UserService } from 'src/app/services/user.service';
-import { ApplyInternship } from '../../apply-internship/apply-internship-model';
+import { ApplyInternship, Status } from '../../apply-internship/apply-internship-model';
 import { UserBio } from '../../users/user-bio-model';
 
 @Component({
@@ -15,16 +16,24 @@ export class ApplicantsComponent implements OnInit {
   constructor(
     protected appliedInternship: ApplyInternshipService,
     protected route: ActivatedRoute,
-    protected userService: UserService
+    protected userService: UserService,
+    protected postInternship: PostInternshipService
   ) { }
 
   currentInternshipId!: number;
   currentInternshipApplications?: ApplyInternship[];
   applicantsEmailsOfCurrentInternship: any[] = [];
   applicantsDetails: UserBio[] = [];
+  approvedApplicantsDetails: UserBio[] = [];
+  rejectedApplicantsDetails: UserBio[] = [];
+  pendingApplicantsDetails: UserBio[] = [];
   searchApplicantsDetails!: UserBio[];
   loading: boolean = false;
   searchText: string = '';
+  approvedApplicationForcurrentInternship?: ApplyInternship[]=[];
+  rejectedApplicationForcurrentInternship?: ApplyInternship[]=[];
+  pendingApplicationForcurrentInternship?: ApplyInternship[]=[];
+  internshipDetails: any;
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -33,7 +42,17 @@ export class ApplicantsComponent implements OnInit {
 
     });
     this.getApplicationsByInternshipId()
+    this.getCurrentInternshipDetails();
   }
+
+  getCurrentInternshipDetails(): void{
+    this.postInternship.findInternshipById(this.currentInternshipId).subscribe(
+      (res)=>{
+        this.internshipDetails=res;
+        console.log("This interenship was posted by", this.internshipDetails)},
+      (err)=>{console.log("error fetching internship details")}
+
+  )}
 
   getApplicationsByInternshipId(): void {
     this.loading=true;
@@ -45,6 +64,16 @@ export class ApplicantsComponent implements OnInit {
         //get emails of applicants
         this.currentInternshipApplications?.forEach((currentInternshipApplication) => {
           this.applicantsEmailsOfCurrentInternship.push(currentInternshipApplication.appliedBy)
+          if(currentInternshipApplication.status === Status.APPROVED){
+            this.approvedApplicationForcurrentInternship?.push(currentInternshipApplication)
+          }
+          else if(currentInternshipApplication.status === Status.REJECTED){
+            this.rejectedApplicationForcurrentInternship?.push(currentInternshipApplication);
+          }
+          else{
+            this.pendingApplicationForcurrentInternship?.push(currentInternshipApplication);
+
+          }
 
         })
         console.log("found the following applicants emails", this.applicantsEmailsOfCurrentInternship)
@@ -67,6 +96,55 @@ export class ApplicantsComponent implements OnInit {
             (err) => { console.log("Error fetching applicants details")}
           )
 
+        })
+        console.log("Approved application details are, ", this.approvedApplicationForcurrentInternship)
+        console.log("Rejected application details are, ", this.rejectedApplicationForcurrentInternship)
+        console.log("Pending application details are, ", this.pendingApplicationForcurrentInternship)
+
+
+        this.approvedApplicationForcurrentInternship?.forEach((approvedApplication)=>{
+          this.userService.findByEmail(approvedApplication.appliedBy).subscribe(
+            (res)=>{
+              this.approvedApplicantsDetails.push(res)
+              this.approvedApplicantsDetails.forEach((approvedApplicantDetails: any)=>{
+                if (approvedApplicantDetails.skills) {
+                  approvedApplicantDetails.skillsList = approvedApplicantDetails.skills.split(",");
+                      }
+              })
+              console.log("Approved Applicants details are, ", this.approvedApplicantsDetails)
+            },
+            (err)=>{console.log("Error fetching approved applicants details")}
+          )
+        })
+
+        this.rejectedApplicationForcurrentInternship?.forEach((rejectedApplication)=>{
+          this.userService.findByEmail(rejectedApplication.appliedBy).subscribe(
+            (res)=>{
+              this.rejectedApplicantsDetails.push(res)
+              this.rejectedApplicantsDetails.forEach((rejectedApplicantDetails: any)=>{
+                if (rejectedApplicantDetails.skills) {
+                  rejectedApplicantDetails.skillsList = rejectedApplicantDetails.skills.split(",");
+                      }
+              })
+              console.log("Rejected Applicants details are, ", this.rejectedApplicantsDetails)
+            },
+            (err)=>{console.log("Error fetching rejected applicants details")}
+          )
+        })
+
+        this.pendingApplicationForcurrentInternship?.forEach((pendingApplication)=>{
+          this.userService.findByEmail(pendingApplication.appliedBy).subscribe(
+            (res)=>{
+              this.pendingApplicantsDetails.push(res)
+              this.pendingApplicantsDetails.forEach((pendingApplicantDetails: any)=>{
+                if (pendingApplicantDetails.skills) {
+                  pendingApplicantDetails.skillsList = pendingApplicantDetails.skills.split(",");
+                      }
+              })
+              console.log("pending Applicants details are, ", this.pendingApplicantsDetails)
+            },
+            (err)=>{console.log("Error fetching pending applicants details")}
+          )
         })
 
       },

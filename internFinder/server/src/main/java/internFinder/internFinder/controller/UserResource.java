@@ -141,6 +141,13 @@ public class UserResource {
         userService.updateUser(userBioDTO);
     }
 
+    @DeleteMapping("/deleteUserAndActions/{email}")
+    public void deleteUserAndActions(@PathVariable String email){
+        log.info("REST request to delete user and actions {}", email);
+        userService.deleteUserAndActions(email);
+
+    }
+
     @GetMapping("/user/bio")
     public ResponseEntity<UserBioDTO> getUserBio() {
 
@@ -203,6 +210,8 @@ public class UserResource {
         return authority;
     }
 
+
+
     private boolean isPasswordLengthInvalid(String password) {
         return (
                 StringUtils.isEmpty(password) ||
@@ -210,4 +219,6 @@ public class UserResource {
                         password.length() > 100
         );
     }
+
+
 }

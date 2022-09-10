@@ -32,7 +32,7 @@ export class PostInternshipsComponent implements OnInit {
     responsibilities: '',
     important: '',
     internshipPeriod: '',
-    internshipStatus: '',
+    internshipStatus: 'ACTIVE',
     createdOn: '',
     createdBy: '',
     minimumQualification:'',

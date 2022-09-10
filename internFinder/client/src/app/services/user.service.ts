@@ -29,6 +29,10 @@ export class UserService {
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
   }
 
+  deleteUserAndActions(email: any): Observable <any>{
+    return this.httpClient.delete<any> (this.apiServerURL + "/api/deleteUserAndActions/" + email)
+  }
+
   findByEmail(email: any): Observable<any>{
     return this.httpClient.get<any>(this.apiServerURL + "/api/findByEmail/" + email)
   }

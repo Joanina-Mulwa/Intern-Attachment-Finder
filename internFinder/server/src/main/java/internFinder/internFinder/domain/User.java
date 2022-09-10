@@ -81,6 +81,10 @@ public class User {
 
     private String experienceLevel;
 
+    private String experience;
+
+    private String about;
+
 
     public User() {
     }
@@ -348,6 +352,22 @@ public class User {
         this.experienceLevel = experienceLevel;
     }
 
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -378,6 +398,8 @@ public class User {
                 ", companyNumberOfEmployees=" + companyNumberOfEmployees +
                 ", companyPostalAddress='" + companyPostalAddress + '\'' +
                 ", companyPhoneNumber='" + companyPhoneNumber + '\'' +
+                ", experience='" + experience + '\'' +
+                ", about='" + about + '\'' +
                 ", experienceLevel='" + experienceLevel + '\'' +
                 '}';
     }

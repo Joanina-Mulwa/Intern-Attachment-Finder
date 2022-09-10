@@ -60,13 +60,6 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <div *ngIf="internship.workPlaceType === 'ONSITE' || internship.workPlaceType === 'HYBRID'"
-                                            class="mb-3 col-md-6">
-                                            <label for="location">internship Location * </label>
-                                            <input type="text" class="form-control" name="location"
-                                                [(ngModel)]="internship.location">
-                                        </div>
-
                                         <div class="col-md-6">
                                             <label for="internshipType">Internship type *</label>
 
@@ -77,6 +70,14 @@
                                                 </option>
                                             </select>
                                         </div>
+                                        <div *ngIf="internship.workPlaceType === 'ONSITE' || internship.workPlaceType === 'HYBRID'"
+                                            class="mb-3 col-md-6">
+                                            <label for="location">internship Location * </label>
+                                            <input type="text" class="form-control" name="location"
+                                                [(ngModel)]="internship.location">
+                                        </div>
+
+                                    
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-md-6">
@@ -133,7 +134,7 @@
                                                 </select>
 
                                             </div>
-                                            <div class="col-md-6">
+                                            <!-- <div class="col-md-6">
                                                 <label for="vacancy">Vacancies Left * </label>
                                                 <select autocomplete="on" style="height: 35px; width: 588px;"
                                                     name="vacancy" type="text" [(ngModel)]="internship.vacancy">
@@ -143,7 +144,7 @@
                                                     </option>
                                                 </select>
 
-                                            </div>
+                                            </div> -->
 
                                         </div>
 
@@ -196,8 +197,7 @@
 
                                             <button class="btn btn-outline-primary form-control"
                                                 (click)="updateinternship()"
-                                                [disabled]="!internship.internshipTitle || !internship.workPlaceType || !internship.location ||
-                                                !internship.reportingDate || !internship.vacancy || !internship.description || !internship.skills">Update</button>
+                                                [disabled]="!internship.internshipTitle || !internship.minimumQualification || !internship.internshipType || !internship.reportingDate || !internship.workPlaceType || !internship.experienceLevel || !internship.internshipStatus || !internship.internshipPeriod|| !internship.description || !internship.skills">Update</button>
 
 
                                             <!-- <button *ngIf="userBio.id" class="btn btn-outline-primary form-control"

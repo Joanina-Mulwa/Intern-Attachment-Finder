@@ -9,7 +9,7 @@ export { userLogins } from 'src/app/account/auth/login/userLoginsModel'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   constructor(
@@ -37,6 +37,11 @@ export class LoginComponent implements OnInit {
     password: '',
     authority: ''
   };
+  userConfirm={
+    passwordConfirm: '',
+  }
+
+
 
 
   showPassword!: boolean;
@@ -62,29 +67,32 @@ export class LoginComponent implements OnInit {
   // }
 
   reset(): void {
-    this.isAuthorityButtonVisible=true;
+    this.isAuthorityButtonVisible = true;
     this.userLogins = {
       email: '',
       password: '',
       authority: ''
+    }
+    this.userConfirm={
+      passwordConfirm: '',
     }
   }
   setAuthority(authority: string): void {
     this.authority = authority as Authority;
     this.userLogins.authority = this.authority;
     console.log("User choose authority is", this.authority)
-    this.isAuthorityButtonVisible=false;
+    this.isAuthorityButtonVisible = false;
   }
 
-  changeAuthority(): void{
-    this.userLogins.authority='';
+  changeAuthority(): void {
+    this.userLogins.authority = '';
     console.log("User removed authority ", this.userLogins.authority)
-    this.isAuthorityButtonVisible=true
+    this.isAuthorityButtonVisible = true
 
   }
 
   loginUser(): void {
-    
+
 
     this.showRegister = false;
     console.log("User to be logged in : ", this.userLogins);
@@ -154,7 +162,7 @@ export class LoginComponent implements OnInit {
           console.log("here", res);
           if (res === Authority.EMPLOYER) {
             //this.router.navigate(['/users/edit'])
-            this.router.navigate(['internships']);
+            this.router.navigate(['users/', this.userLogins.email]);
           }
           else if (res === Authority.STUDENT) {
             this.router.navigate(['internships']);
@@ -206,34 +214,83 @@ export class LoginComponent implements OnInit {
           )
         }
         else {
-          if (this.userLogins.password.length <= 3) {
-            this.registerFailure = "Enter valid password(too short)"
+
+          if (!this.isValidEmail(this.userLogins.email)) {
+            this.registerFailure = "Enter valid valid email"
             setTimeout(
               () => {
-                this.reset();
+
                 this.registerFailure = '';
               }, 3000
             )
+
           }
           else {
-            this.userLogins.authority = this.authority;
-            console.log("user to be registered : ", this.userLogins)
 
-            this.userService.registerUser(this.userLogins).subscribe(
-              (res) => {
-                console.log(res)
-                this.registerSuccess = "Registration sucessfull. Login to proceed";
+            if (this.userLogins.password === this.userConfirm.passwordConfirm) {
+              if (this.userLogins.password.length < 8) {
+                this.registerFailure = "Too short password(Must contain atleast 8 characters)"
                 setTimeout(
                   () => {
-                    this.registerSuccess = '';
-                    this.reset();
-                    this.showRegister = false;
+
+                    this.registerFailure = '';
                   }, 3000
                 )
-
-
               }
-            )
+              else {
+                let pattern = new RegExp("^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$"); //Regex: At least 8 characters with at least 1 numericals (0-9),1 letters in Upper Case,1 Special Character (!@#$&*), 3 letters in Lower Case  "
+                //other regex
+                // "^(?=(.*[a-zA-Z]){1,})(?=(.*[0-9]){2,}).{8,}$"
+                // "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"
+                
+                if (pattern.test(this.userLogins.password)) {
+                  this.userLogins.authority = this.authority;
+                  console.log("user to be registered : ", this.userLogins)
+
+                  this.userService.registerUser(this.userLogins).subscribe(
+                    (res) => {
+                      console.log(res)
+                      this.registerSuccess = "Registration sucessfull. Login to proceed";
+                      setTimeout(
+                        () => {
+                          this.registerSuccess = '';
+                          this.reset();
+                          this.showRegister = false;
+                        }, 3000
+                      )
+
+
+                    }
+                  )
+                }
+
+
+
+                else {
+                  this.registerFailure = "Password must contain at least 1 numerical (0-9),1 letter in Upper Case,1 Special Character (!@#$&*), 3 letters in Lower Case"
+                  setTimeout(
+                    () => {
+
+                      this.registerFailure = '';
+                    }, 5000
+                  )
+
+                }
+              }
+
+            }
+            else {
+              this.registerFailure = "Password Mismatch"
+              setTimeout(
+                () => {
+
+                  this.registerFailure = '';
+                }, 3000
+              )
+
+            }
+
+
           }
 
         }
@@ -241,6 +298,15 @@ export class LoginComponent implements OnInit {
 
     )
 
+  }
+
+  isValidEmail(email: string): boolean {
+    let regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    if (regexp.test(email)) {
+      return true;
+    }
+
+    return false;
   }
 
 

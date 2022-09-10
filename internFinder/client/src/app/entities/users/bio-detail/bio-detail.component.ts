@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { UserService } from 'src/app/services/user.service';
-import { ApplyInternship } from '../../apply-internship/apply-internship-model';
+import { ApplyInternship, Status } from '../../apply-internship/apply-internship-model';
 import { InternshipStatus, PostInternship } from '../../post-internships/post-internship-model';
 import { Authority, UserBio } from '../user-bio-model';
 
@@ -18,7 +18,8 @@ export class BioDetailComponent implements OnInit {
     protected userService: UserService,
     protected route: ActivatedRoute,
     protected applyInternship: ApplyInternshipService,
-    protected postInternshipService: PostInternshipService
+    protected postInternshipService: PostInternshipService,
+    protected router: Router,
   ) { }
 
   userBioDetail?: UserBio;
@@ -28,13 +29,19 @@ export class BioDetailComponent implements OnInit {
   isMe: boolean = false;
   applications!: ApplyInternship[];
   allInternshipDetails!: PostInternship[];
+  approvedInternshipsDetails?: PostInternship[]=[];
+  rejectedInternshipsDetails?: PostInternship[]=[];
+  pendingInternshipsDetails?: PostInternship[]=[];
   internshipDetails: PostInternship[] = [];
   loading = false
-  appliedInternshipId!: number;
   internships!: PostInternship[];
   internshipsPostedByMe: PostInternship[] = [];
   activeInternshipsPostedByMe: PostInternship[]=[];
   closedInternshipsPostedByMe: PostInternship[]=[];
+  deleteId: any;
+  deleteTitle: any;
+  showNavbar: boolean = true;
+
 
 
 
@@ -54,9 +61,12 @@ export class BioDetailComponent implements OnInit {
     if (this.loggedInUserEmail === this.userEmail) {
       this.isMe = true;
     }
-    this.userService.findByEmail(this.userEmail).subscribe(
+    this.loading = true;
+    this.userService.findByEmail(this.userEmail).subscribe( 
       (res) => {
-        this.loading=false;
+        this.loading = true;
+        this.loading = false;
+        
         console.log("User details is", res)
         this.userBioDetail = res;
         let date = new Date().toJSON().slice(0, 10);
@@ -95,7 +105,6 @@ export class BioDetailComponent implements OnInit {
         }
         this.applications.forEach((application: any) => {
           console.log("internships aplied by, ", application.appliedBy)
-          this.appliedInternshipId = application.id;
           this.postInternshipService.findAll().subscribe(
             (res) => {
               this.allInternshipDetails = res;
@@ -104,6 +113,22 @@ export class BioDetailComponent implements OnInit {
                 if (application.internshipId === allInternshipDetail.id) {
                   this.internshipDetails.push(allInternshipDetail)
                   console.log("internhsip details are", this.internshipDetails)
+
+
+                  
+                  if(application.status === Status.APPROVED){
+                    this.approvedInternshipsDetails?.push(allInternshipDetail)
+                  }
+                  else if(application.status === Status.REJECTED){
+                    this.rejectedInternshipsDetails?.push(allInternshipDetail);
+                  }
+                  else{
+                    this.pendingInternshipsDetails?.push(allInternshipDetail);
+        
+                  }
+
+
+
                 }
                 this.loading = false;
               })
@@ -166,6 +191,42 @@ export class BioDetailComponent implements OnInit {
     window.history.back();
   }
 
+  softDelete(title: any,id: any): void{
+    this.deleteId = id;
+    this.deleteTitle=title;
+  }
+
+  deleteInternship(id: any):void{
+    console.log("Deleting internship of id", id);
+    this.postInternshipService.deleteInternship(id).subscribe(
+      (res)=>{
+        console.log("Deleted internship")
+        window.location.reload();
+      },
+      (err)=>{console.log("Error deleting internship")}
+    )
+    
+  }
+
+  softDeleteAccount(): void{
+    console.log("About to delete account of email", this.userEmail);
+    
+  }
+
+  deleteAccount():void{
+    console.log("Deleting account of email", this.userEmail);
+    this.userService.deleteUserAndActions(this.userEmail).subscribe(
+      (res)=>{
+        console.log("Deleted accoutnt")
+        this.router.navigate(['']);
+         this.showNavbar=false;
+         window.location.reload();
+      },
+      (err)=>{console.log("Error deleting account")}
+    )
+  
+    
+  }
 
 
 

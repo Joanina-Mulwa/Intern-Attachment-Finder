@@ -94,4 +94,9 @@ public class PostInternshipService {
         log.debug("Request to find internship by id {}", id);
         return postInternshipRepository.findById(id);
     }
+
+    public void deletePostedInternship(Long id){
+        log.debug("Request to delete posted internship {}", id);
+        postInternshipRepository.deleteById(id);
+    }
 }

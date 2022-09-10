@@ -1,6 +1,6 @@
 <div class="container-fluid ">
 
-    <div class="ml-5 pl-5">
+    <div *ngIf="!loading && currentInternshipApplications?.length != 0" class="ml-5 pl-5">
         <div class="ml-5 pl-5"></div>
 
 
@@ -19,93 +19,381 @@
 
 
 
-    <div class="donut-wrapper" *ngIf="loading">
-        <div class="donut multi"></div>
-    </div>
 
-    <div class="text-center my-5" *ngIf="applicantsDetails?.length === 0 && !loading">
-        <p class="text-muted">No Application submitted</p>
-    </div>
     <div class="container">
-
-        <div class="row">
-
-            <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let applicantDetails of applicantsDetails">
-                <div class="card profile-item">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-2 col-2 pt-2">
-                                <img *ngIf="applicantDetails.profileImageUrl" src={{applicantDetails.profileImageUrl}}
-                                    class="card-img-top "
-                                    onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
-                                <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
-                                <!-- {{applicantDetails.profileImageUrl}} -->
-                                <svg *ngIf="!applicantDetails.profileImageUrl" class="img-fluid rounded float-start"
-                                    width="100%" height="43" xmlns="http://www.w3.org/2000/svg" role="img"
-                                    aria-label="Placeholder: Responsive image" preserveAspectRatio="xMidYMid slice"
-                                    focusable="false">
-                                    <title></title>
-                                    <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%"
-                                        fill="#202a44" dy=".3em" font-size="large"
-                                        font-weight="bold">{{applicantDetails?.email?.slice(0, 1) | uppercase}}</text>
-                                </svg>
-                                <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
-                                      onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
-                            </div>
-                            <div class="STUDENT col-md-10 col-10">
-                                <div class="row">
-                                    <div class="col-8" style="cursor: pointer">
-                                        <h4>
-                                            {{applicantDetails.username}}
-
-                                        </h4>
-
-                                    </div>
-
-                                    <div class="col-4 pe-0 text-end">
-                                        <span *ngIf="applicantDetails.authority" class="company-name p-1 mx-0">
-                                            {{applicantDetails?.authority}}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <p class="company-industry" [routerLink]="['/users', applicantDetails.email]">
-                                    {{applicantDetails.email}}
-
-                                </p>
-
-
-
-                                <div>
-                                    <div class="alert alert-secondary tech-secondary p-1 mx-1"
-                                        *ngFor="let skill of applicantDetails.skillsList" [innerHTML]="skill">
-
-                                        #{{skill}}
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="row m-2 ">
-                        <div class="col-md-6">
-                            <button class="btn btn-outline-secondary"
-                                [routerLink]="['/users', applicantDetails.email]">View Profile</button>
-                        </div>
-                        <div class="col-md-6 text-end">
-                            <button class="btn btn-outline-primary"
-                                [routerLink]="['/applied', currentInternshipId, applicantDetails.email]">View Application</button>
-                        </div>
-                    </div>
+        <tabset>
+            <tab class="card" heading="Applications ({{currentInternshipApplications?.length}})">
+                <div class="donut-wrapper" *ngIf="loading">
+                    <div class="donut multi"></div>
                 </div>
 
+                <div class="text-center my-5" *ngIf="!loading && currentInternshipApplications?.length === 0">
+                    <p class="text-muted">No Application submitted</p>
+                </div>
+                <div class="m-3 row">
 
-            </div>
+                    <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let applicantDetails of applicantsDetails">
+                        <div class="card profile-item">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2 col-2 pt-2">
+                                        <img *ngIf="applicantDetails.profileImageUrl"
+                                            src={{applicantDetails.profileImageUrl}} class="card-img-top "
+                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                        <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
+                                        <!-- {{applicantDetails.profileImageUrl}} -->
+                                        <svg *ngIf="!applicantDetails.profileImageUrl"
+                                            class="img-fluid rounded float-start" width="100%" height="43"
+                                            xmlns="http://www.w3.org/2000/svg" role="img"
+                                            aria-label="Placeholder: Responsive image"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <title></title>
+                                            <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%"
+                                                fill="#202a44" dy=".3em" font-size="large"
+                                                font-weight="bold">{{applicantDetails?.email?.slice(0, 1) |
+                                                uppercase}}</text>
+                                        </svg>
+                                        <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
+                                              onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+                                    </div>
+                                    <div class="STUDENT col-md-10 col-10">
+                                        <div class="row">
+                                            <div class="col-8" style="cursor: pointer">
+                                                <h4 [routerLink]="['/users', applicantDetails.email]">
+                                                    {{applicantDetails.name}}
+
+                                                </h4>
+
+                                            </div>
+
+                                            <div class="col-4 pe-0 text-end">
+                                                <span *ngIf="applicantDetails.authority" class="company-name p-1 mx-0">
+                                                    {{applicantDetails?.authority}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <p>{{applicantDetails.email}}</p>
+
+                                        <div>
+                                            <div class="alert alert-secondary tech-secondary p-1 mx-1"
+                                                *ngFor="let skill of applicantDetails.skillsList" [innerHTML]="skill">
+
+                                                #{{skill}}
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row m-2 ">
+                                <!-- <div class="col-md-6">
+                                    <button class="btn btn-outline-secondary"
+                                        [routerLink]="['/users', applicantDetails.email]">View Profile</button>
+                                </div> -->
+                                <div class="col-md-12 text-end">
+                                    <button class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, applicantDetails.email]">View
+                                        Application</button>
+                                </div>
+                            </div>
+                        </div>
 
 
-        </div>
+                    </div>
+
+
+                </div>
+            </tab>
+
+            <tab class="card" heading="Approved ({{approvedApplicantsDetails.length}})">
+                <div class="donut-wrapper" *ngIf="loading">
+                    <div class="donut multi"></div>
+                </div>
+
+                <div class="text-center my-5" *ngIf="!loading && approvedApplicantsDetails?.length === 0">
+                    <p class="text-muted">No Application approved</p>
+                </div>
+                <div class="m-3 row">
+
+                    <div class="col-12 col-lg-4 col-md-6 mb-2"
+                        *ngFor="let approvedApplicantDetails of approvedApplicantsDetails">
+                        <div class="card profile-item">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2 col-2 pt-2">
+                                        <img *ngIf="approvedApplicantDetails.profileImageUrl"
+                                            src={{approvedApplicantDetails.profileImageUrl}} class="card-img-top "
+                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                        <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
+                                        <!-- {{approvedApplicantDetails.profileImageUrl}} -->
+                                        <svg *ngIf="!approvedApplicantDetails.profileImageUrl"
+                                            class="img-fluid rounded float-start" width="100%" height="43"
+                                            xmlns="http://www.w3.org/2000/svg" role="img"
+                                            aria-label="Placeholder: Responsive image"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <title></title>
+                                            <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%"
+                                                fill="#202a44" dy=".3em" font-size="large"
+                                                font-weight="bold">{{approvedApplicantDetails?.email?.slice(0, 1) |
+                                                uppercase}}</text>
+                                        </svg>
+                                        <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
+                                              onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+                                    </div>
+                                    <div class="STUDENT col-md-10 col-10">
+                                        <div class="row">
+                                            <div class="col-8" style="cursor: pointer">
+                                                <h4 [routerLink]="['/users', approvedApplicantDetails.email]">
+                                                    {{approvedApplicantDetails.name}}
+
+                                                </h4>
+
+                                            </div>
+
+                                            <div class="col-4 pe-0 text-end">
+                                                <span *ngIf="approvedApplicantDetails.authority"
+                                                    class="company-name p-1 mx-0">
+                                                    {{approvedApplicantDetails?.authority}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <p class="company-industry">
+                                             <a innerHTML="text"
+                                                href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{approvedApplicantDetails.email}}&su=Congratulations! You have been approved for the {{internshipDetails.internshipTitle}} by {{internshipDetails.companyName}}&body=Hello {{approvedApplicantDetails.name}},We extend our heartiest congratulations and best wishes to you for being shortlisted for the internship : {{internshipDetails.internshipTitle}}. {{internshipDetails.companyName}} had received many applications, out of which only a few were shortlisted based on the Applicant letter sent via Intern Finder system website. {{internshipDetails.companyName}} is very honored to welcome you under our roof for an internship. Your Resume enlightens the person within you very accurately. It is compact, solid, and robust. We are very impressed with the application letter you wrote. You are the ideal intern we are looking for. {{internshipDetails.internshipTitle}} has always been an epitome of success, fame, and producing the best-skilled personnel for the country. It is a great choice you have made for an internship in your domain. It has a lot to yield to you. We hope this internship with us will be a fruitful and rewarding one for you. We wish you all the success. Welcome to the world of {{internshipDetails.companyName}}."
+                                                target="_blank">{{approvedApplicantDetails.email}} <small>(Send approval mail)</small></a>
+
+
+                                        </p>
+
+
+
+                                        <div>
+                                            <div class="alert alert-secondary tech-secondary p-1 mx-1"
+                                                *ngFor="let skill of approvedApplicantDetails.skillsList"
+                                                [innerHTML]="skill">
+
+                                                #{{skill}}
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row m-2 ">
+                                <!-- <div class="col-md-6">
+                                    <button class="btn btn-outline-secondary"
+                                        [routerLink]="['/users', approvedApplicantDetails.email]">View Profile</button>
+                                </div> -->
+                                <div class="col-md-12 text-end">
+                                    <button class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, approvedApplicantDetails.email]">View
+                                        Application</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </tab>
+            <tab class="card" heading="Rejected ({{rejectedApplicantsDetails.length}})">
+                <div class="donut-wrapper" *ngIf="loading">
+                    <div class="donut multi"></div>
+                </div>
+
+                <div class="text-center my-5" *ngIf="!loading && rejectedApplicantsDetails?.length === 0">
+                    <p class="text-muted">No Application rejected</p>
+                </div>
+                <div class="m-3 row">
+
+                    <div class="col-12 col-lg-4 col-md-6 mb-2"
+                        *ngFor="let rejectedApplicantDetails of rejectedApplicantsDetails">
+                        <div class="card profile-item">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2 col-2 pt-2">
+                                        <img *ngIf="rejectedApplicantDetails.profileImageUrl"
+                                            src={{rejectedApplicantDetails.profileImageUrl}} class="card-img-top "
+                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                        <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
+                                        <!-- {{rejectedApplicantDetails.profileImageUrl}} -->
+                                        <svg *ngIf="!rejectedApplicantDetails.profileImageUrl"
+                                            class="img-fluid rounded float-start" width="100%" height="43"
+                                            xmlns="http://www.w3.org/2000/svg" role="img"
+                                            aria-label="Placeholder: Responsive image"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <title></title>
+                                            <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%"
+                                                fill="#202a44" dy=".3em" font-size="large"
+                                                font-weight="bold">{{rejectedApplicantDetails?.email?.slice(0, 1) |
+                                                uppercase}}</text>
+                                        </svg>
+                                        <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
+                                              onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+                                    </div>
+                                    <div class="STUDENT col-md-10 col-10">
+                                        <div class="row">
+                                            <div class="col-8" style="cursor: pointer">
+                                                <h4 [routerLink]="['/users', rejectedApplicantDetails.email]">
+                                                    {{rejectedApplicantDetails.name}}
+
+                                                </h4>
+
+                                            </div>
+
+                                            <div class="col-4 pe-0 text-end">
+                                                <span *ngIf="rejectedApplicantDetails.authority"
+                                                    class="company-name p-1 mx-0">
+                                                    {{rejectedApplicantDetails?.authority}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <p class="company-industry">
+                                            {{rejectedApplicantDetails.email}}
+
+
+                                        </p>
+
+
+
+                                        <div>
+                                            <div class="alert alert-secondary tech-secondary p-1 mx-1"
+                                                *ngFor="let skill of rejectedApplicantDetails.skillsList"
+                                                [innerHTML]="skill">
+
+                                                #{{skill}}
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row m-2 ">
+                                <!-- <div class="col-md-6">
+                                    <button class="btn btn-outline-secondary"
+                                        [routerLink]="['/users', rejectedApplicantDetails.email]">View Profile</button>
+                                </div> -->
+                                <div class="col-md-12 text-end">
+                                    <button class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, rejectedApplicantDetails.email]">View
+                                        Application</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </tab>
+            <tab class="card" heading="Pending ({{pendingApplicantsDetails.length }})">
+                <div class="donut-wrapper" *ngIf="loading">
+                    <div class="donut multi"></div>
+                </div>
+
+                <div class="text-center my-5" *ngIf="!loading && pendingApplicantsDetails?.length === 0">
+                    <p class="text-muted">You have responded to all applications</p>
+                </div>
+                <div class="m-3 row">
+
+                    <div class="col-12 col-lg-4 col-md-6 mb-2"
+                        *ngFor="let pendingApplicantDetails of pendingApplicantsDetails">
+                        <div class="card profile-item">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2 col-2 pt-2">
+                                        <img *ngIf="pendingApplicantDetails.profileImageUrl"
+                                            src={{pendingApplicantDetails.profileImageUrl}} class="card-img-top "
+                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                        <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
+                                        <!-- {{pendingApplicantDetails.profileImageUrl}} -->
+                                        <svg *ngIf="!pendingApplicantDetails.profileImageUrl"
+                                            class="img-fluid rounded float-start" width="100%" height="43"
+                                            xmlns="http://www.w3.org/2000/svg" role="img"
+                                            aria-label="Placeholder: Responsive image"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <title></title>
+                                            <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%"
+                                                fill="#202a44" dy=".3em" font-size="large"
+                                                font-weight="bold">{{pendingApplicantDetails?.email?.slice(0, 1) |
+                                                uppercase}}</text>
+                                        </svg>
+                                        <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
+                                              onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+                                    </div>
+                                    <div class="STUDENT col-md-10 col-10">
+                                        <div class="row">
+                                            <div class="col-8" style="cursor: pointer">
+                                                <h4 [routerLink]="['/users', pendingApplicantDetails.email]">
+                                                    {{pendingApplicantDetails.username}}
+
+                                                </h4>
+
+                                            </div>
+
+                                            <div class="col-4 pe-0 text-end">
+                                                <span *ngIf="pendingApplicantDetails.authority"
+                                                    class="company-name p-1 mx-0">
+                                                    {{pendingApplicantDetails?.authority}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <p class="company-industry">
+                                            {{pendingApplicantDetails.email}}
+
+
+                                        </p>
+
+
+
+                                        <div>
+                                            <div class="alert alert-secondary tech-secondary p-1 mx-1"
+                                                *ngFor="let skill of pendingApplicantDetails.skillsList"
+                                                [innerHTML]="skill">
+
+                                                #{{skill}}
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row m-2 ">
+                                <!-- <div class="col-md-6">
+                                    <button class="btn btn-outline-secondary"
+                                        [routerLink]="['/users', pendingApplicantDetails.email]">View Profile</button>
+                                </div> -->
+                                <div class="col-md-12 text-end">
+                                    <button class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, pendingApplicantDetails.email]">View
+                                        Application</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </tab>
+        </tabset>
+
+
 
     </div>
 

@@ -18,6 +18,9 @@ export class PostInternshipService {
   updateInternship(internship: any):Observable<any>{
     return this.httpClient.put<any>(this.apiServerURL + "/api/updateInternship" , internship);
   }
+  deleteInternship(id: number): Observable<any>{
+    return this.httpClient.delete<any>( this.apiServerURL + "/api/deleteIntenship/" + id);
+  }
   findAll(): Observable<PostInternship[]>{
     return this.httpClient.get<PostInternship[]>(this.apiServerURL+ "/api/findAllInternships");
   }

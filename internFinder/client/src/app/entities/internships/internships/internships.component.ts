@@ -21,7 +21,8 @@ export class InternshipsComponent implements OnInit {
   ) {
   }
   category: Boolean = false;
-  internships!: PostInternship[];
+  internships: PostInternship[]=[];
+  allInternships!:PostInternship[];
   username!: string;
   loading = false;
   searchText: string = '';
@@ -71,9 +72,16 @@ export class InternshipsComponent implements OnInit {
       (res) => {
         this.loading = true;
         this.loading = false;
-        console.log("Found internships ", res)
+        console.log("Found all internships ", res)
+        this.allInternships=res;
+        this.allInternships.forEach((internship)=>{
+          if(internship.internshipStatus === InternshipStatus.ACTIVE){
+            this.internships.push(internship)
+          }
+        })
         let date = new Date().toJSON().slice(0, 10);
-        this.internships = res;
+        console.log("Found active internships ", this.internships)
+        //this.internships = res;
 
         this.internships.forEach((internship: any) => {
           internship.skillsList = internship.skills.split(",");

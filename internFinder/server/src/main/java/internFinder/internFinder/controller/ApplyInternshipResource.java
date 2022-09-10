@@ -11,10 +11,10 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-public class ApplyInternshipController {
+public class ApplyInternshipResource {
     private final ApplyInternshipService applyInternshipService;
 
-    public ApplyInternshipController(ApplyInternshipService applyInternshipService) {
+    public ApplyInternshipResource(ApplyInternshipService applyInternshipService) {
         this.applyInternshipService = applyInternshipService;
     }
 
@@ -22,6 +22,12 @@ public class ApplyInternshipController {
     public ApplyInternship createApplication(@RequestBody ApplyInternship applyInternship){
         log.debug("REST request to apply internship {}", applyInternship );
         return applyInternshipService.createApplication(applyInternship);
+    }
+
+    @PutMapping("/updateInternshipApplication")
+    public ApplyInternship updateApplication(@RequestBody ApplyInternship applyInternship){
+        log.debug("REST request to update internship application {}", applyInternship );
+        return applyInternshipService.updateApplication(applyInternship);
     }
 
     @GetMapping("/findByAppliedBy/{appliedBy}")

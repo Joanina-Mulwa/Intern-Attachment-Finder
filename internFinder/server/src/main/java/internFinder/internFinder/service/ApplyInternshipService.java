@@ -1,5 +1,6 @@
 package internFinder.internFinder.service;
 
+import internFinder.internFinder.Security.UserNotFoundException;
 import internFinder.internFinder.domain.ApplyInternship;
 import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.domain.User;
@@ -31,7 +32,23 @@ public class ApplyInternshipService {
         application.setStrength(applyInternship.getStrength());
         application.setWeakness(applyInternship.getWeakness());
         application.setResume(applyInternship.getResume());
+        application.setStatus(applyInternship.getStatus());
         return applyInternshipRepository.save(application);
+    }
+
+    public ApplyInternship updateApplication(ApplyInternship applyInternship) throws UserNotFoundException{
+        log.debug("Request to update application : {}", applyInternship);
+
+        //get application
+        Optional<ApplyInternship> applyInternshipOptional = this.applyInternshipRepository.findById(applyInternship.getId());
+        if(applyInternshipOptional.isPresent()){
+            ApplyInternship applyInternship1 = applyInternshipOptional.get();
+            applyInternship1.setStatus(applyInternship.getStatus());
+            return applyInternshipRepository.save(applyInternship1);
+        }
+        else {
+            throw new UserNotFoundException("No user found with id " + applyInternship.getId());
+        }
     }
 
     public List<ApplyInternship> findByAppliedBy(String appliedBy){

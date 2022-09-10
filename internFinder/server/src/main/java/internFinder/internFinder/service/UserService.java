@@ -1,20 +1,21 @@
 package internFinder.internFinder.service;
 
 import internFinder.internFinder.Security.UserNotFoundException;
+import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.domain.User;
-import internFinder.internFinder.domain.enumarations.Category;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
 import internFinder.internFinder.dto.UserBioDTO;
+import internFinder.internFinder.repository.PostInternshipRepository;
 import internFinder.internFinder.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
-import static internFinder.internFinder.domain.enumarations.UserAuthority.STUDENT;
+
 import static internFinder.internFinder.domain.enumarations.UserPermission.*;
 
 @Slf4j
@@ -22,10 +23,13 @@ import static internFinder.internFinder.domain.enumarations.UserPermission.*;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private final PostInternshipRepository postInternshipRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PostInternshipRepository postInternshipRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.postInternshipRepository = postInternshipRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -142,8 +146,6 @@ public class UserService {
 
         //get the user
         Optional<User> userOptional = this.userRepository.findById(userBioDTO.getEmail());
-
-
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setAuthority(userBioDTO.getAuthority());
@@ -168,6 +170,8 @@ public class UserService {
             user.setCompanyPostalAddress(userBioDTO.getCompanyPostalAddress());
             user.setCompanyPhoneNumber(userBioDTO.getCompanyPhoneNumber());
             user.setExperienceLevel(userBioDTO.getExperienceLevel());
+            user.setExperience(userBioDTO.getExperience());
+            user.setAbout(userBioDTO.getAbout());
 
             //Update the user info
             return userRepository.save(user);
@@ -179,13 +183,31 @@ public class UserService {
 
     }
 
-
-
-
     public Optional<User> getUserById(Long id) {
         log.debug("Request to get user by id {}", id);
 
         return this.userRepository.findById(String.valueOf(id));
 
     }
+
+    @Transactional
+    public void deleteUserAndActions (String email){
+        log.debug("Request to delete user and their actions of email {} ", email);
+        this.userRepository.deleteById(email);
+        this.deleteActions(email);
+
+    }
+
+    public void deleteActions(String email){
+        if(this.postInternshipRepository.findByCompanyEmail(email) == null){
+            log.debug("Request to delete user has not posted anything : email {} ", email);
+        }
+        else{
+        this.postInternshipRepository.deleteById(this.postInternshipRepository.findByCompanyEmail(email).id);
+        }
+    }
+
+
+
+
 }

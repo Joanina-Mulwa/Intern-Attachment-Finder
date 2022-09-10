@@ -31,6 +31,14 @@ public class PostInternshipResource {
         log.debug("Rest request to create internship {} ", postInternship);
         return postInternshipService.updateInternship(postInternship);
     }
+
+    @DeleteMapping("/deleteIntenship/{id}")
+    public void deletePostedInternship(@PathVariable Long id){
+        log.debug("Rest request to delete internship of id {} ",id);
+        postInternshipService.deletePostedInternship(id);
+    }
+
+
     @GetMapping("/findAllInternships")
     public List<PostInternship> findAllInternships(){
         log.debug("REST request to find all internships");

@@ -38,11 +38,11 @@
                             <li style='padding:5px' class="dropdown-submenu">({{userEmail}})</li>
                             <li class="dropdown-divider"></li>
                             <button class="btn btn-outline-secondary dropdown-item"
-                                [routerLink]="['/users', userEmail]">Profile</button>
+                                [routerLink]="['/users', userEmail]"><i class="far fa-user-circle"></i>&nbsp;&nbsp;Profile </button>
                             <li class="dropdown-divider"></li>
 
 
-                            <button class="btn btn-outline-secondary dropdown-item" (click)="logOut()">Log out</button>
+                            <button class="btn btn-outline-secondary dropdown-item" (click)="logOut()"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp; Log out </button>
 
                         </ul>
                     </div>

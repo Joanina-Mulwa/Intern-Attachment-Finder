@@ -81,12 +81,30 @@
                                         </div>
                                         <div class="row">
                                             <div class="mb-3 col-md-6">
+                                                <label for="about">About me </label>
+
+                                                <angular-editor class="editor form-control"
+                                                    [placeholder]="'Tell us about you'" cols="55" rows="155" name="about" style="height: auto"
+                                                    [(ngModel)]="profile.about">
+                                                </angular-editor>
+                                            </div>
+                                            <div class="mb-3 col-md-6">
                                                 <label for="skills">Skills <small>( Add skills with comma
                                                         separation)</small></label>
 
                                                 <angular-editor class="editor form-control"
                                                     [placeholder]="'Enter skills'" cols="55" rows="155" name="skills" style="height: auto"
                                                     [(ngModel)]="profile.skills">
+                                                </angular-editor>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="mb-3 col-md-6">
+                                                <label for="experience">Experience </label>
+
+                                                <angular-editor class="editor form-control"
+                                                    [placeholder]="'Enter experience'" cols="55" rows="155" name="experience" style="height: auto"
+                                                    [(ngModel)]="profile.experience">
                                                 </angular-editor>
                                             </div>
                                             <div class=" mb-3 col-md-6">

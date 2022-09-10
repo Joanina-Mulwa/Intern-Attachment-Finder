@@ -28,4 +28,21 @@
    
   .left-addon input  { padding-left:  30px; }
   .right-addon input { padding-right: 30px; }
+
+.action{
+  &:hover {
+    
+
+    .register{
+      text-decoration: underline;
+    }
+    .login{
+      text-decoration: underline;
+    }
+
+    .dropdown {
+      opacity: 1;
+    }
+  }
+}
   

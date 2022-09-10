@@ -31,7 +31,6 @@ userEmail: any;
     course: '',
     skills: '',
     skillsList: '',
-    experience: '',
     //Company
     companyName: '',
     companyEmail: '',
@@ -45,6 +44,8 @@ userEmail: any;
     companyNumberOfEmployees: '',
     companyPostalAddress:'',
     experienceLevel:'',
+    experience: '',
+    about:'',
 
 
   }
@@ -149,6 +150,7 @@ userEmail: any;
   }
 
   updateUser2(): void{
+    //testing
     console.log("User details to update is", this.profile)
     this.profile.profileImageUrl = this.url;
     console.log("User details to update is", this.profile)
@@ -166,17 +168,12 @@ userEmail: any;
   }
 
   updateUser():void{
-    
     console.log("User details to update is", this.profile)
-    this.profile.profileImageUrl = this.url;
-    console.log("User details to update is", this.profile)
-
-
     this.userService.updateUser(this.profile).subscribe(
       (res)=>{
         console.log("Updated user to ,",this.profile);
         this.router.navigate(['users/',this.profile.email])
-        window.history.back();
+       // window.history.back();
       },
       (err)=>{console.log("error updating user", err)}
     )
