@@ -2,6 +2,7 @@ package internFinder.internFinder.controller;
 
 import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.domain.User;
+import internFinder.internFinder.domain.enumarations.InternshipStatus;
 import internFinder.internFinder.service.PostInternshipService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +53,6 @@ public class PostInternshipResource {
         if (text == null) {
             text = "";
         }
-
         return postInternshipService.search(text);
     }
 

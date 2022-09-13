@@ -3,6 +3,7 @@ package internFinder.internFinder.domain;
 import com.sun.istack.NotNull;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
+import internFinder.internFinder.domain.enumarations.UserStatus;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,6 +29,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserAuthority authority;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
 
     @Enumerated(EnumType.STRING)
     private IdentityProvider identityProvider;
@@ -186,6 +190,14 @@ public class User {
 
     public void setAuthority(UserAuthority authority) {
         this.authority = authority;
+    }
+
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 
     public void setIdentityProvider(IdentityProvider identityProvider) {
@@ -374,6 +386,7 @@ public class User {
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", authority=" + authority +
+                ", userStatus=" + userStatus +
                 ", identityProvider=" + identityProvider +
                 ", name='" + name + '\'' +
                 ", active=" + active +
@@ -398,9 +411,9 @@ public class User {
                 ", companyNumberOfEmployees=" + companyNumberOfEmployees +
                 ", companyPostalAddress='" + companyPostalAddress + '\'' +
                 ", companyPhoneNumber='" + companyPhoneNumber + '\'' +
+                ", experienceLevel='" + experienceLevel + '\'' +
                 ", experience='" + experience + '\'' +
                 ", about='" + about + '\'' +
-                ", experienceLevel='" + experienceLevel + '\'' +
                 '}';
     }
 }

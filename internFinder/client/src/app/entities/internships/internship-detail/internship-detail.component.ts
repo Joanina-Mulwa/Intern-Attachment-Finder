@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -21,6 +21,7 @@ export class InternshipDetailComponent implements OnInit {
     protected route: ActivatedRoute,
     protected userService: UserService,
     protected applyInternship: ApplyInternshipService,
+    protected router: Router,
   ) { }
   category: Boolean = false;
   internshipDetail!: PostInternship;
@@ -35,6 +36,8 @@ export class InternshipDetailComponent implements OnInit {
   //appliedInternshipId: number = 1;
   appliedInternshipIdArray: number[] = []
 
+
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.internshipId = params['id'];
@@ -44,6 +47,13 @@ export class InternshipDetailComponent implements OnInit {
     // this.findAllinternships();
     this.getCurrentLoggedInUsername();
     this.checkIfAppliedByMe();
+  
+  }
+
+  back():void{
+
+    window.history.back();
+  
   }
 
   getCurrentLoggedInUsername(): any {

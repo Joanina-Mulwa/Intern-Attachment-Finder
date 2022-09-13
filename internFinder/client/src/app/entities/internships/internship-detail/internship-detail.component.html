@@ -4,8 +4,8 @@
 
         <div class="row">
             <div class="col-md-10">
-                <button class="btn btn-back btn-outline-secondary mb-3 " [routerLink]="['/internships']">
-                    <span><i class="fas fa-arrow-left"></i></span> Internships
+                <button class="btn btn-back btn-outline-secondary mb-3 " (click)="back()">
+                    <span><i class="fas fa-arrow-left"></i></span> Back
                 </button>
             </div>
             <div *ngIf="isPostedByMe" class="col-md-2">

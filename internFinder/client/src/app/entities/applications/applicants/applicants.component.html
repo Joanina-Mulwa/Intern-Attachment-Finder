@@ -106,6 +106,92 @@
 
                 </div>
             </tab>
+            <tab lass="card" heading="Shortlisted ({{shortlistedApplicantsDetails.length}})">
+                <div class="donut-wrapper" *ngIf="loading">
+                    <div class="donut multi"></div>
+                </div>
+
+                <div class="text-center my-5" *ngIf="!loading && shortlistedApplicantsDetails?.length === 0">
+                    <p class="text-muted">No Shortlisted applications</p>
+                </div>
+                <div class="m-3 row">
+
+                    <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let shortlistedApplicantDetails of shortlistedApplicantsDetails">
+                        <div class="card profile-item">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2 col-2 pt-2">
+                                        <img *ngIf="shortlistedApplicantDetails.profileImageUrl"
+                                            src={{shortlistedApplicantDetails.profileImageUrl}} class="card-img-top "
+                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                        <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
+                                        <!-- {{shortlistedApplicantDetails.profileImageUrl}} -->
+                                        <svg *ngIf="!shortlistedApplicantDetails.profileImageUrl"
+                                            class="img-fluid rounded float-start" width="100%" height="43"
+                                            xmlns="http://www.w3.org/2000/svg" role="img"
+                                            aria-label="Placeholder: Responsive image"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <title></title>
+                                            <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%"
+                                                fill="#202a44" dy=".3em" font-size="large"
+                                                font-weight="bold">{{shortlistedApplicantDetails?.email?.slice(0, 1) |
+                                                uppercase}}</text>
+                                        </svg>
+                                        <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
+                                              onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+                                    </div>
+                                    <div class="STUDENT col-md-10 col-10">
+                                        <div class="row">
+                                            <div class="col-8" style="cursor: pointer">
+                                                <h4 [routerLink]="['/users', shortlistedApplicantDetails.email]">
+                                                    {{shortlistedApplicantDetails.name}}
+
+                                                </h4>
+
+                                            </div>
+
+                                            <div class="col-4 pe-0 text-end">
+                                                <span *ngIf="shortlistedApplicantDetails.authority" class="company-name p-1 mx-0">
+                                                    {{shortlistedApplicantDetails?.authority}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <p>{{shortlistedApplicantDetails.email}}</p>
+
+                                        <div>
+                                            <div class="alert alert-secondary tech-secondary p-1 mx-1"
+                                                *ngFor="let skill of shortlistedApplicantDetails.skillsList" [innerHTML]="skill">
+
+                                                #{{skill}}
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row m-2 ">
+                                <!-- <div class="col-md-6">
+                                    <button class="btn btn-outline-secondary"
+                                        [routerLink]="['/users', shortlistedApplicantDetails.email]">View Profile</button>
+                                </div> -->
+                                <div class="col-md-12 text-end">
+                                    <button class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, shortlistedApplicantDetails.email]">View
+                                        Application</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+                
+            </tab>
+        
 
             <tab class="card" heading="Approved ({{approvedApplicantsDetails.length}})">
                 <div class="donut-wrapper" *ngIf="loading">
@@ -203,6 +289,7 @@
 
                 </div>
             </tab>
+
             <tab class="card" heading="Rejected ({{rejectedApplicantsDetails.length}})">
                 <div class="donut-wrapper" *ngIf="loading">
                     <div class="donut multi"></div>

@@ -5,6 +5,7 @@ import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.domain.User;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
+import internFinder.internFinder.domain.enumarations.UserStatus;
 import internFinder.internFinder.dto.UserBioDTO;
 import internFinder.internFinder.repository.PostInternshipRepository;
 import internFinder.internFinder.repository.UserRepository;
@@ -89,7 +90,7 @@ public class UserService {
         saveUser.setEmail(email);
         saveUser.setPassword(passwordEncoder.encode(password));
         saveUser.setAuthority(authority);
-
+        saveUser.setUserStatus(UserStatus.ACTIVE);
         saveUser.setUsername(getUsernameFromEmail(email));
         saveUser.setIdentityProvider(IdentityProvider.LOCAL);
         saveUser.setCreatedOn(String.valueOf(LocalDate.now()));
@@ -149,6 +150,7 @@ public class UserService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setAuthority(userBioDTO.getAuthority());
+            user.setUserStatus(userBioDTO.getUserStatus());
             user.setRoles(userBioDTO.getAuthority().name());
             //Update the relevant fields'
             //user.setCategory(Category.valueOf(userBioDTO.getAuthority().name()));

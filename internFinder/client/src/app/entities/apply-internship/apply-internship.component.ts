@@ -103,6 +103,7 @@ export class ApplyInternshipComponent implements OnInit {
       console.log("internship details are", res)
       this.internshipDetail = res;
       console.log("Current internship was posted by this company email :", this.internshipDetail?.companyEmail);
+      this.application.postedBy=res.companyName;
     },
     (err)=>{
       console.log("Error fetching current internship details", err)
@@ -114,8 +115,7 @@ export class ApplyInternshipComponent implements OnInit {
     this.application.internshipId=this.currentInternshipId;
     this.application!.appliedBy=this.currentEmail;
     let date = new Date().toJSON().slice(0, 10);
-    this.application!.appliedOn = date;
-    //this.application.postedBy=this.internshipDetail!.companyEmail;
+    this.application!.appliedOn = date;   
     console.log("About to create application", this.application)
     
     this.applyInternship.applyInternship(this.application).subscribe(

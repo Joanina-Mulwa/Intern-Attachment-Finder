@@ -26,6 +26,7 @@ export class UserBio {
     experienceLevel?: ExperienceLevel;
     experience?: string;
     about?: string;
+    userStatus?: UserStatus;
 
 
 
@@ -59,6 +60,8 @@ export class UserBio {
         experienceLevel?: ExperienceLevel,
         experience?: string,
         about?: string,
+        userStatus?: UserStatus,
+
 
 
 
@@ -90,6 +93,7 @@ export class UserBio {
         this.experienceLevel = experienceLevel;
         this.experience=experience;
         this.about=about;
+        this.userStatus=userStatus;
 
     }
 }
@@ -107,11 +111,10 @@ export enum Authority {
 }
 
 export enum Programme {
+    POSTGRADUATE = 'POST-GRADUATE',
     DEGREE = 'DEGREE',
     DIPLOMA = 'DIPLOMA',
-    CERTIFICATE = 'CERTIFICATE',
-    POSTGRADUATE = 'POST-GRADUATE'
-
+    CERTIFICATE = 'CERTIFICATE', 
 }
 export enum Institution {
     DEKUT = 'Dedan Kimathi University',
@@ -145,4 +148,9 @@ export enum ExperienceLevel {
     INTERMEDIATE = 'Intermediate (2 - 3 years)',
     MIDLEVEL = 'MidLeve (3 - 5 years)',
     EXPERT = 'Expert (over 5 years)'
+}
+
+export enum UserStatus{
+    ACTIVE='ACTIVE',
+    PASSIVE='PASSIVE'
 }

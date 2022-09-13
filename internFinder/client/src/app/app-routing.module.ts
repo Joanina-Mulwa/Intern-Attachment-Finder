@@ -4,12 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './account/auth/login/login.component';
 import { ProfileComponent } from './account/auth/profile/profile.component';
 import { ApplicantsComponent } from './entities/applications/applicants/applicants.component';
+import { ApplicationDetailComponent } from './entities/applications/application-detail/application-detail.component';
 import { ApplicationComponent } from './entities/applications/application/application.component';
 import { ApplyInternshipComponent } from './entities/apply-internship/apply-internship.component';
 import { InternshipDetailComponent } from './entities/internships/internship-detail/internship-detail.component';
 import { InternshipEditComponent } from './entities/internships/internship-edit/internship-edit.component';
 import { InternshipsComponent } from './entities/internships/internships/internships.component';
 import { PostInternshipsComponent } from './entities/post-internships/post-internships.component';
+import { ReviewsComponent } from './entities/reviews/reviews.component';
 import { BioDetailComponent } from './entities/users/bio-detail/bio-detail.component';
 import { BioEditComponent } from './entities/users/bio-edit/bio-edit.component';
 import { UsersComponent } from './entities/users/users/users.component';
@@ -71,6 +73,14 @@ const routes: Routes = [
   {
     path: 'applied/:id/:email',
     component: ApplicationComponent
+  },
+  {
+    path: 'details/:id',
+    component: ApplicationDetailComponent
+  },
+  {
+    path: 'reviews',
+    component: ReviewsComponent
   }
 ];
 

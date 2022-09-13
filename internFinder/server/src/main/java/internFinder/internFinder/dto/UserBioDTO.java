@@ -3,6 +3,7 @@ package internFinder.internFinder.dto;
 import internFinder.internFinder.domain.User;
 import internFinder.internFinder.domain.enumarations.Category;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
+import internFinder.internFinder.domain.enumarations.UserStatus;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,6 +18,9 @@ public class UserBioDTO {
 
     @Enumerated(EnumType.STRING)
     private UserAuthority authority;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
 
     private String profileImageUrl;
 
@@ -74,6 +78,7 @@ public class UserBioDTO {
         //this.setId(authenticateUser.getId());
         this.setEmail(user.getEmail());
         this.setAuthority(user.getAuthority());
+        this.setUserStatus(user.getUserStatus());
         this.setProfileImageUrl(user.getProfileImageUrl());
         this.setCreatedOn(user.getCreatedOn());
         this.setCreatedBy(user.getCreatedBy());

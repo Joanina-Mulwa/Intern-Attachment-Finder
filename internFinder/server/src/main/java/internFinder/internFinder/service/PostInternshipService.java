@@ -2,13 +2,12 @@ package internFinder.internFinder.service;
 
 import internFinder.internFinder.Security.UserNotFoundException;
 import internFinder.internFinder.domain.PostInternship;
-import internFinder.internFinder.domain.User;
+import internFinder.internFinder.domain.enumarations.InternshipStatus;
 import internFinder.internFinder.repository.PostInternshipRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,7 +86,9 @@ public class PostInternshipService {
     public List<PostInternship> search(String text) {
         log.debug("Request to search internship with text : {}", text);
 
-        return postInternshipRepository.findByInternshipTitleContainingOrCompanyNameContainingOrCompanyEmailContainingOrLocationContainingOrDescriptionContainingOrSkillsContaining(text, text, text, text, text, text);
+        List<PostInternship> internships = postInternshipRepository.findByInternshipTitleContainingOrCompanyNameContainingOrCompanyEmailContainingOrLocationContainingOrDescriptionContainingOrSkillsContaining(text, text, text, text, text, text);
+        internships.removeIf(internship -> internship.getInternshipStatus() == InternshipStatus.CLOSED);
+        return internships;
     }
 
     public Optional<PostInternship> findInternshipById(Long id){

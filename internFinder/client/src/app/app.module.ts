@@ -24,6 +24,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { TabsModule} from 'ngx-bootstrap/tabs';
 import { ApplicationComponent } from './entities/applications/application/application.component';
 import { ApplicantsComponent } from './entities/applications/applicants/applicants.component';
+import { ApplicationDetailComponent } from './entities/applications/application-detail/application-detail.component';
+import { ReviewsComponent } from './entities/reviews/reviews.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,9 @@ import { ApplicantsComponent } from './entities/applications/applicants/applican
     InternshipEditComponent,
     ApplyInternshipComponent,
     ApplicationComponent,
-    ApplicantsComponent
+    ApplicantsComponent,
+    ApplicationDetailComponent,
+    ReviewsComponent
   ],
   imports: [
     BrowserModule,

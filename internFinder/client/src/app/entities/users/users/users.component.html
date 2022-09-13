@@ -35,7 +35,7 @@
         <div  class="row">
 
           <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let user of users">
-            <div class="card profile-item " [routerLink]="['/users', user.email]">
+            <div class="card profile-item ">
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-2 col-2 pt-2">
@@ -55,7 +55,7 @@
                   </div>
                   <div class="STUDENT col-md-10 col-10">
                     <div class="row">
-                      <div class="col-8 user-name">
+                      <div class="col-8 user-name "[routerLink]="['/users', user.email]">
                         <h4  *ngIf="user.authority == 'EMPLOYER'">{{user.name}}</h4>
                         <h4 *ngIf="user.authority == 'STUDENT' && !user.name">{{user.username}}</h4>
                         <h4 *ngIf="user.authority == 'STUDENT' && user.name">{{user.name}}</h4>
@@ -70,7 +70,7 @@
                       </div>
                     </div>
                     <h6 *ngIf="user.companyIndustry" class="company-industry">Deals with {{user.companyIndustry}}</h6>
-                    <p class="company-industry" [routerLink]="['/users', user.email]">{{user.email}}
+                    <p class="company-industry" >{{user.email}}
                       <!-- <i class="fas fa-flag" data-toggle="modal" data-target="#reportModal" (click)="getEntity('USER',userBio.id)"></i> Report -->
     
                     </p>
@@ -102,7 +102,7 @@
         <div class="row">
 
           <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let userStudent of usersStudent">
-            <div class="card profile-item " [routerLink]="['/users', userStudent.email]">
+            <div class="card profile-item " >
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-2 col-2 pt-2">
@@ -122,7 +122,7 @@
                   </div>
                   <div class="STUDENT col-md-10 col-10">
                     <div class="row">
-                      <div class="col-8">
+                      <div class="col-8 user-name "[routerLink]="['/users', userStudent.email]">
                         <h4 *ngIf="userStudent.authority == 'STUDENT' && !userStudent.name">{{userStudent.username}}</h4>
                         <h4 *ngIf="userStudent.authority == 'STUDENT' && userStudent.name">{{userStudent.name}}</h4>
                         
@@ -167,7 +167,7 @@
         <div class="row">
 
           <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let userEmployer of usersEmployer">
-            <div class="card profile-item " [routerLink]="['/users', userEmployer.email]">
+            <div class="card profile-item " >
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-2 col-2 pt-2">
@@ -187,7 +187,7 @@
                   </div>
                   <div class="EMPLOYER col-md-10 col-10">
                     <div class="row">
-                      <div class="col-8">
+                      <div class="col-8 user-name" [routerLink]="['/users', userEmployer.email]">
                         
                         <h4 *ngIf="userEmployer.authority == 'EMPLOYER'">{{userEmployer.name}}</h4>
     
@@ -233,7 +233,7 @@
         <div class="row">
 
           <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let userGuest of usersGuest">
-            <div class="card profile-item " [routerLink]="['/users', userGuest.email]">
+            <div class="card profile-item " >
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-2 col-2 pt-2">
@@ -253,7 +253,7 @@
                   </div>
                   <div class="STUDENT col-md-10 col-10">
                     <div class="row">
-                      <div class="col-8">
+                      <div class="col-8 user-name" [routerLink]="['/users', userGuest.email]">
                         <h4 >{{userGuest.username}}</h4>
                        
     

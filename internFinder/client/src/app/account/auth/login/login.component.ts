@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 //import { GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
 import { TokenService } from 'src/app/services/token.service';
-import { Authority } from 'src/app/entities/users/user-bio-model';
+import { Authority, UserBio, UserStatus } from 'src/app/entities/users/user-bio-model';
 export { userLogins } from 'src/app/account/auth/login/userLoginsModel'
 
 @Component({
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     password: '',
     authority: ''
   };
-  userConfirm={
+  userConfirm = {
     passwordConfirm: '',
   }
 
@@ -47,6 +47,11 @@ export class LoginComponent implements OnInit {
   showPassword!: boolean;
   authority!: Authority;
   isAuthorityButtonVisible: boolean = true;
+  deactiveUser = '';
+  activationSuccess = '';
+  activationFailure = '';
+  showActivate = false;
+  currentUserDetails!: UserBio;
 
 
   ngOnInit(): void {
@@ -73,7 +78,7 @@ export class LoginComponent implements OnInit {
       password: '',
       authority: ''
     }
-    this.userConfirm={
+    this.userConfirm = {
       passwordConfirm: '',
     }
   }
@@ -91,67 +96,185 @@ export class LoginComponent implements OnInit {
 
   }
 
-  loginUser(): void {
-
-
-    this.showRegister = false;
-    console.log("User to be logged in : ", this.userLogins);
-
-    this.userService.loginUser(this.userLogins).subscribe(
-      {
-        next: (res) => {
-          console.log("response to log in is: ", res);
-          console.log("Authority is : ", res.authority);
-          this.userLogins.authority = res.authority;
-          console.log("User to be logged in with authority is : ", this.userLogins);
-          this.tokenService.saveToken(this.userLogins.email, res.bearerToken);
-
-          console.log("Got token ,", res.bearerToken)
-
-          console.log("Successfull login, " + this.userLogins.email)
-          //this.router.navigate(['/internships'])
-          this.getCategory();
-
-        },
-        error: (err) => {
-          console.log("User login failure : ", err)
-
-          this.userService.findByEmail(this.userLogins.email).subscribe(
-            (res) => {
-              console.log("email is: ", res)
-              if (res == null) {
-                this.loginFailure = "Register, user " + this.userLogins.email + " does not exist";
-                setTimeout(
-                  () => {
-                    this.reset();
-                    this.loginFailure = '';
-                    this.showRegister = true;
-                  }, 3000
+  activateAccount(): void {
+    this.userService.findByEmail(this.userLogins.email).subscribe(
+      (res) => {
+        this.currentUserDetails = res;
+        if (res == null) {
+          this.activationFailure = "Register, user " + this.userLogins.email + " does not exist";
+          setTimeout(
+            () => {
+              this.reset();
+              this.activationFailure = '';
+              this.showActivate = false;
+              this.showRegister = true;
+            }, 3000
+          )
+        }
+        else {
+          if (this.userLogins.password === this.userConfirm.passwordConfirm) {
+            this.currentUserDetails.userStatus = UserStatus.ACTIVE;
+            console.log("About to update", this.currentUserDetails);
+            this.userService.loginUser(this.userLogins).subscribe(
+              (res) => {
+                this.userService.updateUser(this.currentUserDetails).subscribe(
+                  (res) => {
+                    console.log("Activated", res)
+                    this.activationSuccess = "Account activated. Login to continue!";
+                    setTimeout(
+                      () => {
+                        this.reset();
+                        this.activationSuccess = '';
+                        this.showRegister = false;
+                        this.showActivate = false;
+                      }, 3000
+                    )
+                   
+                  },
+                  (err) => {
+                    console.log("Activation failure")
+                    this.activationFailure = "Activation failure. Try again later"
+                    setTimeout(() => {
+                      this.activationFailure = '';
+                    }, 3000);
+                  }
                 )
-              }
-              else {
-                this.loginFailure = "Incorrect credentials..Try Again"
+
+
+
+              },
+              (err) => {
+                console.log("Invalid username or password")
+                this.activationFailure = "Invalid username or password"
                 setTimeout(() => {
-                  this.loginFailure = '';
+                  this.activationFailure = '';
                 }, 3000);
 
               }
-            },
+            )
+          }
+          else {
+            this.activationFailure = "Password mismatch"
+            setTimeout(() => {
+              this.activationFailure = '';
+            }, 3000);
 
-          )
+          }
 
-          this.loginFailure = "Invalid usernae or password"
-          setTimeout(() => {
-            this.loginFailure = '';
-          }, 3000);
+
+
 
         }
 
+      },
+      () => { }
+    )
+
+
+  }
+
+  loginUser(): void {
+    this.showRegister = false;
+    console.log("User to be logged in : ", this.userLogins);
+    this.userService.findByEmail(this.userLogins.email).subscribe(
+      (res) => {
+        console.log("heere:,", res)
+        if (res == null) {
+          this.loginFailure = "Register, user " + this.userLogins.email + " does not exist";
+          setTimeout(
+            () => {
+              this.reset();
+              this.loginFailure = '';
+              this.showRegister = true;
+            }, 3000
+          )
+        }
+        else {
+          if (res.userStatus === UserStatus.PASSIVE) {
+            this.deactiveUser = "Account Deactive. Activate account first to login"
+            setTimeout(
+              () => {
+                this.deactiveUser = ''
+                this.reset();
+                this.showActivate = true;
+
+              }, 3000
+            )
+          }
+          else {
+
+            this.userService.loginUser(this.userLogins).subscribe(
+              {
+                next: (res) => {
+                  console.log("response to log in is: ", res);
+                  console.log("Authority is : ", res.authority);
+                  this.userLogins.authority = res.authority;
+                  console.log("User to be logged in with authority is : ", this.userLogins);
+                  this.tokenService.saveToken(this.userLogins.email, res.bearerToken);
+
+                  console.log("Got token ,", res.bearerToken)
+
+                  console.log("Successfull login, " + this.userLogins.email)
+                  //this.router.navigate(['/internships'])
+                  this.getCategory();
+
+
+                },
+                error: (err) => {
+                  console.log("User login failure : ", err)
+
+                  this.userService.findByEmail(this.userLogins.email).subscribe(
+                    (res) => {
+                      console.log("email is: ", res)
+                      if (res == null) {
+                        this.loginFailure = "Register, user " + this.userLogins.email + " does not exist";
+                        setTimeout(
+                          () => {
+                            this.reset();
+                            this.loginFailure = '';
+                            this.showRegister = true;
+                          }, 3000
+                        )
+                      }
+                      else {
+                        this.loginFailure = "Incorrect credentials..Try Again"
+                        setTimeout(() => {
+                          this.loginFailure = '';
+                        }, 3000);
+
+                      }
+                    },
+
+                  )
+
+                  this.loginFailure = "Invalid usernae or password"
+                  setTimeout(() => {
+                    this.loginFailure = '';
+                  }, 3000);
+
+                }
+
+
+              }
+
+
+            )
+
+          }
+        }
+      },
+      (err) => {
+        console.log("here", err)
+
+        this.loginFailure = "Incorrect credentials..Try Again"
+        setTimeout(() => {
+          this.loginFailure = '';
+        }, 3000);
 
       }
-
-
     )
+
+
   }
 
   getCategory(): void {
@@ -242,7 +365,7 @@ export class LoginComponent implements OnInit {
                 //other regex
                 // "^(?=(.*[a-zA-Z]){1,})(?=(.*[0-9]){2,}).{8,}$"
                 // "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"
-                
+
                 if (pattern.test(this.userLogins.password)) {
                   this.userLogins.authority = this.authority;
                   console.log("user to be registered : ", this.userLogins)
