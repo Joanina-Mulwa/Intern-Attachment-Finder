@@ -157,6 +157,7 @@ export class BioDetailComponent implements OnInit {
                   }
                   else {
                     this.pendingInternshipsDetails?.push(allInternshipDetail);
+                    console.log("pending internhsip details are", this.pendingInternshipsDetails)
 
                   }
 

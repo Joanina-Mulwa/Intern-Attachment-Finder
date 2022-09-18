@@ -180,7 +180,7 @@
         <div id='tabStudent' *ngIf="isMe && userBioDetail.authority == 'STUDENT' " class="justify-content">
             <div class="card mt-3 mb-2 tabs">
                 <tabset>
-                    <tab heading="Internships Applied">
+                    <tab heading="Internships Applied ({{applications.length}})">
 
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
@@ -263,7 +263,7 @@
                             </div>
                         </div>
                     </tab>
-                    <tab heading="Shortlisted Internships">
+                    <tab heading="Shortlisted Internships ({{approvedInternshipsDetails?.length}})">
 
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
@@ -347,7 +347,7 @@
                         </div>
 
                     </tab>
-                    <tab heading="Rejected Internships">
+                    <tab heading="Rejected Internships ({{rejectedInternshipsDetails?.length}})">
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
                         </div>
@@ -429,7 +429,7 @@
                             </div>
                         </div>
                     </tab>
-                    <tab heading="Pending Internships">
+                    <tab heading="Pending Internships ({{pendingInternshipsDetails?.length}})">
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
                         </div>
@@ -441,7 +441,7 @@
                             <div class="row">
                                 <div *ngFor="let pendingInternshipDetails of pendingInternshipsDetails"
                                     class="col-12 col-lg-4 col-md-6 mb-2">
-                                    <div class="card profile-item" [>
+                                    <div class="card profile-item" >
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-3">
