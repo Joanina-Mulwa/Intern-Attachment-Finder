@@ -19,8 +19,6 @@ public class PostInternshipService {
     public PostInternshipService(PostInternshipRepository postInternshipRepository) {
         this.postInternshipRepository = postInternshipRepository;
     }
-
-
     public PostInternship createInternship(PostInternship postInternship){
         log.debug("Request to create Internship {}",postInternship );
         PostInternship internship = new PostInternship();
@@ -75,7 +73,6 @@ public class PostInternshipService {
             throw new UserNotFoundException("No internship found with id " + postInternship.getId());
         }
 
-
     }
 
     public List<PostInternship> findAllInternships(){
@@ -95,6 +92,7 @@ public class PostInternshipService {
         log.debug("Request to find internship by id {}", id);
         return postInternshipRepository.findById(id);
     }
+
 
     public void deletePostedInternship(Long id){
         log.debug("Request to delete posted internship {}", id);

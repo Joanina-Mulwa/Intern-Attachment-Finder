@@ -81,8 +81,6 @@ export class InternshipsComponent implements OnInit {
         })
         let date = new Date().toJSON().slice(0, 10);
         console.log("Found active internships ", this.internships)
-        //this.internships = res;
-
         this.internships.forEach((internship: any) => {
           internship.skillsList = internship.skills.split(",");
           if (internship.reportingDate === date && internship.internshipStatus === InternshipStatus.ACTIVE) {
@@ -96,7 +94,6 @@ export class InternshipsComponent implements OnInit {
               }
             )
           }
-          //check internships i have applied for
           this.applyInternship.findByAppliedBy(this.userEmail).subscribe(
             (res) => {
               this.applications = res;
@@ -110,7 +107,6 @@ export class InternshipsComponent implements OnInit {
             (err) => { console.log(err) }
           )
         });
-
       }
     )
   }
@@ -121,23 +117,17 @@ export class InternshipsComponent implements OnInit {
         this.loading = false;
         this.internships = result;
         let date = new Date().toJSON().slice(0, 10);
-
         this.internships.forEach((internship: any) => {
           if (internship.reportingDate === date) {
             internship.skillsList = internship.skills.split(",");
             internship.internshipStatus = InternshipStatus.CLOSED;
-
           }
         });
-
-
         console.log("Search produces internships:", this.internships)
       },
       error => {
         console.error('error getting searched internship', error);
       }
     )
-
   }
-
 }

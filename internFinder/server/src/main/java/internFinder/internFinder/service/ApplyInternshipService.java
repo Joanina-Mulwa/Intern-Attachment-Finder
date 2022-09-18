@@ -69,6 +69,9 @@ public class ApplyInternshipService {
         return applyInternshipRepository.findById(id);
     }
 
+
+
+
 //    public List<ApplyInternship> search(String text) {
 //        log.debug("Request to applicant with text : {}", text);
 //

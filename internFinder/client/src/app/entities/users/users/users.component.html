@@ -19,20 +19,20 @@
 
 
 
- 
+
   <div class="container">
     <tabset class=" mb-2">
-      
-      <tab class="form-control ml-5 "  class=" m-2" heading="Members">
-        
+
+      <tab class="form-control ml-5 " class=" m-2" heading="Members">
+
         <div class="donut-wrapper" *ngIf="loading">
           <div class="donut multi"></div>
         </div>
-      
+
         <div class="text-center my-5" *ngIf="users?.length === 0 && !loading">
           <p class="text-muted">No Users found</p>
         </div>
-        <div  class="row">
+        <div class="row">
 
           <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let user of users">
             <div class="card profile-item ">
@@ -47,62 +47,61 @@
                       xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
                       preserveAspectRatio="xMidYMid slice" focusable="false">
                       <title></title>
-                      <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%" fill="#202a44" dy=".3em"
-                        font-size="large" font-weight="bold">{{user?.email?.slice(0, 1) | uppercase}}</text>
+                      <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%" fill="#202a44"
+                        dy=".3em" font-size="large" font-weight="bold">{{user?.email?.slice(0, 1) | uppercase}}</text>
                     </svg>
                     <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
                                         onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
                   </div>
                   <div class="STUDENT col-md-10 col-10">
                     <div class="row">
-                      <div class="col-8 user-name "[routerLink]="['/users', user.email]">
-                        <h4  *ngIf="user.authority == 'EMPLOYER'">{{user.name}}</h4>
+                      <div class="col-8 user-name " [routerLink]="['/users', user.email]">
+                        <h4 *ngIf="user.authority == 'EMPLOYER'">{{user.name}}</h4>
                         <h4 *ngIf="user.authority == 'STUDENT' && !user.name">{{user.username}}</h4>
                         <h4 *ngIf="user.authority == 'STUDENT' && user.name">{{user.name}}</h4>
-    
+
                       </div>
-    
+
                       <div class="col-4 pe-0 text-end">
-                        <span *ngIf="user.authority" class="company-name p-1 mx-0">
-                          {{user?.authority}}
-                          <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                        <span class="alert alert-warning tech p-1 mx-1" *ngIf="user.userStatus == 'PASSIVE'">
+                          In-active
                         </span>
                       </div>
                     </div>
                     <h6 *ngIf="user.companyIndustry" class="company-industry">Deals with {{user.companyIndustry}}</h6>
-                    <p class="company-industry" >{{user.email}}
+                    <p class="company-industry">{{user.email}}
                       <!-- <i class="fas fa-flag" data-toggle="modal" data-target="#reportModal" (click)="getEntity('USER',userBio.id)"></i> Report -->
-    
+
                     </p>
-    
+
                     <div *ngIf="user.authority == 'STUDENT'" class="mt-1">
                       <span class="alert alert-info tech-alert p-1 mx-1" *ngFor="let skill of user.skillsList"
                         [innerHTML]="skill">
                         #{{skill}}
                       </span>
                     </div>
-    
+
                   </div>
-    
+
                 </div>
               </div>
             </div>
           </div>
-    
+
         </div>
       </tab>
       <tab class="m-2" heading="intern seekers">
         <div class="donut-wrapper" *ngIf="loading">
           <div class="donut multi"></div>
         </div>
-      
+
         <div class="text-center my-5" *ngIf="usersStudent?.length === 0 && !loading">
           <p class="text-muted">No internseeker found</p>
         </div>
         <div class="row">
 
           <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let userStudent of usersStudent">
-            <div class="card profile-item " >
+            <div class="card profile-item ">
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-2 col-2 pt-2">
@@ -110,64 +109,65 @@
                       onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                     <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                     <!-- {{userBio.profileImageUrl}} -->
-                    <svg *ngIf="!userStudent.profileImageUrl" class="img-fluid rounded float-start" width="100%" height="43"
-                      xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
-                      preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <svg *ngIf="!userStudent.profileImageUrl" class="img-fluid rounded float-start" width="100%"
+                      height="43" xmlns="http://www.w3.org/2000/svg" role="img"
+                      aria-label="Placeholder: Responsive image" preserveAspectRatio="xMidYMid slice" focusable="false">
                       <title></title>
-                      <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%" fill="#202a44" dy=".3em"
-                        font-size="large" font-weight="bold">{{userStudent?.email?.slice(0, 1) | uppercase}}</text>
+                      <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%" fill="#202a44"
+                        dy=".3em" font-size="large" font-weight="bold">{{userStudent?.email?.slice(0, 1) |
+                        uppercase}}</text>
                     </svg>
                     <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
                                         onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
                   </div>
                   <div class="STUDENT col-md-10 col-10">
                     <div class="row">
-                      <div class="col-8 user-name "[routerLink]="['/users', userStudent.email]">
-                        <h4 *ngIf="userStudent.authority == 'STUDENT' && !userStudent.name">{{userStudent.username}}</h4>
+                      <div class="col-8 user-name " [routerLink]="['/users', userStudent.email]">
+                        <h4 *ngIf="userStudent.authority == 'STUDENT' && !userStudent.name">{{userStudent.username}}
+                        </h4>
                         <h4 *ngIf="userStudent.authority == 'STUDENT' && userStudent.name">{{userStudent.name}}</h4>
-                        
+
                       </div>
-    
+
                       <div class="col-4 pe-0 text-end">
-                        <span *ngIf="userStudent.authority" class="company-name p-1 mx-0">
-                          {{userStudent?.authority}}
-                          <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                        <span class="alert alert-warning tech p-1 mx-1" *ngIf="userStudent.userStatus == 'PASSIVE'">
+                          In-active
                         </span>
                       </div>
                     </div>
                     <p class="company-industry" [routerLink]="['/users', userStudent.email]">{{userStudent.email}}
                       <!-- <i class="fas fa-flag" data-toggle="modal" data-target="#reportModal" (click)="getEntity('USER',userBio.id)"></i> Report -->
-    
+
                     </p>
-    
+
                     <div class="mt-1">
                       <span class="alert alert-info tech-alert p-1 mx-1" *ngFor="let skill of userStudent.skillsList"
                         [innerHTML]="skill">
                         #{{skill}}
                       </span>
                     </div>
-    
+
                   </div>
-    
+
                 </div>
               </div>
             </div>
           </div>
-    
+
         </div>
       </tab>
       <tab class="m-2" heading="employers">
         <div class="donut-wrapper" *ngIf="loading">
           <div class="donut multi"></div>
         </div>
-      
+
         <div class="text-center my-5" *ngIf="usersEmployer?.length === 0 && !loading">
           <p class="text-muted">No employer found</p>
         </div>
         <div class="row">
 
           <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let userEmployer of usersEmployer">
-            <div class="card profile-item " >
+            <div class="card profile-item ">
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-2 col-2 pt-2">
@@ -175,12 +175,13 @@
                       onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                     <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                     <!-- {{userBio.profileImageUrl}} -->
-                    <svg *ngIf="!userEmployer.profileImageUrl" class="img-fluid rounded float-start" width="100%" height="43"
-                      xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
-                      preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <svg *ngIf="!userEmployer.profileImageUrl" class="img-fluid rounded float-start" width="100%"
+                      height="43" xmlns="http://www.w3.org/2000/svg" role="img"
+                      aria-label="Placeholder: Responsive image" preserveAspectRatio="xMidYMid slice" focusable="false">
                       <title></title>
-                      <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%" fill="#202a44" dy=".3em"
-                        font-size="large" font-weight="bold">{{userEmployer?.email?.slice(0, 1) | uppercase}}</text>
+                      <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%" fill="#202a44"
+                        dy=".3em" font-size="large" font-weight="bold">{{userEmployer?.email?.slice(0, 1) |
+                        uppercase}}</text>
                     </svg>
                     <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
                                         onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
@@ -188,101 +189,99 @@
                   <div class="EMPLOYER col-md-10 col-10">
                     <div class="row">
                       <div class="col-8 user-name" [routerLink]="['/users', userEmployer.email]">
-                        
+
                         <h4 *ngIf="userEmployer.authority == 'EMPLOYER'">{{userEmployer.name}}</h4>
-    
+
                       </div>
-    
+
                       <div class="col-4 pe-0 text-end">
-                        <span *ngIf="userEmployer.authority" class="company-name p-1 mx-0">
-                          {{userEmployer?.authority}}
-                          <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                        <span class="alert alert-warning tech p-1 mx-1" *ngIf="userEmployer.userStatus == 'PASSIVE'">
+                          In-active
                         </span>
                       </div>
                     </div>
-                    <h6 *ngIf="userEmployer.companyIndustry" class="company-industry">Deals with {{userEmployer.companyIndustry}}</h6>
+                    <h6 *ngIf="userEmployer.companyIndustry" class="company-industry">Deals with
+                      {{userEmployer.companyIndustry}}</h6>
                     <p class="company-industry" [routerLink]="['/users', userEmployer.email]">{{userEmployer.email}}
                       <!-- <i class="fas fa-flag" data-toggle="modal" data-target="#reportModal" (click)="getEntity('USER',userBio.id)"></i> Report -->
-    
+
                     </p>
-    
+
                     <div class="mt-1">
                       <span class="alert alert-info tech-alert p-1 mx-1" *ngFor="let skill of userEmployer.skillsList"
                         [innerHTML]="skill">
                         #{{skill}}
                       </span>
                     </div>
-    
+
                   </div>
-    
+
                 </div>
               </div>
             </div>
           </div>
-    
+
         </div>
       </tab>
-      <tab class="m-2" heading="Guest">
+      <!-- <tab class="m-2" heading="Guest">
         <div class="donut-wrapper" *ngIf="loading">
           <div class="donut multi"></div>
         </div>
-      
+
         <div class="text-center my-5" *ngIf="usersGuest?.length === 0 && !loading">
           <p class="text-muted">No Guest found</p>
         </div>
         <div class="row">
 
           <div class="col-12 col-lg-4 col-md-6 mb-2" *ngFor="let userGuest of usersGuest">
-            <div class="card profile-item " >
+            <div class="card profile-item ">
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-2 col-2 pt-2">
                     <img *ngIf="userGuest.profileImageUrl" src={{userGuest.profileImageUrl}} class="card-img-top "
                       onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
-                    <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
-                    <!-- {{userBio.profileImageUrl}} -->
-                    <svg *ngIf="!userGuest.profileImageUrl" class="img-fluid rounded float-start" width="100%" height="43"
-                      xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
-                      preserveAspectRatio="xMidYMid slice" focusable="false">
+                  
+                    <svg *ngIf="!userGuest.profileImageUrl" class="img-fluid rounded float-start" width="100%"
+                      height="43" xmlns="http://www.w3.org/2000/svg" role="img"
+                      aria-label="Placeholder: Responsive image" preserveAspectRatio="xMidYMid slice" focusable="false">
                       <title></title>
-                      <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%" fill="#202a44" dy=".3em"
-                        font-size="large" font-weight="bold">{{userGuest?.email?.slice(0, 1) | uppercase}}</text>
+                      <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%" fill="#202a44"
+                        dy=".3em" font-size="large" font-weight="bold">{{userGuest?.email?.slice(0, 1) |
+                        uppercase}}</text>
                     </svg>
-                    <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
-                                        onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+                 
                   </div>
                   <div class="STUDENT col-md-10 col-10">
                     <div class="row">
                       <div class="col-8 user-name" [routerLink]="['/users', userGuest.email]">
-                        <h4 >{{userGuest.username}}</h4>
-                       
-    
+                        <h4>{{userGuest.username}}</h4>
+
+
                       </div>
-    
+
                       <div class="col-4 pe-0 text-end">
-                        <span *ngIf="userGuest.authority" class="company-name p-1 mx-0">
-                          {{userGuest?.authority}}
-                          <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                        <span class="alert alert-warning tech p-1 mx-1" *ngIf="userGuest.userStatus == 'PASSIVE'">
+                          In-active
                         </span>
                       </div>
                     </div>
-                    <h6 *ngIf="userGuest.companyIndustry" class="company-industry">Deals with {{userGuest.companyIndustry}}</h6>
+                    <h6 *ngIf="userGuest.companyIndustry" class="company-industry">Deals with
+                      {{userGuest.companyIndustry}}</h6>
                     <p class="company-industry" [routerLink]="['/users', userGuest.email]">{{userGuest.email}}
-                      <!-- <i class="fas fa-flag" data-toggle="modal" data-target="#reportModal" (click)="getEntity('USER',userBio.id)"></i> Report -->
-    
+
                     </p>
-    
-                 
-    
+
+
+
                   </div>
-    
+
                 </div>
               </div>
             </div>
           </div>
-    
+
         </div>
-      </tab>
+      </tab> -->
     </tabset>
 
     <div hidden class="row">

@@ -516,7 +516,7 @@
             </div>
         </div>
 
-        <div *ngIf="userBioDetail.authority == 'STUDENT' && applications.length != 0" class="card p-3 mt-3">
+        <div *ngIf="userBioDetail?.authority == 'STUDENT' && applications?.length != 0" class="card p-3 mt-3">
             <h4>Summary of companies sent applications to</h4>
             <!-- <div *ngFor="let item of sortedInternshipDetails; let index = index">
                 <h3 *ngIf="!sortedInternshipDetails[index-1] || item.companyName !== arr[index-1].companyName">{{item.companyName}}</h3>
@@ -892,7 +892,7 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="button" class="btn btn-primary" data-dismiss="modal"
                                 (click)="deactivateAccount()">Deactivate</button>
                         </div>

@@ -47,7 +47,7 @@ export class PostInternshipsComponent implements OnInit {
   internshipTypes=[InternshipType.FULLTIME, InternshipType.PARTTIME, InternshipType.CONTRACT, InternshipType.VOLUNTEER]
   internshipStatus = [InternshipStatus.ACTIVE, InternshipStatus.CLOSED]
   minimumQualifications=[MinimumQualification.CERTIFICATE, MinimumQualification.DIPLOMA, MinimumQualification.DEGREE, MinimumQualification.POSTGRADUATE]
-  experienceLevels=[ExperienceLevel.BEGINNER, ExperienceLevel.INTERMEDIATE, ExperienceLevel.INTERMEDIATE, ExperienceLevel.EXPERT]
+  experienceLevels=[ExperienceLevel.BEGINNER, ExperienceLevel.INTERMEDIATE, ExperienceLevel.MIDLEVEL, ExperienceLevel.EXPERT]
 
 
   ngOnInit(): void {
@@ -76,16 +76,8 @@ export class PostInternshipsComponent implements OnInit {
       createdBy: '',
       minimumQualification:'',
       experienceLevel:'',
-  
-    }
-  
+    } 
   }
-
-  counter(i: number) {
-    return new Array(i);
-}
-
-
   postinternship(): void{    
     this.internship.companyEmail= JSON.parse(localStorage.getItem('currentUser')!).email;
     this.internship.companyName=this.companyDetails;
@@ -93,18 +85,19 @@ export class PostInternshipsComponent implements OnInit {
     this.router.navigate(['/internships'])
     this.postInternshipService.createInternship(this.internship).subscribe(
       (res)=>{
-       
-        
         console.log("created this internship",res);
         window.location.reload();
         this.router.navigate(['/internships'])
-
       },
       (err)=>{
         console.log("error creating internship",err)
       }
     )
   }
+
+  counter(i: number) {
+    return new Array(i);
+}
 
   // findAlinternships():void{
   //   this.postInternshipService.findAll().subscribe(

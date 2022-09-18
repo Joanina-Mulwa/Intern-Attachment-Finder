@@ -18,6 +18,7 @@ export class PostInternship{
     createdBy?: string;
     minimumQualification?: MinimumQualification;
     experienceLevel?:ExperienceLevel;
+  group: any;
     constructor(
     id?: number,
     internshipTitle?:string,
@@ -90,5 +91,5 @@ export enum ExperienceLevel{
     BEGINNER = 'Beginner (less than 1 year)',
     INTERMEDIATE = 'Intermediate (2 - 3 years)',
     MIDLEVEL = 'MidLevel (3 - 5 years)',
-    EXPERT = 'Expert (over 5 years)'
+    EXPERT = 'Expert (over 5 years )'
 }

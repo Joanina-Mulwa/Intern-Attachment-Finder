@@ -40,7 +40,6 @@ export class UsersComponent implements OnInit {
     this.userService.findAllUsers().subscribe(
       (res) => {
         console.log("here",res);
-        //console.log("The authority 2 is",res.authority)
         let date = new Date().toJSON().slice(0, 10);
         this.users = res;
         this.loading=false
@@ -48,48 +47,21 @@ export class UsersComponent implements OnInit {
           user.createdOn=date;
           if (user.skills) {
             user.skillsList = user.skills.split(",");
-
           }
           if(user.authority === Authority.STUDENT){
             this.usersStudent.push(user);
-            
-
-            
-
           }
           else if(user.authority === Authority.EMPLOYER){
             this.usersEmployer.push(user)
-            
-
-
           }
           else{
             this.usersGuest.push(user);
-            
-
-
           }
-
-
         });
-
-        console.log("users are", this.users);
-        console.log("student users are", this.usersStudent);
-        console.log("employer users are", this.usersEmployer);
-        console.log("guest users are", this.usersGuest);
-
-       
-        // this.users.forEach((user: any) => {
-        //   if (user.email) {
-        //     this.username = user.email.match(/^([^@]*)@/)[1];
-
-        //   }
-        // });
         console.log("Success users: ", this.users);       
       }
     )
   }
-
   searchUser(): void {
     this.loading = true;
     this.userService.searchUser(this.searchText).subscribe(
@@ -99,23 +71,15 @@ export class UsersComponent implements OnInit {
         this.users.forEach((user: any) => {
           if (user.skills) {
             user.skillsList = user.skills.split(",");
-
           }
-        });
-      
+        });   
         console.log("Search produces users:", this.users) ;
-
-
       },
       error => {
         console.error('error getting searched user', error);
       }
     )
   }
-
-  
-
-
 }
 
 

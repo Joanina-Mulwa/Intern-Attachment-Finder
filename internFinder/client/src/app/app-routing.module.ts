@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginWithGoogleComponent } from './account/auth/login-with-google/login-with-google.component';
 //import { LoginWithGoogleComponent } from './account/auth/login-with-google/login-with-google.component';
 import { LoginComponent } from './account/auth/login/login.component';
 import { ProfileComponent } from './account/auth/profile/profile.component';
@@ -11,11 +12,12 @@ import { InternshipDetailComponent } from './entities/internships/internship-det
 import { InternshipEditComponent } from './entities/internships/internship-edit/internship-edit.component';
 import { InternshipsComponent } from './entities/internships/internships/internships.component';
 import { PostInternshipsComponent } from './entities/post-internships/post-internships.component';
-import { ReviewsComponent } from './entities/reviews/reviews.component';
+import { ReviewsComponent } from './feedback/reviews/reviews.component';
 import { BioDetailComponent } from './entities/users/bio-detail/bio-detail.component';
 import { BioEditComponent } from './entities/users/bio-edit/bio-edit.component';
 import { UsersComponent } from './entities/users/users/users.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
+import { AboutUsComponent } from './about/about-us/about-us.component';
 
 const routes: Routes = [
   {
@@ -30,10 +32,10 @@ const routes: Routes = [
     path: 'users',
     component: UsersComponent
   },
-  // {
-  //   path: 'loginWithGoogle',
-  //   component: LoginWithGoogleComponent
-  // },
+  {
+    path: 'loginWithGoogle',
+    component: LoginWithGoogleComponent
+  },
   {
     path: 'internships',
     component: InternshipsComponent
@@ -81,6 +83,10 @@ const routes: Routes = [
   {
     path: 'reviews',
     component: ReviewsComponent
+  },
+  {
+    path: 'about-us',
+    component: AboutUsComponent
   }
 ];
 

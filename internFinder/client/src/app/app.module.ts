@@ -4,8 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';  
 import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-// import { SocialLoginModule,SocialAuthServiceConfig} from "angularx-social-login";
-// import { GoogleLoginProvider } from "angularx-social-login";
+//import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -25,11 +24,15 @@ import { TabsModule} from 'ngx-bootstrap/tabs';
 import { ApplicationComponent } from './entities/applications/application/application.component';
 import { ApplicantsComponent } from './entities/applications/applicants/applicants.component';
 import { ApplicationDetailComponent } from './entities/applications/application-detail/application-detail.component';
-import { ReviewsComponent } from './entities/reviews/reviews.component';
+import { ReviewsComponent } from './feedback/reviews/reviews.component';
+import { LoginWithGoogleComponent } from './account/auth/login-with-google/login-with-google.component';
+import { JwtInterceptorService } from './interceptors/jwt-interceptor.service';
+import { AboutUsComponent } from './about/about-us/about-us.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    LoginWithGoogleComponent,
     UsersComponent,
     InternshipsComponent,
     NavbarComponent,
@@ -44,7 +47,8 @@ import { ReviewsComponent } from './entities/reviews/reviews.component';
     ApplicationComponent,
     ApplicantsComponent,
     ApplicationDetailComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    AboutUsComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +56,7 @@ import { ReviewsComponent } from './entities/reviews/reviews.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-   // SocialLoginModule,
+   //SocialLoginModule,
     CommonModule,
     BrowserAnimationsModule,
     AngularEditorModule,
@@ -70,16 +74,23 @@ export class AppModule {
 //     {
 //       provide: 'SocialAuthServiceConfig',
 //       useValue: {
-//         autoLogin: true,
+//         autoLogin: false,
 //         providers: [
+          
 //           {
 //             id: GoogleLoginProvider.PROVIDER_ID,
 //             provider: new GoogleLoginProvider('475049910206-mfg3ar2rrrvl9jjn30i9okqge6ehotv4.apps.googleusercontent.com')
 //           }
 //         ]
 //       }as SocialAuthServiceConfig
-//     }
+//     },
+//     // {
+//     //   provide: HTTP_INTERCEPTORS,
+//     //   useClass: JwtInterceptorService,
+//     //   multi: true
+
+//     // }
 //   ],
 //   bootstrap: [AppComponent]
 // })
-//export class AppModule { }
+// export class AppModule { }

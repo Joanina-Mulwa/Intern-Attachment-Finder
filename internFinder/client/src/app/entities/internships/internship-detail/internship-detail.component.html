@@ -83,7 +83,7 @@
                                 <div class="alert alert-info tech-alert p-1 mx-1 col-md-2">
                                     {{internshipDetail.internshipType}}
                                 </div>
-                                <div class="alert alert-info tech-alert p-1 mx-1 col-md-2">
+                                <div *ngIf="internshipDetail.location" class="alert alert-info tech-alert p-1 mx-1 col-md-2">
                                     {{internshipDetail.location}}
                                 </div>
                             </div>
@@ -106,6 +106,8 @@
                 <p [innerHTML]="internshipDetail.skills">
                     {{internshipDetail.skills}}
                 </p>
+                <h4 style="text-decoration: underline">Take note</h4>
+
                 <ul>
                     <li>
                         <p>Minimum Qualification : {{internshipDetail.minimumQualification}}</p>
@@ -118,7 +120,7 @@
                             months</p>
                     </li>
                     <li>
-                        <p>Internship Types : {{internshipDetail.internshipType}}</p>
+                        <p>Internship Work Type : {{internshipDetail.internshipType}}</p>
                     </li>
                 </ul>
                 <div *ngIf="internshipDetail.responsibilities">

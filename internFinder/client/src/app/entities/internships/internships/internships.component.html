@@ -25,7 +25,7 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-lg-3 col-md-6 mb-2" *ngFor="let internship of internships">
+        <div class="col-12 col-lg-3 col-md-6 mb-3" *ngFor="let internship of internships">
             <div  class="card profile-item ">
                 <div class="card-body">
                     <div class="row">
@@ -59,7 +59,7 @@
                                     <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
                                 </span>
                             </div>
-                            <div>
+                            <div *ngIf="internship.location">
                                 <span class="company-name p-1 mx-0">
                                     Location: {{internship?.location}}
 

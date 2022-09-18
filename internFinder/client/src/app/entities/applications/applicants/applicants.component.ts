@@ -164,7 +164,6 @@ export class ApplicantsComponent implements OnInit {
             (err) => { console.log("Error fetching approved applicants details") }
           )
         })
-
         this.rejectedApplicationForcurrentInternship?.forEach((rejectedApplication) => {
           this.userService.findByEmail(rejectedApplication.appliedBy).subscribe(
             (res) => {
@@ -179,7 +178,6 @@ export class ApplicantsComponent implements OnInit {
             (err) => { console.log("Error fetching rejected applicants details") }
           )
         })
-
         this.pendingApplicationForcurrentInternship?.forEach((pendingApplication) => {
           this.userService.findByEmail(pendingApplication.appliedBy).subscribe(
             (res) => {
@@ -188,16 +186,13 @@ export class ApplicantsComponent implements OnInit {
                 if (pendingApplicantDetails.skills) {
                   pendingApplicantDetails.skillsList = pendingApplicantDetails.skills.split(",");
                 }
-              })
+})
               console.log("pending Applicants details are, ", this.pendingApplicantsDetails)
-            },
-            (err) => { console.log("Error fetching pending applicants details") }
+            },(err) => { console.log("Error fetching pending applicants details") }
           )
         })
-
       },
       (err) => { console.log("Could not find any applications") }
-
     )
   }
 
