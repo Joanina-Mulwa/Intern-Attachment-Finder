@@ -127,6 +127,8 @@ export class PostInternshipsComponent implements OnInit {
 
 
 
+
+
   reset(): void {
     this.internship = {
       id: undefined as any,
