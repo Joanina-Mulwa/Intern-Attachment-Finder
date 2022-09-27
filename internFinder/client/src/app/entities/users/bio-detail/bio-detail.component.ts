@@ -37,6 +37,7 @@ export class BioDetailComponent implements OnInit {
   internshipDetails: PostInternship[] = [];
   loading = false
   internships!: PostInternship[];
+  companyInternships!: PostInternship[];
   internshipsPostedByMe: PostInternship[] = [];
   activeInternshipsPostedByMe: PostInternship[] = [];
   closedInternshipsPostedByMe: PostInternship[] = [];
@@ -59,11 +60,12 @@ export class BioDetailComponent implements OnInit {
       console.log("We want to view profile of ", this.userEmail)
 
       this.checkIfMe();
+      this.getAppliedInternshipByMe();
 
     });
   }
 
- 
+
 
 
 
@@ -110,10 +112,13 @@ export class BioDetailComponent implements OnInit {
         }
         else if (this.userBioDetail?.authority === Authority.EMPLOYER) {
           this.getPostedInternshipByMe();
+
+
         }
         else {
           console.log("Error fetching current user authority")
         }
+
 
       },
       (err) => {
@@ -122,9 +127,10 @@ export class BioDetailComponent implements OnInit {
     )
 
   }
+
   getAppliedInternshipByMe(): void {
     this.loading = true;
-    this.applyInternship.findByAppliedBy(this.userEmail).subscribe(
+    this.applyInternship.findByAppliedBy(this.loggedInUserEmail).subscribe(
       (res) => {
         this.applications = res;
         console.log("I have aplied for this internships, ", this.applications)
@@ -132,6 +138,7 @@ export class BioDetailComponent implements OnInit {
           this.loading = false;
         }
         this.applications.forEach((application: any) => {
+          
           console.log("internships aplied by, ", application.appliedBy)
           this.postInternshipService.findAll().subscribe(
             (res) => {
@@ -142,13 +149,7 @@ export class BioDetailComponent implements OnInit {
                   this.internshipDetails?.push(allInternshipDetail)
                   console.log("internhsip details are", this.internshipDetails)
                   console.log("specific internhsip details are", application.id)
-                 // this.sortedInternshipDetails = this.internshipDetails?.sort((a?: PostInternship, b?: PostInternship) => a?.createdBy > b?.companyName ? 1 : -1);
-
-
-
-
-
-
+                  // this.sortedInternshipDetails = this.internshipDetails?.sort((a?: PostInternship, b?: PostInternship) => a?.createdBy > b?.companyName ? 1 : -1);
                   if (application.status === Status.APPROVED) {
                     this.approvedInternshipsDetails?.push(allInternshipDetail)
                   }
@@ -205,6 +206,7 @@ export class BioDetailComponent implements OnInit {
             if (internshipPostedByMe.internshipStatus === InternshipStatus.ACTIVE) {
               this.activeInternshipsPostedByMe.push(internshipPostedByMe)
               console.log("Active internships posted by me are", this.activeInternshipsPostedByMe)
+            
             }
             else if (internshipPostedByMe.internshipStatus === InternshipStatus.CLOSED) {
               this.closedInternshipsPostedByMe.push(internshipPostedByMe)
@@ -221,6 +223,7 @@ export class BioDetailComponent implements OnInit {
     )
 
   }
+
   back(): void {
     window.history.back();
     this.router.events.subscribe(event => {
@@ -278,19 +281,19 @@ export class BioDetailComponent implements OnInit {
     console.log("About to deactivate account of email", this.userEmail);
 
   }
-  deactivateAccount(): void{
+  deactivateAccount(): void {
     console.log("About current accoutn account of email", this.userBioDetail);
     this.userBioDetail!.userStatus = UserStatus.PASSIVE;
     console.log("About to deactivate account of email", this.userBioDetail);
     this.userService.updateUser(this.userBioDetail).subscribe(
       (res) => {
         console.log("Activated", res)
-       
+
         this.showNavbar = false;
-        setTimeout(function(){
+        setTimeout(function () {
           window.location.reload();
-       }, 500);
-       this.router.navigate(['']);
+        }, 500);
+        this.router.navigate(['']);
       },
       (err) => {
         console.log("Deactivation failure")

@@ -122,21 +122,21 @@
 
                                     </div>
                                     <div *ngIf="!isStudent" class="EMPLOYER">
-                                        <img class="justify-content-center" *ngIf="profile.profileImageUrl" name="profileImageUrl" [src]="profile.profileImageUrl" height="200"
-                                        width="200" >
+                                        <!-- <img class="justify-content-center" *ngIf="profile.profileImageUrl" name="profileImageUrl" [src]="profile.profileImageUrl" height="200"
+                                        width="200" > -->
 
-                                        <div class="row mt-3 mb-3">
-                                            <div>
+                                        <div class="row mb-3">
+                                            <div *ngIf="profile.name == null">
                                                 <label for="companyName">Company name *</label>
                                                 <input type="text" class="form-control" name="companyName"
                                                     [(ngModel)]="profile.name">
 
                                             </div>
-                                            <div hidden class="col-md-6">
+                                            <!-- <div hidden class="col-md-6">
                                                 <label for="email">Company email *</label>
                                                 <input readonly type="email" class="form-control" name="email"
                                                     [(ngModel)]="profile.email">
-                                            </div>
+                                            </div> -->
                                         </div>
                                     
 
@@ -148,12 +148,12 @@
                                                         style="margin-right:200px" type="file">
                                                     
                                             </div>
-                                            <div class="col-md-6">
+                                            <!-- <div class="col-md-6">
                                                 <label for="email">Company email *</label>
                                                 <input readonly type="email" class="form-control" name="email"
                                                     [(ngModel)]="profile.email">
-                                            </div>
-                                            <div class="col-md-6">
+                                            </div> -->
+                                            <div>
                                                 <label for="name">Company website</label>
                                                 <input type="text" class="form-control" name="companyWebsite"
                                                     [(ngModel)]="profile.companyWebsite">
@@ -186,7 +186,7 @@
                                                 </select>
 
                                             </div>
-                                            <div class="col-md-6">
+                                            <div hidden class="col-md-6">
                                                 <label for="name">Current number of employees</label>
                                                 <select autocomplete="on" style="height: 35px; width: 588px;"
                                                     name="companyNumberOfEmployees" type="text"

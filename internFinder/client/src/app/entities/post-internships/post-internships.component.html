@@ -1,133 +1,140 @@
 <div class="container-fluid justify-content-center">
     <div>
 
-        <div class="mt-2">
-            <div>
+        <div class="mt-5">
+            <div class="mt-5">
                 <form role="form">
                     <div align="centre">
                         <div>
                             <div class="row">
                                 <div class="col-md-2"></div>
                                 <div class="card bg-light  p-3 col-md-8">
+                                    <div hidden>
 
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="companyName">Company Name *</label>
 
-                                            <input type="text" class="form-control" name="companyName"
-                                                [(ngModel)]="companyDetails">
+
+                                        <div hidden class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="companyName">Company Name *</label>
+
+                                                <input type="text" class="form-control" name="companyName"
+                                                    [(ngModel)]="companyDetails">
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <label for="companyEmail">Company Email * </label>
+                                                <input readonly type="email" class="form-control" name="companyEmail"
+                                                    [(ngModel)]="internship.companyEmail">
+                                            </div>
                                         </div>
 
+                                        <div class=" row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="internshipTitle">Internship title * </label>
+                                                <input type="text" class="form-control" name="internshipTitle"
+                                                    [(ngModel)]="internship.internshipTitle">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="minimumQualification">Minimum qualification * </label>
+                                                <select autocomplete="on" type="text"
+                                                    style="height: 35px; width: 588px;" name="minimumQualification"
+                                                    [(ngModel)]="internship.minimumQualification">
 
-                                        <div class="col-md-6">
-                                            <label for="companyEmail">Company Email * </label>
-                                            <input readonly type="email" class="form-control" name="companyEmail"
-                                                [(ngModel)]="internship.companyEmail">
-                                        </div>
-                                    </div>
-
-                                    <div class=" row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="internshipTitle">Internship title * </label>
-                                            <input type="text" class="form-control" name="internshipTitle"
-                                                [(ngModel)]="internship.internshipTitle">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="minimumQualification">Minimum qualification * </label>
-                                            <select autocomplete="on" type="text" style="height: 35px; width: 588px;"
-                                                name="minimumQualification"
-                                                [(ngModel)]="internship.minimumQualification">
-
-                                                <option *ngFor="let minimumQualification of minimumQualifications">
-                                                    {{minimumQualification}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="workPlaceType">Working arrangement *</label>
-                                            <select autocomplete="on" style="height: 35px; width: 588px;"
-                                                name="institution" type="text" [(ngModel)]="internship.workPlaceType">
-                                                <option *ngFor="let workPlaceType of workPlaceTypes">
-                                                    {{workPlaceType}}
-                                                </option>
-                                            </select>
+                                                    <option *ngFor="let minimumQualification of minimumQualifications">
+                                                        {{minimumQualification}}
+                                                    </option>
+                                                </select>
+                                            </div>
                                         </div>
 
-
-                                        <div *ngIf="internship.workPlaceType === 'ONSITE' || internship.workPlaceType === 'HYBRID'"
-                                            class="mb-3 col-md-6">
-                                            <label for="location">Internship location * </label>
-                                            <input type="text" class="form-control" name="location"
-                                                [(ngModel)]="internship.location">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="internshipType">Internship work type *</label>
-
-                                            <select autocomplete="on" type="text" style="height: 35px; width: 588px;"
-                                                name="internshipType" [(ngModel)]="internship.internshipType">
-                                                <option *ngFor="let internshipType of internshipTypes; let i = index"
-                                                    [value]="i">
-                                                    {{internshipType}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="reportingDate"> Submission Deadline * </label>
-                                            <input type="date" class="form-control" name="reportingDate"
-                                                [(ngModel)]="internship.reportingDate">
-                                        </div>
-
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="experienceLevel">Minimum experience level * </label>
-                                            <select autocomplete="on" type="text" style="height: 35px; width: 588px;"
-                                                name="experienceLevel" [(ngModel)]="internship.experienceLevel">
-                                                <option *ngFor="let experienceLevel of experienceLevels">
-                                                    {{experienceLevel}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="status">Internship status *</label>
-                                            <select autocomplete="on" style="height: 35px; width: 588px;" name="status"
-                                                type="text" [(ngModel)]="internship.internshipStatus">
-
-                                                <option *ngFor="let status of internshipStatus">
-                                                    {{status}}
-                                                </option>
-                                            </select>
-
-                                        </div>
-
-
-
-
-
-
-                                    </div>
-
-                                    <div>
                                         <div class="row mb-3">
-                                            <div class="mb-3 col-md-6">
-                                                <label for="internshipPeriod">Internship period * <small>( In months
-                                                        )</small> </label>
+                                            <div class="col-md-6">
+                                                <label for="workPlaceType">Working arrangement *</label>
                                                 <select autocomplete="on" style="height: 35px; width: 588px;"
-                                                    name="internshipPeriod" type="text"
-                                                    [(ngModel)]="internship.internshipPeriod">
+                                                    name="institution" type="text"
+                                                    [(ngModel)]="internship.workPlaceType">
+                                                    <option *ngFor="let workPlaceType of workPlaceTypes">
+                                                        {{workPlaceType}}
+                                                    </option>
+                                                </select>
+                                            </div>
 
-                                                    <option *ngFor="let in of counter(10) ;let i = index">
-                                                        {{i+1}}
+
+                                            <div *ngIf="internship.workPlaceType === 'ONSITE' || internship.workPlaceType === 'HYBRID'"
+                                                class="mb-3 col-md-6">
+                                                <label for="location">Internship location * </label>
+                                                <input type="text" class="form-control" name="location"
+                                                    [(ngModel)]="internship.location">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="internshipType">Internship work type *</label>
+
+                                                <select autocomplete="on" type="text"
+                                                    style="height: 35px; width: 588px;" name="internshipType"
+                                                    [(ngModel)]="internship.internshipType">
+                                                    <option
+                                                        *ngFor="let internshipType of internshipTypes; let i = index"
+                                                        [value]="i">
+                                                        {{internshipType}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="reportingDate"> Submission Deadline * </label>
+                                                <input type="date" class="form-control" name="reportingDate"
+                                                    [(ngModel)]="internship.reportingDate">
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="experienceLevel">Minimum experience level * </label>
+                                                <select autocomplete="on" type="text"
+                                                    style="height: 35px; width: 588px;" name="experienceLevel"
+                                                    [(ngModel)]="internship.experienceLevel">
+                                                    <option *ngFor="let experienceLevel of experienceLevels">
+                                                        {{experienceLevel}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="status">Internship status *</label>
+                                                <select autocomplete="on" style="height: 35px; width: 588px;"
+                                                    name="status" type="text" [(ngModel)]="internship.internshipStatus">
+
+                                                    <option *ngFor="let status of internshipStatus">
+                                                        {{status}}
                                                     </option>
                                                 </select>
 
                                             </div>
-                                            <!-- <div class="col-md-6">
+
+
+
+
+
+
+                                        </div>
+
+                                        <div>
+                                            <div class="row mb-3">
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="internshipPeriod">Internship period * <small>( In months
+                                                            )</small> </label>
+                                                    <select autocomplete="on" style="height: 35px; width: 588px;"
+                                                        name="internshipPeriod" type="text"
+                                                        [(ngModel)]="internship.internshipPeriod">
+
+                                                        <option *ngFor="let in of counter(10) ;let i = index">
+                                                            {{i+1}}
+                                                        </option>
+                                                    </select>
+
+                                                </div>
+                                                <!-- <div class="col-md-6">
                                                 <label for="vacancy">Vacancies Left * </label>
                                                 <select autocomplete="on" style="height: 35px; width: 588px;"
                                                     name="vacancy" type="text" [(ngModel)]="internship.vacancy">
@@ -139,56 +146,134 @@
 
                                             </div> -->
 
-                                        </div>
+                                            </div>
 
+                                        </div>
+                                        <hr>
+
+                                        <div class="row mb-3">
+
+
+                                            <div class="col-md-6">
+                                                <label for="description">Internship description * <small> (What the
+                                                        internship
+                                                        Entails)</small> </label>
+                                                <angular-editor class="editor form-control"
+                                                    [placeholder]="'Enter internship description'" cols="55" rows="155"
+                                                    style="height: auto" name="description"
+                                                    [(ngModel)]="internship.description">
+                                                </angular-editor>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="skills">Required skills * </label>
+                                                <angular-editor class="editor form-control"
+                                                    [placeholder]="'Enter required skills'" cols="55" rows="155"
+                                                    style="height: auto" name="skills" [(ngModel)]="internship.skills">
+                                                </angular-editor>
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="responsibilities">Internship responsibilities </label>
+                                                <angular-editor class="editor form-control"
+                                                    [placeholder]="'Enter required responsibilities'" cols="55"
+                                                    rows="155" style="height: auto" name="responsibilities"
+                                                    [(ngModel)]="internship.responsibilities">
+                                                </angular-editor>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="important">Important info </label>
+                                                <angular-editor class="editor form-control"
+                                                    [placeholder]="'Enter important info'" cols="55" rows="155"
+                                                    style="height: auto" name="important"
+                                                    [(ngModel)]="internship.important"></angular-editor>
+
+                                            </div>
+
+                                        </div>
                                     </div>
-                                    <hr>
+                                    <div>
+                                        <div class=" row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="internshipTitle">
+                                                    <p style="display:inline">Internship title *</p>
+                                                </label>
+                                                <input type="text" class="form-control" name="internshipTitle"
+                                                    [(ngModel)]="advertDetails.internshipTitle">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="period">
+                                                    <p style="display:inline"> Period *</p>
+                                                </label>
+                                                <select autocomplete="on" type="text"
+                                                    style="height: 37px; width: 588px;" name="period"
+                                                    [(ngModel)]="advertDetails.period">
 
-                                    <div class="row mb-3">
+                                                    <option *ngFor="let period of periods">
+                                                        {{period}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="domain">
+                                                    <p style="display:inline">Domain *</p>
+                                                </label>
+
+                                                <select autocomplete="on" type="text"
+                                                    style="height: 37px; width: 588px;" name="domain"
+                                                    [(ngModel)]="advertDetails.domain">
+
+                                                    <option *ngFor="let domain of domains">
+                                                        {{domain}}
+                                                    </option>
+                                                </select>
+                                            </div>
 
 
-                                        <div class="col-md-6">
-                                            <label for="description">Internship description * <small> (What the
-                                                    internship
-                                                    Entails)</small> </label>
-                                            <angular-editor class="editor form-control"
-                                                [placeholder]="'Enter internship description'" cols="55" rows="155"
-                                                style="height: auto" name="description"
-                                                [(ngModel)]="internship.description">
-                                            </angular-editor>
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="advert">
+                                                            <p style="display:inline">Attach advert</p>
+                                                        </label>
+                                                    </div>
+
+                                                    <div *ngIf="currentFile" class="progress col-md-6">
+                                                        <div class="progress-bar progress-bar-info progress-bar-striped"
+                                                            role="progressbar" attr.aria-valuenow="{{ progress }}"
+                                                            aria-valuemin="0" aria-valuemax="100"
+                                                            [ngStyle]="{ width: progress + '%' }">
+                                                            {{ progress }}%
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <input type="file" class="form-control" name="advert"
+                                                    (change)="selectFile($event)" />
+
+                                            </div>
+                                        </div>
+
+                                        <div style="text-align: center;" class="mt-5">
+                                            <button class="btn btn-primary" (click)="upload()"
+                                                [disabled]="!advertDetails.internshipTitle || !advertDetails.period || !advertDetails.domain || !selectedFiles">
+                                                Upload
+                                            </button>
+                                        </div>
+                                        <div *ngIf="message" class="alert alert-dismissible alert-danger fade show mt-2"
+                                            role="alert">
+                                            {{message}}
 
                                         </div>
-                                        <div class="col-md-6">
-                                            <label for="skills">Required skills * </label>
-                                            <angular-editor class="editor form-control"
-                                                [placeholder]="'Enter required skills'" cols="55" rows="155"
-                                                style="height: auto" name="skills" [(ngModel)]="internship.skills">
-                                            </angular-editor>
-                                        </div>
-
                                     </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <label for="responsibilities">Internship responsibilities </label>
-                                            <angular-editor class="editor form-control"
-                                                [placeholder]="'Enter required responsibilities'" cols="55" rows="155"
-                                                style="height: auto" name="responsibilities"
-                                                [(ngModel)]="internship.responsibilities">
-                                            </angular-editor>
 
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="important">Important info </label>
-                                            <angular-editor class="editor form-control"
-                                                [placeholder]="'Enter important info'" cols="55" rows="155"
-                                                style="height: auto" name="important"
-                                                [(ngModel)]="internship.important"></angular-editor>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
+                                    <div hidden class="row">
                                         <div class="col-md-2">
 
                                             <button class="btn btn-outline-primary form-control"
@@ -211,5 +296,15 @@
             </div>
 
         </div>
+        <div   class="mt-3">
+            <div class="card">
+                <div class="card-header">List of Files</div>
+                <ul class="list-group list-group-flush" *ngFor="let file of fileInfos | async">
+                    <li class="list-group-item">
+                        
+                        <a href="{{file.url}}"  target="_blank">{{ file.name }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-</div>

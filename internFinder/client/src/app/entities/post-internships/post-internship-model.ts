@@ -18,7 +18,7 @@ export class PostInternship{
     createdBy?: string;
     minimumQualification?: MinimumQualification;
     experienceLevel?:ExperienceLevel;
-  group: any;
+    internshipTime?: InternshipTime;
     constructor(
     id?: number,
     internshipTitle?:string,
@@ -39,6 +39,8 @@ export class PostInternship{
     createdBy?: string,
     minimumQualification?: MinimumQualification,
     experienceLevel?:ExperienceLevel,
+    internshipTime?: InternshipTime,
+
 
 
 
@@ -62,6 +64,7 @@ export class PostInternship{
         this.createdBy=createdBy;
         this.minimumQualification=minimumQualification;
         this.experienceLevel=experienceLevel;
+        this.internshipTime=internshipTime;
 
     }
 }
@@ -92,4 +95,26 @@ export enum ExperienceLevel{
     INTERMEDIATE = 'Intermediate (2 - 3 years)',
     MIDLEVEL = 'MidLevel (3 - 5 years)',
     EXPERT = 'Expert (over 5 years )'
+}
+
+export enum InternshipTime{
+    JAN = "January - April",
+    MAY = "May - August",
+    JULY = "September - December"
+}
+export enum Period{
+    JAN = "January - April",
+    MAY = "May - August",
+    JULY = "September - December"
+}
+
+export enum Domain {
+    TECH = 'Technology',
+    ENGINEERING = 'Engineering',
+    ENGINEERINGTECH = 'Technology & Engineering',
+    BUSINESS = 'Business',
+    HOSPITALITY = 'Hotel & Hospitality',
+    BUILDING = 'Building and constrution',
+    TELECOMS = 'Telecoms',
+    TEACHING = 'Teaching'
 }

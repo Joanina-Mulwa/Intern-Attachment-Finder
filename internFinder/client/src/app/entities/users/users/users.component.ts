@@ -24,14 +24,34 @@ export class UsersComponent implements OnInit {
   usersStudent: UserBio[]=[];
   usersEmployer: UserBio[]=[];
   usersGuest: UserBio[]=[];
+  userEmail!: string;
+  userBioDetail?: UserBio;
 
 
   ngOnInit(): void {
-    this.getAllUsers();
-    
-
-    
+    this.getAllUsers(); 
+    this.getCurrentLoggedInUsername();
+    this.getBioDetails();
   }
+
+  getCurrentLoggedInUsername(): any {
+    console.log("Current logged in username", JSON.parse(localStorage.getItem('currentUser')!).email);
+    this.userEmail = JSON.parse(localStorage.getItem('currentUser')!).email
+
+
+  }
+
+  getBioDetails(): void{
+    this.userService.findByEmail(this.userEmail).subscribe(
+      (res)=>{
+        this.userBioDetail=res;
+        console.log("Found user details", this.userBioDetail)
+      },
+      (err)=> {
+        console.log(err)}
+    )
+  }
+
 
 
 
