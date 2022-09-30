@@ -162,17 +162,18 @@
 
                                         <div class="row mb-3">
                                             <div class="col-md-6">
-                                                <label for="name">Company location *</label>
-                                                <input type="text" class="form-control" name="companyLocation"
+                                                <label for="name">Company city location *</label>
+                                             
+                                                    <select autocomplete="on" style="height: 35px; width: 588px;"
+                                                    name="companyLocation" type="text"
                                                     [(ngModel)]="profile.companyLocation">
+
+                                                    <option
+                                                        *ngFor="let companyLocation of companyLocations ;let i = index">
+                                                        {{companyLocation}}
+                                                    </option>
+                                                </select>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label for="companyPhoneNumber">Company contact phone number</label>
-                                                <input type="text" class="form-control" name="companyPhoneNumber"
-                                                    [(ngModel)]="profile.companyPhoneNumber">
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="name">Company industry *</label>
                                                 <select autocomplete="on" style="height: 35px; width: 588px;"
@@ -186,6 +187,14 @@
                                                 </select>
 
                                             </div>
+                                            <div hidden class="col-md-6">
+                                                <label for="companyPhoneNumber">Company contact phone number</label>
+                                                <input type="text" class="form-control" name="companyPhoneNumber"
+                                                    [(ngModel)]="profile.companyPhoneNumber">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+          
                                             <div hidden class="col-md-6">
                                                 <label for="name">Current number of employees</label>
                                                 <select autocomplete="on" style="height: 35px; width: 588px;"
@@ -201,7 +210,7 @@
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
-                                                <label for="name">Company description *</label>
+                                                <label for="name">Company description <small>( Optional )</small></label>
                                               
 
                                                 <angular-editor class="editor form-control"
@@ -209,7 +218,7 @@
                                                     name="companydDescription" [(ngModel)]="profile.companyDescription" >
                                                 </angular-editor>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div hidden class="col-md-6">
                                                 <label for="name">Company postal address</label>
 
                                                 <angular-editor class="editor form-control"
@@ -228,7 +237,7 @@
 
                                         <button *ngIf="!isStudent" class="btn btn-outline-primary form-control"
                                             (click)="updateUser()"
-                                            [disabled]="!profile.companyLocation || !profile.companyIndustry || !profile.companyDescription">Update
+                                            [disabled]="!profile.companyLocation || !profile.companyIndustry ">Update
                                             Employer</button>
 
                                     </div>

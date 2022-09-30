@@ -12,11 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,15 +31,19 @@ public class PostAdvertResource {
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
                                                       @RequestParam("internshipTitle") String internshipTitle,
                                                       @RequestParam("companyName") String companyName,
-                                                      @RequestParam("companyEmail")String companyEmail,
+                                                      @RequestParam("companyEmail") String companyEmail,
                                                       @RequestParam("domain") String domain,
-                                                      @RequestParam("period") String period){
+                                                      @RequestParam("period") String period,
+                                                      @RequestParam("internshipStatus") String internshipStatus,
+                                                      @RequestParam("createdOn") String createdOn,
+                                                      @RequestParam("reportingDate") String reportingDate) {
         String message = "";
+        System.out.println("**************************Testing************************");
         try {
-            PostAdvert postAdvert = new PostAdvert(internshipTitle, companyName, companyEmail, domain, period);
+            PostAdvert postAdvert = new PostAdvert(internshipTitle, companyName, companyEmail, domain, period, internshipStatus, createdOn, reportingDate);
             postAdvertService.store(file, postAdvert);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
-               return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 
 //            Optional<Byte> data =postAdvertService.getFileData(file.getBytes());
 //            System.out.println("Found advert data"+ data);
@@ -67,15 +68,25 @@ public class PostAdvertResource {
         List<ResponseFile> files = postAdvertService.getAllFiles().map(dbFile -> {
             String fileDownloadUri = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/api/fileById/")
+                    .path("/api/downloadAdvertById/")
                     .path(String.valueOf(dbFile.getId()))
                     .toUriString();
 
             return new ResponseFile(
+                    dbFile.getId(),
                     dbFile.getName(),
                     fileDownloadUri,
                     dbFile.getType(),
-                    dbFile.getData().length);
+                    dbFile.getData().length,
+                    dbFile.getInternshipTitle(),
+                    dbFile.getCompanyName(),
+                    dbFile.getCompanyEmail(),
+                    dbFile.getDomain(),
+                    dbFile.getPeriod(),
+                    dbFile.getInternshipStatus(),
+                    dbFile.getCreatedOn(),
+                    dbFile.getReportingDate());
+
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(files);
@@ -88,13 +99,39 @@ public class PostAdvertResource {
 
     }
 
-    @GetMapping("/fileById/{id}")
-    public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
-        PostAdvert fileDB = postAdvertService.getFile((id));
+    @GetMapping("/findAdvertById/{id}")
+    public PostAdvert getAdvertById(@PathVariable Long id) {
+        PostAdvert file = postAdvertService.getAdvertById(id);
+        file.setUrl(ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/api/downloadAdvertById/")
+                .path(String.valueOf(file.getId()))
+                .toUriString());
+        System.out.println("Got file"+ file);
+        return file;
+
+    }
+
+//    @GetMapping("/file/{id}")
+//    public PostAdvert getFile(@PathVariable Long id) {
+//        PostAdvert file = postAdvertService.getAdvertById(id);
+//        file.setUrl(ServletUriComponentsBuilder
+//                .fromCurrentContextPath()
+//                .path("/api/downloadAdvertById/")
+//                .path(String.valueOf(file.getId()))
+//                .toUriString());
+//        System.out.println("Got file"+ file);
+//        return file;
+//    }
+
+    @GetMapping("/downloadAdvertById/{id}")
+    public ResponseEntity<byte[]> downloadAdvertById(@PathVariable Long id) {
+        PostAdvert fileDB = postAdvertService.downloadAdvertById((id));
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
                 .body(fileDB.getData());
     }
+
 
 }

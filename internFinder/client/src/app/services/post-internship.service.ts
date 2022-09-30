@@ -2,7 +2,6 @@ import { HttpClient, HttpRequest, HttpHeaders, HttpEvent } from '@angular/common
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AdvertDetails } from '../entities/post-internships/advert-details';
 import { InternshipStatus, PostInternship } from '../entities/post-internships/post-internship-model';
 
 @Injectable({
@@ -43,7 +42,10 @@ export class PostInternshipService {
     formData.append('companyName', advertDetails.companyName);
     formData.append('companyEmail',advertDetails.companyEmail);
     formData.append('domain', advertDetails.domain)
-    formData.append('period', advertDetails.period);
+    formData.append('period', advertDetails.period)
+    formData.append('internshipStatus', advertDetails.internshipStatus);
+    formData.append('createdOn', advertDetails.createdOn);
+    formData.append('reportingDate', advertDetails.reportingDate);
     const req = new HttpRequest('POST', `${this.apiServerURL}/api/upload`,formData,{
       reportProgress: true,
       responseType: 'json'
@@ -55,8 +57,11 @@ export class PostInternshipService {
     return this.httpClient.get(`${this.apiServerURL}/api/files`);
   }
 
-  // getUploadedFile(id = 1): Observable<any> {
-  //   return this.httpClient.get(`${this.apiServerURL}/api/fileById/`+id);
+  findAdvertById(id: number): Observable<any> {
+    return this.httpClient.get(`${this.apiServerURL}/api/findAdvertById/`+id);
+  }
+  // downloadAdvertById(id: number): Observable<any> {
+  //   return this.httpClient.get(`${this.apiServerURL}/api/file/`+id);
   // }
 
 }

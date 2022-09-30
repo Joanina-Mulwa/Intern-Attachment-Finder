@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
 import { ApplyInternship } from '../../apply-internship/apply-internship-model';
+import { AdvertDetails } from '../../post-internships/advert-details-model';
 import { InternshipStatus, PostInternship } from '../../post-internships/post-internship-model';
 import { UserBio } from '../../users/user-bio-model';
 
@@ -22,32 +24,139 @@ export class InternshipsComponent implements OnInit {
   ) {
   }
   category: Boolean = false;
-  internships: PostInternship[]=[];
-  allPostedInternships: PostInternship[]=[];
-  allInternships!:PostInternship[];
+  
   username!: string;
   loading = false;
   searchText: string = '';
   userEmail!: string;
-  applications!: ApplyInternship[];
+  
   appliedInternshipIdArray: any[] = []
   isApplied: boolean = false;
   userBioDetail?: UserBio;
-  internshipsPostedByMe: PostInternship[] = [];
-  activeInternshipsPostedByMe: PostInternship[] = [];
-  closedInternshipsPostedByMe: PostInternship[] = [];
+  // internshipsPostedByMe: PostInternship[] = [];
+  // activeInternshipsPostedByMe: PostInternship[] = [];
+  // closedInternshipsPostedByMe: PostInternship[] = [];
+  // internships: PostInternship[]=[];
+  // allPostedInternships: PostInternship[]=[];
+  // allInternships!:PostInternship[];
+ // applications!: ApplyInternship[];
+  
+  internshipsPostedByMe: AdvertDetails[] = [];
+  activeInternshipsPostedByMe: AdvertDetails[] = [];
+  closedInternshipsPostedByMe: AdvertDetails[] = [];
+  internships: AdvertDetails[]=[];
+  allPostedInternships: AdvertDetails[]=[];
+  allInternships!:AdvertDetails[];
+  applications!: ApplyInternship[];
+
   deleteId: any;
   deleteTitle: any;
   //today = new Date().toJSON().slice(0, 10)
   //date?: string
+  fileInfos?: Observable<any>;
+
 
 
   ngOnInit(): void {
-    this.findAllinternships();
+    //this.findAllinternships();
+    this.findAllAdverts();
     this.getCurrentLoggedInUsername();
     this.getBioDetails();
-    this.getPostedInternshipByMe();
+    //this.getPostedInternshipByMe();
     //this.getUsername2();
+    this.getAdvertsPotedByMe();
+    this.fileInfos = this.postInternshipService.getFiles();
+
+
+  }
+  getAdvertsPotedByMe():void{
+    this.loading = true;
+    this.postInternshipService.getFiles().subscribe(
+      (res) => {
+        this.allPostedInternships = res;
+        console.log("all internhsip posted are", this.allPostedInternships)
+
+        this.allPostedInternships.forEach((internship: any) => {
+          if (internship.companyEmail === this.userEmail) {
+            this.internshipsPostedByMe.push(internship);
+            console.log("internhsip details i have posted are are", this.internshipsPostedByMe)
+
+          }
+
+          this.loading = false;
+
+        })
+        console.log("Length of internships posted by me", this.internshipsPostedByMe.length)
+        if (this.internshipsPostedByMe.length === 0) {
+          console.log("You have not posted any internhsip")
+
+        }
+        else {
+          this.internshipsPostedByMe.forEach((internshipPostedByMe: any) => {
+            if (internshipPostedByMe.internshipStatus === InternshipStatus.ACTIVE) {
+              this.activeInternshipsPostedByMe.push(internshipPostedByMe)
+              console.log("Active internships posted by me are", this.activeInternshipsPostedByMe)
+            }
+            else if (internshipPostedByMe.internshipStatus === InternshipStatus.CLOSED) {
+              this.closedInternshipsPostedByMe.push(internshipPostedByMe)
+              console.log("Closed internships posted by me are", this.closedInternshipsPostedByMe)
+
+            }
+            else { console.log("No status found") }
+
+          })
+        }
+
+      },
+      (err) => { console.log("error fetching all internhips", err) }
+    )
+    
+  }
+  findAllAdverts(): void {
+    this.loading = true;
+    this.postInternshipService.getFiles().subscribe(
+      (res) => {
+        this.loading = true;
+        this.loading = false;
+        console.log("Found all internships ", res)
+        this.allInternships=res;
+        console.log("Found all internships testing ", this.allInternships)
+
+
+        this.allInternships.forEach((internship)=>{
+          if(internship.internshipStatus === InternshipStatus.ACTIVE){
+            this.internships.push(internship)
+          }
+        })
+        let date = new Date().toJSON().slice(0, 10);
+        console.log("Found active internships ", this.internships)
+        this.internships.forEach((internship: any) => {
+          if (internship.reportingDate === date && internship.internshipStatus === InternshipStatus.ACTIVE) {
+            internship.internshipStatus = InternshipStatus.CLOSED;
+            this.postInternshipService.updateInternship(internship).subscribe(
+              (res) => {
+                console.log(" updated internship to ,", res)
+              },
+              (err) => {
+                console.log("error updating internship", err)
+              }
+            )
+          }
+          this.applyInternship.findByAppliedBy(this.userEmail).subscribe(
+            (res) => {
+              this.applications = res;
+              this.applications.forEach((application: any) => {
+                if (application.internshipId === internship.id) {
+                  this.appliedInternshipIdArray.push(internship.id)
+                  console.log("length is", this.appliedInternshipIdArray.length)
+                }
+              })
+            },
+            (err) => { console.log(err) }
+          )
+        });
+      }
+    )
   }
 
   // getCategory(): void {
@@ -63,6 +172,8 @@ export class InternshipsComponent implements OnInit {
   //     }
   //   )
   // }
+
+
 
   getCurrentLoggedInUsername(): any {
 

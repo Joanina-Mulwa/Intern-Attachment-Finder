@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
 import { ApplyInternship } from '../../apply-internship/apply-internship-model';
+import { AdvertDetails } from '../../post-internships/advert-details-model';
 import { PostInternship } from '../../post-internships/post-internship-model';
 import { Authority, UserBio } from '../../users/user-bio-model';
 
@@ -24,7 +26,10 @@ export class InternshipDetailComponent implements OnInit {
     protected router: Router,
   ) { }
   category: Boolean = false;
-  internshipDetail!: PostInternship;
+  //internshipDetail!: PostInternship;
+  internshipDetail!: any;
+  // internshipDownloadDetail?: Observable<any>;
+
   username!: string;
   internshipId!: number;
   loggedInUserEmail!: string;
@@ -35,7 +40,7 @@ export class InternshipDetailComponent implements OnInit {
   internshipApplied = false;
   //appliedInternshipId: number = 1;
   appliedInternshipIdArray: number[] = []
-
+  file?: File;
 
 
   ngOnInit(): void {
@@ -43,20 +48,24 @@ export class InternshipDetailComponent implements OnInit {
       this.internshipId = params['id'];
       console.log("We want to view profile of intenrhsip of is  ", this.internshipId)
       this.checkIfPostedByMe();
+      
     });
     // this.findAllinternships();
     this.getCurrentLoggedInUsername();
     this.checkIfAppliedByMe();
-  
+
   }
 
-  back():void{
+
+
+  back(): void {
 
     window.history.back();
-  
+
   }
 
   getCurrentLoggedInUsername(): any {
+    // this.internshipDownloadDetail = this.postInternshipService.downloadAdvertById(this.internshipId)
     console.log("Current logged in user token", this.tokenService.getToken());
     console.log("Current logged in username and token ", this.tokenService.getUsername());
     console.log("Current logged in username", JSON.parse(localStorage.getItem('currentUser')!).email);
@@ -81,10 +90,18 @@ export class InternshipDetailComponent implements OnInit {
 
   checkIfPostedByMe(): void {
 
-    this.postInternshipService.findInternshipById(this.internshipId).subscribe(
+    this.postInternshipService.findAdvertById(this.internshipId).subscribe(
       (res) => {
         console.log("internship details are", res)
+       // res.type = `data:${res.type};base64,`
         this.internshipDetail = res;
+        //this.fileBlob = btoa(String.fromCharCode.apply(null, new Uint8Array(res.data)));
+        // this.fileBlob=new Blob([res.data], {type: "image/png"});
+        // this.fileBlob = btoa(String.fromCharCode.apply(null, new Array(res.data))); 
+        this.file = new File([res.data], res.name, { type: res.type });
+        console.log(new File([res.data], res.name, { type: res.type }))
+
+        console.log("Testing ***********", this.internshipDetail)
         console.log("internship details confirmation are", this.internshipDetail)
         console.log("Current logged in username", JSON.parse(localStorage.getItem('currentUser')!).email);
         console.log("Current internship was posted by :", this.internshipDetail.companyEmail);
@@ -136,15 +153,15 @@ export class InternshipDetailComponent implements OnInit {
             this.appliedInternshipIdArray.push(+application.internshipId);
             console.log("Id of internships applied are", this.appliedInternshipIdArray)
           }
-         
+
         });
-        
-       if (this.appliedInternshipIdArray.includes(+this.internshipId)) {
-           this.internshipApplied = true;
-         }
-         else {
-           this.internshipApplied = false;
-         }
+
+        if (this.appliedInternshipIdArray.includes(+this.internshipId)) {
+          this.internshipApplied = true;
+        }
+        else {
+          this.internshipApplied = false;
+        }
       },
       (err) => { console.log("error fetching internhips applied", err) }
 

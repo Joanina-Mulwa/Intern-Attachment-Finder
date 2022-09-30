@@ -206,7 +206,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="period">
-                                                    <p style="display:inline"> Period *</p>
+                                                    <p style="display:inline"> Duration *</p>
                                                 </label>
                                                 <select autocomplete="on" type="text"
                                                     style="height: 37px; width: 588px;" name="period"
@@ -233,17 +233,27 @@
                                                     </option>
                                                 </select>
                                             </div>
-
-
                                             <div class="col-md-6">
+                                                <label for="reportingDate"> Submission Deadline * </label>
+                                                <input type="date" class="form-control" name="reportingDate" min="{{today}}"
+                                                    [(ngModel)]="advertDetails.reportingDate">
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-9">
                                                         <label for="advert">
-                                                            <p style="display:inline">Attach advert</p>
+                                                            <p style="display:inline">Attach or drag & drop advert
+                                                                <small>(pdf, doc, odt, image)</small>
+                                                            </p>
                                                         </label>
                                                     </div>
 
-                                                    <div *ngIf="currentFile" class="progress col-md-6">
+                                                    <div *ngIf="currentFile" class="progress col-md-3">
                                                         <div class="progress-bar progress-bar-info progress-bar-striped"
                                                             role="progressbar" attr.aria-valuenow="{{ progress }}"
                                                             aria-valuemin="0" aria-valuemax="100"
@@ -254,15 +264,18 @@
 
                                                 </div>
 
-                                                <input type="file" class="form-control" name="advert"
-                                                    (change)="selectFile($event)" />
+                                                <input type="file"
+                                                    accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.pdf, .odt"
+                                                    class="form-control" name="advert" (change)="selectFile($event)" />
 
                                             </div>
+
+
                                         </div>
 
                                         <div style="text-align: center;" class="mt-5">
                                             <button class="btn btn-primary" (click)="upload()"
-                                                [disabled]="!advertDetails.internshipTitle || !advertDetails.period || !advertDetails.domain || !selectedFiles">
+                                                [disabled]="!advertDetails.internshipTitle || !advertDetails.period || !advertDetails.domain ||!advertDetails.reportingDate || !selectedFiles">
                                                 Upload
                                             </button>
                                         </div>
@@ -296,13 +309,13 @@
             </div>
 
         </div>
-        <div   class="mt-3">
+        <div class="mt-3">
             <div class="card">
                 <div class="card-header">List of Files</div>
                 <ul class="list-group list-group-flush" *ngFor="let file of fileInfos | async">
                     <li class="list-group-item">
-                        
-                        <a href="{{file.url}}"  target="_blank">{{ file.name }}</a>
+
+                        <a href="{{file.url}}" target="_blank">{{ file.name }}</a>
                     </li>
                 </ul>
             </div>

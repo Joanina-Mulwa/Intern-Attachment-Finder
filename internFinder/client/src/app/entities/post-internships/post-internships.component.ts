@@ -41,13 +41,16 @@ export class PostInternshipsComponent implements OnInit {
     experienceLevel: '',
   }
 
-  advertDetails={
+  advertDetails = {
     id: undefined as any,
     internshipTitle: '',
     companyName: '',
     companyEmail: '',
-    period:'',
-    domain:'',
+    period: '',
+    domain: '',
+    internshipStatus: 'ACTIVE',
+    createdOn: '',
+    reportingDate: '',
   }
 
 
@@ -59,7 +62,7 @@ export class PostInternshipsComponent implements OnInit {
   minimumQualifications = [MinimumQualification.CERTIFICATE, MinimumQualification.DIPLOMA, MinimumQualification.DEGREE, MinimumQualification.POSTGRADUATE]
   experienceLevels = [ExperienceLevel.BEGINNER, ExperienceLevel.INTERMEDIATE, ExperienceLevel.MIDLEVEL, ExperienceLevel.EXPERT]
   periods = [Period.JAN, Period.MAY, Period.JULY]
-  domains = [Domain.BUSINESS, Domain.ENGINEERING, Domain.TECH,Domain.ENGINEERINGTECH, Domain.BUILDING,Domain.HOSPITALITY, Domain.TELECOMS, Domain.TEACHING];
+  domains = [Domain.BUSINESS, Domain.ENGINEERING, Domain.TECH, Domain.ENGINEERINGTECH, Domain.BUILDING, Domain.HOSPITALITY, Domain.TELECOMS, Domain.TEACHING];
 
 
   selectedFiles!: FileList;
@@ -67,15 +70,15 @@ export class PostInternshipsComponent implements OnInit {
   progress = 0;
   message = '';
   fileInfos?: Observable<any>;
+  today?: any;
 
   ngOnInit(): void {
     this.getCurrentUser();
     this.fileInfos = this.postInternshipService.getFiles();
-    console.log("Here:", this.fileInfos)
-
-
-
-
+    console.log("Here:", this.fileInfos);
+    this.today = new Date().toISOString().split('T')[0];
+    console.log("Got date", this.today)
+    //document.getElementsByName("reportingDate")[0].setAttribute('min', today);
   }
   selectFile(event: any) {
     this.selectedFiles = event.target.files;
@@ -93,12 +96,12 @@ export class PostInternshipsComponent implements OnInit {
           this.progress = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
           this.message = event.body.message;
-          setTimeout(()=>{
+          setTimeout(() => {
             this.message = '';
             this.reset2();
             this.router.navigate(['/internships'])
 
-          }, 3000) 
+          }, 3000)
         }
         this.fileInfos = this.postInternshipService.getFiles();
 
@@ -116,10 +119,10 @@ export class PostInternshipsComponent implements OnInit {
         this.progress = 0;
         this.message = 'Could not upload the file! Try again later.';
         this.currentFile = undefined;
-        setTimeout(()=>{
+        setTimeout(() => {
           this.message = '';
-          this.reset2();
-        }, 5000) 
+          //this.reset2();
+        }, 5000)
       });
 
     // this.selectedFiles = undefined;
@@ -152,15 +155,18 @@ export class PostInternshipsComponent implements OnInit {
       experienceLevel: '',
     }
   }
-  reset2(): void{
-  this.advertDetails = {
-    id: undefined as any,
-    internshipTitle: '',
-    companyName: '',
-    companyEmail: '',
-    period:'',
-    domain:'',
-  }
+  reset2(): void {
+    this.advertDetails = {
+      id: undefined as any,
+      internshipTitle: '',
+      companyName: '',
+      companyEmail: '',
+      period: '',
+      domain: '',
+      internshipStatus: 'ACTIVE',
+      createdOn: '',
+      reportingDate: '',
+    }
   }
   postinternship(): void {
     this.internship.companyEmail = JSON.parse(localStorage.getItem('currentUser')!).email;

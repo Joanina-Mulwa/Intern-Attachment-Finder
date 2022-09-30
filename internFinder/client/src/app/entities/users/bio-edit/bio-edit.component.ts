@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { UserService } from 'src/app/services/user.service';
 import { ApplyInternship } from '../../apply-internship/apply-internship-model';
-import { Authority, CompanyIndustry, Course, ExperienceLevel, Institution, Programme } from '../user-bio-model';
+import { Authority, CompanyIndustry, companyLocation, Course, ExperienceLevel, Institution, Programme } from '../user-bio-model';
 
 @Component({
   selector: 'app-bio-edit',
@@ -62,6 +62,7 @@ userEmail: any;
   courses = [Course.CS, Course.IT, Course.BUSINESS, Course.ENGINEERING, Course.HOSPITALITY, Course.BCOM];
   companyIndustrys = [CompanyIndustry.BUSINESS, CompanyIndustry.ENGINEERING, CompanyIndustry.TECH,CompanyIndustry.ENGINEERINGTECH, CompanyIndustry.BUILDING,CompanyIndustry.HOSPITALITY, CompanyIndustry.TELECOMS];
   experienceLevels=[ExperienceLevel.BEGINNER, ExperienceLevel.INTERMEDIATE, ExperienceLevel.MIDLEVEL, ExperienceLevel.EXPERT]
+  companyLocations = [companyLocation.BARINGO,companyLocation.BOMET,companyLocation.BUNGOMA,companyLocation.BUSIA,companyLocation.EMBU,companyLocation.GARISSA,companyLocation.HOMABAY,companyLocation.ISIOLO,companyLocation.KAJIADO,companyLocation.KAKAMEGA,companyLocation.KERICHO,companyLocation.KIAMBU,companyLocation.KILIFI,companyLocation.KIRINYAGA,companyLocation.KISII,companyLocation.KISUMU,companyLocation.KITUI,companyLocation.KWALE,companyLocation.LAIKIPIA,companyLocation.LAMU,companyLocation.MACHAKOS,companyLocation.MAKUENI,companyLocation.MANDERA,companyLocation.MARAKWET,companyLocation.MARSABIT,companyLocation.MERU,companyLocation.MIGORI,companyLocation.MOMBASA,companyLocation.MURANGA,companyLocation.NAIROBICITY,companyLocation.NAKURU,companyLocation.NANDI,companyLocation.NAROK,companyLocation.NYAMIRA,companyLocation.NYANDARUA,companyLocation.NYERI,companyLocation.SAMBURU,companyLocation.SIAYA,companyLocation.TAITATAVETA,companyLocation.TANARIVER,companyLocation.THARAKANITHI,companyLocation.TRANSNZOIA,companyLocation.TURKANA,companyLocation.UASINGISHU,companyLocation.VIHIGA,companyLocation.WAJIR,companyLocation.WESTPOKOT]
 
   ngOnInit(): void {
     this.getCurrentUser();
