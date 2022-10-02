@@ -30,6 +30,8 @@ public class PostAdvert {
 
     private String companyEmail;
 
+    private String companyLogo;
+
     private String domain;
 
     private String period;
@@ -48,10 +50,11 @@ public class PostAdvert {
         this.type = type;
         this.data = data;
     }
-    public PostAdvert(String internshipTitle, String companyName, String companyEmail, String domain, String period, String internshipStatus, String createdOn, String reportingDate) {
+    public PostAdvert(String internshipTitle, String companyName, String companyEmail, String companyLogo, String domain, String period, String internshipStatus, String createdOn, String reportingDate) {
         this.internshipTitle=internshipTitle;
         this.companyName=companyName;
         this.companyEmail=companyEmail;
+        this.companyLogo=companyLogo;
         this.domain=domain;
         this.period=period;
         this.internshipStatus=internshipStatus;
@@ -120,6 +123,14 @@ public class PostAdvert {
 
     public void setCompanyEmail(String companyEmail) {
         this.companyEmail = companyEmail;
+    }
+
+    public String getCompanyLogo() {
+        return companyLogo;
+    }
+
+    public void setCompanyLogo(String companyLogo) {
+        this.companyLogo = companyLogo;
     }
 
     public String getDomain() {

@@ -93,6 +93,9 @@ export class InternshipEditComponent implements OnInit {
   counter(i: number) {
     return new Array(i);
 }
+back(): void{
+  window.history.back();
+}
 
 
   updateinternship(): void{    

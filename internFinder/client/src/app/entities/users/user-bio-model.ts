@@ -4,6 +4,7 @@ export class UserBio {
     authority?: Authority;
     name?: string;
     profileImageUrl?: string;
+    profileImageName?: string;
     username?: string;
     institution?: Institution;
     programme?: Programme;
@@ -38,6 +39,7 @@ export class UserBio {
         authority?: Authority,
         name?: string,
         profileImageUrl?: string,
+        profileImageName?: string,
         username?: string,
         institution?: Institution,
         programme?: Programme,
@@ -71,6 +73,7 @@ export class UserBio {
         this.authority = authority;
         this.name = name;
         this.profileImageUrl = profileImageUrl;
+        this.profileImageName=profileImageName;
         this.username = username;
         this.institution = institution;
         this.programme = programme;

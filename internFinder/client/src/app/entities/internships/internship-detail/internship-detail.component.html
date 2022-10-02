@@ -23,9 +23,9 @@
                     <div class="col-md-3 col-2 text-center ">
                         <div class="image-holder" [routerLink]="['/users', internshipDetail.companyEmail]"
                             style="cursor: pointer">
-                            <!-- <img *ngIf="internshipDetail.profileImageUrl" src={{userBioDetail.profileImageUrl}}
-                         class="card-img-top " onError="this.onerror=null; this.src='assets/images/plain-user.png' "> -->
-                            <svg class="img-fluid rounded float-start" width="100%" height="100%"
+                             <img *ngIf="internshipDetail.companyLogo" src={{internshipDetail.companyLogo}}
+                         class="card-img-top " style="width:300px;height:200px" onError="this.onerror=null; this.src='assets/images/plain-user.png' "> 
+                            <svg *ngIf="!internshipDetail.companyLogo" class="img-fluid rounded float-start" width="100%" height="100%"
                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
                                 preserveAspectRatio="xMidYMid slice" focusable="false">
                                 <rect width="90%" height="auto" fill="#e1e1e1"></rect>
@@ -33,11 +33,12 @@
                                     font-weight="bold">{{internshipDetail.companyName?.slice(0, 1) | uppercase}}</text>
 
                             </svg>
-                            <p class="profile-name" [routerLink]="['/users', internshipDetail.companyEmail]"
+                            
+                        </div>
+                        <p class="profile-name" [routerLink]="['/users', internshipDetail.companyEmail]"
                                 style="cursor: pointer">
                                 {{internshipDetail.companyName}}
                             </p>
-                        </div>
                     </div>
                     <div class="col-md-9">
 

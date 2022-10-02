@@ -46,6 +46,7 @@ export class PostInternshipsComponent implements OnInit {
     internshipTitle: '',
     companyName: '',
     companyEmail: '',
+    companyLogo:'',
     period: '',
     domain: '',
     internshipStatus: 'ACTIVE',
@@ -56,6 +57,7 @@ export class PostInternshipsComponent implements OnInit {
 
 
   companyDetails!: '';
+  companyLogo!: '';
   workPlaceTypes = [WorkPlaceType.ONSITE, WorkPlaceType.REMOTE, WorkPlaceType.HYBRID];
   internshipTypes = [InternshipType.FULLTIME, InternshipType.PARTTIME, InternshipType.CONTRACT, InternshipType.VOLUNTEER]
   internshipStatus = [InternshipStatus.ACTIVE, InternshipStatus.CLOSED]
@@ -78,6 +80,7 @@ export class PostInternshipsComponent implements OnInit {
     console.log("Here:", this.fileInfos);
     this.today = new Date().toISOString().split('T')[0];
     console.log("Got date", this.today)
+    //this.advertDetails.companyLogo = this.companyLogo;
     //document.getElementsByName("reportingDate")[0].setAttribute('min', today);
   }
   selectFile(event: any) {
@@ -89,6 +92,7 @@ export class PostInternshipsComponent implements OnInit {
     this.currentFile = this.selectedFiles.item(0);
     this.advertDetails.companyEmail = JSON.parse(localStorage.getItem('currentUser')!).email;
     this.advertDetails.companyName = this.companyDetails;
+    this.advertDetails.companyLogo = this.companyLogo;
     console.log("About to create internship ", this.currentFile, " and ", this.advertDetails);
     this.postInternshipService.upload(this.currentFile, this.advertDetails).subscribe(
       (event: any) => {
@@ -161,6 +165,7 @@ export class PostInternshipsComponent implements OnInit {
       internshipTitle: '',
       companyName: '',
       companyEmail: '',
+      companyLogo:'',
       period: '',
       domain: '',
       internshipStatus: 'ACTIVE',
@@ -205,10 +210,12 @@ export class PostInternshipsComponent implements OnInit {
     console.log("current posting person is ", this.internship.companyEmail)
     this.userService.findByEmail(this.internship.companyEmail).subscribe(
       (res) => {
-
-        this.companyDetails = res;
-        console.log("jhherrreeee company name details posting confirmation is", res.name);
         this.companyDetails = res.name;
+        this.companyLogo = res.profileImageUrl;
+        console.log("jhherrreeee company name details posting confirmation is", res);
+        console.log("jhherrreeee company name details posting confirmation is", this.companyDetails);
+        console.log("jhherrreeee company name details posting confirmation is", this.companyLogo);
+        
       },
       (err) => {
         console.log("Error fetching current user details", err)

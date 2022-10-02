@@ -3,6 +3,7 @@ export class AdvertDetails{
     internshipTitle?: string;
     companyName?: string;
     companyEmail?: string;
+    companyLogo?: string;
     period?: Period;
     domain?: Domain;
     internshipStatus?: InternshipStatus;
@@ -14,6 +15,7 @@ export class AdvertDetails{
         internshipTitle?: string,
         companyName?: string,
         companyEmail?: string,
+        companyLogo?: string,
         period?: Period,
         domain?: Domain,
         internshipStatus?: InternshipStatus,
@@ -25,6 +27,7 @@ export class AdvertDetails{
         this.internshipTitle=internshipTitle;
         this.companyName=companyName;
         this.companyEmail=companyEmail;
+        this.companyLogo=companyLogo;
         this.period=period;
         this.domain=domain;
         this.internshipStatus=internshipStatus;

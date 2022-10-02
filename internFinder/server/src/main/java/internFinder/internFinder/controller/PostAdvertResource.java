@@ -32,6 +32,7 @@ public class PostAdvertResource {
                                                       @RequestParam("internshipTitle") String internshipTitle,
                                                       @RequestParam("companyName") String companyName,
                                                       @RequestParam("companyEmail") String companyEmail,
+                                                      @RequestParam("companyLogo") String companyLogo,
                                                       @RequestParam("domain") String domain,
                                                       @RequestParam("period") String period,
                                                       @RequestParam("internshipStatus") String internshipStatus,
@@ -40,7 +41,7 @@ public class PostAdvertResource {
         String message = "";
         System.out.println("**************************Testing************************");
         try {
-            PostAdvert postAdvert = new PostAdvert(internshipTitle, companyName, companyEmail, domain, period, internshipStatus, createdOn, reportingDate);
+            PostAdvert postAdvert = new PostAdvert(internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn, reportingDate);
             postAdvertService.store(file, postAdvert);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
@@ -81,6 +82,7 @@ public class PostAdvertResource {
                     dbFile.getInternshipTitle(),
                     dbFile.getCompanyName(),
                     dbFile.getCompanyEmail(),
+                    dbFile.getCompanyLogo(),
                     dbFile.getDomain(),
                     dbFile.getPeriod(),
                     dbFile.getInternshipStatus(),

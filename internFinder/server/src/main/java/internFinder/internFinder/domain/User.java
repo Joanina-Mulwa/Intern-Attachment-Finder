@@ -4,9 +4,10 @@ import com.sun.istack.NotNull;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
 import internFinder.internFinder.domain.enumarations.UserStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,8 +46,14 @@ public class User {
     private String permissions="";
 
     //UserBioData
-    private String profileImageUrl;
+//   @Lob
+//    private byte[] profileImageUrl;
+    public String profileImageUrl;
 
+    public String profileImageName;
+
+    @Lob
+    private byte[] profileImageData;
     private String createdOn;
 
     private String createdBy;
@@ -206,6 +213,22 @@ public class User {
 
     public String getProfileImageUrl() {
         return profileImageUrl;
+    }
+
+    public String getProfileImageName() {
+        return profileImageName;
+    }
+
+    public byte[] getProfileImageData() {
+        return profileImageData;
+    }
+
+    public void setProfileImageData(byte[] profileImageData) {
+        this.profileImageData = profileImageData;
+    }
+
+    public void setProfileImageName(String profileImageName) {
+        this.profileImageName = profileImageName;
     }
 
     public void setProfileImageUrl(String profileImageUrl) {
@@ -393,6 +416,8 @@ public class User {
                 ", roles='" + roles + '\'' +
                 ", permissions='" + permissions + '\'' +
                 ", profileImageUrl='" + profileImageUrl + '\'' +
+                ", profileImageName='" + profileImageName + '\'' +
+                ", profileImageData=" + Arrays.toString(profileImageData) +
                 ", createdOn='" + createdOn + '\'' +
                 ", createdBy='" + createdBy + '\'' +
                 ", username='" + username + '\'' +

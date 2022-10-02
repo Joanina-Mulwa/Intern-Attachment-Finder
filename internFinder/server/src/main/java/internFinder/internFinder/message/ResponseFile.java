@@ -16,6 +16,8 @@ public class ResponseFile {
 
     private String companyEmail;
 
+    private String companyLogo;
+
     private String domain;
 
     private String period;
@@ -26,7 +28,7 @@ public class ResponseFile {
 
     private String reportingDate;
 
-    public ResponseFile(Long id, String name, String url, String type, long size, String internshipTitle, String companyName, String companyEmail, String domain, String period, String internshipStatus, String createdOn, String reportingDate) {
+    public ResponseFile(Long id, String name, String url, String type, long size, String internshipTitle, String companyName, String companyEmail, String companyLogo, String domain, String period, String internshipStatus, String createdOn, String reportingDate) {
         this.id=id;
         this.name = name;
         this.url = url;
@@ -35,6 +37,7 @@ public class ResponseFile {
         this.internshipTitle=internshipTitle;
         this.companyName=companyName;
         this.companyEmail=companyEmail;
+        this.companyLogo=companyLogo;
         this.domain=domain;
         this.period=period;
         this.internshipStatus=internshipStatus;
@@ -103,6 +106,14 @@ public class ResponseFile {
 
     public void setCompanyEmail(String companyEmail) {
         this.companyEmail = companyEmail;
+    }
+
+    public String getCompanyLogo() {
+        return companyLogo;
+    }
+
+    public void setCompanyLogo(String companyLogo) {
+        this.companyLogo = companyLogo;
     }
 
     public String getDomain() {

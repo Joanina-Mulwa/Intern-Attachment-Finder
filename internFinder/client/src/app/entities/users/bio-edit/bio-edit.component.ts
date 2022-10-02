@@ -25,6 +25,10 @@ userEmail: any;
     authority: '',
     name: '',
     profileImageUrl: '',
+    profileImageName: '',
+    profileImageType:'',
+    profileImageData:'',
+    profileImageSize:'',
     username: '',
     institution: '',
     programme: 'DEGREE',
@@ -92,9 +96,14 @@ userEmail: any;
       return;
     }
 
-    var mimeType = event.target.files[0].type;
+    console.log("Selected, ", event.target.files[0])
+    var profileImageName = event.target.files[0].name;
+    var profileImageType = event.target.files[0].type;
+    var profileImageSize = event.target.files[0].size;
 
-    if (mimeType.match(/image\/*/) == null) {
+
+
+    if (profileImageType.match(/image\/*/) == null) {
       this.msg = "Only images are supported";
       return;
     }
@@ -105,7 +114,13 @@ userEmail: any;
     reader.onload = (_event) => {
       this.msg = "";
       this.url = reader.result;
+      const profileImageData = this.url.split('base64,')[1];
       this.profile.profileImageUrl = this.url;
+      this.profile.profileImageName = profileImageName;
+      this.profile.profileImageType=profileImageType;
+      this.profile.profileImageData=profileImageData;
+      this.profile.profileImageSize=profileImageSize;
+      console.log("Selected image data, ", profileImageData)
     }
   }
 

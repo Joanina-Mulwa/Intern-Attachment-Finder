@@ -32,11 +32,11 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-2">
-                                <!-- <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="card-img-top "
-                            onError="this.onerror=null; this.src='assets/images/plain-user.png' "> -->
+                                <img *ngIf="internship.companyLogo" src={{internship.companyLogo}} class="card-img-top "
+                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                 <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                 <!-- {{userBio.profileImageUrl}} -->
-                                <svg class="img-fluid rounded float-start" width="100%" height="43"
+                                <svg *ngIf="!internship.companyLogo"  class="img-fluid rounded float-start" width="100%" height="43"
                                     xmlns="http://www.w3.org/2000/svg" role="img"
                                     aria-label="Placeholder: Responsive image" preserveAspectRatio="xMidYMid slice"
                                     focusable="false">
@@ -120,11 +120,11 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-2">
-                                            <!-- <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="card-img-top "
-                                                        onError="this.onerror=null; this.src='assets/images/plain-user.png' "> -->
+                                            <img *ngIf="internshipPostedByMe.companyLogo" src={{internshipPostedByMe.companyLogo}} class="card-img-top "
+                                                        onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                             <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                             <!-- {{userBio.profileImageUrl}} -->
-                                            <svg class="img-fluid rounded float-start" width="100%" height="43"
+                                            <svg  *ngIf="!internshipPostedByMe.companyLogo" class="img-fluid rounded float-start" width="100%" height="43"
                                                 xmlns="http://www.w3.org/2000/svg" role="img"
                                                 aria-label="Placeholder: Responsive image"
                                                 preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -209,11 +209,11 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-2">
-                                            <!-- <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="card-img-top "
-                                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' "> -->
+                                            <img *ngIf="activeInternshipPostedByMe.companyLogo" src={{activeInternshipPostedByMe.companyLogo}} class="card-img-top "
+                                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                             <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                             <!-- {{userBio.profileImageUrl}} -->
-                                            <svg class="img-fluid rounded float-start" width="100%" height="43"
+                                            <svg *ngIf="!activeInternshipPostedByMe.companyLogo" class="img-fluid rounded float-start" width="100%" height="43"
                                                 xmlns="http://www.w3.org/2000/svg" role="img"
                                                 aria-label="Placeholder: Responsive image"
                                                 preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -305,11 +305,11 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-2">
-                                            <!-- <img *ngIf="user.profileImageUrl" src={{user.profileImageUrl}} class="card-img-top "
-                                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' "> -->
+                                            <img *ngIf="closedInternshipPostedByMe.companyLogo" src={{closedInternshipPostedByMe.companyLogo}} class="card-img-top "
+                                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                             <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                             <!-- {{userBio.profileImageUrl}} -->
-                                            <svg class="img-fluid rounded float-start" width="100%" height="43"
+                                            <svg *ngIf="!closedInternshipPostedByMe.companyLogo"  class="img-fluid rounded float-start" width="100%" height="43"
                                                 xmlns="http://www.w3.org/2000/svg" role="img"
                                                 aria-label="Placeholder: Responsive image"
                                                 preserveAspectRatio="xMidYMid slice" focusable="false">

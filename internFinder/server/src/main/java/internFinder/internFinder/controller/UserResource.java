@@ -4,6 +4,7 @@ import internFinder.internFinder.Security.IdentityProviderException;
 import internFinder.internFinder.Security.SecurityUtils;
 import internFinder.internFinder.Security.jwt.InternFinderAuthenticationManager;
 import internFinder.internFinder.Security.jwt.TokenProvider;
+import internFinder.internFinder.domain.PostAdvert;
 import internFinder.internFinder.domain.User;
 import internFinder.internFinder.domain.enumarations.Category;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
@@ -15,6 +16,7 @@ import internFinder.internFinder.vm.LoginVM;
 import internFinder.internFinder.vm.RegisterResponseVM;
 import internFinder.internFinder.vm.RegisterUserVM;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +25,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -138,7 +141,20 @@ public class UserResource {
     @PutMapping("/update")
     public void updateUser(@RequestBody UserBioDTO userBioDTO) {
         log.info("REST request to update user : {}", userBioDTO);
+        userBioDTO.setProfileImageUrl(ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/api/downloadProfilePicture/")
+                .path(String.valueOf(userBioDTO.getEmail()))
+                .toUriString());
         userService.updateUser(userBioDTO);
+    }
+    @GetMapping("/downloadProfilePicture/{email}")
+    public ResponseEntity<byte[]> downloadProfilePicture(@PathVariable String email) {
+        User user = userService.downloadProfilePicture((email));
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + user.getProfileImageName() + "\"")
+                .body(user.getProfileImageData());
     }
 
     @DeleteMapping("/deleteUserAndActions/{email}")

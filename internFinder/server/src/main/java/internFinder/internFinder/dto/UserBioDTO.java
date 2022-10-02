@@ -5,9 +5,11 @@ import internFinder.internFinder.domain.enumarations.Category;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
 import internFinder.internFinder.domain.enumarations.UserStatus;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import javax.swing.*;
+import java.io.IOException;
 
 @Data
 public class UserBioDTO {
@@ -23,6 +25,11 @@ public class UserBioDTO {
     private UserStatus userStatus;
 
     private String profileImageUrl;
+
+    private String profileImageName;
+
+    @Lob
+    private byte[] profileImageData;
 
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -74,12 +81,14 @@ public class UserBioDTO {
     public UserBioDTO() {
     }
 
-    public UserBioDTO(User user) {
+    public UserBioDTO(User user) throws IOException {
         //this.setId(authenticateUser.getId());
         this.setEmail(user.getEmail());
         this.setAuthority(user.getAuthority());
         this.setUserStatus(user.getUserStatus());
         this.setProfileImageUrl(user.getProfileImageUrl());
+        this.setProfileImageName(user.getProfileImageName());
+        this.setProfileImageData(user.getProfileImageData());
         this.setCreatedOn(user.getCreatedOn());
         this.setCreatedBy(user.getCreatedBy());
         this.setName(user.getName());

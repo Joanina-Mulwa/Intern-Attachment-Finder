@@ -3,7 +3,7 @@
     <div class="ml-5 pl-5">
         <div class="ml-5 pl-5">
             <div class="ml-5 pl-1">
-                <button class="btn btn-back btn-outline-secondary mb-3 ml-5" (click)="back()">
+                <button class="btn btn-back btn-outline-secondary mb-2 ml-5" (click)="back()">
                     <span><i class="fas fa-arrow-left"></i></span> Back
                 </button>
             </div>
@@ -15,14 +15,53 @@
     </div>
     <div *ngIf="!loading">
 
-        <div class="mt-2">
+        <div class="mb-2">
             <div>
                 <form role="form">
                     <div align="centre">
                         <div>
                             <div class="row">
+
                                 <div class="col-md-2"></div>
                                 <div class="card bg-light  p-3 col-md-8">
+                                    <div hidden class="col-md-2 col-2 pt-2">
+                                        <img *ngIf="profile.profileImageUrl" src={{profile.profileImageUrl}}
+                                            class="avatar img-circle"
+                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                        <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
+                                        <!-- {{userBio.profileImageUrl}} -->
+                                        <svg *ngIf="!profile.profileImageUrl" class="avatar img-circle" width="100%"
+                                            height="43" xmlns="http://www.w3.org/2000/svg" role="img"
+                                            aria-label="Placeholder: Responsive image"
+                                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <title></title>
+                                            <rect width="100%" height="100%" fill="#e1e1e1"></rect><text x="40%" y="50%"
+                                                fill="#202a44" dy=".3em" font-size="large"
+                                                font-weight="bold">{{profile.email.slice(0, 1) |
+                                                uppercase}}</text>
+                                        </svg>
+                                        <!-- <img *ngIf="userBio.profileImageUrl" src="assets/images/plain.png" class="card-img-top "
+                                                            onError="this.onerror=null; this.src='assets/images/user.svg' "> -->
+                                    </div>
+                                    <div class="Profile Picture Card">
+                                        <div style="margin-left:500px">
+                                            <div *ngIf="msg" [innerHtml]='msg' style="color: red;"></div>
+                                            <div class="image">
+                                                <img *ngIf="profile.profileImageUrl" [src]="profile.profileImageUrl"
+                                                    class="rounded-circle" height="200" width="200">
+                                                <img *ngIf="!profile.profileImageUrl" class="rounded-circle" height="200" width="200"
+                                                    src='assets/images/plain-user.png'>
+                                               
+                                            </div>
+                                            <p></p>
+                                            <h6 >
+                                                <input accept="image/*" (change)="selectFile($event)"
+                                                    style="margin-right:200px" type="file">
+                                            </h6>
+                                        </div>
+                                    </div>
+
+
 
                                     <div *ngIf="isStudent" class="STUDENT">
                                         <div class="row mb-3">
@@ -84,8 +123,8 @@
                                                 <label for="about">About me </label>
 
                                                 <angular-editor class="editor form-control"
-                                                    [placeholder]="'Tell us about you'" cols="55" rows="155" name="about" style="height: auto"
-                                                    [(ngModel)]="profile.about">
+                                                    [placeholder]="'Tell us about you'" cols="55" rows="155"
+                                                    name="about" style="height: auto" [(ngModel)]="profile.about">
                                                 </angular-editor>
                                             </div>
                                             <div class="mb-3 col-md-6">
@@ -93,8 +132,8 @@
                                                         separation)</small></label>
 
                                                 <angular-editor class="editor form-control"
-                                                    [placeholder]="'Enter skills'" cols="55" rows="155" name="skills" style="height: auto"
-                                                    [(ngModel)]="profile.skills">
+                                                    [placeholder]="'Enter skills'" cols="55" rows="155" name="skills"
+                                                    style="height: auto" [(ngModel)]="profile.skills">
                                                 </angular-editor>
                                             </div>
                                         </div>
@@ -103,12 +142,14 @@
                                                 <label for="experience">Experience </label>
 
                                                 <angular-editor class="editor form-control"
-                                                    [placeholder]="'Enter experience'" cols="55" rows="155" name="experience" style="height: auto"
+                                                    [placeholder]="'Enter experience'" cols="55" rows="155"
+                                                    name="experience" style="height: auto"
                                                     [(ngModel)]="profile.experience">
                                                 </angular-editor>
                                             </div>
                                             <div class=" mb-3 col-md-6">
-                                                <label for="experience">Experience Level <small>( in years )</small> </label>
+                                                <label for="experience">Experience Level <small>( in years )</small>
+                                                </label>
                                                 <select autocomplete="on" style="height: 35px; width: 588px;"
                                                     name="experienceLevel" type="text"
                                                     [(ngModel)]="profile.experienceLevel">
@@ -138,15 +179,15 @@
                                                     [(ngModel)]="profile.email">
                                             </div> -->
                                         </div>
-                                    
+
 
                                         <div class="row mb-3">
                                             <div hidden class="col-md-6">
                                                 <label for="name">Company logo *</label>
-                                            
-                                                    <input class="form-control" (change)="selectFile($event)"
-                                                        style="margin-right:200px" type="file">
-                                                    
+
+                                                <input class="form-control" (change)="selectFile($event)"
+                                                    style="margin-right:200px" type="file">
+
                                             </div>
                                             <!-- <div class="col-md-6">
                                                 <label for="email">Company email *</label>
@@ -163,8 +204,8 @@
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="name">Company city location *</label>
-                                             
-                                                    <select autocomplete="on" style="height: 35px; width: 588px;"
+
+                                                <select autocomplete="on" style="height: 35px; width: 588px;"
                                                     name="companyLocation" type="text"
                                                     [(ngModel)]="profile.companyLocation">
 
@@ -193,9 +234,9 @@
                                                     [(ngModel)]="profile.companyPhoneNumber">
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
-          
-                                            <div hidden class="col-md-6">
+                                        <div hidden class="row mb-3">
+
+                                            <div class="col-md-6">
                                                 <label for="name">Current number of employees</label>
                                                 <select autocomplete="on" style="height: 35px; width: 588px;"
                                                     name="companyNumberOfEmployees" type="text"
@@ -210,20 +251,23 @@
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
-                                                <label for="name">Company description <small>( Optional )</small></label>
-                                              
+                                                <label for="name">Company description <small>( Optional
+                                                        )</small></label>
+
 
                                                 <angular-editor class="editor form-control"
-                                                    [placeholder]="'Enter company description'" cols="55" rows="155" style="height: auto"
-                                                    name="companydDescription" [(ngModel)]="profile.companyDescription" >
+                                                    [placeholder]="'Enter company description'" cols="55" rows="155"
+                                                    style="height: auto" name="companydDescription"
+                                                    [(ngModel)]="profile.companyDescription">
                                                 </angular-editor>
                                             </div>
                                             <div hidden class="col-md-6">
                                                 <label for="name">Company postal address</label>
 
                                                 <angular-editor class="editor form-control"
-                                                    [placeholder]="'Enter company post Address'"cols="55" rows="155" style="height: auto"
-                                                    name="companyPostalAddress" [(ngModel)]="profile.companyPostalAddress">
+                                                    [placeholder]="'Enter company post Address'" cols="55" rows="155"
+                                                    style="height: auto" name="companyPostalAddress"
+                                                    [(ngModel)]="profile.companyPostalAddress">
                                                 </angular-editor>
                                             </div>
                                         </div>

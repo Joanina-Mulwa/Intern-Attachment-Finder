@@ -1,6 +1,7 @@
 package internFinder.internFinder.service;
 
 import internFinder.internFinder.Security.UserNotFoundException;
+import internFinder.internFinder.domain.PostAdvert;
 import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.domain.User;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
@@ -12,8 +13,10 @@ import internFinder.internFinder.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -49,7 +52,11 @@ public class UserService {
         //Get the user by email.
         return userRepository.findByEmail(email).map(
                 user -> {
-                    return new UserBioDTO(user);
+                    try {
+                        return new UserBioDTO(user);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
         );
 
@@ -60,7 +67,13 @@ public class UserService {
 
         //Get the user by email.
         return userRepository.findByUsername(username).map(
-                UserBioDTO::new
+                user -> {
+                    try {
+                        return new UserBioDTO(user);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
         );
 
     }
@@ -154,6 +167,9 @@ public class UserService {
             user.setRoles(userBioDTO.getAuthority().name());
             //Update the relevant fields'
             //user.setCategory(Category.valueOf(userBioDTO.getAuthority().name()));
+            user.setProfileImageUrl(userBioDTO.getProfileImageUrl());
+            user.setProfileImageName(userBioDTO.getProfileImageName());
+            user.setProfileImageData(userBioDTO.getProfileImageData());
             user.setName(userBioDTO.getName());
             user.setUsername(userBioDTO.getUsername());
             user.setInstitution(userBioDTO.getInstitution());
@@ -183,6 +199,10 @@ public class UserService {
         }
 
 
+    }
+
+    public User downloadProfilePicture(String email) {
+        return userRepository.findByEmail(email).get();
     }
 
     public Optional<User> getUserById(Long id) {

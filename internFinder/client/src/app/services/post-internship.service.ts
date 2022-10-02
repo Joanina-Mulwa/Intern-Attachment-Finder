@@ -41,6 +41,7 @@ export class PostInternshipService {
     formData.append('internshipTitle', advertDetails.internshipTitle);
     formData.append('companyName', advertDetails.companyName);
     formData.append('companyEmail',advertDetails.companyEmail);
+    formData.append('companyLogo', advertDetails.companyLogo)
     formData.append('domain', advertDetails.domain)
     formData.append('period', advertDetails.period)
     formData.append('internshipStatus', advertDetails.internshipStatus);
