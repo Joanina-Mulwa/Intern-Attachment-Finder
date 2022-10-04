@@ -19,7 +19,7 @@ import { BioEditComponent } from './entities/users/bio-edit/bio-edit.component';
 import { InternshipDetailComponent } from './entities/internships/internship-detail/internship-detail.component';
 import { InternshipEditComponent } from './entities/internships/internship-edit/internship-edit.component';
 import { ApplyInternshipComponent } from './entities/apply-internship/apply-internship.component';
-import { AngularEditorModule } from '@kolkov/angular-editor';
+import { AngularEditorModule } from '@kolkov/angular-editor'; 
 import { TabsModule} from 'ngx-bootstrap/tabs';
 import { ApplicationComponent } from './entities/applications/application/application.component';
 import { ApplicantsComponent } from './entities/applications/applicants/applicants.component';
@@ -28,6 +28,7 @@ import { ReviewsComponent } from './feedback/reviews/reviews.component';
 import { LoginWithGoogleComponent } from './account/auth/login-with-google/login-with-google.component';
 import { JwtInterceptorService } from './interceptors/jwt-interceptor.service';
 import { AboutUsComponent } from './about/about-us/about-us.component';
+// import { PdfViewerModule }  from  'ng2-pdf-viewer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,10 +59,12 @@ import { AboutUsComponent } from './about/about-us/about-us.component';
     HttpClientModule,
    //SocialLoginModule,
     CommonModule,
+   // PdfViewerModule,
     BrowserAnimationsModule,
     AngularEditorModule,
     TabsModule.forRoot(),
     //MDBBootstrapModule.forRoot(),
+    
   ],
   providers: [
     

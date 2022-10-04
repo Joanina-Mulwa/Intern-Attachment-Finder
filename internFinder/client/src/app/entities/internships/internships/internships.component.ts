@@ -24,12 +24,12 @@ export class InternshipsComponent implements OnInit {
   ) {
   }
   category: Boolean = false;
-  
+
   username!: string;
   loading = false;
   searchText: string = '';
   userEmail!: string;
-  
+
   appliedInternshipIdArray: any[] = []
   isApplied: boolean = false;
   userBioDetail?: UserBio;
@@ -39,14 +39,14 @@ export class InternshipsComponent implements OnInit {
   // internships: PostInternship[]=[];
   // allPostedInternships: PostInternship[]=[];
   // allInternships!:PostInternship[];
- // applications!: ApplyInternship[];
-  
+  // applications!: ApplyInternship[];
+
   internshipsPostedByMe: AdvertDetails[] = [];
   activeInternshipsPostedByMe: AdvertDetails[] = [];
   closedInternshipsPostedByMe: AdvertDetails[] = [];
-  internships: AdvertDetails[]=[];
-  allPostedInternships: AdvertDetails[]=[];
-  allInternships!:AdvertDetails[];
+  internships: AdvertDetails[] = [];
+  allPostedInternships: AdvertDetails[] = [];
+  allInternships!: AdvertDetails[];
   applications!: ApplyInternship[];
 
   deleteId: any;
@@ -69,7 +69,7 @@ export class InternshipsComponent implements OnInit {
 
 
   }
-  getAdvertsPotedByMe():void{
+  getAdvertsPotedByMe(): void {
     this.loading = true;
     this.postInternshipService.getFiles().subscribe(
       (res) => {
@@ -110,7 +110,7 @@ export class InternshipsComponent implements OnInit {
       },
       (err) => { console.log("error fetching all internhips", err) }
     )
-    
+
   }
   findAllAdverts(): void {
     this.loading = true;
@@ -119,12 +119,15 @@ export class InternshipsComponent implements OnInit {
         this.loading = true;
         this.loading = false;
         console.log("Found all internships ", res)
-        this.allInternships=res;
+        this.allInternships = res;
         console.log("Found all internships testing ", this.allInternships)
 
 
-        this.allInternships.forEach((internship)=>{
-          if(internship.internshipStatus === InternshipStatus.ACTIVE){
+
+
+        this.allInternships.forEach((internship) => {
+
+          if (internship.internshipStatus === InternshipStatus.ACTIVE) {
             this.internships.push(internship)
           }
         })
@@ -186,14 +189,15 @@ export class InternshipsComponent implements OnInit {
 
   }
 
-  getBioDetails(): void{
+  getBioDetails(): void {
     this.userService.findByEmail(this.userEmail).subscribe(
-      (res)=>{
-        this.userBioDetail=res;
+      (res) => {
+        this.userBioDetail = res;
         console.log("Found user details", this.userBioDetail)
       },
-      (err)=> {
-        console.log(err)}
+      (err) => {
+        console.log(err)
+      }
     )
   }
 
@@ -265,10 +269,10 @@ export class InternshipsComponent implements OnInit {
         this.loading = true;
         this.loading = false;
         console.log("Found all internships ", res)
-        this.allInternships=res;
+        this.allInternships = res;
 
-        this.allInternships.forEach((internship)=>{
-          if(internship.internshipStatus === InternshipStatus.ACTIVE){
+        this.allInternships.forEach((internship) => {
+          if (internship.internshipStatus === InternshipStatus.ACTIVE) {
             this.internships.push(internship)
           }
         })

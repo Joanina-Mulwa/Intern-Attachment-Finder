@@ -11,3 +11,21 @@
     height: auto;
     width: auto;
   }
+  video{
+    height: auto;
+    width: auto;
+  }
+  source{
+    height: auto;
+    width: auto;
+  }
+  iframe{
+    height: auto;
+    width: auto;
+  }
+  pdf-viewer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(5px 5px 5px #222222);
+  }

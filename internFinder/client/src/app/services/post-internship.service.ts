@@ -54,6 +54,26 @@ export class PostInternshipService {
     return this.httpClient.request(req);
   }
 
+  updateAdvert(file: File, advertDetails: any): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('id', advertDetails.id)
+    formData.append('internshipTitle', advertDetails.internshipTitle);
+    formData.append('companyName', advertDetails.companyName);
+    formData.append('companyEmail',advertDetails.companyEmail);
+    formData.append('companyLogo', advertDetails.companyLogo)
+    formData.append('domain', advertDetails.domain)
+    formData.append('period', advertDetails.period)
+    formData.append('internshipStatus', advertDetails.internshipStatus);
+    formData.append('createdOn', advertDetails.createdOn);
+    formData.append('reportingDate', advertDetails.reportingDate);
+    const req = new HttpRequest('PUT', `${this.apiServerURL}/api/updateAdvert`,formData,{
+      reportProgress: true,
+      responseType: 'json'
+    });
+    return this.httpClient.request(req);
+  }
+
   getFiles(): Observable<any> {
     return this.httpClient.get(`${this.apiServerURL}/api/files`);
   }

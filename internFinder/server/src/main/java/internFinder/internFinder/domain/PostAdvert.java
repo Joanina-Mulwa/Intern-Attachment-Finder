@@ -61,6 +61,18 @@ public class PostAdvert {
         this.createdOn=createdOn;
         this.reportingDate=reportingDate;
     }
+    public PostAdvert(Long id, String internshipTitle, String companyName, String companyEmail, String companyLogo, String domain, String period, String internshipStatus, String createdOn, String reportingDate) {
+        this.id=id;
+        this.internshipTitle=internshipTitle;
+        this.companyName=companyName;
+        this.companyEmail=companyEmail;
+        this.companyLogo=companyLogo;
+        this.domain=domain;
+        this.period=period;
+        this.internshipStatus=internshipStatus;
+        this.createdOn=createdOn;
+        this.reportingDate=reportingDate;
+    }
 
     public Long getId() {
         return id;

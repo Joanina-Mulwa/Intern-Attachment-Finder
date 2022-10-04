@@ -2,6 +2,7 @@ package internFinder.internFinder.service;
 
 import internFinder.internFinder.Security.UserNotFoundException;
 import internFinder.internFinder.domain.PostAdvert;
+import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.message.ResponseFile;
 import internFinder.internFinder.repository.PostAdvertRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +52,32 @@ public class PostAdvertService {
     public PostAdvert downloadAdvertById(Long id) {
 
         return postAdvertRepository.findById(id).get();
+    }
+
+    public PostAdvert updateAdvert(MultipartFile file, PostAdvert postAdvert) throws IOException{
+        log.debug("Request to update internship : {} and {}", file, postAdvert);
+        Optional<PostAdvert> postAdvertOptional = this.postAdvertRepository.findById(postAdvert.getId());
+        if(postAdvertOptional.isPresent()){
+            PostAdvert fileDetails = postAdvertOptional.get();
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            fileDetails.setName(fileName);
+            fileDetails.setType(file.getContentType());
+            fileDetails.setData(file.getBytes());
+            fileDetails.setInternshipTitle(postAdvert.getInternshipTitle());
+            fileDetails.setCompanyName(postAdvert.getCompanyName());
+            fileDetails.setCompanyEmail(postAdvert.getCompanyEmail());
+            fileDetails.setCompanyLogo(postAdvert.getCompanyLogo());
+            fileDetails.setDomain(postAdvert.getDomain());
+            fileDetails.setPeriod(postAdvert.getPeriod());
+            fileDetails.setInternshipStatus(postAdvert.getInternshipStatus());
+            fileDetails.setCreatedOn(String.valueOf(LocalDate.now()));
+            fileDetails.setReportingDate(postAdvert.getReportingDate());
+            log.debug("About to update internship to : {} ", fileDetails);
+            return postAdvertRepository.save(fileDetails);
+        }else {
+            throw new UserNotFoundException("No internship found with id " + postAdvert.getId());
+        }
+
     }
     public Optional<Byte> getFileData(byte[] data) {
         return Optional.of(postAdvertRepository.findByData(data));

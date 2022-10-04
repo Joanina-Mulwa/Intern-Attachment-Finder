@@ -1,10 +1,10 @@
 <div class="container-fluid internship-detail">
 
-    <div *ngIf="internshipDetail" class="container">
+    <div class="container">
 
         <div class="row">
             <div class="col-md-10">
-                <button class="btn btn-back btn-outline-secondary mb-3 " (click)="back()">
+                <button class="btn btn-back btn-outline-secondary mb-3 " [routerLink]="['/internships']">
                     <span><i class="fas fa-arrow-left"></i></span> Back
                 </button>
             </div>
@@ -16,29 +16,36 @@
             </div>
         </div>
 
-        <div>
+        <div class="donut-wrapper" *ngIf="loading">
+            <div class="donut multi"></div>
+        </div>
+
+
+        <div *ngIf="internshipDetail">
 
             <div class="card p-3">
                 <div class="row">
                     <div class="col-md-3 col-2 text-center ">
                         <div class="image-holder" [routerLink]="['/users', internshipDetail.companyEmail]"
                             style="cursor: pointer">
-                             <img *ngIf="internshipDetail.companyLogo" src={{internshipDetail.companyLogo}}
-                         class="card-img-top " style="width:300px;height:200px" onError="this.onerror=null; this.src='assets/images/plain-user.png' "> 
-                            <svg *ngIf="!internshipDetail.companyLogo" class="img-fluid rounded float-start" width="100%" height="100%"
-                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
-                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <img *ngIf="internshipDetail.companyLogo" src={{internshipDetail.companyLogo}}
+                                class="card-img-top " style="width:300px;height:200px"
+                                onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                            <svg *ngIf="!internshipDetail.companyLogo" class="img-fluid rounded float-start"
+                                width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img"
+                                aria-label="Placeholder: Responsive image" preserveAspectRatio="xMidYMid slice"
+                                focusable="false">
                                 <rect width="90%" height="auto" fill="#e1e1e1"></rect>
                                 <text x="40%" y="50%" fill="#202a44" dy=".3em" dx="-.1em" font-size="10ch"
                                     font-weight="bold">{{internshipDetail.companyName?.slice(0, 1) | uppercase}}</text>
 
                             </svg>
-                            
+
                         </div>
                         <p class="profile-name" [routerLink]="['/users', internshipDetail.companyEmail]"
-                                style="cursor: pointer">
-                                {{internshipDetail.companyName}}
-                            </p>
+                            style="cursor: pointer">
+                            {{internshipDetail.companyName}}
+                        </p>
                     </div>
                     <div class="col-md-9">
 
@@ -78,7 +85,6 @@
                                 </div>
 
                             </div>
-                            <p>{{companyDetails?.companyIndustry}}</p>
                             <div class="mt-1 ml-1 row">
                                 <div style="display:inline" class="alert alert-info tech-alert p-1  col-md-2">
                                     {{internshipDetail.period}}
@@ -99,6 +105,14 @@
                                 </p>
 
                             </div>
+                            <div>
+                                <p class="ml-1"><i class="fas fa-globe me-3"></i><a
+                                        href="{{companyDetails?.companyWebsite}}"
+                                        target="_blank">{{companyDetails?.companyWebsite}}</a>
+                                </p>
+
+                            </div>
+
 
 
                         </div>
@@ -106,24 +120,52 @@
 
                 </div>
             </div>
+            <div></div>
 
             <div class="card p-3 mt-3 mb-5">
                 <div class="text-end">
                     <a href="{{internshipDetail.url}}" target="_blank">Download <i class="fas fa-download"> </i></a>
-                    
+
                 </div>
 
                 <h1></h1>
-                <img src={{internshipDetail.url}} alt="404 Advert not found! " width="50" />
+
+                <img *ngIf="internshipDetail.type == 'image/png' || internshipDetail.type == 'image/jpeg' || internshipDetail.type == 'image/jpg' || internshipDetail.type == 'image/gif'"
+                    src={{internshipDetail.url}} alt="404 Advert not found! " />
+
+
+                <video
+                    *ngIf="internshipDetail.type == 'video/mkv' || internshipDetail.type == 'video/mp4' || internshipDetail.type == 'video/x-matroska'"
+                    class="video" controls (click)="toggleVideo()" #videoPlayer>
+                    <source src="{{internshipDetail.url}}" type="video/mp4" />
+                    Browser not supported
+                </video>
+
+                <!-- <div  *ngIf="internshipDetail.type == 'application/pdf'" id="my-container" class="ng-scope pdfobject-container">
+                    <iframe src="{{internshipDetail.url}}" type="application/pdf">
+                    </iframe>
+                </div> -->
+                <!-- <div class="container">
+                    <textarea></textarea>
+
+                    <pdf-viewer src="{{internshipDetail.url}}" [render-text]="true" style="display: block;"
+                        [original-size]="false"></pdf-viewer>
+
+                </div>
+                <pdf-viewer [src]="'assets/pdf-test.pdf'" [render-text]="true" style="display: block;"></pdf-viewer>
+ -->
+                <!-- <pdf-viewer [src]="internshipDetail.url" [render-text]="true" style="display: block;"></pdf-viewer> -->
+
+
             </div>
 
-            <div hidden  class="mt-3">
+            <div hidden class="mt-3">
                 <div class="card">
                     <div class="card-header">File</div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
 
-                            <a href="{{internshipDetail.url}}" >{{internshipDetail.url}}</a>
+                            <a href="{{internshipDetail.url}}">{{internshipDetail.url}}</a>
                         </li>
                     </ul>
                 </div>

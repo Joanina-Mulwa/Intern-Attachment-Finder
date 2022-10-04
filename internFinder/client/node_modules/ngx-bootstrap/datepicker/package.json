@@ -1,0 +1,39 @@
+{
+  "name": "ngx-bootstrap/datepicker",
+  "version": "9.0.0",
+  "author": "Dmitriy Shekhovtsov <valorkin@gmail.com>",
+  "license": "MIT",
+  "module": "fesm2015/ngx-bootstrap-datepicker.mjs",
+  "es2020": "fesm2020/ngx-bootstrap-datepicker.mjs",
+  "esm2020": "esm2020/ngx-bootstrap-datepicker.mjs",
+  "fesm2020": "fesm2020/ngx-bootstrap-datepicker.mjs",
+  "fesm2015": "fesm2015/ngx-bootstrap-datepicker.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/ngx-bootstrap-datepicker.mjs",
+      "es2020": "./fesm2020/ngx-bootstrap-datepicker.mjs",
+      "es2015": "./fesm2015/ngx-bootstrap-datepicker.mjs",
+      "node": "./fesm2015/ngx-bootstrap-datepicker.mjs",
+      "default": "./fesm2020/ngx-bootstrap-datepicker.mjs"
+    }
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "rxjs": "7.5.6",
+    "@angular/core": "14.0.6",
+    "ngx-bootstrap/component-loader": "9.0.0",
+    "@angular/forms": "14.0.6",
+    "ngx-bootstrap/chronos": "9.0.0",
+    "ngx-bootstrap/tooltip": "9.0.0",
+    "ngx-bootstrap/timepicker": "9.0.0",
+    "@angular/animations": "14.0.6"
+  }
+}

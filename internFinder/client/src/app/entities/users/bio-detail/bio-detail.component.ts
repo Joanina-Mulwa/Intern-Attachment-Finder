@@ -58,11 +58,9 @@ export class BioDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.userEmail = params['email'];
       console.log("We want to view profile of ", this.userEmail)
-
-      this.checkIfMe();
-      this.getAppliedInternshipByMe();
-
     });
+    this.checkIfMe();
+      this.getAppliedInternshipByMe();
   }
 
 

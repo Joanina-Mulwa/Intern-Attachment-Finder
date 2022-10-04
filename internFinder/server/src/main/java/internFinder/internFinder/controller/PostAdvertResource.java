@@ -1,6 +1,7 @@
 package internFinder.internFinder.controller;
 
 import internFinder.internFinder.domain.PostAdvert;
+import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.message.ResponseFile;
 import internFinder.internFinder.message.ResponseMessage;
 import internFinder.internFinder.service.PostAdvertService;
@@ -114,17 +115,33 @@ public class PostAdvertResource {
 
     }
 
-//    @GetMapping("/file/{id}")
-//    public PostAdvert getFile(@PathVariable Long id) {
-//        PostAdvert file = postAdvertService.getAdvertById(id);
-//        file.setUrl(ServletUriComponentsBuilder
-//                .fromCurrentContextPath()
-//                .path("/api/downloadAdvertById/")
-//                .path(String.valueOf(file.getId()))
-//                .toUriString());
-//        System.out.println("Got file"+ file);
-//        return file;
-//    }
+    @PutMapping("/updateAdvert")
+    public ResponseEntity<ResponseMessage> updateAdvert(@RequestParam("file") MultipartFile file,
+                                                        @RequestParam("id") Long id,
+                                                        @RequestParam("internshipTitle") String internshipTitle,
+                                                        @RequestParam("companyName") String companyName,
+                                                        @RequestParam("companyEmail") String companyEmail,
+                                                        @RequestParam("companyLogo") String companyLogo,
+                                                        @RequestParam("domain") String domain,
+                                                        @RequestParam("period") String period,
+                                                        @RequestParam("internshipStatus") String internshipStatus,
+                                                        @RequestParam("createdOn") String createdOn,
+                                                        @RequestParam("reportingDate") String reportingDate){
+        log.debug("Rest request to update advert {}  ", file);
+        String message = "";
+        try {
+            PostAdvert postAdvert = new PostAdvert(id, internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn, reportingDate);
+            postAdvertService.updateAdvert(file, postAdvert);
+            message = "updated the file successfully: " + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+
+        } catch (Exception e) {
+            message = "Could not update the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+        }
+    }
+
+
 
     @GetMapping("/downloadAdvertById/{id}")
     public ResponseEntity<byte[]> downloadAdvertById(@PathVariable Long id) {

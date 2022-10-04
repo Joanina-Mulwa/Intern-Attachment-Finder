@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
@@ -41,6 +41,7 @@ export class InternshipDetailComponent implements OnInit {
   //appliedInternshipId: number = 1;
   appliedInternshipIdArray: number[] = []
   file?: File;
+  loading = false;
 
 
   ngOnInit(): void {
@@ -48,7 +49,7 @@ export class InternshipDetailComponent implements OnInit {
       this.internshipId = params['id'];
       console.log("We want to view profile of intenrhsip of is  ", this.internshipId)
       this.checkIfPostedByMe();
-      
+
     });
     // this.findAllinternships();
     this.getCurrentLoggedInUsername();
@@ -63,8 +64,14 @@ export class InternshipDetailComponent implements OnInit {
     window.history.back();
 
   }
+  @ViewChild('videoPlayer') videoplayer!: ElementRef;
+
+  toggleVideo() {
+    this.videoplayer.nativeElement.play();
+  }
 
   getCurrentLoggedInUsername(): any {
+
     // this.internshipDownloadDetail = this.postInternshipService.downloadAdvertById(this.internshipId)
     console.log("Current logged in user token", this.tokenService.getToken());
     console.log("Current logged in username and token ", this.tokenService.getUsername());
@@ -72,6 +79,7 @@ export class InternshipDetailComponent implements OnInit {
     this.loggedInUserEmail = JSON.parse(localStorage.getItem('currentUser')!).email;
     this.userService.findByEmail(this.loggedInUserEmail).subscribe(
       (res) => {
+
         // window.location.reload();
         console.log("User details is", res)
         if (res.authority === Authority.EMPLOYER) {
@@ -89,12 +97,15 @@ export class InternshipDetailComponent implements OnInit {
 
 
   checkIfPostedByMe(): void {
+    this.loading=true;
 
     this.postInternshipService.findAdvertById(this.internshipId).subscribe(
       (res) => {
         console.log("internship details are", res)
-       // res.type = `data:${res.type};base64,`
+        // res.type = `data:${res.type};base64,`
         this.internshipDetail = res;
+        this.loading=false;
+
         //this.fileBlob = btoa(String.fromCharCode.apply(null, new Uint8Array(res.data)));
         // this.fileBlob=new Blob([res.data], {type: "image/png"});
         // this.fileBlob = btoa(String.fromCharCode.apply(null, new Array(res.data))); 
