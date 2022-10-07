@@ -16,11 +16,11 @@ export class AuthService {
   constructor(
     private http: HttpClient
   ) { }
-  private API_ENDPOINT = environment.API_ENDPOINT;
+  private apiServerURL = 'http://localhost:8080';
 
 
   authenticateGoogleUser(googleAuthDTO: any): Observable<any> {
-    return this.http.post(this.API_ENDPOINT + "/api/login/google", googleAuthDTO);
+    return this.http.post(this.apiServerURL + "/api/login/google", googleAuthDTO);
   }
 
   saveUser(user: any) {

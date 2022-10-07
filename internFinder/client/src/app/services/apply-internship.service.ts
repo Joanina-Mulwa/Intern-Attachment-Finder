@@ -11,7 +11,7 @@ export class ApplyInternshipService {
   constructor(
     protected httpClient: HttpClient
   ) { } 
-  private API_ENDPOINT = environment.API_ENDPOINT;
+  private API_ENDPOINT = 'http://localhost:8080';
 
   applyInternship(application: any): Observable<any>{
     return this.httpClient.post<any> (this.API_ENDPOINT + "/api/applyInternship" , application)

@@ -8,7 +8,7 @@ import { TokenService } from '../services/token.service';
   providedIn: 'root'
 })
 export class JwtInterceptorService {
-  private apiServerURL = environment.API_ENDPOINT
+  private apiServerURL = 'http://localhost:8080';
 
   constructor(
     private tokenService: TokenService

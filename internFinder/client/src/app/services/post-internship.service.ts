@@ -9,7 +9,7 @@ import { InternshipStatus, PostInternship } from '../entities/post-internships/p
 })
 export class PostInternshipService {
 
-  private apiServerURL = environment.API_ENDPOINT
+  private apiServerURL = 'http://localhost:8080';
   constructor(protected httpClient: HttpClient) { }
   
   createInternship(internship: any):Observable<any>{

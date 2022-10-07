@@ -9,12 +9,10 @@
 [![npm](https://img.shields.io/npm/dm/@kolkov/angular-editor.svg)](https://www.npmjs.com/package/@kolkov/angular-editor)
 [![](https://data.jsdelivr.com/v1/package/npm/@kolkov/angular-editor/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@kolkov/angular-editor)
 [![Coverage Status](https://coveralls.io/repos/github/kolkov/angular-editor/badge.svg?branch=master)](https://coveralls.io/github/kolkov/angular-editor?branch=master)
-[![dependencies Status](https://david-dm.org/kolkov/angular-editor/status.svg)](https://david-dm.org/kolkov/angular-editor)
-[![devDependencies Status](https://david-dm.org/kolkov/angular-editor/dev-status.svg)](https://david-dm.org/kolkov/angular-editor?type=dev)
 [![codecov](https://codecov.io/gh/kolkov/angular-editor/branch/master/graph/badge.svg)](https://codecov.io/gh/kolkov/angular-editor)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/AndreyKolkov)
 
-A simple native WYSIWYG/Rich Text editor for Angular 6-12+
+A simple native WYSIWYG/Rich Text editor for Angular 6-14+
 
 ![Nov-27-2019 17-26-29](https://user-images.githubusercontent.com/216412/69763434-259cd800-113b-11ea-918f-0565ebce0e48.gif)
 
@@ -32,6 +30,8 @@ Install via [npm][npm] package manager
 npm install @kolkov/angular-editor --save
 ```
 ### Versions
+
+2.0.0 and above - for Angular v13.0.0 and above
 
 1.0.0 and above - for Angular v8.x.x and above
 
@@ -126,6 +126,32 @@ editorConfig: AngularEditorConfig = {
 ```
 For `ngModel` to work, you must import `FormsModule` from `@angular/forms`, or for `formControlName`, you must import `ReactiveFormsModule` from `@angular/forms`
 
+To serve the fontawesome files, ensure that your angular.json contains the following asset configuration:
+
+```
+{
+  "glob": "**/*",
+  "input": "./node_modules/@kolkov/angular-editor/assets/",
+  "output": "./assets/fonts/"
+}
+```
+
+### Custom buttons
+
+You can define your custom buttons with custom actions using executeCommandFn. It accepts commands from [execCommand](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand).
+The first argument of this method is aCommandName and the second argument is aValueArgument. Example shows a button that adds Angular editor logo into the editor.
+```html
+<angular-editor id="editor1" formControlName="htmlContent1" [config]="editorConfig">
+  <ng-template #customButtons let-executeCommandFn="executeCommandFn">
+    <ae-toolbar-set>
+      <ae-button iconClass="fa fa-html5" title="Angular editor logo"
+                 (buttonClick)="executeCommandFn('insertHtml', angularEditorLogo)">
+      </ae-button>
+    </ae-toolbar-set>
+  </ng-template>
+</angular-editor>
+```
+
 ## API
 ### Inputs
 | Input  | Type | Default | Required | Description |
@@ -160,7 +186,7 @@ For `ngModel` to work, you must import `FormsModule` from `@angular/forms`, or f
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | editable  | `bolean` | `true` | no | Set editing enabled or not |
 | spellcheck  | `bolean` | `true` | no | Set spellchecking enabled or not |
-| translate  | `sting` | `yes` | no | Set translating enabled or not |
+| translate  | `string` | `yes` | no | Set translating enabled or not |
 | sanitize  | `bolean` | `true` | no | Set DOM sanitizing enabled or not |
 | height  | `string` | `auto` | no | Set height of the editor |
 | minHeight  | `string` | `0` | no | Set minimum height of the editor |
