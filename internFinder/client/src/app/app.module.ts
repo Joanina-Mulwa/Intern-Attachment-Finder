@@ -28,7 +28,7 @@ import { ReviewsComponent } from './feedback/reviews/reviews.component';
 import { LoginWithGoogleComponent } from './account/auth/login-with-google/login-with-google.component';
 import { JwtInterceptorService } from './interceptors/jwt-interceptor.service';
 import { AboutUsComponent } from './about/about-us/about-us.component';
-// import { PdfViewerModule }  from  'ng2-pdf-viewer';
+import { PdfViewerModule }  from  'ng2-pdf-viewer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +59,7 @@ import { AboutUsComponent } from './about/about-us/about-us.component';
     HttpClientModule,
    //SocialLoginModule,
     CommonModule,
-   // PdfViewerModule,
+   PdfViewerModule,
     BrowserAnimationsModule,
     AngularEditorModule,
     TabsModule.forRoot(),
