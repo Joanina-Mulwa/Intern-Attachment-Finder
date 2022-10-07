@@ -19,7 +19,6 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
-    "angularx-social-login": "^4.1.0",
     "bootstrap": "^5.1.0",
     "ngx-bootstrap": "^9.0.0",
     "popper.js": "^1.16.1",
