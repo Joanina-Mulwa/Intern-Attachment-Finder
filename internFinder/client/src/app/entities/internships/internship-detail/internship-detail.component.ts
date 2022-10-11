@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
@@ -13,17 +14,20 @@ import { Authority, UserBio } from '../../users/user-bio-model';
 @Component({
   selector: 'app-internship-detail',
   templateUrl: './internship-detail.component.html',
-  styleUrls: ['./internship-detail.component.scss']
+  styleUrls: ['./internship-detail.component.scss'],
 })
-export class InternshipDetailComponent implements OnInit {
 
+export class InternshipDetailComponent implements OnInit {
   constructor(
+    private sanitized: DomSanitizer,
     protected tokenService: TokenService,
     protected postInternshipService: PostInternshipService,
     protected route: ActivatedRoute,
     protected userService: UserService,
     protected applyInternship: ApplyInternshipService,
     protected router: Router,
+    private sanitizer: DomSanitizer
+
   ) { }
   category: Boolean = false;
   //internshipDetail!: PostInternship;
@@ -41,7 +45,13 @@ export class InternshipDetailComponent implements OnInit {
   //appliedInternshipId: number = 1;
   appliedInternshipIdArray: number[] = []
   file?: File;
+  fileTest?: File;
   loading = false;
+  fileSource!: string;
+  pdfSource!: any;
+  srcPDF!: string;
+  srcDOC!: string;
+  safe!: SafeUrl;
 
 
   ngOnInit(): void {
@@ -50,12 +60,16 @@ export class InternshipDetailComponent implements OnInit {
       console.log("We want to view profile of intenrhsip of is  ", this.internshipId)
       this.checkIfPostedByMe();
 
+
     });
     // this.findAllinternships();
     this.getCurrentLoggedInUsername();
     this.checkIfAppliedByMe();
 
+
   }
+
+
 
 
 
@@ -64,6 +78,7 @@ export class InternshipDetailComponent implements OnInit {
     window.history.back();
 
   }
+
   @ViewChild('videoPlayer') videoplayer!: ElementRef;
 
   toggleVideo() {
@@ -95,21 +110,67 @@ export class InternshipDetailComponent implements OnInit {
   }
 
 
-
-  checkIfPostedByMe(): void {
-    this.loading=true;
+  public checkIfPostedByMe(): void {
+    this.loading = true;
 
     this.postInternshipService.findAdvertById(this.internshipId).subscribe(
       (res) => {
         console.log("internship details are", res)
         // res.type = `data:${res.type};base64,`
         this.internshipDetail = res;
-        this.loading=false;
+        if (res.type == 'application/pdf') {
+          var arrrayBuffer = base64ToArrayBuffer(res.data); //data is the base64 encoded string
+          function base64ToArrayBuffer(base64: string) {
+            var binaryString = window.atob(base64);
+            var binaryLen = binaryString.length;
+            var bytes = new Uint8Array(binaryLen);
+            for (var i = 0; i < binaryLen; i++) {
+              var ascii = binaryString.charCodeAt(i);
+              bytes[i] = ascii;
+            }
+            return bytes;
+          }
+          var blob = new Blob([arrrayBuffer], { type: "application/pdf" });
+          this.srcPDF = window.URL.createObjectURL(blob);
+          console.log("Testing pdf ***********", this.srcPDF)
 
-        //this.fileBlob = btoa(String.fromCharCode.apply(null, new Uint8Array(res.data)));
-        // this.fileBlob=new Blob([res.data], {type: "image/png"});
-        // this.fileBlob = btoa(String.fromCharCode.apply(null, new Array(res.data))); 
+          // window.open(this.src,'height=650,width=840');
+
+        }
+        //application/vnd.openxmlformats-officedocument.wordprocessingml.document
+        //type: "application/vnd.oasis.opendocument.text"
+        else if (res.type.includes('application/vnd')) {
+
+
+          var arrrayBuffer = base64ToArrayBuffer(res.data); //data is the base64 encoded string
+          function base64ToArrayBuffer(base64: string) {
+            var binaryString = window.atob(base64);
+            var binaryLen = binaryString.length;
+            var bytes = new Uint8Array(binaryLen);
+            for (var i = 0; i < binaryLen; i++) {
+              var ascii = binaryString.charCodeAt(i);
+              bytes[i] = ascii;
+            }
+            return bytes;
+          }
+          var blob = new Blob([arrrayBuffer], { type: res.type });
+          this.srcDOC = window.URL.createObjectURL(blob);
+         // http://view.officeapps.live.com/op/view.aspx?src=[OFFICE_FILE_URL]
+          //<iframe src="https://docs.google.com/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>
+         this.srcDOC = "https://docs.google.com/viewer?url="+this.srcDOC+"&embedded=true";
+          console.log("Testing doc ***********", this.srcDOC)
+
+          // window.open(this.src,'height=650,width=840');
+
+        }
+     
+
+
+
+
+        this.loading = false;
         this.file = new File([res.data], res.name, { type: res.type });
+
         console.log(new File([res.data], res.name, { type: res.type }))
 
         console.log("Testing ***********", this.internshipDetail)
@@ -189,5 +250,6 @@ export class InternshipDetailComponent implements OnInit {
   //    }
   //    )
   //  }
+
 
 }

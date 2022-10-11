@@ -124,11 +124,12 @@
 
             <div class="card p-3 mt-3 mb-5">
                 <div class="text-end">
-                    <a href="{{internshipDetail.url}}" target="_blank">Download <i class="fas fa-download"> </i></a>
+                    <a href="{{internshipDetail.url}}">Download <i class="fas fa-download"> </i></a>
 
                 </div>
 
-                <h1></h1>
+
+
 
                 <img *ngIf="internshipDetail.type == 'image/png' || internshipDetail.type == 'image/jpeg' || internshipDetail.type == 'image/jpg' || internshipDetail.type == 'image/gif'"
                     src={{internshipDetail.url}} alt="404 Advert not found! " />
@@ -141,20 +142,31 @@
                     Browser not supported
                 </video>
 
-                <!-- <div  *ngIf="internshipDetail.type == 'application/pdf'" id="my-container" class="ng-scope pdfobject-container">
-                    <iframe src="{{internshipDetail.url}}" type="application/pdf">
-                    </iframe>
-                </div> -->
-                <!-- <div class="container">
-                    <textarea></textarea>
-
-                    <pdf-viewer src="{{internshipDetail.url}}" [render-text]="true" style="display: block;"
-                        [original-size]="false"></pdf-viewer>
-
+                <embed *ngIf="internshipDetail.type == 'application/pdf'" [src]="srcPDF | safeUrl"
+                    type="application/pdf" class="file">
+                    
+                <div *ngIf="internshipDetail.type.includes('application/vnd')">
+                    ssup
+                    {{srcDOC}}
+                    <!-- <object
+                    [data]="srcDOC | safeUrl"
+                        frameborder="0">
+                    </object> -->
+                    <!-- <iframe [src]="srcDOC | safeUrl"  frameborder="0">
+                </iframe> -->
+                <!-- <iframe  src='https://view.officeapps.live.com/op/embed.aspx?src=[srcDOC]'  frameborder='0'>
+                </iframe> -->
+                <!-- <iframe [src]="srcDOC | safeUrl" frameborder="0">
+                </iframe> -->
+                <iframe  [src]="srcDOC | safeUrl"></iframe>
                 </div>
-                <pdf-viewer [src]="'assets/pdf-test.pdf'" [render-text]="true" style="display: block;"></pdf-viewer>
- -->
-                <!-- <pdf-viewer [src]="internshipDetail.url" [render-text]="true" style="display: block;"></pdf-viewer> -->
+               
+               
+                
+
+
+
+
 
 
             </div>
