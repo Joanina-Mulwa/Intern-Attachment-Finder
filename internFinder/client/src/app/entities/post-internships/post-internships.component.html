@@ -248,7 +248,7 @@
                                                     <div class="col-md-9">
                                                         <label for="advert">
                                                             <p style="display:inline">Attach or drag & drop advert
-                                                                <small>(pdf, doc, odt, image)</small>
+                                                                <small>(pdf, docx, image, short video)</small>
                                                             </p>
                                                         </label>
                                                     </div>
@@ -265,7 +265,7 @@
                                                 </div>
 
                                                 <input type="file"
-                                                    accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.pdf, .odt, .mkv, .mp4"
+                                                    accept="image/*,.docx,.pdf,.mkv, .mp4"
                                                     class="form-control" name="advert" (change)="selectFile($event)" />
 
                                             </div>
@@ -279,7 +279,7 @@
                                                 Upload
                                             </button>
                                         </div>
-                                        <div *ngIf="message" class="alert alert-dismissible alert-danger fade show mt-2"
+                                        <div *ngIf="message" class="alert alert-dismissible alert-info fade show mt-2"
                                             role="alert">
                                             {{message}}
 
@@ -309,7 +309,7 @@
             </div>
 
         </div>
-        <div class="mt-3">
+        <div hidden class="mt-3">
             <div class="card">
                 <div class="card-header">List of Files</div>
                 <ul class="list-group list-group-flush" *ngFor="let file of fileInfos | async">

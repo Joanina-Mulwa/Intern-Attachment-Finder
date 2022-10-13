@@ -205,15 +205,15 @@ public class UserResource {
         return userService.getAllUsersBio();
     }
 
-    @GetMapping("/user/search")
-    public List<User> findAll(@RequestParam(required = false) String text) {
+    @GetMapping("/user/search/employer")
+    public List<User> searchEmployer(@RequestParam(required = false) String text) {
         log.debug("REST request to search all users with text : {}", text);
 
         if (text == null) {
             text = "";
         }
 
-        return userService.search(text);
+        return userService.searchEmployer(text);
     }
 
     @GetMapping("/getCategory/{email}")

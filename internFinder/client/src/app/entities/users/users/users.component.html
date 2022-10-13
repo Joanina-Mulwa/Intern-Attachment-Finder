@@ -1,12 +1,10 @@
 <div class="container-fluid ">
 
-  <div class="ml-5 pl-5">
+  <div *ngIf="userBioDetail?.authority == 'STUDENT'" class="ml-5 pl-5">
     <div class="ml-5 pl-5"></div>
-
-
     <div class="input-group col-md-7 mb-3 ml-5 pl-5 ">
       <div class="ml-4"></div>
-      <input type="text" class="form-control ml-5" placeholder="Search a member" (keyup)="searchUser()"
+      <input type="text" class="form-control ml-5" placeholder="Search a company" (keyup)="searchUser()"
         [(ngModel)]="searchText">
       <div class="input-group-append">
         <button class="btn btn-secondary" type="button" [ngClass]="{'activate-button':searchText}"
@@ -21,6 +19,7 @@
 
 
   <div class="container">
+    <div class="card">
     <tabset class=" mb-2">
 
       <!-- <tab class="form-control ml-5 " class=" m-2" heading="Members">
@@ -332,6 +331,7 @@
         </div>
       </div>
 
+    </div>
     </div>
   </div>
 

@@ -1,3 +1,11 @@
 p{
     font-size: 20px;
   }
+  .file{
+    height: 600px;
+    width: 1200px;
+  }
+  ngx-doc-viewer{
+    height: auto;
+    width: auto;
+  }

@@ -35,7 +35,7 @@ export class ApplicantsComponent implements OnInit {
   approvedApplicationForcurrentInternship?: ApplyInternship[] = [];
   rejectedApplicationForcurrentInternship?: ApplyInternship[] = [];
   pendingApplicationForcurrentInternship?: ApplyInternship[] = [];
-  internshipDetails: any;
+  internshipDetails?: any;
   allApplications?: ApplyInternship[];
   internship!: PostInternship;
 
@@ -51,7 +51,7 @@ export class ApplicantsComponent implements OnInit {
   }
 
   getCurrentInternshipDetails(): void {
-    this.postInternship.findInternshipById(this.currentInternshipId).subscribe(
+    this.postInternship.findAdvertById(this.currentInternshipId).subscribe(
       (res) => {
         this.internshipDetails = res;
         console.log("This interenship was posted by", this.internshipDetails)
@@ -62,12 +62,12 @@ export class ApplicantsComponent implements OnInit {
   }
   getShortlistedApplications(): void {
     this.loading = true;
-    this.appliedInternship.findApplicationsByInternshipId(this.currentInternshipId).subscribe(
+    this.appliedInternship.getApplicationsByInternshipId(this.currentInternshipId).subscribe(
       (res) => {
         this.allApplications = res;
         console.log("Here are all the applications", this.allApplications);
 
-        this.postInternship.findInternshipById(this.currentInternshipId).subscribe(
+        this.postInternship.findAdvertById(this.currentInternshipId).subscribe(
           (res) => {
             this.internship = res;
             console.log("Here is the internship posted", this.internship);
@@ -104,7 +104,7 @@ export class ApplicantsComponent implements OnInit {
 
   getApplicationsByInternshipId(): void {
     this.loading = true;
-    this.appliedInternship.findApplicationsByInternshipId(this.currentInternshipId).subscribe(
+    this.appliedInternship.getApplicationsByInternshipId(this.currentInternshipId).subscribe(
       (res) => {
         this.loading = false;
         console.log("found the following applications", res)

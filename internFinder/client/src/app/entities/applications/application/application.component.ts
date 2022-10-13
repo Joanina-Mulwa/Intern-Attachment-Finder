@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { UserService } from 'src/app/services/user.service';
@@ -21,8 +22,12 @@ export class ApplicationComponent implements OnInit {
   userEmail!: string;
   applications?: ApplyInternship[];
   internshipId!: number;
-  applicationForcurrentInternship?: ApplyInternship;
+  applicationForcurrentInternship?: any;
   userBioDetails!: UserBio;
+  srcPDF!: string;
+  srcDOC!: any;
+  safe!: SafeUrl;
+
   
   
 
@@ -36,15 +41,15 @@ export class ApplicationComponent implements OnInit {
       console.log("We want to view profile of internship of id ", this.internshipId) 
           
     });
-    this.getApplication();
+    this.getApplications();
     this.getApplicantDetails();  
   }
   back(): void{
     window.history.back();
   }
 
-  getApplication(): void{
-    this.applicationApplied.findByAppliedBy(this.userEmail).subscribe(
+  getApplications(): void{
+    this.applicationApplied.getApplicationsByAppliedBy(this.userEmail).subscribe(
       (res)=>{
         this.applications=res;
         console.log("applications", this.applications)
@@ -53,7 +58,49 @@ export class ApplicationComponent implements OnInit {
           if(+application.internshipId === +this.internshipId){
             this.applicationForcurrentInternship = application;
             console.log("here is the application", this.applicationForcurrentInternship)
-            console.log("here is the application intro", this.applicationForcurrentInternship?.introduction)
+            if (this.applicationForcurrentInternship.type == 'application/pdf') {
+              var arrrayBuffer = base64ToArrayBuffer(this.applicationForcurrentInternship.data); //data is the base64 encoded string
+              function base64ToArrayBuffer(base64: string) {
+                var binaryString = window.atob(base64);
+                var binaryLen = binaryString.length;
+                var bytes = new Uint8Array(binaryLen);
+                for (var i = 0; i < binaryLen; i++) {
+                  var ascii = binaryString.charCodeAt(i);
+                  bytes[i] = ascii;
+                }
+                return bytes;
+              }
+              var blob = new Blob([arrrayBuffer], { type: "application/pdf" });
+              this.srcPDF = window.URL.createObjectURL(blob);
+              console.log("Testing pdf ***********", this.srcPDF)
+    
+              // window.open(this.src,'height=650,width=840');
+    
+            }
+    
+            else if (this.applicationForcurrentInternship.type == 'application/msword' || this.applicationForcurrentInternship.type.includes('application/vnd')) {
+    
+    
+              var arrrayBuffer = base64ToArrayBuffer(this.applicationForcurrentInternship.data); //data is the base64 encoded string
+              function base64ToArrayBuffer(base64: string) {
+                var binaryString = window.atob(base64);
+                var binaryLen = binaryString.length;
+                var bytes = new Uint8Array(binaryLen);
+                for (var i = 0; i < binaryLen; i++) {
+                  var ascii = binaryString.charCodeAt(i);
+                  bytes[i] = ascii;
+                }
+                return bytes;
+              }
+              var blob = new Blob([arrrayBuffer], { type: this.applicationForcurrentInternship.type });
+              this.srcDOC = window.URL.createObjectURL(blob);
+    
+               console.log("Testing doc ***********", this.srcDOC)
+    
+    
+            }
+    
+
           }
         })
         
@@ -81,7 +128,7 @@ export class ApplicationComponent implements OnInit {
   updateInternshipApplication(status: any): void{
     this.applicationForcurrentInternship!.status = status as Status;
     console.log("About to application", this.applicationForcurrentInternship)
-    this.applicationApplied.updateInternshipApplication(this.applicationForcurrentInternship).subscribe(
+    this.applicationApplied.updateApplication(this.applicationForcurrentInternship).subscribe(
       (res)=>{
         console.log("Updated internship to", res)
         this.router.navigate(['/applicants', this.internshipId])

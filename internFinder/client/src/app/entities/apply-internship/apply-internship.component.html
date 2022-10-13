@@ -1,72 +1,74 @@
 <div class="container justify-content-center">
     <div class="row">
         <div class="col-md-1 ml-2">
-           
-                <button class="btn btn-back btn-outline-secondary mb-3" (click)="back()">
-                    <span><i class="fas fa-arrow-left"></i></span> Back
-                </button>
-           
+
+            <button class="btn btn-back btn-outline-secondary mb-3" (click)="back()">
+                <span><i class="fas fa-arrow-left"></i></span> Back
+            </button>
+
         </div>
         <div class="col-md-3">
-            <button *ngIf="showUpdateButton" class="btn btn-outline-primary" [routerLink]="['/user/edit']">Update Profile</button>
+            <button *ngIf="showUpdateButton" class="btn btn-outline-primary" [routerLink]="['/user/edit']">Update
+                Profile</button>
         </div>
         <div *ngIf="!ifProfileComplete" class="col-md-4 ml-2">
-            <div  class="alert alert-dismissible alert-danger fade show "
-                role="alert">
+            <div class="alert alert-dismissible alert-danger fade show " role="alert">
                 {{profileCompleteFailure}}
             </div>
-            
+
         </div>
-        
-        
+
+
     </div>
     <div class="container">
         <div class="card">
-            <form >
-            <div class="m-3">
-                <h5 style="text-decoration: underline">Application Letter</h5>
-
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <p class="mt-2">Introduce yourself:</p>
-                        <textarea name="introduction"
-                            placeholder="Tell us more about yourself. This is an opportunity to differentiate yourself from the crowd. But say in a 5000 word limit. You can highlight skills and experience you have here.
+            <form>
+                <div class="m-3">
+                    <!-- <div hidden>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mt-2">Introduce yourself:</p>
+                                <textarea name="introduction"
+                                    placeholder="Tell us more about yourself. This is an opportunity to differentiate yourself from the crowd. But say in a 5000 word limit. You can highlight skills and experience you have here.
                             Example : I am very excited about this role and i believe i have the skills and experience to suceed in this role. through my (Enter yor major) i have learned ... I also offer other releveant skills for example ... that i acquired through my work in ..."
-                            cols="53" rows="10" [(ngModel)]="application.introduction"></textarea>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="mt-2">Why you want to apply</p>
-                        <textarea name="reason" cols="53" rows="10" [(ngModel)]="application.reason"></textarea>
+                                    cols="53" rows="10" [(ngModel)]="application.introduction"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mt-2">Why you want to apply</p>
+                                <textarea name="reason" cols="53" rows="10" [(ngModel)]="application.reason"></textarea>
 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mt-2">Highlight your strengths</p>
+                                <textarea name="strength" cols="53" rows="10"
+                                    [(ngModel)]="application.strength"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mt-2">Highlight your Weaknesses</p>
+                                <textarea name="weakness" cols="53" rows="10"
+                                    [(ngModel)]="application.weakness"></textarea>
+                            </div>
+                        </div>
+                    </div>  -->
+                    <div class="mt-3">
+                        <label for="resume">
+                            <p style="display:inline">Attach your resume / Application Letter (pdf or docx)</p>
+                        </label>
+                        <input type="file" class="form-control" name="resume" accept=".docx,.pdf" (change)="selectFile($event)"
+                            >
+
+                    </div>
+
+                    <div class="mt-5">
+                        <button *ngIf="!profileCompleteSuccess" class="btn btn-outline-primary"
+                            [disabled]="ifProfileComplete || !selectedFiles" (click)="submitApplication()">Submit Application</button>
+                        <button *ngIf="profileCompleteSuccess" class="btn btn-outline-primary" 
+                        [disabled]="!selectedFiles" (click)="submitApplication()">Submit Application
+                        </button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <p class="mt-2">Highlight your strengths</p>
-                        <textarea name="strength" cols="53" rows="10" [(ngModel)]="application.strength"></textarea>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="mt-2">Highlight your Weaknesses</p>
-                        <textarea name="weakness" cols="53" rows="10" [(ngModel)]="application.weakness"></textarea>
-                    </div>
-                </div>
-
-                <!-- <div class="mt-3">
-                    <label for="resume">
-                        <p style="display:inline">Attach your resume / CV</p>
-                    </label>
-                    <input type="file" class="form-control" name="resume" id="file-id" [(ngModel)]="application.resume">
-
-                </div> -->
-
-                <div class="mt-5">
-                    <button *ngIf="!profileCompleteSuccess" class="btn btn-outline-primary"
-                        [disabled]="ifProfileComplete" (click)="submitApplication()">Submit Application</button>
-                    <button *ngIf="profileCompleteSuccess" class="btn btn-outline-primary" (click)="submitApplication()">Submit Application
-                    </button>
-                </div>
-            </div>
             </form>
         </div>
     </div>

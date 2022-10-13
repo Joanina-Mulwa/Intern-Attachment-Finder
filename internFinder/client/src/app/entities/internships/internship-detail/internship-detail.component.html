@@ -69,7 +69,7 @@
 
                                     <button class="btn btn-outline-primary btn-edit-internship" *ngIf="isPostedByMe"
                                         [routerLink]="['/internship/edit', internshipId]"><i
-                                            class="fas fa-user-edit"></i> Edit internship</button>
+                                            class="fa-solid fa-file-pen"></i> Edit internship</button>
                                     <button class="btn btn-outline-primary btn-apply-internship"
                                         *ngIf="!isEmployer && internshipDetail.internshipStatus == 'ACTIVE' && !internshipApplied "
                                         [routerLink]="['/internship/apply', internshipId]">Apply
@@ -144,25 +144,17 @@
 
                 <embed *ngIf="internshipDetail.type == 'application/pdf'" [src]="srcPDF | safeUrl"
                     type="application/pdf" class="file">
-                    
-                <div *ngIf="internshipDetail.type.includes('application/vnd')">
-                    ssup
-                    {{srcDOC}}
-                    <!-- <object
-                    [data]="srcDOC | safeUrl"
-                        frameborder="0">
-                    </object> -->
-                    <!-- <iframe [src]="srcDOC | safeUrl"  frameborder="0">
-                </iframe> -->
-                <!-- <iframe  src='https://view.officeapps.live.com/op/embed.aspx?src=[srcDOC]'  frameborder='0'>
-                </iframe> -->
-                <!-- <iframe [src]="srcDOC | safeUrl" frameborder="0">
-                </iframe> -->
-                <iframe  [src]="srcDOC | safeUrl"></iframe>
-                </div>
-               
-               
-                
+
+
+
+                <ngx-doc-viewer
+                    *ngIf="internshipDetail.type =='application/msword' || internshipDetail.type.includes('application/vnd') "
+                    [url]="srcDOC" viewer="mammoth">
+                </ngx-doc-viewer>
+
+
+
+
 
 
 

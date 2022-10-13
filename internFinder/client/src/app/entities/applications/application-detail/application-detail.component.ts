@@ -22,7 +22,7 @@ export class ApplicationDetailComponent implements OnInit {
   applications!: ApplyInternship[];
   loggedInUserEmail!: string;
   applicationDetails?: ApplyInternship;
-  internshipDetail?: PostInternship
+  internshipDetail?: any;
 
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ this.viewApplication();
   }
   viewApplication():void{
     this.loading = true;  
-    this.applyInternship.findApplicationsByInternshipId(this.internshipId).subscribe(
+    this.applyInternship.getApplicationsByInternshipId(this.internshipId).subscribe(
       (res) => {
         this.loading=false;
         this.applications = res;
@@ -47,7 +47,7 @@ this.viewApplication();
           if(application.appliedBy === this.loggedInUserEmail){
             this.applicationDetails=application;
             console.log("Found this specific aplication for the internship, ", this.applicationDetails)
-            this.postInternship.findInternshipById(this.internshipId).subscribe(
+            this.postInternship.findAdvertById(this.internshipId).subscribe(
               (res)=>{
                 this.internshipDetail=res
                 console.log("here the internship", this.internshipDetail)

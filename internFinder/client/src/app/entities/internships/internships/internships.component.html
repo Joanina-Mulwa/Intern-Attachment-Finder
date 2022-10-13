@@ -1,19 +1,20 @@
 <div class="container-fluid ">
+  
 
     <div *ngIf="userBioDetail?.authority == 'STUDENT'">
 
-
         <div class="col-md-6 input-group  mb-3">
-            <input type="text" class="form-control" placeholder="Search an internship" (keyup)="searchInternship()"
+            <input type="text" class="form-control" placeholder="Search an internship" (keyup)="searchAdvert()"
                 [(ngModel)]="searchText">
             <div class="input-group-append">
                 <button class="btn btn-secondary" type="button" [ngClass]="{'activate-button':searchText}"
-                    (click)="searchInternship()">
+                    (click)="searchAdvert()">
                     <i class="fa fa-search"></i>
                 </button>
             </div>
-
+    
         </div>
+     
 
 
 
@@ -26,7 +27,7 @@
             <p class="text-muted">No internships found</p>
         </div>
 
-        <div class="row">
+        <div  *ngIf="!loading" class="row">
             <div class="col-12 col-lg-3 col-md-6 mb-3" *ngFor="let internship of internships">
                 <div class="card profile-item ">
                     <div class="card-body">
@@ -56,19 +57,31 @@
 
                                     <h4>{{internship.internshipTitle}}</h4>
                                 </div>
-                                <div>
-                                    <span *ngIf="internship.companyName" class="company-name p-1 mx-0" title="Company">
+                                <div hidden>
+                                    <p *ngIf="internship.companyName" class="company-name p-1 mx-0" title="Company">
                                         Company: {{internship?.companyName}}
                                         <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
-                                    </span>
+                                    </p>
                                 </div>
+                                <div >
+                                    <p *ngIf="internship.period" class=" p-1 mx-0" >
+                                        {{internship?.period}}
+                                        <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                                    </p>
+                                </div>
+                                <div >
+                                    <p *ngIf="internship.reportingDate" class=" p-1 mx-0" >
+                                        Deadline: {{internship?.reportingDate}}
+                                        <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
+                                    </p>
+                                </div>
+                  
                   
                                 <div hidden>
                                     <i *ngIf="internship.internshipStatus === 'ACTIVE'" class="fas fa-check-circle">
                                         {{internship.internshipStatus}}</i>
                                     <i *ngIf="internship.internshipStatus === 'CLOSED'" class="fas fa-times-circle">
                                         {{internship.internshipStatus}}</i>
-
 
                                 </div>
                             </div>

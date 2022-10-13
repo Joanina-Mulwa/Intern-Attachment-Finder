@@ -29,12 +29,12 @@ export class BioDetailComponent implements OnInit {
   userEmail!: string;
   username!: string;
   isMe: boolean = false;
-  applications!: ApplyInternship[];
+  applications?: ApplyInternship[];
   allInternshipDetails!: PostInternship[];
-  approvedInternshipsDetails?: PostInternship[] = [];
-  rejectedInternshipsDetails?: PostInternship[] = [];
-  pendingInternshipsDetails?: PostInternship[] = [];
-  internshipDetails: PostInternship[] = [];
+  approvedInternshipsDetails?: any[] = [];
+  rejectedInternshipsDetails?: any[] = [];
+  pendingInternshipsDetails?: any[] = [];
+  internshipDetails: any[] = [];
   loading = false
   internships!: PostInternship[];
   companyInternships!: PostInternship[];
@@ -60,26 +60,23 @@ export class BioDetailComponent implements OnInit {
       console.log("We want to view profile of ", this.userEmail)
     });
     this.checkIfMe();
-      this.getAppliedInternshipByMe();
+     // this.getAppliedInternshipByMe();
   }
 
 
+  // lastCompanyName = '';
+  // displayCompanyName(item: any): boolean {
+  //   if (item.companyName !== this.lastCompanyName) {
+  //     this.lastCompanyName = item.companyName;
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
-
-
-  lastCompanyName = '';
-  displayCompanyName(item: any): boolean {
-    if (item.companyName !== this.lastCompanyName) {
-      this.lastCompanyName = item.companyName;
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  trackCompanyName(index: number, item: any): string {
-    return item.internshipTitle + item.companyName;
-  }
+  // trackCompanyName(index: number, item: any): string {
+  //   return item.internshipTitle + item.companyName;
+  // }
 
 
   checkIfMe(): void {
@@ -128,21 +125,20 @@ export class BioDetailComponent implements OnInit {
 
   getAppliedInternshipByMe(): void {
     this.loading = true;
-    this.applyInternship.findByAppliedBy(this.loggedInUserEmail).subscribe(
+    this.applyInternship.getApplicationsByAppliedBy(this.loggedInUserEmail).subscribe(
       (res) => {
         this.applications = res;
         console.log("I have aplied for this internships, ", this.applications)
-        if (this.applications.length === 0) {
+        if (this.applications?.length === 0) {
           this.loading = false;
         }
-        this.applications.forEach((application: any) => {
+        this.applications?.forEach((application: any) => {
           
           console.log("internships aplied by, ", application.appliedBy)
-          this.postInternshipService.findAll().subscribe(
+          this.postInternshipService.getFiles().subscribe(
             (res) => {
               this.allInternshipDetails = res;
               this.allInternshipDetails.forEach((allInternshipDetail: any) => {
-                console.log("check applied internhsip id", application.internshipId, " against internships", allInternshipDetail.id, "and match value is ", application.internshipId === allInternshipDetail.id)
                 if (application.internshipId === allInternshipDetail.id) {
                   this.internshipDetails?.push(allInternshipDetail)
                   console.log("internhsip details are", this.internshipDetails)
@@ -179,7 +175,7 @@ export class BioDetailComponent implements OnInit {
   }
   getPostedInternshipByMe(): void {
     this.loading = true;
-    this.postInternshipService.findAll().subscribe(
+    this.postInternshipService.getFiles().subscribe(
       (res) => {
         this.internships = res;
         console.log("all internhsip posted are", this.internships)

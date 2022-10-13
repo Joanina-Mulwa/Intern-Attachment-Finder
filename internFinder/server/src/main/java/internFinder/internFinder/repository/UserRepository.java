@@ -13,5 +13,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByUsername(String username);
 
-    List<User> findByUsernameContainingOrNameContaining(String text, String text1);
+
+    List<User> findByUsernameContainingOrNameContainingOrCompanyIndustry(String text, String text1, String text2);
 }

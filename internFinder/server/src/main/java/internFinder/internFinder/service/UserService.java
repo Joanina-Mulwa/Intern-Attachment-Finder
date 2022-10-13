@@ -5,6 +5,7 @@ import internFinder.internFinder.domain.PostAdvert;
 import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.domain.User;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
+import internFinder.internFinder.domain.enumarations.InternshipStatus;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
 import internFinder.internFinder.domain.enumarations.UserStatus;
 import internFinder.internFinder.dto.UserBioDTO;
@@ -85,10 +86,11 @@ public class UserService {
          return userRepository.findAll();
     }
 
-    public List<User> search(String text) {
+    public List<User> searchEmployer(String text) {
         log.debug("Request to search user with text : {}", text);
-
-        return userRepository.findByUsernameContainingOrNameContaining(text, text);
+        List<User> users = userRepository.findByUsernameContainingOrNameContainingOrCompanyIndustry(text, text, text);
+        users.removeIf(user -> user.getAuthority() != UserAuthority.EMPLOYER);
+        return users;
     }
 
     public List<User> findAll() {

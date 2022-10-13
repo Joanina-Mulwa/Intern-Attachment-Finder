@@ -58,7 +58,7 @@ export class UserService {
   }
 
   searchUser(text?: string): Observable<any>{
-    return this.httpClient.get<any>(this.apiServerURL + "/api/user/search?text=" + text)
+    return this.httpClient.get<any>(this.apiServerURL + "/api/user/search/employer?text=" + text)
   }
 
 }

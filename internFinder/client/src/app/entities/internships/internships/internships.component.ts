@@ -145,7 +145,7 @@ export class InternshipsComponent implements OnInit {
               }
             )
           }
-          this.applyInternship.findByAppliedBy(this.userEmail).subscribe(
+          this.applyInternship.getApplicationsByAppliedBy(this.userEmail).subscribe(
             (res) => {
               this.applications = res;
               this.applications.forEach((application: any) => {
@@ -244,6 +244,26 @@ export class InternshipsComponent implements OnInit {
     )
 
   }
+  searchAdvert(): void {
+    this.loading = true;
+    this.postInternshipService.searchAdvert(this.searchText).subscribe(
+      result => {
+        this.loading = false;
+        this.internships = result;
+        let date = new Date().toJSON().slice(0, 10);
+        this.internships.forEach((internship: any) => {
+          if (internship.reportingDate === date) {
+            internship.skillsList = internship.skills.split(",");
+            internship.internshipStatus = InternshipStatus.CLOSED;
+          }
+        });
+        console.log("Search produces internships:", this.internships)
+      },
+      error => {
+        console.error('error getting searched internship', error);
+      }
+    )
+  }
   softDelete(title: any, id: any): void {
     this.deleteId = id;
     this.deleteTitle = title;
@@ -262,69 +282,69 @@ export class InternshipsComponent implements OnInit {
   }
 
 
-  findAllinternships(): void {
-    this.loading = true;
-    this.postInternshipService.findAll().subscribe(
-      (res) => {
-        this.loading = true;
-        this.loading = false;
-        console.log("Found all internships ", res)
-        this.allInternships = res;
+  // findAllinternships(): void {
+  //   this.loading = true;
+  //   this.postInternshipService.findAll().subscribe(
+  //     (res) => {
+  //       this.loading = true;
+  //       this.loading = false;
+  //       console.log("Found all internships ", res)
+  //       this.allInternships = res;
 
-        this.allInternships.forEach((internship) => {
-          if (internship.internshipStatus === InternshipStatus.ACTIVE) {
-            this.internships.push(internship)
-          }
-        })
-        let date = new Date().toJSON().slice(0, 10);
-        console.log("Found active internships ", this.internships)
-        this.internships.forEach((internship: any) => {
-          internship.skillsList = internship.skills.split(",");
-          if (internship.reportingDate === date && internship.internshipStatus === InternshipStatus.ACTIVE) {
-            internship.internshipStatus = InternshipStatus.CLOSED;
-            this.postInternshipService.updateInternship(internship).subscribe(
-              (res) => {
-                console.log(" updated internship to ,", res)
-              },
-              (err) => {
-                console.log("error updating internship", err)
-              }
-            )
-          }
-          this.applyInternship.findByAppliedBy(this.userEmail).subscribe(
-            (res) => {
-              this.applications = res;
-              this.applications.forEach((application: any) => {
-                if (application.internshipId === internship.id) {
-                  this.appliedInternshipIdArray.push(internship.id)
-                  console.log("length is", this.appliedInternshipIdArray.length)
-                }
-              })
-            },
-            (err) => { console.log(err) }
-          )
-        });
-      }
-    )
-  }
-  searchInternship(): void {
-    this.loading = true;
-    this.postInternshipService.searchInternship(this.searchText).subscribe(
-      result => {
-        this.loading = false;
-        this.internships = result;
-        let date = new Date().toJSON().slice(0, 10);
-        this.internships.forEach((internship: any) => {
-          if (internship.reportingDate === date) {
-            internship.skillsList = internship.skills.split(",");
-            internship.internshipStatus = InternshipStatus.CLOSED;
-          }
-        });
-        console.log("Search produces internships:", this.internships)
-      },
-      error => {
-        console.error('error getting searched internship', error);
-      }
-    )
-  }
+  //       this.allInternships.forEach((internship) => {
+  //         if (internship.internshipStatus === InternshipStatus.ACTIVE) {
+  //           this.internships.push(internship)
+  //         }
+  //       })
+  //       let date = new Date().toJSON().slice(0, 10);
+  //       console.log("Found active internships ", this.internships)
+  //       this.internships.forEach((internship: any) => {
+  //         internship.skillsList = internship.skills.split(",");
+  //         if (internship.reportingDate === date && internship.internshipStatus === InternshipStatus.ACTIVE) {
+  //           internship.internshipStatus = InternshipStatus.CLOSED;
+  //           this.postInternshipService.updateInternship(internship).subscribe(
+  //             (res) => {
+  //               console.log(" updated internship to ,", res)
+  //             },
+  //             (err) => {
+  //               console.log("error updating internship", err)
+  //             }
+  //           )
+  //         }
+  //         this.applyInternship.findByAppliedBy(this.userEmail).subscribe(
+  //           (res) => {
+  //             this.applications = res;
+  //             this.applications.forEach((application: any) => {
+  //               if (application.internshipId === internship.id) {
+  //                 this.appliedInternshipIdArray.push(internship.id)
+  //                 console.log("length is", this.appliedInternshipIdArray.length)
+  //               }
+  //             })
+  //           },
+  //           (err) => { console.log(err) }
+  //         )
+  //       });
+  //     }
+  //   )
+  // }
+  // searchInternship(): void {
+  //   this.loading = true;
+  //   this.postInternshipService.searchInternship(this.searchText).subscribe(
+  //     result => {
+  //       this.loading = false;
+  //       this.internships = result;
+  //       let date = new Date().toJSON().slice(0, 10);
+  //       this.internships.forEach((internship: any) => {
+  //         if (internship.reportingDate === date) {
+  //           internship.skillsList = internship.skills.split(",");
+  //           internship.internshipStatus = InternshipStatus.CLOSED;
+  //         }
+  //       });
+  //       console.log("Search produces internships:", this.internships)
+  //     },
+  //     error => {
+  //       console.error('error getting searched internship', error);
+  //     }
+  //   )
+  // }
 }

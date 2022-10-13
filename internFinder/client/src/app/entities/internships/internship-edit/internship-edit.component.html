@@ -263,7 +263,7 @@
                                                     <div class="col-md-9">
                                                         <label for="advert">
                                                             <p style="display:inline">Attach or drag & drop advert
-                                                                <small>(pdf, doc, odt, image)</small>
+                                                                <small>(pdf, docx, image, short video)</small>
                                                             </p>
                                                         </label>
                                                     </div>
@@ -278,9 +278,10 @@
                                                     </div>
 
                                                 </div>
+                                                <input  name="foundFile" type="file" [(ngModel)]="foundFile">
                                                 <input type="file"
-                                                accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.pdf, .odt, .mkv, .mp4"
-                                                class="form-control" name="currentFile" (change)="selectFile($event)" />
+                                                accept="image/*,.docx,.pdf, .mkv, .mp4"
+                                                class="form-control" name="foundFile" (change)="selectFile($event)" />
 
 
                                           

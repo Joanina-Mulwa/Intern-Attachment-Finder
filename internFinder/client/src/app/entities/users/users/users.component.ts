@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 // import { UserBioService } from '../services/user-bio.service';
- import { Authority, UserBio } from '../user-bio-model';
+import { Authority, UserBio } from '../user-bio-model';
 
 
 @Component({
@@ -14,22 +14,24 @@ export class UsersComponent implements OnInit {
 
   constructor(
     protected userService: UserService
-    ) 
-    { }
+  ) { }
 
   users!: UserBio[];
   username?: any;
   loading = false;
   searchText: string = '';
-  usersStudent: UserBio[]=[];
-  usersEmployer: UserBio[]=[];
-  usersGuest: UserBio[]=[];
+  usersStudent: UserBio[] = [];
+  usersEmployer: UserBio[] = [];
+  usersGuest: UserBio[] = [];
+  searchStudent: UserBio[] = [];
+  searchEmployer: UserBio[] = [];
+  searchGuest: UserBio[] = [];
   userEmail!: string;
   userBioDetail?: UserBio;
 
 
   ngOnInit(): void {
-    this.getAllUsers(); 
+    this.getAllUsers();
     this.getCurrentLoggedInUsername();
     this.getBioDetails();
   }
@@ -41,44 +43,45 @@ export class UsersComponent implements OnInit {
 
   }
 
-  getBioDetails(): void{
+  getBioDetails(): void {
     this.userService.findByEmail(this.userEmail).subscribe(
-      (res)=>{
-        this.userBioDetail=res;
+      (res) => {
+        this.userBioDetail = res;
         console.log("Found user details", this.userBioDetail)
       },
-      (err)=> {
-        console.log(err)}
+      (err) => {
+        console.log(err)
+      }
     )
   }
 
 
 
 
-  getAllUsers():void{
-    this.loading=true;
+  getAllUsers(): void {
+    this.loading = true;
     this.userService.findAllUsers().subscribe(
       (res) => {
-        console.log("here",res);
+        console.log("here", res);
         let date = new Date().toJSON().slice(0, 10);
         this.users = res;
-        this.loading=false
+        this.loading = false
         this.users.forEach((user: any) => {
-          user.createdOn=date;
+          user.createdOn = date;
           if (user.skills) {
             user.skillsList = user.skills.split(",");
           }
-          if(user.authority === Authority.STUDENT){
+          if (user.authority === Authority.STUDENT) {
             this.usersStudent.push(user);
           }
-          else if(user.authority === Authority.EMPLOYER){
+          else if (user.authority === Authority.EMPLOYER) {
             this.usersEmployer.push(user)
           }
-          else{
+          else {
             this.usersGuest.push(user);
           }
         });
-        console.log("Success users: ", this.users);       
+        console.log("Success users: ", this.users);
       }
     )
   }
@@ -87,13 +90,8 @@ export class UsersComponent implements OnInit {
     this.userService.searchUser(this.searchText).subscribe(
       result => {
         this.loading = false;
-        this.users = result;
-        this.users.forEach((user: any) => {
-          if (user.skills) {
-            user.skillsList = user.skills.split(",");
-          }
-        });   
-        console.log("Search produces users:", this.users) ;
+        this.usersEmployer = result;
+        console.log("Search produces users:", this.users);
       },
       error => {
         console.error('error getting searched user', error);

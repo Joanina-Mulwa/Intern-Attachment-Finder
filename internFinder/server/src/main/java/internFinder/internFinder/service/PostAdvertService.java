@@ -3,6 +3,7 @@ package internFinder.internFinder.service;
 import internFinder.internFinder.Security.UserNotFoundException;
 import internFinder.internFinder.domain.PostAdvert;
 import internFinder.internFinder.domain.PostInternship;
+import internFinder.internFinder.domain.enumarations.InternshipStatus;
 import internFinder.internFinder.message.ResponseFile;
 import internFinder.internFinder.repository.PostAdvertRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -78,6 +81,14 @@ public class PostAdvertService {
             throw new UserNotFoundException("No internship found with id " + postAdvert.getId());
         }
 
+    }
+
+    public Stream<PostAdvert> searchAdvert(String text) {
+        log.debug("Request to search internship with text : {}", text);
+
+        List<PostAdvert> adverts = postAdvertRepository.findByInternshipTitleContainingOrCompanyNameContainingOrCompanyEmailContainingOrDomainContainingOrPeriodContainingOrNameContaining(text, text, text, text, text, text);
+        adverts.removeIf(advert -> Objects.equals(advert.getInternshipStatus(), "CLOSED"));
+        return adverts.stream();
     }
     public Optional<Byte> getFileData(byte[] data) {
         return Optional.of(postAdvertRepository.findByData(data));

@@ -30,6 +30,7 @@ import { JwtInterceptorService } from './interceptors/jwt-interceptor.service';
 import { AboutUsComponent } from './about/about-us/about-us.component';
 import { PdfViewerModule }  from  'ng2-pdf-viewer';
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,6 +67,7 @@ import { SafeUrlPipe } from './pipes/safe-url.pipe';
     AngularEditorModule,
     TabsModule.forRoot(),
     //MDBBootstrapModule.forRoot(),
+    NgxDocViewerModule,
     
   ],
   providers: [

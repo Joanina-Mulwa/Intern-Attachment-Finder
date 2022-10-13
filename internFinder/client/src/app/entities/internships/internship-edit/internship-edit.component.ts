@@ -52,6 +52,7 @@ export class InternshipEditComponent implements OnInit {
     internshipStatus: 'ACTIVE',
     createdOn: '',
     reportingDate: '',
+    url:''
   }
 
   companyDetails!: '';
@@ -61,6 +62,7 @@ export class InternshipEditComponent implements OnInit {
 
   selectedFiles!: FileList;
   currentFile!: any;
+  foundFile!: File;
   progress = 0;
   message = '';
   fileInfos?: Observable<any>;
@@ -204,6 +206,7 @@ export class InternshipEditComponent implements OnInit {
       internshipStatus: 'ACTIVE',
       createdOn: '',
       reportingDate: '',
+      url:''
     }
 
   }
@@ -252,7 +255,12 @@ export class InternshipEditComponent implements OnInit {
     this.postInternshipService.findAdvertById(this.internshipId).subscribe(
       (res) => {
         console.log("Found internship this", res);
-        this.advertDetails = res;  
+        this.advertDetails = res; 
+
+        this.foundFile = new File([res.data], res.name, { type: res.type });
+
+        console.log("Found internship this", this.foundFile);
+
       },
       (err) => { console.log("Failed to find internship of id ", this.internshipId) }
     )

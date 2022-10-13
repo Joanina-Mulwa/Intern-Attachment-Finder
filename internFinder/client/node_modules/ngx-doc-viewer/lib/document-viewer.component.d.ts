@@ -1,0 +1,34 @@
+import { NgZone, OnDestroy, OnChanges, SimpleChanges, QueryList, ElementRef, AfterViewInit } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { EventEmitter } from '@angular/core';
+import * as i0 from "@angular/core";
+export declare type viewerType = 'google' | 'office' | 'mammoth' | 'pdf' | 'url';
+export declare class NgxDocViewerComponent implements OnChanges, OnDestroy, AfterViewInit {
+    private domSanitizer;
+    private ngZone;
+    loaded: EventEmitter<void>;
+    url: string;
+    queryParams: string;
+    viewerUrl: string;
+    googleCheckInterval: number;
+    googleMaxChecks: number;
+    disableContent: 'none' | 'all' | 'popout' | 'popout-hide';
+    googleCheckContentLoaded: boolean;
+    viewer: viewerType;
+    overrideLocalhost: string;
+    iframes?: QueryList<ElementRef>;
+    fullUrl?: SafeResourceUrl;
+    externalViewer: boolean;
+    docHtml: string;
+    configuredViewer: viewerType;
+    private checkIFrameSubscription?;
+    private shouldCheckIframe;
+    constructor(domSanitizer: DomSanitizer, ngZone: NgZone);
+    ngAfterViewInit(): void;
+    ngOnDestroy(): void;
+    ngOnChanges(changes: SimpleChanges): Promise<void>;
+    private reloadIframe;
+    iframeLoaded(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<NgxDocViewerComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<NgxDocViewerComponent, "ngx-doc-viewer", never, { "url": "url"; "queryParams": "queryParams"; "viewerUrl": "viewerUrl"; "googleCheckInterval": "googleCheckInterval"; "googleMaxChecks": "googleMaxChecks"; "disableContent": "disableContent"; "googleCheckContentLoaded": "googleCheckContentLoaded"; "viewer": "viewer"; "overrideLocalhost": "overrideLocalhost"; }, { "loaded": "loaded"; }, never, never, false>;
+}

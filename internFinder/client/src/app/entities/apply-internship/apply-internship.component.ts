@@ -1,5 +1,7 @@
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { UserService } from 'src/app/services/user.service';
@@ -31,7 +33,31 @@ export class ApplyInternshipComponent implements OnInit {
   
   internshipDetail?: PostInternship
   currentInternshipId!: number;
-  application={
+  // application={
+  //   id: undefined as any,
+
+  //   internshipId: undefined as unknown  as number,
+
+  //   appliedBy: '',
+
+  //   appliedOn: '',
+
+  //   postedBy: '',
+
+  //   introduction: '',
+
+  //   reason: '',
+
+  //   strength: '',
+
+  //   weakness: '',
+
+  //   resume: '',
+    
+
+
+  // }
+  applicationDetails={
     id: undefined as any,
 
     internshipId: undefined as unknown  as number,
@@ -41,20 +67,13 @@ export class ApplyInternshipComponent implements OnInit {
     appliedOn: '',
 
     postedBy: '',
-
-    introduction: '',
-
-    reason: '',
-
-    strength: '',
-
-    weakness: '',
-
-    resume: '',
-    
-
-
   }
+  selectedFiles!: FileList;
+  currentFile!: any;
+  progress = 0;
+  message = '';
+  fileInfos?: Observable<any>;
+  today?: any;
 
 
   ngOnInit(): void {
@@ -63,10 +82,46 @@ export class ApplyInternshipComponent implements OnInit {
       console.log("We want to view profile of intenrhsip of is  ", this.currentInternshipId)
     });
     this.checkIfProfileComplete();
-     this.findPostedBy();
+      this.findPostedBy();
   }
   back(): void{
     window.history.back();
+  }
+  selectFile(event: any) {
+    this.selectedFiles = event.target.files;
+  }
+
+  submitApplication() {
+    this.progress = 0;
+    this.currentFile = this.selectedFiles.item(0);
+    this.applicationDetails.internshipId=this.currentInternshipId;
+    this.applicationDetails!.appliedBy=this.currentEmail;
+    let date = new Date().toJSON().slice(0, 10);
+    this.applicationDetails!.appliedOn = date;   
+    console.log("About to create application", this.applicationDetails, "and resume", this.currentFile)
+      this.applyInternship.createApplication(this.currentFile, this.applicationDetails).subscribe(
+      (event: any)=>{
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.message = event.body.message;
+          setTimeout(() => {
+            this.message = '';
+            this.router.navigate(['/users/', this.currentEmail])
+
+          }, 3000)
+        }
+      },
+      (err)=>{
+        console.log(err)
+        this.progress = 0;
+        this.message = 'Could not upload the file! Try again later.';
+        this.currentFile = undefined;
+        setTimeout(() => {
+          this.message = '';
+        }, 5000)
+      }
+    )
   }
 
   checkIfProfileComplete(): void {
@@ -98,12 +153,12 @@ export class ApplyInternshipComponent implements OnInit {
   }
 
   findPostedBy(): void{
-  this.postInternshipService.findInternshipById(this.currentInternshipId).subscribe(
+  this.postInternshipService.findAdvertById(this.currentInternshipId).subscribe(
     (res)=>{
       console.log("internship details are", res)
       this.internshipDetail = res;
       console.log("Current internship was posted by this company email :", this.internshipDetail?.companyEmail);
-      this.application.postedBy=res.companyName;
+      this.applicationDetails.postedBy=res.companyName;
     },
     (err)=>{
       console.log("Error fetching current internship details", err)
@@ -111,22 +166,21 @@ export class ApplyInternshipComponent implements OnInit {
   )
   }
 
-  submitApplication(): void{
-    this.application.internshipId=this.currentInternshipId;
-    this.application!.appliedBy=this.currentEmail;
-    let date = new Date().toJSON().slice(0, 10);
-    this.application!.appliedOn = date;   
-    console.log("About to create application", this.application)
+  // submit(): void{
+  //   this.application.internshipId=this.currentInternshipId;
+  //   this.application!.appliedBy=this.currentEmail;
+  //   let date = new Date().toJSON().slice(0, 10);
+  //   this.application!.appliedOn = date;   
+  //   console.log("About to create application", this.application)
+  //   this.applyInternship.applyInternship(this.application).subscribe(
+  //     (res)=>{
+  //       console.log("created appliccation",res)
+  //       this.router.navigate(['/users/', this.currentEmail])
+  //     },
+  //     (err)=>{console.log(err)}
+  //   )
     
-    this.applyInternship.applyInternship(this.application).subscribe(
-      (res)=>{
-        console.log("created appliccation",res)
-        this.router.navigate(['/users/', this.currentEmail])
-      },
-      (err)=>{console.log(err)}
-    )
-    
-  }
+  // }
 
 
   

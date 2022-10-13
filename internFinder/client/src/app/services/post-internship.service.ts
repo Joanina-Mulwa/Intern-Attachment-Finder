@@ -81,6 +81,10 @@ export class PostInternshipService {
   findAdvertById(id: number): Observable<any> {
     return this.httpClient.get(`${this.apiServerURL}/api/findAdvertById/`+id);
   }
+  searchAdvert(text?: string): Observable<any>{
+    return this.httpClient.get<any>(this.apiServerURL + "/api/advert/search?text=" + text)
+   
+  }
   // downloadAdvertById(id: number): Observable<any> {
   //   return this.httpClient.get(`${this.apiServerURL}/api/file/`+id);
   // }

@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import * as mammoth from 'mammoth';
 import { Observable } from 'rxjs';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
@@ -38,7 +39,7 @@ export class InternshipDetailComponent implements OnInit {
   internshipId!: number;
   loggedInUserEmail!: string;
   isPostedByMe: boolean = false;
-  isEmployer: boolean = false;
+  isEmployer: boolean = true;
   companyDetails?: UserBio;
   applications?: ApplyInternship[];
   internshipApplied = false;
@@ -50,7 +51,7 @@ export class InternshipDetailComponent implements OnInit {
   fileSource!: string;
   pdfSource!: any;
   srcPDF!: string;
-  srcDOC!: string;
+  srcDOC!: any;
   safe!: SafeUrl;
 
 
@@ -100,6 +101,9 @@ export class InternshipDetailComponent implements OnInit {
         if (res.authority === Authority.EMPLOYER) {
           this.isEmployer = true;
         }
+        else if (res.authority === Authority.STUDENT){
+          this.isEmployer = false;
+        }
       },
       (err) => {
         console.log("Error fetching current user details", err)
@@ -137,9 +141,8 @@ export class InternshipDetailComponent implements OnInit {
           // window.open(this.src,'height=650,width=840');
 
         }
-        //application/vnd.openxmlformats-officedocument.wordprocessingml.document
-        //type: "application/vnd.oasis.opendocument.text"
-        else if (res.type.includes('application/vnd')) {
+
+        else if (res.type == 'application/msword' || res.type.includes('application/vnd')) {
 
 
           var arrrayBuffer = base64ToArrayBuffer(res.data); //data is the base64 encoded string
@@ -155,15 +158,12 @@ export class InternshipDetailComponent implements OnInit {
           }
           var blob = new Blob([arrrayBuffer], { type: res.type });
           this.srcDOC = window.URL.createObjectURL(blob);
-         // http://view.officeapps.live.com/op/view.aspx?src=[OFFICE_FILE_URL]
-          //<iframe src="https://docs.google.com/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>
-         this.srcDOC = "https://docs.google.com/viewer?url="+this.srcDOC+"&embedded=true";
-          console.log("Testing doc ***********", this.srcDOC)
 
-          // window.open(this.src,'height=650,width=840');
+           console.log("Testing doc ***********", this.srcDOC)
+
 
         }
-     
+
 
 
 
@@ -214,7 +214,7 @@ export class InternshipDetailComponent implements OnInit {
   }
 
   checkIfAppliedByMe(): void {
-    this.applyInternship.findByAppliedBy(this.loggedInUserEmail).subscribe(
+    this.applyInternship.getApplicationsByAppliedBy(this.loggedInUserEmail).subscribe(
       (res) => {
         this.applications = res;
         console.log("I have aplied for this internships, ", this.applications)

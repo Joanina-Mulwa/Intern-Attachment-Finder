@@ -1,72 +1,99 @@
 <div class="container justify-content-center">
-    
-        <div class="col-md-1 ml-2">
 
-            <button class="btn btn-back btn-outline-secondary mb-3" (click)="back()">
-                <span><i class="fas fa-arrow-left"></i></span> Applicants
-            </button>
+    <div class="col-md-1 ml-2">
 
-        </div>
+        <button class="btn btn-back btn-outline-secondary mb-3" (click)="back()">
+            <span><i class="fas fa-arrow-left"></i></span> Applicants
+        </button>
 
-   
+    </div>
+
+
     <div class="container m-3">
         <div class="card">
 
             <div class="m-3">
-                <h5 style="text-decoration: underline">Application Letter by
-                    <a href="mailto:{{applicationForcurrentInternship?.appliedBy}}"> {{applicationForcurrentInternship?.appliedBy}}</a>
-                    </h5>
-
-
-
-                <div>
-                    <h5 class="mt-2">Personal Profile:</h5>
-
-
-                    <p>{{applicationForcurrentInternship?.introduction}}</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 >Application Letter by
+                            <a style="text-decoration: underline" href="mailto:{{applicationForcurrentInternship?.appliedBy}}">
+                                {{applicationForcurrentInternship?.appliedBy}}</a>
+                        </h5>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <a href="{{applicationForcurrentInternship?.url}}">Download <i class="fas fa-download"> </i></a>
+                    </div>
                 </div>
 
 
-                <p>{{applicationForcurrentInternship?.reason}}</p>
 
-                <div *ngIf="userBioDetails?.skillsList" style="display: inline" class="mt-1 col-md-6">
-                    <h5>Skills</h5>
+                <embed *ngIf="applicationForcurrentInternship?.type == 'application/pdf'" [src]="srcPDF | safeUrl"
+                    type="application/pdf" class="file">
 
-                    <p *ngFor="let skill of userBioDetails?.skillsList" [innerHTML]="skill">
-                        {{skill}}
-                    </p>
-                </div>
 
-                <h5>Experience</h5>
 
-                <h5 class="mt-2">Strengths</h5>
-                <p>{{applicationForcurrentInternship?.strength}}</p>
+                <ngx-doc-viewer
+                    *ngIf="applicationForcurrentInternship?.type =='application/msword' || applicationForcurrentInternship?.type.includes('application/vnd') "
+                    [url]="srcDOC" viewer="mammoth">
+                </ngx-doc-viewer>
 
-                <h5 class="mt-2">Weaknesses</h5>
-                <p>{{applicationForcurrentInternship?.weakness}}</p>
 
+
+
+                <!-- <div hidden>
+
+
+                    <div>
+                        <h5 class="mt-2">Personal Profile:</h5>
+
+
+                        <p>{{applicationForcurrentInternship?.introduction}}</p>
+                    </div>
+
+
+                    <p>{{applicationForcurrentInternship?.reason}}</p>
+
+                    <div *ngIf="userBioDetails?.skillsList" style="display: inline" class="mt-1 col-md-6">
+                        <h5>Skills</h5>
+
+                        <p *ngFor="let skill of userBioDetails?.skillsList" [innerHTML]="skill">
+                            {{skill}}
+                        </p>
+                    </div>
+
+                    <h5>Experience</h5>
+
+                    <h5 class="mt-2">Strengths</h5>
+                    <p>{{applicationForcurrentInternship?.strength}}</p>
+
+                    <h5 class="mt-2">Weaknesses</h5>
+                    <p>{{applicationForcurrentInternship?.weakness}}</p>
+                </div> -->
 
                 <div class="row m-2 ">
                     <div class="col-md-6">
-                        <button *ngIf="applicationForcurrentInternship?.status === null" class="btn btn-outline-secondary" 
-                        (click)="updateInternshipApplication('REJECTED')">Reject</button>
-                    
+                        <button *ngIf="applicationForcurrentInternship?.status === null"
+                            class="btn btn-outline-secondary"
+                            (click)="updateInternshipApplication('REJECTED')">Reject</button>
+
                     </div>
                     <div class="col-md-6 text-end">
                         <button *ngIf="applicationForcurrentInternship?.status === null" class="btn btn-outline-primary"
-                             (click)="updateInternshipApplication('APPROVED')">Approve</button>
+                            (click)="updateInternshipApplication('APPROVED')">Approve</button>
                     </div>
                     <div class="col-md-12 text-end">
-                        <button *ngIf="applicationForcurrentInternship?.status === 'APPROVED'" class="btn btn-outline-primary"
-                             (click)="updateInternshipApplication('REJECTED')">Change to Reject</button>
+                        <button *ngIf="applicationForcurrentInternship?.status === 'APPROVED'"
+                            class="btn btn-outline-primary" (click)="updateInternshipApplication('REJECTED')">Change to
+                            Reject</button>
                     </div>
                     <div class="col-md-6 text-end">
-                        <button *ngIf="applicationForcurrentInternship?.status === 'REJECTED'" class="btn btn-outline-primary"
-                             (click)="updateInternshipApplication('APPROVED')">Change to Approve</button>
+                        <button *ngIf="applicationForcurrentInternship?.status === 'REJECTED'"
+                            class="btn btn-outline-primary" (click)="updateInternshipApplication('APPROVED')">Change to
+                            Approve</button>
                     </div>
                 </div>
 
-               
+
             </div>
 
         </div>
