@@ -1,6 +1,6 @@
 <div class="container-fluid ">
 
-    <div *ngIf="!loading && currentInternshipApplications?.length != 0" class="ml-5 pl-5">
+    <div hidden *ngIf="currentInternshipApplications?.length != 0" class="ml-5 pl-5">
         <div class="ml-5 pl-5"></div>
 
 
@@ -20,7 +20,7 @@
 
 
 
-    <div class="container">
+    <div *ngIf="!loading" class="container">
         <tabset>
             <tab class="card" heading="Applications ({{currentInternshipApplications?.length}})">
                 <div class="donut-wrapper" *ngIf="loading">
@@ -59,7 +59,8 @@
                                     <div class="STUDENT col-md-10 col-10">
                                         <div class="row">
                                             <div class="col-8" style="cursor: pointer">
-                                                <h4 [routerLink]="['/users', applicantDetails.email]" title="View {{applicantDetails.username}}'s profile">
+                                                <h4 [routerLink]="['/users', applicantDetails.email]"
+                                                    title="View {{applicantDetails.username}}'s profile">
                                                     {{applicantDetails.name}}
 
                                                 </h4>
@@ -74,8 +75,9 @@
                                             </div>
 
                                         </div>
-                                        <p class="company-industry">{{applicantDetails.email}}</p>
-
+                                        <p style="display: inline" class="company-industry">{{applicantDetails.email}}
+                                        </p>
+                                        <div></div>
                                         <div hidden>
                                             <div class="alert alert-secondary tech-secondary p-1 mx-1"
                                                 *ngFor="let skill of applicantDetails.skillsList" [innerHTML]="skill">
@@ -86,7 +88,8 @@
                                         </div>
                                         <p style="display: inline" class="details">{{applicantDetails.course}}</p>
                                         <div></div>
-                                        <p style="display: inline" class="details">Level:   {{applicantDetails.programme}}</p>
+                                        <p style="display: inline" class="details">Level: {{applicantDetails.programme}}
+                                        </p>
                                     </div>
 
                                 </div>
@@ -97,13 +100,14 @@
                                         [routerLink]="['/users', applicantDetails.email]">View Profile</button>
                                 </div> -->
                                 <div class="col-md-12 text-end">
-                                    <button *ngIf="applicantDetails.userStatus == 'PASSIVE'" class="btn btn-outline-primary view"
+                                    <button *ngIf="applicantDetails.userStatus == 'PASSIVE'"
+                                        class="btn btn-outline-primary view"
                                         [routerLink]="['/applied', currentInternshipId, applicantDetails.email]"
                                         title="User inactive">View
                                         Application</button>
-                                    <button *ngIf="applicantDetails.userStatus == 'ACTIVE'" class="btn btn-outline-primary"
-                                        [routerLink]="['/applied', currentInternshipId, applicantDetails.email]"
-                                        title="User inactive">View
+                                    <button *ngIf="applicantDetails.userStatus == 'ACTIVE'"
+                                        class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, applicantDetails.email]">View
                                         Application</button>
                                 </div>
                             </div>
@@ -251,13 +255,13 @@
 
                                             <div class="col-4 pe-0 text-end">
                                                 <span class="alert alert-warning tech p-1 mx-1"
-                                                *ngIf="approvedApplicantDetails.userStatus == 'PASSIVE'">
-                                                In-active
-                                            </span>
+                                                    *ngIf="approvedApplicantDetails.userStatus == 'PASSIVE'">
+                                                    In-active
+                                                </span>
                                             </div>
                                         </div>
 
-                                        <p >
+                                        <p *ngIf="approvedApplicantDetails.userStatus == 'ACTIVE'">
                                             <a innerHTML="text"
                                                 href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{approvedApplicantDetails.email}}&su=Congratulations! You have been approved for the {{internshipDetails?.internshipTitle}} by {{internshipDetails?.companyName}}&body=Hello {{approvedApplicantDetails.name}},We extend our heartiest congratulations and best wishes to you for being shortlisted for the internship : {{internshipDetails?.internshipTitle}}. {{internshipDetails?.companyName}} had received many applications, out of which only a few were shortlisted based on the Applicant letter sent via Intern Finder system website. {{internshipDetails?.companyName}} is very honored to welcome you under our roof for an internship. Your Resume enlightens the person within you very accurately. It is compact, solid, and robust. We are very impressed with the application letter you wrote. You are the ideal intern we are looking for. {{internshipDetails?.internshipTitle}} has always been an epitome of success, fame, and producing the best-skilled personnel for the country. It is a great choice you have made for an internship in your domain. It has a lot to yield to you. We hope this internship with us will be a fruitful and rewarding one for you. We wish you all the success. Welcome to the world of {{internshipDetails?.companyName}}."
                                                 target="_blank"><small>(Click here to Send approval
@@ -275,9 +279,11 @@
 
                                             </div>
                                         </div>
-                                        <p style="display: inline" class="details">{{approvedApplicantDetails.course}}</p>
+                                        <p style="display: inline" class="details">{{approvedApplicantDetails.course}}
+                                        </p>
                                         <div></div>
-                                        <p style="display: inline" class="details">Level:   {{approvedApplicantDetails.programme}}</p>
+                                        <p style="display: inline" class="details">Level:
+                                            {{approvedApplicantDetails.programme}}</p>
 
                                     </div>
 
@@ -289,14 +295,15 @@
                                         [routerLink]="['/users', approvedApplicantDetails.email]">View Profile</button>
                                 </div> -->
                                 <div class="col-md-12 text-end">
-                                    <button *ngIf="approvedApplicantDetails.userStatus == 'PASSIVE'" class="btn btn-outline-primary view"
-                                    [routerLink]="['/applied', currentInternshipId, approvedApplicantDetails.email]"
-                                    title="User inactive">View
-                                    Application</button>
-                                <button *ngIf="approvedApplicantDetails.userStatus == 'ACTIVE'" class="btn btn-outline-primary"
-                                    [routerLink]="['/applied', currentInternshipId, approvedApplicantDetails.email]"
-                                    title="User inactive">View
-                                    Application</button>
+                                    <button *ngIf="approvedApplicantDetails.userStatus == 'PASSIVE'"
+                                        class="btn btn-outline-primary view"
+                                        [routerLink]="['/applied', currentInternshipId, approvedApplicantDetails.email]"
+                                        title="User inactive">View
+                                        Application</button>
+                                    <button *ngIf="approvedApplicantDetails.userStatus == 'ACTIVE'"
+                                        class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, approvedApplicantDetails.email]">View
+                                        Application</button>
                                 </div>
                             </div>
                         </div>
@@ -355,9 +362,9 @@
 
                                             <div class="col-4 pe-0 text-end">
                                                 <span class="alert alert-warning tech p-1 mx-1"
-                                                *ngIf="rejectedApplicantDetails.userStatus == 'PASSIVE'">
-                                                In-active
-                                            </span>
+                                                    *ngIf="rejectedApplicantDetails.userStatus == 'PASSIVE'">
+                                                    In-active
+                                                </span>
                                             </div>
                                         </div>
 
@@ -378,9 +385,11 @@
 
                                             </div>
                                         </div>
-                                        <p style="display: inline" class="details">{{rejectedApplicantDetails.course}}</p>
+                                        <p style="display: inline" class="details">{{rejectedApplicantDetails.course}}
+                                        </p>
                                         <div></div>
-                                        <p style="display: inline" class="details">Level:   {{rejectedApplicantDetails.programme}}</p>
+                                        <p style="display: inline" class="details">Level:
+                                            {{rejectedApplicantDetails.programme}}</p>
 
                                     </div>
 
@@ -392,14 +401,15 @@
                                         [routerLink]="['/users', rejectedApplicantDetails.email]">View Profile</button>
                                 </div> -->
                                 <div class="col-md-12 text-end">
-                                    <button *ngIf="rejectedApplicantDetails.userStatus == 'PASSIVE'" class="btn btn-outline-primary view"
-                                    [routerLink]="['/applied', currentInternshipId, rejectedApplicantDetails.email]"
-                                    title="User inactive">View
-                                    Application</button>
-                                <button *ngIf="rejectedApplicantDetails.userStatus == 'ACTIVE'" class="btn btn-outline-primary"
-                                    [routerLink]="['/applied', currentInternshipId, rejectedApplicantDetails.email]"
-                                    title="User inactive">View
-                                    Application</button>
+                                    <button *ngIf="rejectedApplicantDetails.userStatus == 'PASSIVE'"
+                                        class="btn btn-outline-primary view"
+                                        [routerLink]="['/applied', currentInternshipId, rejectedApplicantDetails.email]"
+                                        title="User inactive">View
+                                        Application</button>
+                                    <button *ngIf="rejectedApplicantDetails.userStatus == 'ACTIVE'"
+                                        class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, rejectedApplicantDetails.email]">View
+                                        Application</button>
                                 </div>
                             </div>
                         </div>
@@ -457,13 +467,13 @@
 
                                             <div class="col-4 pe-0 text-end">
                                                 <span class="alert alert-warning tech p-1 mx-1"
-                                                *ngIf="pendingApplicantDetails.userStatus == 'PASSIVE'">
-                                                In-active
-                                            </span>
+                                                    *ngIf="pendingApplicantDetails.userStatus == 'PASSIVE'">
+                                                    In-active
+                                                </span>
                                             </div>
                                         </div>
 
-                                        <p class="company-industry" >
+                                        <p class="company-industry">
                                             {{pendingApplicantDetails.email}}
 
 
@@ -480,9 +490,11 @@
 
                                             </div>
                                         </div>
-                                        <p style="display: inline" class="details">{{pendingApplicantDetails.course}}</p>
+                                        <p style="display: inline" class="details">{{pendingApplicantDetails.course}}
+                                        </p>
                                         <div></div>
-                                        <p style="display: inline" class="details">Level:   {{pendingApplicantDetails.programme}}</p>
+                                        <p style="display: inline" class="details">Level:
+                                            {{pendingApplicantDetails.programme}}</p>
 
                                     </div>
 
@@ -494,14 +506,15 @@
                                         [routerLink]="['/users', pendingApplicantDetails.email]">View Profile</button>
                                 </div> -->
                                 <div class="col-md-12 text-end">
-                                    <button *ngIf="pendingApplicantDetails.userStatus == 'PASSIVE'" class="btn btn-outline-primary view"
-                                    [routerLink]="['/applied', currentInternshipId, pendingApplicantDetails.email]"
-                                    title="User inactive">View
-                                    Application</button>
-                                <button *ngIf="pendingApplicantDetails.userStatus == 'ACTIVE'" class="btn btn-outline-primary"
-                                    [routerLink]="['/applied', currentInternshipId, pendingApplicantDetails.email]"
-                                    title="User inactive">View
-                                    Application</button>
+                                    <button *ngIf="pendingApplicantDetails.userStatus == 'PASSIVE'"
+                                        class="btn btn-outline-primary view"
+                                        [routerLink]="['/applied', currentInternshipId, pendingApplicantDetails.email]"
+                                        title="User inactive">View
+                                        Application</button>
+                                    <button *ngIf="pendingApplicantDetails.userStatus == 'ACTIVE'"
+                                        class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, pendingApplicantDetails.email]">View
+                                        Application</button>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 package internFinder.internFinder.service;
 
 import internFinder.internFinder.Security.UserNotFoundException;
+import internFinder.internFinder.domain.ApplyAdvert;
 import internFinder.internFinder.domain.PostAdvert;
 import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.domain.enumarations.InternshipStatus;
@@ -82,6 +83,27 @@ public class PostAdvertService {
         }
 
     }
+    public PostAdvert updateAdvertDetails(Long id, PostAdvert postAdvert) throws IOException {
+        Optional<PostAdvert> optionalPostAdvert = postAdvertRepository.findById(id);
+        System.out.println("Search found" + optionalPostAdvert);
+        if (optionalPostAdvert.isPresent()){
+            PostAdvert fileDetails = optionalPostAdvert.get();
+            fileDetails.setInternshipTitle(postAdvert.getInternshipTitle());
+            fileDetails.setCompanyName(postAdvert.getCompanyName());
+            fileDetails.setCompanyEmail(postAdvert.getCompanyEmail());
+            fileDetails.setCompanyLogo(postAdvert.getCompanyLogo());
+            fileDetails.setDomain(postAdvert.getDomain());
+            fileDetails.setPeriod(postAdvert.getPeriod());
+            fileDetails.setInternshipStatus(postAdvert.getInternshipStatus());
+            fileDetails.setCreatedOn(String.valueOf(LocalDate.now()));
+            fileDetails.setReportingDate(postAdvert.getReportingDate());
+            fileDetails.setInternshipStatus(postAdvert.getInternshipStatus());
+            return postAdvertRepository.save(fileDetails);
+        }
+        else {
+            throw  new UserNotFoundException("No advert found with id " + id);
+        }
+    }
 
     public Stream<PostAdvert> searchAdvert(String text) {
         log.debug("Request to search internship with text : {}", text);
@@ -89,6 +111,11 @@ public class PostAdvertService {
         List<PostAdvert> adverts = postAdvertRepository.findByInternshipTitleContainingOrCompanyNameContainingOrCompanyEmailContainingOrDomainContainingOrPeriodContainingOrNameContaining(text, text, text, text, text, text);
         adverts.removeIf(advert -> Objects.equals(advert.getInternshipStatus(), "CLOSED"));
         return adverts.stream();
+    }
+
+    public void deleteAdvert(Long id){
+        log.debug("Request to delete posted internship {}", id);
+        postAdvertRepository.deleteById(id);
     }
     public Optional<Byte> getFileData(byte[] data) {
         return Optional.of(postAdvertRepository.findByData(data));

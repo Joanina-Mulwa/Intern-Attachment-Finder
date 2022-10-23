@@ -137,4 +137,39 @@ public class ApplyAdvertResource {
         }
     }
 
+
+    @GetMapping("/application/search")
+    public ResponseEntity<List<ApplicationResponseFile>> searchApplication(@RequestParam(required = false) String text) {
+        log.debug("REST request to search all internships with text : {}", text);
+
+        if (text == null) {
+            text = "";
+        }
+
+        List<ApplicationResponseFile> files = applyAdvertService.searchApplication(text).map(dbFile -> {
+            String fileDownloadUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/downloadApplicationById/")
+                    .path(String.valueOf(dbFile.getId()))
+                    .toUriString();
+
+            return new ApplicationResponseFile(
+                    dbFile.getId(),
+                    dbFile.getName(),
+                    fileDownloadUri,
+                    dbFile.getType(),
+                    dbFile.getData().length,
+                    dbFile.getInternshipId(),
+                    dbFile.getAppliedBy(),
+                    dbFile.getAppliedOn(),
+                    dbFile.getPostedBy(),
+                    dbFile.getStatus());
+
+
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(files);
+    }
+
+
 }

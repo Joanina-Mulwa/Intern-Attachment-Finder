@@ -241,13 +241,13 @@ export class BioDetailComponent implements OnInit {
   }
 
   deleteInternship(id: any): void {
-    console.log("Deleting internship of id", id);
-    this.postInternshipService.deleteInternship(id).subscribe(
+    console.log("Deleting advert of id", id);
+    this.postInternshipService.deleteAdvert(id).subscribe(
       (res) => {
-        console.log("Deleted internship")
+        console.log("Deleted advert")
         window.location.reload();
       },
-      (err) => { console.log("Error deleting internship") }
+      (err) => { console.log("Error deleting advert") }
     )
 
   }

@@ -12,28 +12,28 @@ export class PostInternshipService {
   private apiServerURL = 'http://localhost:8080';
   constructor(protected httpClient: HttpClient) { }
   
-  createInternship(internship: any):Observable<any>{
-    return this.httpClient.post<any>(this.apiServerURL + "/api/createInternship" , internship);
-  }
-  updateInternship(internship: any):Observable<any>{
-    return this.httpClient.put<any>(this.apiServerURL + "/api/updateInternship" , internship);
-  }
-  deleteInternship(id: number): Observable<any>{
-    return this.httpClient.delete<any>( this.apiServerURL + "/api/deleteIntenship/" + id);
-  }
-  findAll(): Observable<PostInternship[]>{
-    return this.httpClient.get<PostInternship[]>(this.apiServerURL+ "/api/findAllInternships");
-  }
+  // createInternship(internship: any):Observable<any>{
+  //   return this.httpClient.post<any>(this.apiServerURL + "/api/createInternship" , internship);
+  // }
+  // updateInternship(internship: any):Observable<any>{
+  //   return this.httpClient.put<any>(this.apiServerURL + "/api/updateInternship" , internship);
+  // }
+  // deleteInternship(id: number): Observable<any>{
+  //   return this.httpClient.delete<any>( this.apiServerURL + "/api/deleteIntenship/" + id);
+  // }
+  // findAll(): Observable<PostInternship[]>{
+  //   return this.httpClient.get<PostInternship[]>(this.apiServerURL+ "/api/findAllInternships");
+  // }
 
-  searchInternship(text?: string): Observable<any>{
-    const req = this.httpClient.get<any>(this.apiServerURL + "/api/internship/search?text=" + text)
-    console.log("Sending also", req)
-    return req;
-  }
+  // searchInternship(text?: string): Observable<any>{
+  //   const req = this.httpClient.get<any>(this.apiServerURL + "/api/internship/search?text=" + text)
+  //   console.log("Sending also", req)
+  //   return req;
+  // }
 
-  findInternshipById(id: number): Observable<any>{
-    return this.httpClient.get<any>(this.apiServerURL+ "/api/findInternshipById/" + id);
-  }
+  // findInternshipById(id: number): Observable<any>{
+  //   return this.httpClient.get<any>(this.apiServerURL+ "/api/findInternshipById/" + id);
+  // }
 
   upload(file: File, advertDetails: any): Observable<any> {
     const formData: FormData = new FormData();
@@ -73,6 +73,24 @@ export class PostInternshipService {
     });
     return this.httpClient.request(req);
   }
+  updateAdvertDetails(id: any, advertDetails: any): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('id', id);
+    formData.append('internshipTitle', advertDetails.internshipTitle);
+    formData.append('companyName', advertDetails.companyName);
+    formData.append('companyEmail',advertDetails.companyEmail);
+    formData.append('companyLogo', advertDetails.companyLogo)
+    formData.append('domain', advertDetails.domain)
+    formData.append('period', advertDetails.period)
+    formData.append('internshipStatus', advertDetails.internshipStatus);
+    formData.append('createdOn', advertDetails.createdOn);
+    formData.append('reportingDate', advertDetails.reportingDate);
+    const req = new HttpRequest('PUT', `${this.apiServerURL}/api/updateAdvertDetails`, formData,{
+      reportProgress: true,
+      responseType: 'json'
+    });
+    return this.httpClient.request(req);
+  }
 
   getFiles(): Observable<any> {
     return this.httpClient.get(`${this.apiServerURL}/api/files`);
@@ -84,6 +102,9 @@ export class PostInternshipService {
   searchAdvert(text?: string): Observable<any>{
     return this.httpClient.get<any>(this.apiServerURL + "/api/advert/search?text=" + text)
    
+  }
+  deleteAdvert(id: number): Observable<any>{
+    return this.httpClient.delete<any>( this.apiServerURL + "/api/deleteAdvert/" + id);
   }
   // downloadAdvertById(id: number): Observable<any> {
   //   return this.httpClient.get(`${this.apiServerURL}/api/file/`+id);

@@ -257,43 +257,48 @@
 
 
                                         </div>
-                                        <div class="row mb-3">
-                                            <div>
-                                                <div class="row">
-                                                    <div class="col-md-9">
-                                                        <label for="advert">
-                                                            <p style="display:inline">Attach or drag & drop advert
-                                                                <small>(pdf, docx, image, short video)</small>
-                                                            </p>
-                                                        </label>
-                                                    </div>
-
-                                                    <div *ngIf="currentFile" class="progress col-md-3">
-                                                        <div class="progress-bar progress-bar-info progress-bar-striped"
-                                                            role="progressbar" attr.aria-valuenow="{{ progress }}"
-                                                            aria-valuemin="0" aria-valuemax="100"
-                                                            [ngStyle]="{ width: progress + '%' }">
-                                                            {{ progress }}%
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <input  name="foundFile" type="file" [(ngModel)]="foundFile">
-                                                <input type="file"
-                                                accept="image/*,.docx,.pdf, .mkv, .mp4"
-                                                class="form-control" name="foundFile" (change)="selectFile($event)" />
-
-
-                                          
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="advert">
+                                                    <p style="display:inline">Attach or drag & drop advert
+                                                        <small>(pdf, docx, image, short video)</small>
+                                                    </p>
+                                                </label>
+                                                    <input type="file" accept="image/*,.docx,.pdf, .mkv, .mp4"
+                                                    class="form-control" name="foundFile"
+                                                    (change)="selectFile($event)" />
+                                                
 
                                             </div>
+                                            <div class="col-md-6">
+                                                <label for="internshipStatus">
+                                                    <p style="display:inline">   Status</p>
+                                                </label>
+                                                <select name="internshipStatus" autocomplete="on" type="text"
+                                                style="height: 37px; width: 588px;" 
+                                                [(ngModel)]="advertDetails.internshipStatus" >
+                                                    <option *ngFor="let status of internshipStatus">{{status}}</option>
+                                                </select>
 
+                                            </div>
+                                        </div>
+                                        <div *ngIf="!clearUploaded">
+                                            uploaded {{foundFile?.name}}
 
                                         </div>
+                                        <div *ngIf="currentFile" class="progress col-md-5">
+                                            <div class="progress-bar progress-bar-info progress-bar-striped"
+                                                role="progressbar" attr.aria-valuenow="{{ progress }}"
+                                                aria-valuemin="0" aria-valuemax="100"
+                                                [ngStyle]="{ width: progress + '%' }">
+                                                {{ progress }}%
+                                            </div>
+                                        </div>
+                                       
 
                                         <div style="text-align: center;" class="mt-5">
                                             <button class="btn btn-primary" (click)="updateAdvert()"
-                                                [disabled]="!advertDetails.internshipTitle || !advertDetails.period || !advertDetails.domain ||!advertDetails.reportingDate || !selectedFiles">
+                                                [disabled]="!advertDetails.internshipTitle || !advertDetails.period || !advertDetails.domain ||!advertDetails.reportingDate ">
                                                 Update
                                             </button>
                                         </div>

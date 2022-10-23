@@ -53,6 +53,40 @@ export class BioEditComponent implements OnInit {
 
 
   }
+  userProfile = {
+    id: undefined as any,
+    email: '',
+    authority: '',
+    name: '',
+    profileImageUrl: '',
+    profileImageName: '',
+    profileImageType: '',
+    profileImageData: '',
+    profileImageSize: '',
+    username: '',
+    institution: '',
+    programme: 'DEGREE',
+    course: '',
+    skills: '',
+    skillsList: '',
+    //Company
+    companyName: '',
+    companyEmail: '',
+    companyPhoneNumber: '',
+    companyLocation: '',
+    companyDescription: '',
+    companyWorkingHours: '',
+    companyLogo: '',
+    companyIndustry: '',
+    companyWebsite: '',
+    companyNumberOfEmployees: '',
+    companyPostalAddress: '',
+    experienceLevel: '',
+    experience: '',
+    about: '',
+
+
+  }
 
   isStudent?: boolean;
   loading: boolean = false;
@@ -139,6 +173,8 @@ export class BioEditComponent implements OnInit {
     this.userService.findByEmail(this.userEmail).subscribe(
       (res) => {
         this.loading = false;
+        this.userProfile=res;
+        console.log("the user that has currently logged in is", this.userProfile)
 
 
         if (res.authority === Authority.STUDENT) {

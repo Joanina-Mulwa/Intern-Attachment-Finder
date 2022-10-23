@@ -1,22 +1,40 @@
 <div class="container-fluid ">
-  
-
     <div *ngIf="userBioDetail?.authority == 'STUDENT'">
+        <div class="row">
+            <div class="col-md-6  mb-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search an internship" (keyup)="searchAdvert()"
+                        [(ngModel)]="searchText">
 
-        <div class="col-md-6 input-group  mb-3">
-            <input type="text" class="form-control" placeholder="Search an internship" (keyup)="searchAdvert()"
-                [(ngModel)]="searchText">
-            <div class="input-group-append">
-                <button class="btn btn-secondary" type="button" [ngClass]="{'activate-button':searchText}"
-                    (click)="searchAdvert()">
-                    <i class="fa fa-search"></i>
-                </button>
+                    <button class="btn btn-secondary input-group-append" type="button"
+                        [ngClass]="{'activate-button':searchText}" (click)="searchAdvert()">
+                        <i class="fa fa-search"></i>
+                    </button>
+
+
+                </div>
+
             </div>
-    
+            <div class="col-md-3">
+                <select autocomplete="on" type="text" style="height: 37px;" name="filter" (change)="filterAdvert()" >
+
+                    <option selected disabled>All</option>
+
+                    <option *ngFor="let domain of domains" [(ngModel)]="filterText">
+                        {{domain}}
+                    </option>
+                </select>
+
+            </div>
+            <div hidden class="col-md-3">
+                <select autocomplete="on" type="text" style="height: 37px;" name="filter">
+                    <option *ngFor="let period of periods">
+                        {{period}}
+                    </option>
+                </select>
+
+            </div>
         </div>
-     
-
-
 
         <div class="donut-wrapper" *ngIf="loading">
             <div class="donut multi"></div>
@@ -27,18 +45,18 @@
             <p class="text-muted">No internships found</p>
         </div>
 
-        <div  *ngIf="!loading" class="row">
+        <div *ngIf="!loading" class="row">
             <div class="col-12 col-lg-3 col-md-6 mb-3" *ngFor="let internship of internships">
                 <div class="card profile-item ">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-2">
                                 <img *ngIf="internship.companyLogo" src={{internship.companyLogo}} class="card-img-top "
-                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                    onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                 <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                 <!-- {{userBio.profileImageUrl}} -->
-                                <svg *ngIf="!internship.companyLogo"  class="img-fluid rounded float-start" width="100%" height="43"
-                                    xmlns="http://www.w3.org/2000/svg" role="img"
+                                <svg *ngIf="!internship.companyLogo" class="img-fluid rounded float-start" width="100%"
+                                    height="43" xmlns="http://www.w3.org/2000/svg" role="img"
                                     aria-label="Placeholder: Responsive image" preserveAspectRatio="xMidYMid slice"
                                     focusable="false">
                                     <title></title>
@@ -63,20 +81,20 @@
                                         <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
                                     </p>
                                 </div>
-                                <div >
-                                    <p *ngIf="internship.period" class=" p-1 mx-0" >
+                                <div>
+                                    <p *ngIf="internship.period" class=" p-1 mx-0">
                                         {{internship?.period}}
                                         <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
                                     </p>
                                 </div>
-                                <div >
-                                    <p *ngIf="internship.reportingDate" class=" p-1 mx-0" >
+                                <div>
+                                    <p *ngIf="internship.reportingDate" class=" p-1 mx-0">
                                         Deadline: {{internship?.reportingDate}}
                                         <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
                                     </p>
                                 </div>
-                  
-                  
+
+
                                 <div hidden>
                                     <i *ngIf="internship.internshipStatus === 'ACTIVE'" class="fas fa-check-circle">
                                         {{internship.internshipStatus}}</i>
@@ -133,11 +151,13 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-2">
-                                            <img *ngIf="internshipPostedByMe.companyLogo" src={{internshipPostedByMe.companyLogo}} class="card-img-top "
-                                                        onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                            <img *ngIf="internshipPostedByMe.companyLogo"
+                                                src={{internshipPostedByMe.companyLogo}} class="card-img-top "
+                                                onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                             <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                             <!-- {{userBio.profileImageUrl}} -->
-                                            <svg  *ngIf="!internshipPostedByMe.companyLogo" class="img-fluid rounded float-start" width="100%" height="43"
+                                            <svg *ngIf="!internshipPostedByMe.companyLogo"
+                                                class="img-fluid rounded float-start" width="100%" height="43"
                                                 xmlns="http://www.w3.org/2000/svg" role="img"
                                                 aria-label="Placeholder: Responsive image"
                                                 preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -164,14 +184,14 @@
                                                     Created: {{internshipPostedByMe?.createdOn}}
                                                 </p>
                                             </div>
-                                          
+
                                             <div>
                                                 <p class="company-name p-1 mx-0">
                                                     Session: {{internshipPostedByMe?.period}}
                                                 </p>
                                             </div>
-                  
-                            
+
+
                                         </div>
                                     </div>
                                     <div class="row ml-2">
@@ -222,11 +242,13 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-2">
-                                            <img *ngIf="activeInternshipPostedByMe.companyLogo" src={{activeInternshipPostedByMe.companyLogo}} class="card-img-top "
-                                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                            <img *ngIf="activeInternshipPostedByMe.companyLogo"
+                                                src={{activeInternshipPostedByMe.companyLogo}} class="card-img-top "
+                                                onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                             <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                             <!-- {{userBio.profileImageUrl}} -->
-                                            <svg *ngIf="!activeInternshipPostedByMe.companyLogo" class="img-fluid rounded float-start" width="100%" height="43"
+                                            <svg *ngIf="!activeInternshipPostedByMe.companyLogo"
+                                                class="img-fluid rounded float-start" width="100%" height="43"
                                                 xmlns="http://www.w3.org/2000/svg" role="img"
                                                 aria-label="Placeholder: Responsive image"
                                                 preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -254,24 +276,24 @@
                                                     <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
                                                 </span>
                                             </div>
-                                           
+
                                             <div>
 
-                                                    <p class="company-name p-1 mx-0">
-                                                        {{activeInternshipPostedByMe?.period}}
-                                                    </p>
+                                                <p class="company-name p-1 mx-0">
+                                                    {{activeInternshipPostedByMe?.period}}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
 
-                               
+
 
                                     <div class="row ml-2">
                                         <div class="col-md-4 ml-5">
 
-                                        <i *ngIf="activeInternshipPostedByMe.internshipStatus === 'ACTIVE'"
-                                        class="fas fa-check-circle">
-                                        {{activeInternshipPostedByMe.internshipStatus}}</i>
+                                            <i *ngIf="activeInternshipPostedByMe.internshipStatus === 'ACTIVE'"
+                                                class="fas fa-check-circle">
+                                                {{activeInternshipPostedByMe.internshipStatus}}</i>
 
                                         </div>
 
@@ -318,11 +340,13 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-2">
-                                            <img *ngIf="closedInternshipPostedByMe.companyLogo" src={{closedInternshipPostedByMe.companyLogo}} class="card-img-top "
-                                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                            <img *ngIf="closedInternshipPostedByMe.companyLogo"
+                                                src={{closedInternshipPostedByMe.companyLogo}} class="card-img-top "
+                                                onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                             <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                             <!-- {{userBio.profileImageUrl}} -->
-                                            <svg *ngIf="!closedInternshipPostedByMe.companyLogo"  class="img-fluid rounded float-start" width="100%" height="43"
+                                            <svg *ngIf="!closedInternshipPostedByMe.companyLogo"
+                                                class="img-fluid rounded float-start" width="100%" height="43"
                                                 xmlns="http://www.w3.org/2000/svg" role="img"
                                                 aria-label="Placeholder: Responsive image"
                                                 preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -350,7 +374,7 @@
                                                     <!-- <a (click)="searchText = userBio.companyName; searchUsers()" class="alert-link"></a> -->
                                                 </span>
                                             </div>
-                                         
+
                                             <div>
 
                                                 <i *ngIf="closedInternshipPostedByMe.internshipStatus === 'CLOSED'"
@@ -360,7 +384,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6 mt-3" >
+                                        <div class="col-md-6 mt-3">
 
                                             <i data-toggle="modal" data-target="#exampleModal"
                                                 (click)="softDelete(closedInternshipPostedByMe.internshipTitle, closedInternshipPostedByMe.id)"
@@ -395,7 +419,7 @@
                                                             data-dismiss="modal">Close</button>
                                                         <button type="button" class="btn btn-primary ml-5"
                                                             data-dismiss="modal"
-                                                            (click)="deleteInternship(deleteId)">Delete</button>
+                                                            (click)="deleteAdvert(deleteId)">Delete</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -428,13 +452,13 @@
         </tabset>
     </div>
 
-    <div hidden  class="mt-3">
+    <div hidden class="mt-3">
         <div class="card">
             <div class="card-header">List of Files</div>
             <ul class="list-group list-group-flush" *ngFor="let file of fileInfos | async">
                 <li class="list-group-item">
-                    
-                    <a href="{{file.url}}"  target="_blank">{{ file.url }}</a>
+
+                    <a href="{{file.url}}" target="_blank">{{ file.url }}</a>
                 </li>
             </ul>
         </div>

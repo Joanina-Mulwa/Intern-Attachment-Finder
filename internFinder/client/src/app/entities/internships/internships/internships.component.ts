@@ -5,7 +5,7 @@ import { PostInternshipService } from 'src/app/services/post-internship.service'
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
 import { ApplyInternship } from '../../apply-internship/apply-internship-model';
-import { AdvertDetails } from '../../post-internships/advert-details-model';
+import { AdvertDetails, Domain, Period } from '../../post-internships/advert-details-model';
 import { InternshipStatus, PostInternship } from '../../post-internships/post-internship-model';
 import { UserBio } from '../../users/user-bio-model';
 
@@ -28,6 +28,8 @@ export class InternshipsComponent implements OnInit {
   username!: string;
   loading = false;
   searchText: string = '';
+  filterText: string = '';
+
   userEmail!: string;
 
   appliedInternshipIdArray: any[] = []
@@ -55,6 +57,8 @@ export class InternshipsComponent implements OnInit {
   //date?: string
   fileInfos?: Observable<any>;
 
+  domains = [Domain.BUSINESS, Domain.ENGINEERING, Domain.TECH, Domain.ENGINEERINGTECH, Domain.BUILDING, Domain.HOSPITALITY, Domain.TELECOMS, Domain.TEACHING];
+  periods = [Period.JAN, Period.MAY, Period.JULY]
 
 
   ngOnInit(): void {
@@ -136,7 +140,7 @@ export class InternshipsComponent implements OnInit {
         this.internships.forEach((internship: any) => {
           if (internship.reportingDate === date && internship.internshipStatus === InternshipStatus.ACTIVE) {
             internship.internshipStatus = InternshipStatus.CLOSED;
-            this.postInternshipService.updateInternship(internship).subscribe(
+            this.postInternshipService.updateAdvertDetails(internship.internshipId, internship).subscribe(
               (res) => {
                 console.log(" updated internship to ,", res)
               },
@@ -201,83 +205,105 @@ export class InternshipsComponent implements OnInit {
     )
   }
 
-  getPostedInternshipByMe(): void {
-    this.loading = true;
-    this.postInternshipService.findAll().subscribe(
-      (res) => {
-        this.allPostedInternships = res;
-        console.log("all internhsip posted are", this.allPostedInternships)
+  // getPostedInternshipByMe(): void {
+  //   this.loading = true;
+  //   this.postInternshipService.findAll().subscribe(
+  //     (res) => {
+  //       this.allPostedInternships = res;
+  //       console.log("all internhsip posted are", this.allPostedInternships)
 
-        this.allPostedInternships.forEach((internship: any) => {
-          if (internship.companyEmail === this.userEmail) {
-            this.internshipsPostedByMe.push(internship);
-            console.log("internhsip details i have posted are are", this.internshipsPostedByMe)
+  //       this.allPostedInternships.forEach((internship: any) => {
+  //         if (internship.companyEmail === this.userEmail) {
+  //           this.internshipsPostedByMe.push(internship);
+  //           console.log("internhsip details i have posted are are", this.internshipsPostedByMe)
 
-          }
+  //         }
 
-          this.loading = false;
+  //         this.loading = false;
 
-        })
-        console.log("Length of internships posted by me", this.internshipsPostedByMe.length)
-        if (this.internshipsPostedByMe.length === 0) {
-          console.log("You have not posted any internhsip")
+  //       })
+  //       console.log("Length of internships posted by me", this.internshipsPostedByMe.length)
+  //       if (this.internshipsPostedByMe.length === 0) {
+  //         console.log("You have not posted any internhsip")
 
-        }
-        else {
-          this.internshipsPostedByMe.forEach((internshipPostedByMe: any) => {
-            if (internshipPostedByMe.internshipStatus === InternshipStatus.ACTIVE) {
-              this.activeInternshipsPostedByMe.push(internshipPostedByMe)
-              console.log("Active internships posted by me are", this.activeInternshipsPostedByMe)
-            }
-            else if (internshipPostedByMe.internshipStatus === InternshipStatus.CLOSED) {
-              this.closedInternshipsPostedByMe.push(internshipPostedByMe)
-              console.log("Closed internships posted by me are", this.closedInternshipsPostedByMe)
+  //       }
+  //       else {
+  //         this.internshipsPostedByMe.forEach((internshipPostedByMe: any) => {
+  //           if (internshipPostedByMe.internshipStatus === InternshipStatus.ACTIVE) {
+  //             this.activeInternshipsPostedByMe.push(internshipPostedByMe)
+  //             console.log("Active internships posted by me are", this.activeInternshipsPostedByMe)
+  //           }
+  //           else if (internshipPostedByMe.internshipStatus === InternshipStatus.CLOSED) {
+  //             this.closedInternshipsPostedByMe.push(internshipPostedByMe)
+  //             console.log("Closed internships posted by me are", this.closedInternshipsPostedByMe)
 
-            }
-            else { console.log("No status found") }
+  //           }
+  //           else { console.log("No status found") }
 
-          })
-        }
+  //         })
+  //       }
 
-      },
-      (err) => { console.log("error fetching all internhips", err) }
-    )
+  //     },
+  //     (err) => { console.log("error fetching all internhips", err) }
+  //   )
 
-  }
+  // }
   searchAdvert(): void {
     this.loading = true;
-    this.postInternshipService.searchAdvert(this.searchText).subscribe(
-      result => {
-        this.loading = false;
-        this.internships = result;
-        let date = new Date().toJSON().slice(0, 10);
-        this.internships.forEach((internship: any) => {
-          if (internship.reportingDate === date) {
-            internship.skillsList = internship.skills.split(",");
-            internship.internshipStatus = InternshipStatus.CLOSED;
-          }
-        });
-        console.log("Search produces internships:", this.internships)
-      },
-      error => {
-        console.error('error getting searched internship', error);
-      }
-    )
+    console.log("Findinnnnnnnng ", this.searchText)
+    // this.postInternshipService.searchAdvert(this.searchText).subscribe(
+    //   result => {
+    //     this.loading = false;
+    //     this.internships = result;
+    //     let date = new Date().toJSON().slice(0, 10);
+    //     this.internships.forEach((internship: any) => {
+    //       if (internship.reportingDate === date) {
+    //         internship.skillsList = internship.skills.split(",");
+    //         internship.internshipStatus = InternshipStatus.CLOSED;
+    //       }
+    //     });
+    //     console.log("Search produces internships:", this.internships)
+    //   },
+    //   error => {
+    //     console.error('error getting searched internship', error);
+    //   }
+    // )
+  }
+  filterAdvert(): void {
+    this.loading = true;
+    console.log("Findinnnnnnnng ", this.filterText)
+    // this.postInternshipService.searchAdvert(this.searchText).subscribe(
+    //   result => {
+    //     this.loading = false;
+    //     this.internships = result;
+    //     let date = new Date().toJSON().slice(0, 10);
+    //     this.internships.forEach((internship: any) => {
+    //       if (internship.reportingDate === date) {
+    //         internship.skillsList = internship.skills.split(",");
+    //         internship.internshipStatus = InternshipStatus.CLOSED;
+    //       }
+    //     });
+    //     console.log("Search produces internships:", this.internships)
+    //   },
+    //   error => {
+    //     console.error('error getting searched internship', error);
+    //   }
+    // )
   }
   softDelete(title: any, id: any): void {
     this.deleteId = id;
     this.deleteTitle = title;
   }
 
-  deleteInternship(id: any): void {
-    console.log("Deleting internship of id", id);
-    this.postInternshipService.deleteInternship(id).subscribe(
-      (res) => {
-        console.log("Deleted internship")
-        window.location.reload();
-      },
-      (err) => { console.log("Error deleting internship") }
-    )
+  deleteAdvert(id: any): void {
+    console.log("Deleting advert of id", id);
+    // this.postInternshipService.deleteAdvert(id).subscribe(
+    //   (res) => {
+    //     console.log("Deleted advert")
+    //     window.location.reload();
+    //   },
+    //   (err) => { console.log("Error deleting advert") }
+    // )
 
   }
 

@@ -31,6 +31,7 @@ public class ApplyAdvert {
     public String postedBy;
 
     public String status;
+
     public ApplyAdvert(String name, String type, byte[] data) {
         this.name = name;
         this.type = type;

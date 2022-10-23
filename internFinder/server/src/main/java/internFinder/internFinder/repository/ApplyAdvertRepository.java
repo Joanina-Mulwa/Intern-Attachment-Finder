@@ -11,4 +11,6 @@ public interface ApplyAdvertRepository extends JpaRepository<ApplyAdvert, Long> 
     List<ApplyAdvert> findByAppliedBy(String appliedBy);
 
     List<ApplyAdvert> findByInternshipId(Long internshipId);
+
+    List<ApplyAdvert> findByAppliedByContaining(String text);
 }

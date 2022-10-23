@@ -235,8 +235,8 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="reportingDate"> Submission Deadline * </label>
-                                                <input type="date" class="form-control" name="reportingDate" min="{{today}}"
-                                                    [(ngModel)]="advertDetails.reportingDate">
+                                                <input type="date" class="form-control" name="reportingDate"
+                                                    min="{{today}}" [(ngModel)]="advertDetails.reportingDate">
                                             </div>
 
 
@@ -264,8 +264,7 @@
 
                                                 </div>
 
-                                                <input type="file"
-                                                    accept="image/*,.docx,.pdf,.mkv, .mp4"
+                                                <input type="file" accept="image/*,.docx,.pdf,.mkv, .mp4"
                                                     class="form-control" name="advert" (change)="selectFile($event)" />
 
                                             </div>
@@ -286,7 +285,7 @@
                                         </div>
                                     </div>
 
-                                    <div hidden class="row">
+                                    <!-- <div hidden class="row">
                                         <div class="col-md-2">
 
                                             <button class="btn btn-outline-primary form-control"
@@ -294,11 +293,11 @@
                                                 [disabled]="!internship.internshipTitle || !internship.minimumQualification || !internship.internshipType || !internship.reportingDate || !internship.workPlaceType || !internship.experienceLevel || !internship.internshipStatus || !internship.internshipPeriod|| !internship.description || !internship.skills">POST</button>
 
 
-                                            <!-- <button *ngIf="userBio.id" class="btn btn-outline-primary form-control"
-                                    (click)="updateUser()"
-                                    [disabled]="!userBio.name || !userBio.email || !userBio.description || !userBio.internshipTitle || !userBio.skills">Update</button> -->
+                                            <button *ngIf="userBio.id" class="btn btn-outline-primary form-control"
+                                                (click)="updateUser()"
+                                                [disabled]="!userBio.name || !userBio.email || !userBio.description || !userBio.internshipTitle || !userBio.skills">Update</button>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                 </div>
                             </div>

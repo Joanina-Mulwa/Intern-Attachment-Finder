@@ -175,6 +175,31 @@ public class PostAdvertResource {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
         }
     }
+    @PutMapping("/updateAdvertDetails")
+    public ResponseEntity<ResponseMessage> updateAdvertDetails(@RequestParam("id") Long id,
+                                                               @RequestParam("internshipTitle") String internshipTitle,
+                                                               @RequestParam("companyName") String companyName,
+                                                               @RequestParam("companyEmail") String companyEmail,
+                                                               @RequestParam("companyLogo") String companyLogo,
+                                                               @RequestParam("domain") String domain,
+                                                               @RequestParam("period") String period,
+                                                               @RequestParam("internshipStatus") String internshipStatus,
+                                                               @RequestParam("createdOn") String createdOn,
+                                                               @RequestParam("reportingDate") String reportingDate){
+        log.debug("Rest request to update advert {}  ", id);
+        String message = "";
+        try {
+            PostAdvert postAdvert = new PostAdvert(id, internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn, reportingDate);
+
+            postAdvertService.updateAdvertDetails(id, postAdvert);
+            message = "updated the application successfully: ";
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+
+        } catch (Exception e) {
+            message = "Could not update the application status: !";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+        }
+    }
 
 
 
@@ -185,6 +210,12 @@ public class PostAdvertResource {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
                 .body(fileDB.getData());
+    }
+
+    @DeleteMapping("/deleteAdvert/{id}")
+    public void deleteAdvert(@PathVariable Long id){
+        log.debug("Rest request to delete internship of id {} ",id);
+        postAdvertService.deleteAdvert(id);
     }
 
 

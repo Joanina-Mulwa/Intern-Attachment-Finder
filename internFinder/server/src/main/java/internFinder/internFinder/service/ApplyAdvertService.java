@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -79,6 +80,13 @@ public class ApplyAdvertService {
     public List<ApplyAdvert> findApplicationsByInternshipId(Long internshipId){
         log.debug("Request to find applications of internship id {} ", internshipId);
         return applyAdvertRepository.findByInternshipId(internshipId);
+    }
+
+    public Stream<ApplyAdvert> searchApplication(String text) {
+        log.debug("Request to search internship with text : {}", text);
+
+        List<ApplyAdvert> applications = applyAdvertRepository.findByAppliedByContaining(text);
+        return applications.stream();
     }
 
 

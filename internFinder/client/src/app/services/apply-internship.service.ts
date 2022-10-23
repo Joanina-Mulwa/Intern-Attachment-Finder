@@ -32,7 +32,7 @@ export class ApplyInternshipService {
  
 
   searchApplicant(text?: string): Observable<any>{
-    return this.httpClient.get<any>(this.API_ENDPOINT + "/api/applicant/search?text=" + text)
+    return this.httpClient.get<any>(this.API_ENDPOINT + "/api/application/search?text=" + text)
   }
 
   createApplication(file: File, applicationDetails: any): Observable<any> {

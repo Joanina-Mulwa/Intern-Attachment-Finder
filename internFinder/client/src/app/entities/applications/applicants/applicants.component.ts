@@ -29,7 +29,7 @@ export class ApplicantsComponent implements OnInit {
   approvedApplicantsDetails: UserBio[] = [];
   rejectedApplicantsDetails: UserBio[] = [];
   pendingApplicantsDetails: UserBio[] = [];
-  searchApplicantsDetails!: UserBio[];
+  searchApplicantsDetails!: any[];
   loading: boolean = false;
   searchText: string = '';
   approvedApplicationForcurrentInternship?: ApplyInternship[] = [];
@@ -198,63 +198,35 @@ export class ApplicantsComponent implements OnInit {
 
 
 
-
-
   searchApplicant(): void {
-    let searchText = this.searchText?.trim().toLowerCase();
-
     this.loading = true;
+    this.appliedInternship.searchApplicant(this.searchText).subscribe(
+      result => {
+        this.loading = false;
+        this.searchApplicantsDetails = result;
+        console.log("lets see:", this.searchApplicantsDetails)
 
-    this.searchApplicantsDetails = this.applicantsDetails.filter(applicantDetails => {
-      if (applicantDetails.skills) {
-        applicantDetails.skillsList = applicantDetails.skills.split(",");
+        this.searchApplicantsDetails.forEach((searchApplicantsDetail: any) => {
+          if(searchApplicantsDetail.internshipId === this.currentInternshipId){
+            if (searchApplicantsDetail.skills) {
+              searchApplicantsDetail.skillsList = searchApplicantsDetail.skills.split(",");
+
+            }
+            this.applicantsDetails=[];
+            this.applicantsDetails.push(searchApplicantsDetail)
+            console.log("Search produces users:", this.applicantsDetails)
+
+          }
+
+
+        });
+
+      },
+      error => {
+        console.error('error getting searched user', error);
       }
-      this.loading = false;
-
-      return (
-        applicantDetails.name?.toLowerCase().includes(searchText)
-        || applicantDetails.email?.toLowerCase().includes(searchText)
-        || applicantDetails.username?.toLowerCase().includes(searchText)
-        || applicantDetails.institution?.toLowerCase().includes(searchText)
-        || applicantDetails.course?.toLowerCase().includes(searchText)
-        || applicantDetails.skills?.toLowerCase().includes(searchText)
-        || applicantDetails.programme?.toLowerCase().includes(searchText)
-        || applicantDetails.experienceLevel?.toLowerCase().includes(searchText)
-      );
-    });
+    )
   }
-
-
-  // searchApplicanta(): void {
-  //   this.loading = true;
-
-
-
-
-
-  //   this.appliedInternship.searchApplicant(this.searchText).subscribe(
-  //     result => {
-  //       this.loading = false;
-
-  //       this.applicantsDetails = result;
-  //       this.applicantsDetails.forEach((applicantDetails: any) => {
-  //         if(applicantDetails.internshipId === this.currentInternshipId){
-  //           if (applicantDetails.skills) {
-  //             applicantDetails.skillsList = applicantDetails.skills.split(",");
-
-  //           }
-  //           this.searchApplicantsDetails.push(applicantDetails)
-  //         }
-
-  //       });
-
-  //       console.log("Search produces users:", this.applicantsDetails)
-  //     },
-  //     error => {
-  //       console.error('error getting searched user', error);
-  //     }
-  //   )
-  // }
 
 
 

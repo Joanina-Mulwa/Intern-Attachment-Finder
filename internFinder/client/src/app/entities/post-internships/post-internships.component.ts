@@ -173,22 +173,22 @@ export class PostInternshipsComponent implements OnInit {
       reportingDate: '',
     }
   }
-  postinternship(): void {
-    this.internship.companyEmail = JSON.parse(localStorage.getItem('currentUser')!).email;
-    this.internship.companyName = this.companyDetails;
-    console.log("About to create internship ", this.internship);
-    this.router.navigate(['/internships'])
-    this.postInternshipService.createInternship(this.internship).subscribe(
-      (res) => {
-        console.log("created this internship", res);
-        window.location.reload();
-        this.router.navigate(['/internships'])
-      },
-      (err) => {
-        console.log("error creating internship", err)
-      }
-    )
-  }
+  // postinternship(): void {
+  //   this.internship.companyEmail = JSON.parse(localStorage.getItem('currentUser')!).email;
+  //   this.internship.companyName = this.companyDetails;
+  //   console.log("About to create internship ", this.internship);
+  //   this.router.navigate(['/internships'])
+  //   this.postInternshipService.createInternship(this.internship).subscribe(
+  //     (res) => {
+  //       console.log("created this internship", res);
+  //       window.location.reload();
+  //       this.router.navigate(['/internships'])
+  //     },
+  //     (err) => {
+  //       console.log("error creating internship", err)
+  //     }
+  //   )
+  // }
 
   counter(i: number) {
     return new Array(i);

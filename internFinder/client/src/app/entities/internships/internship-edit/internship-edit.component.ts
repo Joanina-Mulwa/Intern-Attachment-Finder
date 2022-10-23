@@ -52,7 +52,7 @@ export class InternshipEditComponent implements OnInit {
     internshipStatus: 'ACTIVE',
     createdOn: '',
     reportingDate: '',
-    url:''
+    url: ''
   }
 
   companyDetails!: '';
@@ -62,11 +62,12 @@ export class InternshipEditComponent implements OnInit {
 
   selectedFiles!: FileList;
   currentFile!: any;
-  foundFile!: File;
+  foundFile?: File;
   progress = 0;
   message = '';
   fileInfos?: Observable<any>;
   today?: any;
+  clearUploaded: boolean=false;
 
 
 
@@ -91,17 +92,59 @@ export class InternshipEditComponent implements OnInit {
     this.today = new Date().toISOString().split('T')[0];
     console.log("Got date", this.today)
 
+
   }
 
 
   selectFile(event: any) {
+    this.clearUploaded=true;
     this.selectedFiles = event.target.files;
+    console.log("Hereeeeeeeeeeeeeeee", this.selectedFiles.length)
+
   }
 
   updateAdvert() {
     //this.reset();
     this.progress = 0;
-    this.currentFile = this.selectedFiles.item(0);
+    if(this.selectedFiles === undefined){
+      this.postInternshipService.updateAdvertDetails(this.internshipId, this.advertDetails).subscribe(
+
+        (event: any)=>{
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.message = event.body.message;
+            setTimeout(() => {
+              this.message = '';
+              this.reset();
+              window.history.back();
+              this.router.navigate(['/internship/', this.internshipId])
+            }, 1500)
+            setTimeout(() => {
+              this.router.navigate(['/internship/', this.internshipId])
+              window.location.reload();
+  
+  
+            }, 2000)
+  
+  
+          }
+          this.fileInfos = this.postInternshipService.getFiles();
+        },
+        (err)=>{
+          this.progress = 0;
+          this.message = 'Could not upload the file! Try again later.';
+          this.currentFile = undefined;
+          setTimeout(() => {
+            this.message = '';
+            //this.reset2();
+          }, 3000)
+        }
+      )
+      
+    }
+    else{
+      this.currentFile = this.selectedFiles.item(0);
     console.log("file is", this.currentFile);
     console.log("Details are ", this.advertDetails);
     this.advertDetails.companyEmail = JSON.parse(localStorage.getItem('currentUser')!).email;
@@ -118,17 +161,17 @@ export class InternshipEditComponent implements OnInit {
           setTimeout(() => {
             this.message = '';
             this.reset();
-            window.history.back();            
-            this.router.navigate(['/internship/',this.internshipId])
+            window.history.back();
+            this.router.navigate(['/internship/', this.internshipId])
           }, 1500)
           setTimeout(() => {
-            this.router.navigate(['/internship/',this.internshipId])
+            this.router.navigate(['/internship/', this.internshipId])
             window.location.reload();
 
 
           }, 2000)
-          
-         
+
+
         }
         this.fileInfos = this.postInternshipService.getFiles();
 
@@ -144,6 +187,7 @@ export class InternshipEditComponent implements OnInit {
           //this.reset2();
         }, 3000)
       });
+    }
 
     // this.selectedFiles = undefined;
   }
@@ -206,7 +250,7 @@ export class InternshipEditComponent implements OnInit {
       internshipStatus: 'ACTIVE',
       createdOn: '',
       reportingDate: '',
-      url:''
+      url: ''
     }
 
   }
@@ -255,7 +299,7 @@ export class InternshipEditComponent implements OnInit {
     this.postInternshipService.findAdvertById(this.internshipId).subscribe(
       (res) => {
         console.log("Found internship this", res);
-        this.advertDetails = res; 
+        this.advertDetails = res;
 
         this.foundFile = new File([res.data], res.name, { type: res.type });
 

@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
   activationFailure = '';
   showActivate = false;
   currentUserDetails!: UserBio;
+  userDetails!: UserBio;
 
 
   ngOnInit(): void {
@@ -204,8 +205,12 @@ export class LoginComponent implements OnInit {
   loginUser(): void {
     this.showRegister = false;
     console.log("User to be logged in : ", this.userLogins);
+    console.time("User Login")
     this.userService.findByEmail(this.userLogins.email).subscribe(
       (res) => {
+        this.userDetails=res;
+    console.timeEnd("User Login")
+
         console.log("heere:,", res)
         if (res == null) {
           this.loginFailure = "Register, user " + this.userLogins.email + " does not exist";
@@ -244,7 +249,9 @@ export class LoginComponent implements OnInit {
 
                 console.log("Successfull login, " + this.userLogins.email)
                 //this.router.navigate(['/internships'])
-                this.getCategory();
+                console.log("****************testing********", this.userDetails)
+                this.router.navigate(['internships']);
+               // this.getCategory();
 
 
               },

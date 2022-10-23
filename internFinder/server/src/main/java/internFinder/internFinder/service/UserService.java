@@ -40,9 +40,11 @@ public class UserService {
 
     public Optional<User> findByEmail(String email) {
         log.info("Request to find user with email : {}", email);
-
+        long startTime = System.nanoTime();
         Optional<User> user = userRepository.findByEmail(email);
         log.info("Found user : {}", user);
+        long endTime = System.nanoTime();
+        System.out.println("Find Email took " + (endTime - startTime)/1e6);
         return user;
     }
 
