@@ -103,6 +103,10 @@ export class PostInternshipService {
     return this.httpClient.get<any>(this.apiServerURL + "/api/advert/search?text=" + text)
    
   }
+  filterAdvert(text?: string): Observable<any>{
+    return this.httpClient.get<any>(this.apiServerURL + "/api/advert/filter?text=" + text)
+   
+  }
   deleteAdvert(id: number): Observable<any>{
     return this.httpClient.delete<any>( this.apiServerURL + "/api/deleteAdvert/" + id);
   }

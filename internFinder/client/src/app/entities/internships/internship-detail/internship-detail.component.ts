@@ -40,7 +40,7 @@ export class InternshipDetailComponent implements OnInit {
   loggedInUserEmail!: string;
   isPostedByMe: boolean = false;
   isEmployer: boolean = true;
-  companyDetails?: UserBio;
+  companyDetails?: any;
   applications?: ApplyInternship[];
   internshipApplied = false;
   //appliedInternshipId: number = 1;
@@ -53,6 +53,7 @@ export class InternshipDetailComponent implements OnInit {
   srcPDF!: string;
   srcDOC!: any;
   safe!: SafeUrl;
+  differenceInDays: any;
 
 
   ngOnInit(): void {
@@ -69,6 +70,13 @@ export class InternshipDetailComponent implements OnInit {
 
 
   }
+
+//   calculateDiff(dateSent: any){
+//     let currentDate = new Date();
+//     dateSent = this.companyDetails?.createdOn;
+//     return Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate()) ) /(1000 * 60 * 60 * 24));
+// }
+
 
 
 
@@ -120,6 +128,22 @@ export class InternshipDetailComponent implements OnInit {
     this.postInternshipService.findAdvertById(this.internshipId).subscribe(
       (res) => {
         console.log("internship details are", res)
+        let currentDate = new Date(new Date().toJSON().slice(0, 10))
+        var createdOn = new Date(res.createdOn);
+        // To calculate the time difference of two dates
+        var differenceInTime = currentDate.getTime() - createdOn.getTime();          
+        // To calculate the no. of days between two dates
+         this.differenceInDays = differenceInTime / (1000 * 3600 * 24);
+ 
+ 
+         console.log("the New creation daTE IS ", createdOn)
+         console.log("todays date is ", currentDate)
+         console.log("Difference in dayS ", this.differenceInDays)
+         console.log("Difference in time ", differenceInTime)
+
+        
+
+
         // res.type = `data:${res.type};base64,`
         this.internshipDetail = res;
         if (res.type == 'application/pdf') {
@@ -197,13 +221,6 @@ export class InternshipDetailComponent implements OnInit {
       (res) => {
         console.log("Company details that posted current inernship is ", res)
         this.companyDetails = res;
-        let date = new Date().toJSON().slice(0, 10);
-
-        this.companyDetails!.createdOn = date;
-        console.log("New creation dTE IS ", this.companyDetails?.createdOn)
-
-
-
         console.log("Company details that posted current inernship 2 is", this.companyDetails)
       },
       (err) => {

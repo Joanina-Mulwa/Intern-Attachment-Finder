@@ -16,11 +16,11 @@
 
             </div>
             <div class="col-md-3">
-                <select autocomplete="on" type="text" style="height: 37px;" name="filter" (change)="filterAdvert()" >
+                <select autocomplete="on" type="text" style="height: 37px;" name="filter" #advert (change)="filterAdvert(advert.value)">
 
-                    <option selected disabled>All</option>
+                    <option selected >All</option>
 
-                    <option *ngFor="let domain of domains" [(ngModel)]="filterText">
+                    <option *ngFor="let domain of domains">
                         {{domain}}
                     </option>
                 </select>
@@ -42,7 +42,7 @@
 
 
         <div class="text-center my-5" *ngIf="internships?.length === 0 && !loading">
-            <p class="text-muted">No internships found</p>
+            <p  class="text-muted">No internships found</p>
         </div>
 
         <div *ngIf="!loading" class="row">
@@ -73,7 +73,10 @@
 
                                 <div class="ml-1">
 
-                                    <h4>{{internship.internshipTitle}}</h4>
+                                    <h4>{{internship.internshipTitle}} <i
+                                        class="fa-regular fa-eye" style="cursor: pointer;"
+                                        title="View internship"
+                                        [routerLink]="['/internship', internship.id]"></i></h4>
                                 </div>
                                 <div hidden>
                                     <p *ngIf="internship.companyName" class="company-name p-1 mx-0" title="Company">
@@ -130,7 +133,7 @@
 
     <div id='tabEmployer' *ngIf="userBioDetail?.authority == 'EMPLOYER'" class="justify-content">
         <tabset>
-            <tab class="card" heading="Posted Internships ({{internshipsPostedByMe.length}})">
+            <tab  heading="Posted Internships ({{internshipsPostedByMe.length}})">
                 <div class="m-3">
                     <div class="donut-wrapper" *ngIf="loading">
                         <div class="donut multi"></div>
@@ -176,12 +179,17 @@
 
                                             <div class="ml-1">
 
-                                                <h4>{{internshipPostedByMe.internshipTitle}}</h4>
+                                                <h4>{{internshipPostedByMe.internshipTitle}} <i
+                                                        class="fa-regular fa-eye" style="cursor: pointer;"
+                                                        title="View internship"
+                                                        [routerLink]="['/internship', internshipPostedByMe.id]"></i>
+                                                </h4>
+
                                             </div>
 
                                             <div>
                                                 <p class="company-name p-1 mx-0">
-                                                    Created: {{internshipPostedByMe?.createdOn}}
+                                                    Created: {{internshipPostedByMe?.createdOn}} days ago
                                                 </p>
                                             </div>
 
@@ -208,8 +216,8 @@
                                         <div class="col-md-6 text-end">
 
                                             <button class="btn btn-outline-secondary"
-                                                [routerLink]="['/internship', internshipPostedByMe.id]">see
-                                                details <i class="fas fa-chevron-circle-right"></i></button>
+                                                [routerLink]="['/applicants', internshipPostedByMe.id]">see applications
+                                                <i class="fas fa-chevron-circle-right"></i></button>
                                         </div>
                                     </div>
 
@@ -222,7 +230,7 @@
                 </div>
 
             </tab>
-            <tab class="card" heading="Active Internships ({{activeInternshipsPostedByMe.length}})">
+            <tab  heading="Active Internships ({{activeInternshipsPostedByMe.length}})">
                 <div class="m-3">
                     <div class="donut-wrapper" *ngIf="loading">
                         <div class="donut multi"></div>
@@ -267,9 +275,18 @@
 
                                             <div class="ml-1">
 
-                                                <h4>{{activeInternshipPostedByMe.internshipTitle}}</h4>
+                                                <h4>{{activeInternshipPostedByMe.internshipTitle}} <i
+                                                        class="fa-regular fa-eye" style="cursor: pointer;"
+                                                        title="View internship"
+                                                        [routerLink]="['/internship', activeInternshipPostedByMe.id]"></i>
+                                                </h4>
                                             </div>
                                             <div>
+                                                <p class="company-name p-1 mx-0">
+                                                    Created: {{activeInternshipPostedByMe?.createdOn}} days ago
+                                                </p>
+                                            </div>
+                                            <div hidden>
                                                 <span *ngIf="activeInternshipPostedByMe.companyName"
                                                     class="company-name p-1 mx-0" title="Company">
                                                     Company: {{activeInternshipPostedByMe?.companyName}}
@@ -302,8 +319,8 @@
                                         <div class="col-md-6 text-end">
 
                                             <button class="btn btn-outline-secondary"
-                                                [routerLink]="['/internship', activeInternshipPostedByMe.id]">see
-                                                details <i class="fas fa-chevron-circle-right"></i></button>
+                                                [routerLink]="['/applicants', activeInternshipPostedByMe.id]">see
+                                                applications <i class="fas fa-chevron-circle-right"></i></button>
                                         </div>
                                     </div>
 
@@ -316,7 +333,7 @@
 
                 </div>
             </tab>
-            <tab class="card" heading="Expired/Closed Internships ({{closedInternshipsPostedByMe.length}})">
+            <tab  heading="Expired/Closed Internships ({{closedInternshipsPostedByMe.length}})">
                 <div class="m-3">
                     <div class="donut-wrapper" *ngIf="loading">
                         <div class="donut multi"></div>
@@ -365,9 +382,25 @@
 
                                             <div class="ml-1">
 
-                                                <h4>{{closedInternshipPostedByMe.internshipTitle}}</h4>
+                                                <h4>{{closedInternshipPostedByMe.internshipTitle}} <i
+                                                        class="fa-regular fa-eye" style="cursor: pointer;"
+                                                        title="View internship"
+                                                        [routerLink]="['/internship', closedInternshipPostedByMe.id]"></i>
+                                                </h4>
                                             </div>
                                             <div>
+                                                <p class="company-name p-1 mx-0">
+                                                    Created: {{closedInternshipPostedByMe?.createdOn}} days ago
+                                                </p>
+                                            </div>
+                                            <div>
+
+                                                <p class="company-name p-1 mx-0">
+                                                    {{closedInternshipPostedByMe?.period}}
+                                                </p>
+                                            </div>
+
+                                            <div hidden>
                                                 <span *ngIf="closedInternshipPostedByMe.companyName"
                                                     class="company-name p-1 mx-0" title="Company">
                                                     Company: {{closedInternshipPostedByMe?.companyName}}
@@ -375,7 +408,7 @@
                                                 </span>
                                             </div>
 
-                                            <div>
+                                            <div hidden>
 
                                                 <i *ngIf="closedInternshipPostedByMe.internshipStatus === 'CLOSED'"
                                                     class="fas fa-times-circle">
@@ -384,7 +417,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6 mt-3">
+                                        <div class="col-md-2 mt-3">
 
                                             <i data-toggle="modal" data-target="#exampleModal"
                                                 (click)="softDelete(closedInternshipPostedByMe.internshipTitle, closedInternshipPostedByMe.id)"
@@ -392,48 +425,50 @@
                                             <div class="hide">DELETE</div>
 
                                         </div>
+                                        <div class="col-md-4">
 
+                                            <i *ngIf="closedInternshipPostedByMe.internshipStatus === 'CLOSED'"
+                                                class="fas fa-times-circle">
+                                                {{closedInternshipPostedByMe.internshipStatus}}</i>
 
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Delete
-                                                            {{deleteTitle}}
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Are you sure you want to delete internship
-                                                            {{deleteTitle}} ? </p>
-                                                        <p>This action is irreversible!</p>
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary ml-5"
-                                                            data-dismiss="modal"
-                                                            (click)="deleteAdvert(deleteId)">Delete</button>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
-
-
-
 
                                         <div class="col-md-6">
 
 
                                             <button class="btn btn-outline-secondary"
-                                                [routerLink]="['/internship', closedInternshipPostedByMe.id]">see
-                                                details <i class="fas fa-chevron-circle-right"></i></button>
+                                                [routerLink]="['/applicants', closedInternshipPostedByMe.id]">see
+                                                applications <i class="fas fa-chevron-circle-right"></i></button>
+                                        </div>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Delete
+                                                        {{deleteTitle}}
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to delete internship
+                                                        {{deleteTitle}} ? </p>
+                                                    <p>This action is irreversible!</p>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary ml-5"
+                                                        data-dismiss="modal"
+                                                        (click)="deleteAdvert(deleteId)">Delete</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 

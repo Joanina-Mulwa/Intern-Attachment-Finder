@@ -13,15 +13,15 @@
     height: 3rem;
     margin: 5rem;
     border-radius: 50%;
-    border: 0.3rem solid #003d4c44;
-    border-top-color: #003d4c;
+    border: 0.3rem solid #4492a5;
+    /* //border-top-color: #4492a5; */
     animation: 1.5s spin infinite linear;
     animation-duration: 3s;
 
    
   }
   .multi {
-    border-bottom-color: #003d4c;
+    border-bottom-color: black;
   }
   @keyframes spin {
     to {
@@ -43,6 +43,12 @@
 
   label{
     font-size: 20px;
+  }
+
+  .card{
+    box-shadow: 0 4px 8px 0 rgba(15, 227, 235, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    
   }
   /* heading{
     font-size: 20px;

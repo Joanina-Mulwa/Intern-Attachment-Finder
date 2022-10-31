@@ -48,8 +48,9 @@ export class InternshipsComponent implements OnInit {
   closedInternshipsPostedByMe: AdvertDetails[] = [];
   internships: AdvertDetails[] = [];
   allPostedInternships: AdvertDetails[] = [];
-  allInternships!: AdvertDetails[];
+  allInternships!: any[];
   applications!: ApplyInternship[];
+  differenceInDays: any;
 
   deleteId: any;
   deleteTitle: any;
@@ -81,6 +82,17 @@ export class InternshipsComponent implements OnInit {
         console.log("all internhsip posted are", this.allPostedInternships)
 
         this.allPostedInternships.forEach((internship: any) => {
+          let currentDate = new Date(new Date().toJSON().slice(0, 10))
+          var createdOn = new Date(internship.createdOn);
+          // To calculate the time difference of two dates
+          var differenceInTime = currentDate.getTime() - createdOn.getTime();          
+          // To calculate the no. of days between two dates
+           this.differenceInDays = differenceInTime / (1000 * 3600 * 24);
+           console.log("the New creation daTE IS ", createdOn)
+           console.log("todays date is ", currentDate)
+           console.log("Difference in dayS ", this.differenceInDays)
+           console.log("Difference in time ", differenceInTime)
+           internship.createdOn = this.differenceInDays;
           if (internship.companyEmail === this.userEmail) {
             this.internshipsPostedByMe.push(internship);
             console.log("internhsip details i have posted are are", this.internshipsPostedByMe)
@@ -98,6 +110,7 @@ export class InternshipsComponent implements OnInit {
         else {
           this.internshipsPostedByMe.forEach((internshipPostedByMe: any) => {
             if (internshipPostedByMe.internshipStatus === InternshipStatus.ACTIVE) {
+
               this.activeInternshipsPostedByMe.push(internshipPostedByMe)
               console.log("Active internships posted by me are", this.activeInternshipsPostedByMe)
             }
@@ -130,6 +143,8 @@ export class InternshipsComponent implements OnInit {
 
 
         this.allInternships.forEach((internship) => {
+
+         
 
           if (internship.internshipStatus === InternshipStatus.ACTIVE) {
             this.internships.push(internship)
@@ -251,44 +266,48 @@ export class InternshipsComponent implements OnInit {
   searchAdvert(): void {
     this.loading = true;
     console.log("Findinnnnnnnng ", this.searchText)
-    // this.postInternshipService.searchAdvert(this.searchText).subscribe(
-    //   result => {
-    //     this.loading = false;
-    //     this.internships = result;
-    //     let date = new Date().toJSON().slice(0, 10);
-    //     this.internships.forEach((internship: any) => {
-    //       if (internship.reportingDate === date) {
-    //         internship.skillsList = internship.skills.split(",");
-    //         internship.internshipStatus = InternshipStatus.CLOSED;
-    //       }
-    //     });
-    //     console.log("Search produces internships:", this.internships)
-    //   },
-    //   error => {
-    //     console.error('error getting searched internship', error);
-    //   }
-    // )
+    this.postInternshipService.searchAdvert(this.searchText).subscribe(
+      result => {
+        this.loading = false;
+        this.internships = result;
+        let date = new Date().toJSON().slice(0, 10);
+        this.internships.forEach((internship: any) => {
+          if (internship.reportingDate === date) {
+            internship.skillsList = internship.skills.split(",");
+            internship.internshipStatus = InternshipStatus.CLOSED;
+          }
+        });
+        console.log("Search produces internships:", this.internships)
+      },
+      error => {
+        console.error('error getting searched internship', error);
+      }
+    )
   }
-  filterAdvert(): void {
+  filterAdvert(value: string): void {
     this.loading = true;
-    console.log("Findinnnnnnnng ", this.filterText)
-    // this.postInternshipService.searchAdvert(this.searchText).subscribe(
-    //   result => {
-    //     this.loading = false;
-    //     this.internships = result;
-    //     let date = new Date().toJSON().slice(0, 10);
-    //     this.internships.forEach((internship: any) => {
-    //       if (internship.reportingDate === date) {
-    //         internship.skillsList = internship.skills.split(",");
-    //         internship.internshipStatus = InternshipStatus.CLOSED;
-    //       }
-    //     });
-    //     console.log("Search produces internships:", this.internships)
-    //   },
-    //   error => {
-    //     console.error('error getting searched internship', error);
-    //   }
-    // )
+    this.filterText = value;
+    console.log("filtering ", this.filterText)
+    // if(this.filterText == 'All'){
+    //   this.findAllAdverts();
+    // }
+    this.postInternshipService.filterAdvert(this.filterText).subscribe(
+      result => {
+        this.loading = false;
+        this.internships = result;
+        let date = new Date().toJSON().slice(0, 10);
+        this.internships.forEach((internship: any) => {
+          if (internship.reportingDate === date) {
+            internship.skillsList = internship.skills.split(",");
+            internship.internshipStatus = InternshipStatus.CLOSED;
+          }
+        });
+        console.log("filter produces internships:", this.internships)
+      },
+      error => {
+        console.error('error getting filteres internship', error);
+      }
+    )
   }
   softDelete(title: any, id: any): void {
     this.deleteId = id;

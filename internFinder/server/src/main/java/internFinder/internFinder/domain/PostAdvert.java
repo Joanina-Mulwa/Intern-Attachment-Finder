@@ -40,6 +40,8 @@ public class PostAdvert {
 
     private String createdOn;
 
+    private String updatedOn;
+
     private String reportingDate;
 
     public PostAdvert() {

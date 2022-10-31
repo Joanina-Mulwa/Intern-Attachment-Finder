@@ -95,7 +95,7 @@ public class PostAdvertService {
             fileDetails.setDomain(postAdvert.getDomain());
             fileDetails.setPeriod(postAdvert.getPeriod());
             fileDetails.setInternshipStatus(postAdvert.getInternshipStatus());
-            fileDetails.setCreatedOn(String.valueOf(LocalDate.now()));
+           // fileDetails.setCreatedOn(String.valueOf(LocalDate.now()));
             fileDetails.setReportingDate(postAdvert.getReportingDate());
             fileDetails.setInternshipStatus(postAdvert.getInternshipStatus());
             return postAdvertRepository.save(fileDetails);
@@ -111,6 +111,21 @@ public class PostAdvertService {
         List<PostAdvert> adverts = postAdvertRepository.findByInternshipTitleContainingOrCompanyNameContainingOrCompanyEmailContainingOrDomainContainingOrPeriodContainingOrNameContaining(text, text, text, text, text, text);
         adverts.removeIf(advert -> Objects.equals(advert.getInternshipStatus(), "CLOSED"));
         return adverts.stream();
+    }
+
+    public Stream<PostAdvert> filterAdvert(String text) {
+
+        log.debug("Request to filter internship with text : {}", text);
+        if(Objects.equals(text, "All")){
+            return  getAllFiles();
+        }
+        else {
+            List<PostAdvert> adverts = postAdvertRepository.findByDomain(text);
+            adverts.removeIf(advert -> Objects.equals(advert.getInternshipStatus(), "CLOSED"));
+            return adverts.stream();
+
+        }
+
     }
 
     public void deleteAdvert(Long id){

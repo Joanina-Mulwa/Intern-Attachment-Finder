@@ -150,6 +150,42 @@ public class PostAdvertResource {
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
+    @GetMapping("/advert/filter")
+    public ResponseEntity<List<ResponseFile>> filterAdverts(@RequestParam(required = false) String text) {
+        log.debug("REST request to filter all internships with text : {}", text);
+
+        if (text == null) {
+            text = "";
+        }
+
+        List<ResponseFile> files = postAdvertService.filterAdvert(text).map(dbFile -> {
+            String fileDownloadUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/downloadAdvertById/")
+                    .path(String.valueOf(dbFile.getId()))
+                    .toUriString();
+
+            return new ResponseFile(
+                    dbFile.getId(),
+                    dbFile.getName(),
+                    fileDownloadUri,
+                    dbFile.getType(),
+                    dbFile.getData().length,
+                    dbFile.getInternshipTitle(),
+                    dbFile.getCompanyName(),
+                    dbFile.getCompanyEmail(),
+                    dbFile.getCompanyLogo(),
+                    dbFile.getDomain(),
+                    dbFile.getPeriod(),
+                    dbFile.getInternshipStatus(),
+                    dbFile.getCreatedOn(),
+                    dbFile.getReportingDate());
+
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(files);
+    }
+
     @PutMapping("/updateAdvert")
     public ResponseEntity<ResponseMessage> updateAdvert(@RequestParam("file") MultipartFile file,
                                                         @RequestParam("id") Long id,
