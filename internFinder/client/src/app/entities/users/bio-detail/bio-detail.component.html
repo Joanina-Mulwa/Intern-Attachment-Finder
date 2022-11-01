@@ -179,8 +179,9 @@
         <div id='tabStudent' *ngIf="isMe && userBioDetail.authority == 'STUDENT' " class="justify-content">
             <div class="card mt-3 mb-2 tabs">
                 <tabset>
-                    <tab heading="Internships Applied ({{applications?.length}})">
-
+                    <tab>
+                        <ng-template tabHeading>Internships Applied <span *ngIf="applications?.length != 0"
+                                class="badge badge-pill badge-secondary">{{applications?.length}}</span></ng-template>
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
                         </div>
@@ -196,11 +197,13 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-3">
-                                                    <img *ngIf="internshipDetail.companyLogo" src={{internshipDetail.companyLogo}} class="card-img-top "
-                                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                                    <img *ngIf="internshipDetail.companyLogo"
+                                                        src={{internshipDetail.companyLogo}} class="card-img-top "
+                                                        onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                                     <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                                     <!-- {{userBio.profileImageUrl}} -->
-                                                    <svg *ngIf="!internshipDetail.companyLogo" class="img-fluid rounded float-start" width="100%" height="43"
+                                                    <svg *ngIf="!internshipDetail.companyLogo"
+                                                        class="img-fluid rounded float-start" width="100%" height="43"
                                                         xmlns="http://www.w3.org/2000/svg" role="img"
                                                         aria-label="Placeholder: Responsive image"
                                                         preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -262,8 +265,10 @@
                             </div>
                         </div>
                     </tab>
-                    <tab heading="Shortlisted Internships ({{approvedInternshipsDetails?.length}})">
-
+                    <tab>
+                        <ng-template tabHeading>Shortlisted Internships <span  *ngIf="approvedInternshipsDetails?.length != 0"
+                                class="badge badge-pill badge-secondary">{{approvedInternshipsDetails?.length}}</span>
+                        </ng-template>
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
                         </div>
@@ -279,11 +284,14 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-3">
-                                                    <img *ngIf="approvedInternshipDetails.companyLogo" src={{approvedInternshipDetails.companyLogo}} class="card-img-top "
-                                                                onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                                    <img *ngIf="approvedInternshipDetails.companyLogo"
+                                                        src={{approvedInternshipDetails.companyLogo}}
+                                                        class="card-img-top "
+                                                        onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                                     <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                                     <!-- {{userBio.profileImageUrl}} -->
-                                                    <svg *ngIf="!approvedInternshipDetails.companyLogo" class="img-fluid rounded float-start" width="100%" height="43"
+                                                    <svg *ngIf="!approvedInternshipDetails.companyLogo"
+                                                        class="img-fluid rounded float-start" width="100%" height="43"
                                                         xmlns="http://www.w3.org/2000/svg" role="img"
                                                         aria-label="Placeholder: Responsive image"
                                                         preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -346,7 +354,10 @@
                         </div>
 
                     </tab>
-                    <tab heading="Rejected Internships ({{rejectedInternshipsDetails?.length}})">
+                    <tab >
+                        <ng-template tabHeading>Rejected Internships <span *ngIf="rejectedInternshipsDetails?.length != 0"
+                            class="badge badge-pill badge-secondary">{{rejectedInternshipsDetails?.length}}</span>
+                    </ng-template>
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
                         </div>
@@ -362,11 +373,14 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-3">
-                                                    <img *ngIf="rejectedInternshipDetails.companyLogo" src={{rejectedInternshipDetails.companyLogo}} class="card-img-top "
-                                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                                    <img *ngIf="rejectedInternshipDetails.companyLogo"
+                                                        src={{rejectedInternshipDetails.companyLogo}}
+                                                        class="card-img-top "
+                                                        onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                                     <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                                     <!-- {{userBio.profileImageUrl}} -->
-                                                    <svg *ngIf="!rejectedInternshipDetails.companyLogo" class="img-fluid rounded float-start" width="100%" height="43"
+                                                    <svg *ngIf="!rejectedInternshipDetails.companyLogo"
+                                                        class="img-fluid rounded float-start" width="100%" height="43"
                                                         xmlns="http://www.w3.org/2000/svg" role="img"
                                                         aria-label="Placeholder: Responsive image"
                                                         preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -396,7 +410,7 @@
                                                     </div>
                                                     <div>
                                                         <span class="company-name p-1 mx-0">
-                                                         {{rejectedInternshipDetails?.period}}
+                                                            {{rejectedInternshipDetails?.period}}
 
                                                         </span>
                                                     </div>
@@ -428,7 +442,10 @@
                             </div>
                         </div>
                     </tab>
-                    <tab heading="Pending Internships ({{pendingInternshipsDetails?.length}})">
+                    <tab >
+                        <ng-template tabHeading>Pending Internships <span *ngIf="pendingInternshipsDetails?.length != 0"
+                            class="badge badge-pill badge-secondary">{{pendingInternshipsDetails?.length}}</span>
+                    </ng-template>
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
                         </div>
@@ -440,15 +457,18 @@
                             <div class="row">
                                 <div *ngFor="let pendingInternshipDetails of pendingInternshipsDetails"
                                     class="col-12 col-lg-4 col-md-6 mb-2">
-                                    <div class="card profile-item" >
+                                    <div class="card profile-item">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-3">
-                                                    <img *ngIf="pendingInternshipDetails.companyLogo" src={{pendingInternshipDetails.companyLogo}} class="card-img-top "
-                                                            onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
+                                                    <img *ngIf="pendingInternshipDetails.companyLogo"
+                                                        src={{pendingInternshipDetails.companyLogo}}
+                                                        class="card-img-top "
+                                                        onError="this.onerror=null; this.src='assets/images/plain-user.png' ">
                                                     <!-- <img class="img-fluid" src="assets/images/user.svg" alt=""> -->
                                                     <!-- {{userBio.profileImageUrl}} -->
-                                                    <svg *ngIf="!pendingInternshipDetails.companyLogo" class="img-fluid rounded float-start" width="100%" height="43"
+                                                    <svg *ngIf="!pendingInternshipDetails.companyLogo"
+                                                        class="img-fluid rounded float-start" width="100%" height="43"
                                                         xmlns="http://www.w3.org/2000/svg" role="img"
                                                         aria-label="Placeholder: Responsive image"
                                                         preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -549,10 +569,11 @@
         </div> -->
 
 
-        <div *ngIf="!isMe" id='tabEmployer'  class="mt-3 justify-content">
+        <div *ngIf="!isMe" id='tabEmployer' class="mt-3 justify-content">
             <tabset>
-               
-                <tab class="card" heading="Active Posted Internships ({{activeInternshipsPostedByMe.length}})">
+
+                <tab class="card" >
+                    <ng-template tabHeading>Active Posted Internships <span *ngIf="activeInternshipsPostedByMe?.length != 0" class="badge badge-pill badge-secondary">{{activeInternshipsPostedByMe.length}}</span></ng-template>
                     <div class="m-3">
                         <div class="donut-wrapper" *ngIf="loading">
                             <div class="donut multi"></div>
@@ -610,19 +631,19 @@
 
                                                     </span>
                                                 </div>
-                                                
-                                                
+
+
                                                 <div>
 
                                                     <i *ngIf="activeInternshipPostedByMe.internshipStatus === 'ACTIVE'"
                                                         class="fas fa-check-circle">
                                                         {{activeInternshipPostedByMe.internshipStatus}}</i>
                                                 </div>
-                                       
+
                                             </div>
                                         </div>
 
-                                        
+
 
                                         <div>
 
@@ -644,7 +665,7 @@
 
                     </div>
                 </tab>
-               
+
 
             </tabset>
         </div>
@@ -667,7 +688,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>We are sorry to see you leave <i class="far fa-frown"></i>. Are you sure you want to deactivate your account {{userEmail}} ? </p>
+                            <p>We are sorry to see you leave <i class="far fa-frown"></i>. Are you sure you want to
+                                deactivate your account {{userEmail}} ? </p>
                             <p>You can later activate your account</p>
 
                         </div>

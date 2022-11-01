@@ -16,9 +16,10 @@
 
             </div>
             <div class="col-md-3">
-                <select autocomplete="on" type="text" style="height: 37px;" name="filter" #advert (change)="filterAdvert(advert.value)">
+                <select autocomplete="on" type="text" style="height: 37px;" name="filter" #advert
+                    (change)="filterAdvert(advert.value)">
 
-                    <option selected >All</option>
+                    <option selected>All</option>
 
                     <option *ngFor="let domain of domains">
                         {{domain}}
@@ -42,7 +43,7 @@
 
 
         <div class="text-center my-5" *ngIf="internships?.length === 0 && !loading">
-            <p  class="text-muted">No internships found</p>
+            <p class="text-muted">No internships found</p>
         </div>
 
         <div *ngIf="!loading" class="row">
@@ -73,10 +74,9 @@
 
                                 <div class="ml-1">
 
-                                    <h4>{{internship.internshipTitle}} <i
-                                        class="fa-regular fa-eye" style="cursor: pointer;"
-                                        title="View internship"
-                                        [routerLink]="['/internship', internship.id]"></i></h4>
+                                    <h4>{{internship.internshipTitle}} <i class="fa-regular fa-eye"
+                                            style="cursor: pointer;" title="View internship"
+                                            [routerLink]="['/internship', internship.id]"></i></h4>
                                 </div>
                                 <div hidden>
                                     <p *ngIf="internship.companyName" class="company-name p-1 mx-0" title="Company">
@@ -133,7 +133,10 @@
 
     <div id='tabEmployer' *ngIf="userBioDetail?.authority == 'EMPLOYER'" class="justify-content">
         <tabset>
-            <tab  heading="Posted Internships ({{internshipsPostedByMe.length}})">
+            <tab>
+                <ng-template tabHeading>Posted Internships <span *ngIf="internshipsPostedByMe?.length != 0"
+                        class="badge badge-pill badge-secondary">{{internshipsPostedByMe.length}}</span> </ng-template>
+
                 <div class="m-3">
                     <div class="donut-wrapper" *ngIf="loading">
                         <div class="donut multi"></div>
@@ -230,7 +233,10 @@
                 </div>
 
             </tab>
-            <tab  heading="Active Internships ({{activeInternshipsPostedByMe.length}})">
+            <tab >
+                <ng-template tabHeading>Active Internships <span *ngIf="activeInternshipsPostedByMe?.length != 0"
+                        class="badge badge-pill badge-secondary">{{activeInternshipsPostedByMe.length}}</span></ng-template>
+
                 <div class="m-3">
                     <div class="donut-wrapper" *ngIf="loading">
                         <div class="donut multi"></div>
@@ -333,7 +339,10 @@
 
                 </div>
             </tab>
-            <tab  heading="Expired/Closed Internships ({{closedInternshipsPostedByMe.length}})">
+            <tab >
+                <ng-template tabHeading>Expired/Closed Internships <span *ngIf="closedInternshipsPostedByMe?.length != 0"
+                    class="badge badge-pill badge-secondary">{{closedInternshipsPostedByMe.length}}</span></ng-template>
+
                 <div class="m-3">
                     <div class="donut-wrapper" *ngIf="loading">
                         <div class="donut multi"></div>

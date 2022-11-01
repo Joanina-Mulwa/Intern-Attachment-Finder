@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -201,7 +202,8 @@ public class PostAdvertResource {
         log.debug("Rest request to update advert {}  ", file);
         String message = "";
         try {
-            PostAdvert postAdvert = new PostAdvert(id, internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn, reportingDate);
+            String updatedOn = String.valueOf(LocalDate.now());
+            PostAdvert postAdvert = new PostAdvert(id, internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn,updatedOn, reportingDate);
             postAdvertService.updateAdvert(file, postAdvert);
             message = "updated the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
@@ -225,7 +227,8 @@ public class PostAdvertResource {
         log.debug("Rest request to update advert {}  ", id);
         String message = "";
         try {
-            PostAdvert postAdvert = new PostAdvert(id, internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn, reportingDate);
+            String updatedOn = String.valueOf(LocalDate.now());
+            PostAdvert postAdvert = new PostAdvert(id, internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn, updatedOn, reportingDate);
 
             postAdvertService.updateAdvertDetails(id, postAdvert);
             message = "updated the application successfully: ";

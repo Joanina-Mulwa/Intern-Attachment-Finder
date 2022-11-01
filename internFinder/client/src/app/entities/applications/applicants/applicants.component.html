@@ -22,7 +22,10 @@
 
     <div *ngIf="!loading" class="container">
         <tabset>
-            <tab  heading="Applications ({{currentInternshipApplications?.length}})">
+            <tab>
+                <ng-template tabHeading>Applications <span *ngIf="currentInternshipApplications?.length != 0"
+                    class="badge badge-pill badge-secondary">{{currentInternshipApplications?.length}}</span></ng-template>
+
                 <div class="donut-wrapper" *ngIf="loading">
                     <div class="donut multi"></div>
                 </div>
@@ -119,7 +122,10 @@
 
                 </div>
             </tab>
-            <!-- <tab  heading="Shortlisted ({{shortlistedApplicantsDetails.length}})">
+            <tab>
+                <ng-template tabHeading>Shortlisted <span *ngIf="shortlistedApplicantsDetails.length != 0"
+                    class="badge badge-pill badge-secondary">{{shortlistedApplicantsDetails.length}}</span></ng-template>
+
                 <div class="donut-wrapper" *ngIf="loading">
                     <div class="donut multi"></div>
                 </div>
@@ -205,10 +211,13 @@
 
                 </div>
 
-            </tab> -->
+            </tab>
 
 
-            <tab  heading="Approved ({{approvedApplicantsDetails.length}})">
+            <tab>
+                <ng-template tabHeading>Approved <span *ngIf="approvedApplicantsDetails.length != 0"
+                    class="badge badge-pill badge-secondary">{{approvedApplicantsDetails.length}}</span></ng-template>
+
                 <div class="donut-wrapper" *ngIf="loading">
                     <div class="donut multi"></div>
                 </div>
@@ -315,7 +324,10 @@
                 </div>
             </tab>
 
-            <tab  heading="Rejected ({{rejectedApplicantsDetails.length}})">
+            <tab>
+                <ng-template tabHeading>Rejected <span *ngIf="rejectedApplicantsDetails.length != 0"
+                    class="badge badge-pill badge-secondary">{{rejectedApplicantsDetails.length}}</span></ng-template>
+
                 <div class="donut-wrapper" *ngIf="loading">
                     <div class="donut multi"></div>
                 </div>
@@ -420,7 +432,10 @@
 
                 </div>
             </tab>
-            <tab  heading="Pending ({{pendingApplicantsDetails.length }})">
+            <tab>
+                <ng-template tabHeading>Pending <span *ngIf="pendingApplicantsDetails.length != 0"
+                    class="badge badge-pill badge-secondary">{{pendingApplicantsDetails.length}}</span></ng-template>
+
                 <div class="donut-wrapper" *ngIf="loading">
                     <div class="donut multi"></div>
                 </div>
