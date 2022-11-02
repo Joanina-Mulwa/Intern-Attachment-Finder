@@ -1,6 +1,6 @@
 <nav *ngIf="showNavbar" class="navbar navbar-expand-lg navbar-light bg-light mb-2">
     <div class="container-fluid">
-        <a class="navbar-brand" [routerLink]="'/about-us'" title="About us" >
+        <a class="web-name navbar-brand" [routerLink]="'/about-us'" title="About us" >
             <img src="../../assets/images/logo2.png" height="40px" width="40px" alt="">
             Intern Finder</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -17,10 +17,11 @@
                     <a class="nav-link" [routerLink]="'/internships'">Internships&nbsp;</a>
                 </li>
 
-                <li *ngIf="profile.authority == 'STUDENT'" class="nav-item" [ngClass]="{'active-route':router.url.includes('users')}">
-                    <a class="nav-link" [routerLink]="'/users'">Employers&nbsp;</a>
+                <li *ngIf="profile.authority == 'STUDENT'" class="nav-item" [ngClass]="{'active-route':router.url.includes('members')}">
+                    <a class="nav-link" [routerLink]="'/members'">Employers&nbsp;</a>
                 </li>
-                <li>
+                <li class="nav-item" [ngClass]="{'active-route':router.url.includes('users')}">
+                 
                     <a>
                         <img src="{{profile.profileImageUrl}}" onError="this.src='assets/images/plain-user.png'"
                             class="avatar img-circle" height="35px" width="40px" [routerLink]="['/users', userEmail]">

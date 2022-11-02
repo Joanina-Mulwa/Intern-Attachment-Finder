@@ -6,6 +6,12 @@ a{
     text-decoration: none;
     cursor: pointer;
 }
+.web-name{
+&:hover{
+  text-decoration: underline;
+}
+}
+
 img {
     border-radius: 50%;
   }

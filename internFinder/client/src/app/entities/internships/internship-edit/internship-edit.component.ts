@@ -77,7 +77,7 @@ export class InternshipEditComponent implements OnInit {
   minimumQualifications = [MinimumQualification.CERTIFICATE, MinimumQualification.DIPLOMA, MinimumQualification.DEGREE, MinimumQualification.POSTGRADUATE]
   experienceLevels = [ExperienceLevel.BEGINNER, ExperienceLevel.INTERMEDIATE, ExperienceLevel.MIDLEVEL, ExperienceLevel.EXPERT]
   periods = [Period.JAN, Period.MAY, Period.JULY]
-  domains = [Domain.BUSINESS, Domain.ENGINEERING, Domain.TECH, Domain.ENGINEERINGTECH, Domain.BUILDING, Domain.HOSPITALITY, Domain.TELECOMS, Domain.TEACHING];
+  domains = [Domain.BUSINESS, Domain.ENGINEERING, Domain.TECH, Domain.BUILDING, Domain.HOSPITALITY, Domain.TELECOMS, Domain.TEACHING];
 
 
   ngOnInit(): void {

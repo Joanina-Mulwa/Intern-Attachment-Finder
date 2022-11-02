@@ -46,7 +46,6 @@ export class AdvertDetails{
 export enum Domain {
     TECH = 'Technology',
     ENGINEERING = 'Engineering',
-    ENGINEERINGTECH = 'Technology and Engineering',
     BUSINESS = 'Business',
     HOSPITALITY = 'Hotel and Hospitality',
     BUILDING = 'Building and constrution',

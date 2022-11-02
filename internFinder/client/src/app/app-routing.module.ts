@@ -18,6 +18,7 @@ import { BioEditComponent } from './entities/users/bio-edit/bio-edit.component';
 import { UsersComponent } from './entities/users/users/users.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { AboutUsComponent } from './about/about-us/about-us.component';
+import { FooterComponent } from './layouts/footer/footer.component';
 
 const routes: Routes = [
   {
@@ -29,7 +30,7 @@ const routes: Routes = [
     component: ProfileComponent
   },
   {
-    path: 'users',
+    path: 'members',
     component: UsersComponent
   },
   {
@@ -87,6 +88,10 @@ const routes: Routes = [
   {
     path: 'about-us',
     component: AboutUsComponent
+  },
+  {
+    path: 'footer',
+    component: FooterComponent
   }
 ];
 

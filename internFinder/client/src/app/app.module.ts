@@ -31,6 +31,7 @@ import { AboutUsComponent } from './about/about-us/about-us.component';
 import { PdfViewerModule }  from  'ng2-pdf-viewer';
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { FooterComponent } from './layouts/footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +53,8 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
     ApplicationDetailComponent,
     ReviewsComponent,
     AboutUsComponent,
-    SafeUrlPipe
+    SafeUrlPipe,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

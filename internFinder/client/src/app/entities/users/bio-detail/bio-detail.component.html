@@ -1,5 +1,5 @@
 <div class="container-fluid member-detail">
-    <div *ngIf="userBioDetail" class="container mb-5">
+    <div *ngIf="userBioDetail" class="container ">
         <button class="btn btn-back btn-outline-secondary mb-3" (click)="back()">
             <span><i class="fas fa-arrow-left"></i></span> Back
         </button>
@@ -670,10 +670,10 @@
             </tabset>
         </div>
 
-        <div *ngIf="isMe" class="col-md-4 mt-3">
+        <div *ngIf="isMe" class="col-md-4 mt-5">
 
 
-            <div type="button" data-toggle="modal" data-target="#exampleModal2" class="btn btn-danger"
+            <div type="button" data-toggle="modal" data-target="#exampleModal2" class="btn btn-danger mb-5"
                 (click)="softDeactivateAccount()">Deactivate Account</div>
             <!-- Modal -->
             <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

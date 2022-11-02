@@ -133,7 +133,12 @@ export enum Course {
     ENGINEERING = 'Engineering',
     BUSINESS = 'Business',
     BCOM = 'Business Commerce',
-    HOSPITALITY = 'Hospitality'
+    HOSPITALITY = 'Hotel and Hospitality',
+    BUILDING = 'Building and constrution',
+    TELECOMS = 'Telecoms',
+    TEACHING = 'Teaching'
+    
+
 }
 
 export enum CompanyIndustry {

@@ -7,7 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ApplyInternship } from '../../apply-internship/apply-internship-model';
 import { AdvertDetails, Domain, Period } from '../../post-internships/advert-details-model';
 import { InternshipStatus, PostInternship } from '../../post-internships/post-internship-model';
-import { UserBio } from '../../users/user-bio-model';
+import { Course, UserBio } from '../../users/user-bio-model';
 
 @Component({
   selector: 'app-internships',
@@ -58,7 +58,7 @@ export class InternshipsComponent implements OnInit {
   //date?: string
   fileInfos?: Observable<any>;
 
-  domains = [Domain.BUSINESS, Domain.ENGINEERING, Domain.TECH, Domain.ENGINEERINGTECH, Domain.BUILDING, Domain.HOSPITALITY, Domain.TELECOMS, Domain.TEACHING];
+  domains = [Domain.BUSINESS, Domain.ENGINEERING, Domain.TECH, Domain.BUILDING, Domain.HOSPITALITY, Domain.TELECOMS, Domain.TEACHING];
   periods = [Period.JAN, Period.MAY, Period.JULY]
 
 
@@ -85,14 +85,14 @@ export class InternshipsComponent implements OnInit {
           let currentDate = new Date(new Date().toJSON().slice(0, 10))
           var createdOn = new Date(internship.createdOn);
           // To calculate the time difference of two dates
-          var differenceInTime = currentDate.getTime() - createdOn.getTime();          
+          var differenceInTime = currentDate.getTime() - createdOn.getTime();
           // To calculate the no. of days between two dates
-           this.differenceInDays = differenceInTime / (1000 * 3600 * 24);
-           console.log("the New creation daTE IS ", createdOn)
-           console.log("todays date is ", currentDate)
-           console.log("Difference in dayS ", this.differenceInDays)
-           console.log("Difference in time ", differenceInTime)
-           internship.createdOn = this.differenceInDays;
+          this.differenceInDays = differenceInTime / (1000 * 3600 * 24);
+          console.log("the New creation daTE IS ", createdOn)
+          console.log("todays date is ", currentDate)
+          console.log("Difference in dayS ", this.differenceInDays)
+          console.log("Difference in time ", differenceInTime)
+          internship.createdOn = this.differenceInDays;
           if (internship.companyEmail === this.userEmail) {
             this.internshipsPostedByMe.push(internship);
             console.log("internhsip details i have posted are are", this.internshipsPostedByMe)
@@ -144,7 +144,7 @@ export class InternshipsComponent implements OnInit {
 
         this.allInternships.forEach((internship) => {
 
-         
+
 
           if (internship.internshipStatus === InternshipStatus.ACTIVE) {
             this.internships.push(internship)
@@ -288,6 +288,19 @@ export class InternshipsComponent implements OnInit {
     this.loading = true;
     this.filterText = value;
     console.log("filtering ", this.filterText)
+    console.log("user course study is ", this.userBioDetail?.course)
+    if (this.filterText === '(Recommended)') {
+      if (this.userBioDetail?.course === Course.BCOM || this.userBioDetail?.course === Course.BUSINESS) {
+        this.filterText = Domain.BUSINESS
+
+      }
+      else if (this.userBioDetail?.course === Course.CS || this.userBioDetail?.course === Course.IT) {
+        this.filterText = Domain.TECH
+      }
+    }
+    console.log("final filtering ", this.filterText)
+
+
     // if(this.filterText == 'All'){
     //   this.findAllAdverts();
     // }

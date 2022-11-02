@@ -1,10 +1,7 @@
 package internFinder.internFinder.controller;
 
 import internFinder.internFinder.domain.ApplyAdvert;
-import internFinder.internFinder.domain.PostAdvert;
-import internFinder.internFinder.domain.enumarations.InternshipStatus;
 import internFinder.internFinder.message.ApplicationResponseFile;
-import internFinder.internFinder.message.ResponseFile;
 import internFinder.internFinder.message.ResponseMessage;
 import internFinder.internFinder.service.ApplyAdvertService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @Slf4j
