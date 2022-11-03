@@ -24,7 +24,7 @@
                  
                     <a>
                         <img src="{{profile.profileImageUrl}}" onError="this.src='assets/images/plain-user.png'"
-                            class="avatar img-circle" height="35px" width="40px" [routerLink]="['/users', userEmail]">
+                            class="avatar img-circle" height="35px" width="40px" (click)="toProfile()">
                     </a>
 
                     <h6 style="display:inline">&nbsp;&nbsp;&nbsp;&nbsp;</h6>
@@ -39,7 +39,7 @@
                             <li style='padding:5px' class="dropdown-submenu">({{userEmail}})</li>
                             <li class="dropdown-divider"></li>
                             <button class="btn btn-outline-secondary dropdown-item"
-                                [routerLink]="['/users', userEmail]"><i class="far fa-user-circle"></i>&nbsp;&nbsp;Profile </button>
+                                 (click)="toProfile"><i class="far fa-user-circle"></i>&nbsp;&nbsp;Profile </button>
                             <li class="dropdown-divider"></li>
                             <!-- <li style='padding:5px' class="dropdown-submenu">Settings</li> -->
 

@@ -26,7 +26,7 @@ export class InternshipsComponent implements OnInit {
   category: Boolean = false;
 
   username!: string;
-  loading = false;
+  loading = true;
   searchText: string = '';
   filterText: string = '';
 
@@ -72,6 +72,7 @@ export class InternshipsComponent implements OnInit {
     this.getAdvertsPotedByMe();
     this.fileInfos = this.postInternshipService.getFiles();
 
+    
 
   }
   getAdvertsPotedByMe(): void {
@@ -79,6 +80,8 @@ export class InternshipsComponent implements OnInit {
     this.postInternshipService.getFiles().subscribe(
       (res) => {
         this.allPostedInternships = res;
+               this.loading = false;
+
         console.log("all internhsip posted are", this.allPostedInternships)
 
         this.allPostedInternships.forEach((internship: any) => {
@@ -99,7 +102,6 @@ export class InternshipsComponent implements OnInit {
 
           }
 
-          this.loading = false;
 
         })
         console.log("Length of internships posted by me", this.internshipsPostedByMe.length)
@@ -124,6 +126,7 @@ export class InternshipsComponent implements OnInit {
           })
         }
 
+
       },
       (err) => { console.log("error fetching all internhips", err) }
     )
@@ -134,9 +137,9 @@ export class InternshipsComponent implements OnInit {
     this.postInternshipService.getFiles().subscribe(
       (res) => {
         this.loading = true;
-        this.loading = false;
         console.log("Found all internships ", res)
         this.allInternships = res;
+
         console.log("Found all internships testing ", this.allInternships)
 
 
@@ -150,6 +153,10 @@ export class InternshipsComponent implements OnInit {
             this.internships.push(internship)
           }
         })
+        console.log("Found ********88 testing ", this.internships)
+                this.loading = false;
+
+
         let date = new Date().toJSON().slice(0, 10);
         console.log("Found active internships ", this.internships)
         this.internships.forEach((internship: any) => {

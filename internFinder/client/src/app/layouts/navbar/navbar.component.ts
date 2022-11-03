@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Route } from '@angular/router';
+import { ActivatedRoute, Route } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { Authority } from 'src/app/entities/users/user-bio-model';
@@ -15,6 +15,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     protected userService: UserService,
     public router: Router,
+    protected route: ActivatedRoute,
+
     
   ) { }
 
@@ -46,6 +48,7 @@ export class NavbarComponent implements OnInit {
     companyLogo:'',
 
   }
+  itsMe!: boolean;
 
   ngOnInit(): void {
     this.router.events.subscribe(event => {
@@ -56,11 +59,30 @@ export class NavbarComponent implements OnInit {
         {
           this.showNavbar=true;
           this.getCurrentUser();
-          
+          console.log("Current route testine email is",this.userEmail)
+
+          if(this.currentRouteUrl.includes(this.userEmail)){
+            this.itsMe = true
+          }
+
+        
         }
       }
     });
+  
     
+    
+  }
+  toProfile(): void{
+   // [routerLink]="['/users', userEmail]"
+//window.location.reload();
+    this.router.navigate(['/users', this.userEmail])
+    this.userEmail=JSON.parse(localStorage.getItem('currentUser')!).email;
+
+    this.router.navigate(['/users', this.userEmail])
+
+
+
   }
 
   getCurrentUser(): void{

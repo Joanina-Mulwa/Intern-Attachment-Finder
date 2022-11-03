@@ -68,14 +68,16 @@ export class InternshipDetailComponent implements OnInit {
     this.getCurrentLoggedInUsername();
     this.checkIfAppliedByMe();
 
-
+    // setTimeout(() => {
+    //   this.getJobListingText()
+    // }, 1000);
   }
 
-//   calculateDiff(dateSent: any){
-//     let currentDate = new Date();
-//     dateSent = this.companyDetails?.createdOn;
-//     return Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate()) ) /(1000 * 60 * 60 * 24));
-// }
+  //   calculateDiff(dateSent: any){
+  //     let currentDate = new Date();
+  //     dateSent = this.companyDetails?.createdOn;
+  //     return Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate()) ) /(1000 * 60 * 60 * 24));
+  // }
 
 
 
@@ -109,7 +111,7 @@ export class InternshipDetailComponent implements OnInit {
         if (res.authority === Authority.EMPLOYER) {
           this.isEmployer = true;
         }
-        else if (res.authority === Authority.STUDENT){
+        else if (res.authority === Authority.STUDENT) {
           this.isEmployer = false;
         }
       },
@@ -131,17 +133,17 @@ export class InternshipDetailComponent implements OnInit {
         let currentDate = new Date(new Date().toJSON().slice(0, 10))
         var createdOn = new Date(res.createdOn);
         // To calculate the time difference of two dates
-        var differenceInTime = currentDate.getTime() - createdOn.getTime();          
+        var differenceInTime = currentDate.getTime() - createdOn.getTime();
         // To calculate the no. of days between two dates
-         this.differenceInDays = differenceInTime / (1000 * 3600 * 24);
- 
- 
-         console.log("the New creation daTE IS ", createdOn)
-         console.log("todays date is ", currentDate)
-         console.log("Difference in dayS ", this.differenceInDays)
-         console.log("Difference in time ", differenceInTime)
+        this.differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
-        
+
+        console.log("the New creation daTE IS ", createdOn)
+        console.log("todays date is ", currentDate)
+        console.log("Difference in dayS ", this.differenceInDays)
+        console.log("Difference in time ", differenceInTime)
+
+
 
 
         // res.type = `data:${res.type};base64,`
@@ -183,7 +185,7 @@ export class InternshipDetailComponent implements OnInit {
           var blob = new Blob([arrrayBuffer], { type: res.type });
           this.srcDOC = window.URL.createObjectURL(blob);
 
-           console.log("Testing doc ***********", this.srcDOC)
+          console.log("Testing doc ***********", this.srcDOC)
 
 
         }
@@ -257,6 +259,43 @@ export class InternshipDetailComponent implements OnInit {
     )
 
   }
+  getJobListingText() {
+    console.log("=========================");
+    console.log("+++++", this.internshipDetail.url);
+    
+    
+    this.gettext(this.internshipDetail.url).then(function (text: string) {
+      console.log('parse ' + text);
+    },
+      function (reason: string) {
+        console.error(reason);
+      });
+  }
+  gettext(pdfUrl: string) {
+    //@ts-ignore
+    var pdf = window.pdfjsLib.getDocument(pdfUrl);
+    return pdf.promise.then(function (pdf: any) { // get all pages text
+      var maxPages = pdf.numPages;
+      var countPromises = []; // collecting all page promises
+      for (var j = 1; j <= maxPages; j++) {
+        var page = pdf.getPage(j);
+
+        var txt = "";
+        countPromises.push(page.then(function (page: any) { // add page promise
+          var textContent = page.getTextContent();
+          return textContent.then(function (text: any) { // return content promise
+            return text.items.map(function (s: any) { return s.str; }).join(''); // value page text 
+          });
+        }));
+      }
+      // Wait for all pages and join text
+      return Promise.all(countPromises).then(function (texts) {
+        return texts.join('');
+      });
+    });
+  }
+
+
 
 
   //  findAllinternships():void{

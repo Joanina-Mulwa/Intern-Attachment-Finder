@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { request } from 'http';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { UserService } from 'src/app/services/user.service';
@@ -21,8 +22,9 @@ export class ApplicantsComponent implements OnInit {
     protected postInternship: PostInternshipService
   ) { }
 
+
   currentInternshipId!: number;
-  currentInternshipApplications?: ApplyInternship[];
+  currentInternshipApplications?: any[];
   applicantsEmailsOfCurrentInternship: any[] = [];
   applicantsDetails: UserBio[] = [];
   shortlistedApplicantsDetails: UserBio[] = [];
@@ -38,6 +40,8 @@ export class ApplicantsComponent implements OnInit {
   internshipDetails?: any;
   allApplications?: ApplyInternship[];
   internship!: PostInternship;
+  extractedAdvertText: any;
+  extractedResume:any;
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -47,7 +51,10 @@ export class ApplicantsComponent implements OnInit {
     });
     this.getApplicationsByInternshipId()
     this.getCurrentInternshipDetails();
-    this.getShortlistedApplications();
+    setTimeout(() => {
+      this.getJobListingText();
+      this.getShortlistedApplications();
+    }, 1000);
   }
 
   getCurrentInternshipDetails(): void {
@@ -60,46 +67,133 @@ export class ApplicantsComponent implements OnInit {
 
     )
   }
+  getJobListingText() {
+    console.log("=========================");
+    console.log("+++++", this.internshipDetails.url);
+
+
+    this.gettext(this.internshipDetails.url).then( (text: string) => {
+      this.extractedAdvertText = text;
+      console.log('Advert text ' + this.extractedAdvertText);
+    },
+      function (reason: string) {
+        console.error(reason);
+      }
+    );
+  }
+  gettext(pdfUrl: string) {
+    //@ts-ignore
+    var pdf = window.pdfjsLib.getDocument(pdfUrl);
+    return pdf.promise.then(function (pdf: any) { // get all pages text
+      var maxPages = pdf.numPages;
+      var countPromises = []; // collecting all page promises
+      for (var j = 1; j <= maxPages; j++) {
+        var page = pdf.getPage(j);
+
+        var txt = "";
+        countPromises.push(page.then(function (page: any) { // add page promise
+          var textContent = page.getTextContent();
+          return textContent.then(function (text: any) { // return content promise
+            return text.items.map(function (s: any) { return s.str; }).join(''); // value page text 
+          });
+        }));
+      }
+      // Wait for all pages and join text
+      return Promise.all(countPromises).then(function (texts) {
+        return texts.join('');
+      });
+    });
+  }
   getShortlistedApplications(): void {
-    this.loading = true;
-    this.appliedInternship.getApplicationsByInternshipId(this.currentInternshipId).subscribe(
-      (res) => {
-        this.allApplications = res;
-        console.log("Here are all the applications", this.allApplications);
+    // Get a list of applicants
+    console.log("_+_+_+", this.currentInternshipApplications);
 
-        this.postInternship.findAdvertById(this.currentInternshipId).subscribe(
-          (res) => {
-            this.internship = res;
-            console.log("Here is the internship posted", this.internship);
+    // For each applicant extract their skills (api call to superparser)
 
+    this.currentInternshipApplications?.forEach(async (applicationResume) => {
+
+      var arrrayBuffer = base64ToArrayBuffer(applicationResume.data); //data is the base64 encoded string
+      function base64ToArrayBuffer(base64: string) {
+        var binaryString = window.atob(base64);
+        var binaryLen = binaryString.length;
+        var bytes = new Uint8Array(binaryLen);
+        for (var i = 0; i < binaryLen; i++) {
+          var ascii = binaryString.charCodeAt(i);
+          bytes[i] = ascii;
+        }
+        return bytes;
+      }
+      var pdf = new File([arrrayBuffer], applicationResume.name, { type: applicationResume.type });
+      console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        const fd = new FormData()
+        fd.append('file', pdf)
+      
+        // send `POST` request
+        fetch('https://api.superparser.com/parse', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'M5yJvp0Ow8ai9cMhmWiFt8x46wqpaguU6qw7Igj1',
+            'x-api-key': 'M5yJvp0Ow8ai9cMhmWiFt8x46wqpaguU6qw7Igj1',
           },
-          (err) => { console.log("Internship not found") }
-        )
-
-        this.allApplications?.forEach((application: any) => {
-          //get applicants detaisl
-          this.userService.findByEmail(application.appliedBy).subscribe(
-            (res) => {
-              
-              console.log("Found this :", res)
-              //begin shortlisting
-              if (res.programme === this.internship?.minimumQualification) {
-                // if(this.internship?.experienceLevel === application.experienceLevel.value){
-                this.shortlistedApplicantsDetails = application;
-                // } 
-              }
-
-            },
-            (err) => { console.log("Error", err) }
-          )
-
-
+          body: fd,
         })
+          .then(res => res.json())
+          .then((json) => {
+            this.extractedResume = json;
+            console.log("here",this.extractedResume)
+          })
+          .catch(err => console.error(err))
+      // compare the extracted skills with the advert text
+      
+
+    })
+
+    //  this.currentInternshipApplications?.map((application: any)=>{
+    //   const resumeURL = application.url
+    //  })
+    // return
 
 
-      },
-      (err) => { console.log("Applications not found") }
-    )
+
+    // this.loading = true;
+    // this.appliedInternship.getApplicationsByInternshipId(this.currentInternshipId).subscribe(
+    //   (res) => {
+    //     this.allApplications = res;
+    //     console.log("Here are all the applications", this.allApplications);
+
+    //     this.postInternship.findAdvertById(this.currentInternshipId).subscribe(
+    //       (res) => {
+    //         this.internship = res;
+    //         console.log("Here is the internship posted", this.internship);
+
+    //       },
+    //       (err) => { console.log("Internship not found") }
+    //     )
+
+    //     this.allApplications?.forEach((application: any) => {
+    //       //get applicants detaisl
+    //       this.userService.findByEmail(application.appliedBy).subscribe(
+    //         (res) => {
+
+    //           console.log("Found this :", res)
+    //           //begin shortlisting
+    //           if (res.programme === this.internship?.minimumQualification) {
+    //             // if(this.internship?.experienceLevel === application.experienceLevel.value){
+    //             this.shortlistedApplicantsDetails = application;
+    //             // } 
+    //           }
+
+    //         },
+    //         (err) => { console.log("Error", err) }
+    //       )
+
+
+    //     })
+
+
+    //   },
+    //   (err) => { console.log("Applications not found") }
+    // )
   }
 
   getApplicationsByInternshipId(): void {
@@ -109,6 +203,7 @@ export class ApplicantsComponent implements OnInit {
         this.loading = false;
         console.log("found the following applications", res)
         this.currentInternshipApplications = res;
+        //this.getShortlistedApplications();
         //get emails of applicants
         this.currentInternshipApplications?.forEach((currentInternshipApplication) => {
           this.applicantsEmailsOfCurrentInternship.push(currentInternshipApplication.appliedBy)
@@ -186,9 +281,9 @@ export class ApplicantsComponent implements OnInit {
                 if (pendingApplicantDetails.skills) {
                   pendingApplicantDetails.skillsList = pendingApplicantDetails.skills.split(",");
                 }
-})
+              })
               console.log("pending Applicants details are, ", this.pendingApplicantsDetails)
-            },(err) => { console.log("Error fetching pending applicants details") }
+            }, (err) => { console.log("Error fetching pending applicants details") }
           )
         })
       },
@@ -207,12 +302,12 @@ export class ApplicantsComponent implements OnInit {
         console.log("lets see:", this.searchApplicantsDetails)
 
         this.searchApplicantsDetails.forEach((searchApplicantsDetail: any) => {
-          if(searchApplicantsDetail.internshipId === this.currentInternshipId){
+          if (searchApplicantsDetail.internshipId === this.currentInternshipId) {
             if (searchApplicantsDetail.skills) {
               searchApplicantsDetail.skillsList = searchApplicantsDetail.skills.split(",");
 
             }
-            this.applicantsDetails=[];
+            this.applicantsDetails = [];
             this.applicantsDetails.push(searchApplicantsDetail)
             console.log("Search produces users:", this.applicantsDetails)
 

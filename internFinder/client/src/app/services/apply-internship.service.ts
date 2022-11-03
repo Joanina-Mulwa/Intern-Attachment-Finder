@@ -2,20 +2,24 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
+import { Request, Response, NextFunction } from 'express';
 @Injectable({
   providedIn: 'root'
 })
 export class ApplyInternshipService {
 
   constructor(
-    protected httpClient: HttpClient
+    protected httpClient: HttpClient,
   ) { } 
   private API_ENDPOINT = 'http://localhost:8080';
 
   // applyInternship(application: any): Observable<any>{
   //   return this.httpClient.post<any> (this.API_ENDPOINT + "/api/applyInternship" , application)
   // }
+  pasrseApplicationResume(file: File): Observable<any>{
+
+    return this.httpClient.post<any>("https://api.superparser.com/parse", file )
+  }
 
   // updateInternshipApplication(application: any): Observable<any>{
   //   return this.httpClient.put<any> (this.API_ENDPOINT + "/api/updateInternshipApplication", application)
@@ -63,6 +67,7 @@ export class ApplyInternshipService {
    // downloadApplicationById(id: number): Observable<any> {
   //   return this.httpClient.get(`${this.apiServerURL}/api/downloadApplicationById`+id);
   // }
+ 
 
   updateApplication(applicationDetails: any): Observable<any> {
     const formData: FormData = new FormData();

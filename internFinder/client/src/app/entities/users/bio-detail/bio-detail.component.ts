@@ -57,7 +57,7 @@ export class BioDetailComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.userEmail = params['email'];
-      console.log("We want to view profile of ", this.userEmail)
+      console.log("We want to view profile email of ", this.userEmail)
     });
     this.checkIfMe();
      // this.getAppliedInternshipByMe();
@@ -220,19 +220,19 @@ export class BioDetailComponent implements OnInit {
 
   back(): void {
     window.history.back();
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.currentRouteUrl = event.url;
-        console.log("here Current route is", this.currentRouteUrl)
-        if (this.currentRouteUrl != "/") {
-          this.showNavbar = true;
-        }
-        else {
-          this.showNavbar = false;
-          window.location.reload();
-        }
-      }
-    });
+    // this.router.events.subscribe(event => {
+    //   if (event instanceof NavigationEnd) {
+    //     this.currentRouteUrl = event.url;
+    //     console.log("here Current route is", this.currentRouteUrl)
+    //     if (this.currentRouteUrl != "/") {
+    //       this.showNavbar = true;
+    //     }
+    //     else {
+    //       this.showNavbar = false;
+    //       window.location.reload();
+    //     }
+    //   }
+    // });
   }
 
   softDelete(title: any, id: any): void {
