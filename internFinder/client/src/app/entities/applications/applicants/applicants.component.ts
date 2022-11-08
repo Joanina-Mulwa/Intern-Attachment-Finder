@@ -36,6 +36,8 @@ export class ApplicantsComponent implements OnInit {
   shortlistedApplicantsDetails: UserBio[] = [];
   searchApplicantsDetails!: any[];
   loading: boolean = false;
+  loadingShortlisted: boolean = true;
+
   searchText: string = '';
   approvedApplicationForcurrentInternship?: ApplyInternship[] = [];
   rejectedApplicationForcurrentInternship?: ApplyInternship[] = [];
@@ -51,7 +53,6 @@ export class ApplicantsComponent implements OnInit {
   requirementMatchComparison: MatchComparisonModel[] = [];
   sortedArray: MatchComparisonModel[] = [];
   recommendedArray: MatchComparisonModel[] = [];
-  applicationStatus!: string;
 
 
 
@@ -66,7 +67,6 @@ export class ApplicantsComponent implements OnInit {
     this.getCurrentInternshipDetails();
     setTimeout(() => {
       this.getJobListingText();
-      this.extractResume();
     }, 1000);
   }
 
@@ -81,12 +81,15 @@ export class ApplicantsComponent implements OnInit {
     )
   }
   getJobListingText() {
+    this.loadingShortlisted = true;
     console.log("=========================");
     console.log("+++++", this.internshipDetails.url);
 
 
     this.gettext(this.internshipDetails.url).then((text: string) => {
       this.extractedAdvertText = text;
+      this.extractResume();
+
     },
       function (reason: string) {
         console.error(reason);
@@ -94,6 +97,7 @@ export class ApplicantsComponent implements OnInit {
     );
   }
   gettext(pdfUrl: string) {
+    this.loadingShortlisted = true;
     //@ts-ignore
     var pdf = window.pdfjsLib.getDocument(pdfUrl);
     return pdf.promise.then(function (pdf: any) { // get all pages text
@@ -118,11 +122,14 @@ export class ApplicantsComponent implements OnInit {
   }
 
   extractResume(): void {
+    this.loadingShortlisted = true;
 
     // Get a list of applicants
     console.log("_+_+_+", this.currentInternshipApplications);
 
     // For each applicant extract their resume (api call to superparser)
+    var itemsProcessed = 0;
+    var totalItemsToBeProcessed = this.currentInternshipApplications?.length;
 
     this.currentInternshipApplications?.forEach(async (applicationResume) => {
 
@@ -146,8 +153,8 @@ export class ApplicantsComponent implements OnInit {
       fetch('https://api.superparser.com/parse', {
         method: 'POST',
         headers: {
-          'Authorization': 'tgDssCbA7g6nZZlwJNEGE7sBsD4wyvsV8W63AVdb',
-          'x-api-key': 'tgDssCbA7g6nZZlwJNEGE7sBsD4wyvsV8W63AVdb',
+          'Authorization': 'd5HSl0XP5k53MzTGOygatPLH3smwSx31VqfMjg5h',
+          'x-api-key': 'd5HSl0XP5k53MzTGOygatPLH3smwSx31VqfMjg5h',
         },
         body: fd,
       })
@@ -175,24 +182,20 @@ export class ApplicantsComponent implements OnInit {
           //push match points to array
 
           this.requirementMatchComparison.push({ email, matchCount })
+          itemsProcessed++;
+          console.log("processed", itemsProcessed);
+          console.log("total", totalItemsToBeProcessed);
+    
+          
+          if (itemsProcessed === totalItemsToBeProcessed) {
+            //compare and get the top three candidates
+            this.getShortlistedApplications();
+          }
 
-
-
-        }).then(res => {
-
-          //compare and get the top three candidates
-          this.getShortlistedApplications();
         })
         .catch(err => console.error(err))
 
-
-
-
-
-
-
-    })
-
+      })
     //  this.currentInternshipApplications?.map((application: any)=>{
     //   const resumeURL = application.url
     //  })
@@ -243,32 +246,9 @@ export class ApplicantsComponent implements OnInit {
   }
 
   getShortlistedApplications(): void {
-    this.loading=true;
+    this.loadingShortlisted = true;
 
     console.log("Comparing", this.requirementMatchComparison);
-
-    // function findThreeLargestNumbers(array: any) {
-    //   const bestThree = [...array].sort((a, b) => b - a).slice(0, 2);
-    //   console.log("The best three found are", bestThree);
-    //   return bestThree;
-
-    // }
-    // const matchCounts = this.requirementMatchComparison.map((obj) => obj.matchCount);
-    // console.log("Array f counts is", matchCounts); // [1, 2, 3]
-    // console.log("Comapring countes now", findThreeLargestNumbers([matchCounts]));
-
-    // const cars = [
-    //   {type:"Volvo", count:2},
-    //   {type:"Saab", count:1},
-    //   {type:"BMW", count:10}
-    // ];
-
-    // program to sort array by property name
-
-    function compareMatchCount(a: any, b: any) {
-
-      return b.matchCount - a.matchCount;
-    }
 
     const students = this.requirementMatchComparison;
     this.sortedArray = students.sort(compareMatchCount);
@@ -284,7 +264,7 @@ export class ApplicantsComponent implements OnInit {
         console.log("students applied have a low count", studentCount);
 
       }
-      else{
+      else {
         this.recommendedArray.push(studentCount);
 
       }
@@ -299,7 +279,8 @@ export class ApplicantsComponent implements OnInit {
 
       this.userService.findByEmail(recommendedStudent.email).subscribe(
         (res) => {
-          this.loading=false;
+          this.loadingShortlisted = false;
+
           this.shortlistedApplicantsDetails.push(res)
           this.shortlistedApplicantsDetails.forEach((recommendedApplicantDetails: any) => {
             if (recommendedApplicantDetails.skills) {
@@ -313,23 +294,12 @@ export class ApplicantsComponent implements OnInit {
 
     })
 
+    function compareMatchCount(a: any, b: any) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+      return b.matchCount - a.matchCount;
+    }
 
   }
-
 
 
   getApplicationsByInternshipId(): void {
@@ -340,11 +310,8 @@ export class ApplicantsComponent implements OnInit {
         console.log("found the following applications", res)
         this.currentInternshipApplications = res;
 
-        //this.getShortlistedApplications();
         //get emails of applicants
         this.currentInternshipApplications?.forEach((currentInternshipApplication) => {
-          this.applicationStatus = currentInternshipApplication.status;
-          console.log("Hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", this.applicationStatus);
 
           this.applicantsEmailsOfCurrentInternship.push(currentInternshipApplication.appliedBy)
           if (currentInternshipApplication.status === Status.APPROVED) {
