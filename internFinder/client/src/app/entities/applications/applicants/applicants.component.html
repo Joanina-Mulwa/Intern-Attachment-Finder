@@ -24,7 +24,8 @@
         <tabset>
             <tab>
                 <ng-template tabHeading>Applications <span *ngIf="currentInternshipApplications?.length != 0"
-                    class="badge badge-pill badge-secondary">{{currentInternshipApplications?.length}}</span></ng-template>
+                        class="badge badge-pill badge-secondary">{{currentInternshipApplications?.length}}</span>
+                </ng-template>
 
                 <div class="donut-wrapper" *ngIf="loading">
                     <div class="donut multi"></div>
@@ -97,12 +98,36 @@
 
                                 </div>
                             </div>
-                            <div class="row m-2 ">
+                            <div class="row">
+                                <div class="pl-5 ml-4 col-md-5">
+
+                                    {{applicationStatus}}
+
+                                </div>
+
+                                <div class="col-12 col-md-6 pe-0 text-end">
+
+                                    <button *ngIf="applicantDetails.userStatus == 'PASSIVE'"
+                                        class="btn btn-outline-primary view"
+                                        [routerLink]="['/applied', currentInternshipId, applicantDetails.email]"
+                                        title="User inactive">View
+                                        Application</button>
+                                    <button *ngIf="applicantDetails.userStatus == 'ACTIVE'"
+                                        class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, applicantDetails.email]">View
+                                        Application</button>
+                                </div>
+                            </div>
+
+                            <div hidden class="row m-2 ">
                                 <!-- <div class="col-md-6">
                                     <button class="btn btn-outline-secondary"
                                         [routerLink]="['/users', applicantDetails.email]">View Profile</button>
                                 </div> -->
-                                <div class="col-md-12 text-end">
+                                <div class="col-md-6 ml-5">
+                                    hrere {{applicationStatus}}
+                                </div>
+                                <div class="col-md-6 text-end">
                                     <button *ngIf="applicantDetails.userStatus == 'PASSIVE'"
                                         class="btn btn-outline-primary view"
                                         [routerLink]="['/applied', currentInternshipId, applicantDetails.email]"
@@ -124,7 +149,8 @@
             </tab>
             <tab>
                 <ng-template tabHeading>Shortlisted <span *ngIf="shortlistedApplicantsDetails.length != 0"
-                    class="badge badge-pill badge-secondary">{{shortlistedApplicantsDetails.length}}</span></ng-template>
+                        class="badge badge-pill badge-secondary">{{shortlistedApplicantsDetails.length}}</span>
+                </ng-template>
 
                 <div class="donut-wrapper" *ngIf="loading">
                     <div class="donut multi"></div>
@@ -155,7 +181,7 @@
                                                 font-weight="bold">{{shortlistedApplicantDetails?.email?.slice(0, 1) |
                                                 uppercase}}</text>
                                         </svg>
-                                      
+
                                     </div>
                                     <div class="STUDENT col-md-10 col-10">
                                         <div class="row">
@@ -176,7 +202,7 @@
                                         </div>
                                         <p>{{shortlistedApplicantDetails.email}}</p>
 
-                                        <div>
+                                        <div hidden>
                                             <div class="alert alert-secondary tech-secondary p-1 mx-1"
                                                 *ngFor="let skill of shortlistedApplicantDetails.skillsList"
                                                 [innerHTML]="skill">
@@ -185,22 +211,55 @@
 
                                             </div>
                                         </div>
+                                        <p style="display: inline" class="details">
+                                            {{shortlistedApplicantDetails.course}}
+                                        </p>
+                                        <div></div>
+                                        <p style="display: inline" class="details">Level:
+                                            {{shortlistedApplicantDetails.programme}}</p>
 
                                     </div>
 
                                 </div>
                             </div>
-                            <div class="row m-2 ">
-                               
-                                <div class="col-md-12 text-end">
-                                    <button *ngIf="shortlistedApplicantDetails.userStatus == 'PASSIVE'" class="btn btn-outline-primary view"
-                                    [routerLink]="['/applied', currentInternshipId, shortlistedApplicantDetails.email]"
-                                    title="User inactive">View
-                                    Application</button>
-                                <button *ngIf="shortlistedApplicantDetails.userStatus == 'ACTIVE'" class="btn btn-outline-primary"
-                                    [routerLink]="['/applied', currentInternshipId, shortlistedApplicantDetails.email]"
-                                    title="User inactive">View
-                                    Application</button>
+                            <div class="row">
+                                <div class="pl-5 ml-4 col-md-5">
+
+                                    {{applicationStatus}}
+
+                                </div>
+
+                                <div class="col-12 col-md-6 pe-0 text-end">
+
+                                    <button *ngIf="shortlistedApplicantDetails.userStatus == 'PASSIVE'"
+                                        class="btn btn-outline-primary view"
+                                        [routerLink]="['/applied', currentInternshipId, shortlistedApplicantDetails.email]"
+                                        title="User inactive">View
+                                        Application</button>
+                                    <button *ngIf="shortlistedApplicantDetails.userStatus == 'ACTIVE'"
+                                        class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, shortlistedApplicantDetails.email]"
+                                        title="User inactive">View
+                                        Application</button>
+                                </div>
+                            </div>
+
+                            <div hidden class="row m-2 ">
+                                <div class="col-md-6 ml-5">
+                                    here {{applicationStatus}}
+                                </div>
+                                <div class="col-md-6 text-end">
+
+                                    <button *ngIf="shortlistedApplicantDetails.userStatus == 'PASSIVE'"
+                                        class="btn btn-outline-primary view"
+                                        [routerLink]="['/applied', currentInternshipId, shortlistedApplicantDetails.email]"
+                                        title="User inactive">View
+                                        Application</button>
+                                    <button *ngIf="shortlistedApplicantDetails.userStatus == 'ACTIVE'"
+                                        class="btn btn-outline-primary"
+                                        [routerLink]="['/applied', currentInternshipId, shortlistedApplicantDetails.email]"
+                                        title="User inactive">View
+                                        Application</button>
                                 </div>
                             </div>
                         </div>
@@ -216,7 +275,8 @@
 
             <tab>
                 <ng-template tabHeading>Approved <span *ngIf="approvedApplicantsDetails.length != 0"
-                    class="badge badge-pill badge-secondary">{{approvedApplicantsDetails.length}}</span></ng-template>
+                        class="badge badge-pill badge-secondary">{{approvedApplicantsDetails.length}}</span>
+                </ng-template>
 
                 <div class="donut-wrapper" *ngIf="loading">
                     <div class="donut multi"></div>
@@ -326,7 +386,8 @@
 
             <tab>
                 <ng-template tabHeading>Rejected <span *ngIf="rejectedApplicantsDetails.length != 0"
-                    class="badge badge-pill badge-secondary">{{rejectedApplicantsDetails.length}}</span></ng-template>
+                        class="badge badge-pill badge-secondary">{{rejectedApplicantsDetails.length}}</span>
+                </ng-template>
 
                 <div class="donut-wrapper" *ngIf="loading">
                     <div class="donut multi"></div>
@@ -434,7 +495,8 @@
             </tab>
             <tab>
                 <ng-template tabHeading>Pending <span *ngIf="pendingApplicantsDetails.length != 0"
-                    class="badge badge-pill badge-secondary">{{pendingApplicantsDetails.length}}</span></ng-template>
+                        class="badge badge-pill badge-secondary">{{pendingApplicantsDetails.length}}</span>
+                </ng-template>
 
                 <div class="donut-wrapper" *ngIf="loading">
                     <div class="donut multi"></div>
