@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { request } from 'http';
+import { createReadStream, writeFile } from 'fs';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { UserService } from 'src/app/services/user.service';
-import { threadId } from 'worker_threads';
 import { ApplyInternship, Status } from '../../apply-internship/apply-internship-model';
 import { MinimumQualification, PostInternship } from '../../post-internships/post-internship-model';
 import { Programme, UserBio } from '../../users/user-bio-model';
 import { MatchComparisonModel } from './matchComparisonModel';
+import { ResumeSearchParameters } from '@affinda/affinda';
 
 @Component({
   selector: 'app-applicants',
@@ -49,10 +49,18 @@ export class ApplicantsComponent implements OnInit {
   extractedAdvertText: any;
   extractedResume: any;
   extractedResumeSkills?: any[];
+  extractedJobDescriptionSkills?: any[];
+  extractedResumeDescriptionSkills?: any;
+  extractedJobIdentifier?: any;
+  extractedResumeIdentifier?: any;
+  shortlistedApplicantsArray?: any[] = [];
+  shortlistedApplicantsDetailsArray?: any[] = []
+
   requirementCountMatch: number = 0;
   requirementMatchComparison: MatchComparisonModel[] = [];
   sortedArray: MatchComparisonModel[] = [];
   recommendedArray: MatchComparisonModel[] = [];
+
 
 
 
@@ -63,10 +71,10 @@ export class ApplicantsComponent implements OnInit {
       console.log("We want to view profile of internship ", this.currentInternshipId)
 
     });
-    this.getApplicationsByInternshipId()
     this.getCurrentInternshipDetails();
+    this.getApplicationsByInternshipId()
     setTimeout(() => {
-      this.getJobListingText();
+      //this.getJobListingText();
     }, 1000);
   }
 
@@ -75,10 +83,154 @@ export class ApplicantsComponent implements OnInit {
       (res) => {
         this.internshipDetails = res;
         console.log("This interenship was posted by", this.internshipDetails)
+        this.getJobDescription();
+
       },
       (err) => { console.log("error fetching internship details") }
 
     )
+  }
+  getJobDescription(): void {
+    console.log("***^^^^^^^^^^%%%%%%%%%%url to our file", this.internshipDetails.url);
+
+
+    const { AffindaCredential, AffindaAPI } = require("@affinda/affinda");
+
+    const credential = new AffindaCredential("02bfae960b3de66b98010fb3e18fc34ab0996c89")
+    const client = new AffindaAPI(credential)
+
+    var arrrayBuffer = base64ToArrayBuffer(this.internshipDetails.data); //data is the base64 encoded string
+    function base64ToArrayBuffer(base64: string) {
+      var binaryString = window.atob(base64);
+      var binaryLen = binaryString.length;
+      var bytes = new Uint8Array(binaryLen);
+      for (var i = 0; i < binaryLen; i++) {
+        var ascii = binaryString.charCodeAt(i);
+        bytes[i] = ascii;
+      }
+      return bytes;
+    }
+    var blob = new Blob([arrrayBuffer], { type: "application/pdf" });
+
+    console.log("$$$$$$$$$$$$$$$", blob);
+
+    console.time("User Login")
+    client.createJobDescription({ file: blob }).then((result: any) => {
+      console.log("Returned job data:");
+      console.dir(result)
+      console.log("Returned job data skills only:");
+      console.timeEnd("User Login")
+      this.extractedJobDescriptionSkills = result.data.skills;
+      this.extractedJobIdentifier = result.meta.identifier;
+
+      console.log("Returned job identifier:", this.extractedJobIdentifier);
+
+      console.dir(this.extractedJobDescriptionSkills)
+      this.getResumeDescription();
+    }).catch((err: any) => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+
+    // Can also use a URL:
+
+    //  client.createJobDescription({url: "https://api.affinda.com/static/sample_job_descriptions/example.pdf"}).then((result) => {
+    //      console.log("Returned data:");
+    //      console.dir(result)
+    //  }).catch((err) => {
+    //      console.log("An error occurred:");
+    //      console.error(err);
+    //  });
+
+
+
+  }
+  getResumeDescription(): void {
+    this.loadingShortlisted = true;
+    console.time("End of parser")
+    // Get a list of applicants
+    console.log("_+_+_+", this.currentInternshipApplications);
+
+    const { AffindaCredential, TokenCredential, AffindaAPI } = require("@affinda/affinda/");
+
+    const credential = new AffindaCredential("02bfae960b3de66b98010fb3e18fc34ab0996c89")
+    const client = new AffindaAPI(credential)
+
+    // For each applicant extract their resume (api call to superparser)
+    var itemsProcessed = 0;
+    var totalItemsToBeProcessed = this.currentInternshipApplications?.length;
+    console.log("The total number of applications is :", totalItemsToBeProcessed);
+
+    this.currentInternshipApplications?.forEach(async (applicationResume) => {
+      var arrrayBuffer = base64ToArrayBuffer(applicationResume.data); //data is the base64 encoded string
+      function base64ToArrayBuffer(base64: string) {
+        var binaryString = window.atob(base64);
+        var binaryLen = binaryString.length;
+        var bytes = new Uint8Array(binaryLen);
+        for (var i = 0; i < binaryLen; i++) {
+          var ascii = binaryString.charCodeAt(i);
+          bytes[i] = ascii;
+        }
+        return bytes;
+      }
+      var blob = new Blob([arrrayBuffer], { type: "application/pdf" });
+      console.log("$$$$$$$$$$$$$$$2222222222", blob);
+
+      client.createResume({ file: blob }).then((result: any) => {
+        console.log("Returned resume data:");
+        this.extractedResumeIdentifier = result.meta.identifier;
+        console.dir(result);
+        //Matchiing
+
+        const resumeIdentifier = this.extractedResumeIdentifier;
+        const jobDescriptionIdentifier = this.extractedJobIdentifier;
+        //const indexName = "REPLACE_INDEX_NAME" // Optional
+
+        client.getResumeSearchMatch(resumeIdentifier, jobDescriptionIdentifier).then((result: any) => {
+          console.log("Returned match data:");
+          console.dir(result);
+          itemsProcessed++;
+          console.log("The processed number of applications is :", itemsProcessed);
+
+          if (result.score >= 0.5) {
+            this.shortlistedApplicantsArray?.push(applicationResume);
+          }
+          if (itemsProcessed === totalItemsToBeProcessed) {
+            //compare and get the top three candidates
+            console.log("These are the final students recommended", this.shortlistedApplicantsArray);
+            //get the recommended student details
+            console.timeEnd("End of parser")
+
+            this.shortlistedApplicantsArray?.forEach((recommendedStudent) => {
+
+              this.userService.findByEmail(recommendedStudent.appliedBy).subscribe(
+                (res) => {
+                  this.loadingShortlisted = false;
+
+                  this.shortlistedApplicantsDetails.push(res)
+                
+                  console.log("Final recommended student applications, ", this.shortlistedApplicantsDetails)
+                },
+                (err) => { console.log("Error fetching recommednded applicants details") }
+              )
+
+            })
+
+          }
+        }).catch((err: any) => {
+          console.log("An error occurred while matching:")
+          console.error(err)
+        });
+
+      }).catch((err: any) => {
+        console.log("An error occurred while creating parse:");
+        console.error(err);
+      });
+    });
+    console.log("The final final processed number of applications is :", itemsProcessed);
+
+
+
   }
   getJobListingText() {
     this.loadingShortlisted = true;
@@ -88,6 +240,8 @@ export class ApplicantsComponent implements OnInit {
 
     this.gettext(this.internshipDetails.url).then((text: string) => {
       this.extractedAdvertText = text;
+      console.log("Extracted Resume", this.extractedResume)
+
       this.extractResume();
 
     },
@@ -153,15 +307,15 @@ export class ApplicantsComponent implements OnInit {
       fetch('https://api.superparser.com/parse', {
         method: 'POST',
         headers: {
-          'Authorization': 'd5HSl0XP5k53MzTGOygatPLH3smwSx31VqfMjg5h',
-          'x-api-key': 'd5HSl0XP5k53MzTGOygatPLH3smwSx31VqfMjg5h',
+          'Authorization': 'wdZOdkP5qjKwqmONU0hV6po4nRpnAZm7z2B5WfVf',
+          'x-api-key': 'wdZOdkP5qjKwqmONU0hV6po4nRpnAZm7z2B5WfVf',
         },
         body: fd,
       })
         .then(res => res.json())
         .then((json) => {
           this.extractedResume = json;
-          console.log("Extracted Resume", this.extractedResume)
+          //console.log("Extracted Resume", this.extractedResume)
           // Extract resume skills
           this.extractedResumeSkills = this.extractedResume.data.skills.overall_skills;
           console.log("Skills", this.extractedResumeSkills);
@@ -171,10 +325,12 @@ export class ApplicantsComponent implements OnInit {
 
           this.extractedResumeSkills?.forEach((resumeSkill) => {
             if (this.extractedAdvertText.includes(resumeSkill)) {
-              this.requirementCountMatch = this.requirementCountMatch + 1;
+              this.requirementCountMatch += 1;
             }
           })
-          console.log("final requirement count match is ", this.requirementCountMatch)
+          console.log("ijsdj9399999999999999999---------------")
+          console.table({ name: applicationResume.name, matched: this.requirementCountMatch });
+
 
           const email = applicationResume?.appliedBy;
           const matchCount = this.requirementCountMatch;
@@ -185,8 +341,8 @@ export class ApplicantsComponent implements OnInit {
           itemsProcessed++;
           console.log("processed", itemsProcessed);
           console.log("total", totalItemsToBeProcessed);
-    
-          
+
+
           if (itemsProcessed === totalItemsToBeProcessed) {
             //compare and get the top three candidates
             this.getShortlistedApplications();
@@ -195,7 +351,7 @@ export class ApplicantsComponent implements OnInit {
         })
         .catch(err => console.error(err))
 
-      })
+    })
     //  this.currentInternshipApplications?.map((application: any)=>{
     //   const resumeURL = application.url
     //  })
@@ -309,7 +465,7 @@ export class ApplicantsComponent implements OnInit {
         this.loading = false;
         console.log("found the following applications", res)
         this.currentInternshipApplications = res;
-
+        //this.getResumeDescription();
         //get emails of applicants
         this.currentInternshipApplications?.forEach((currentInternshipApplication) => {
 

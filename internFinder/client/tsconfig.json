@@ -21,8 +21,15 @@
     "lib": [
       "es2020",
       "dom"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
     ]
   },
+  "include": [
+    "./db/**/*",
+    "./src/**/*"
+  ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
