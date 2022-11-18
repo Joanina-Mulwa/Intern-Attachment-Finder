@@ -245,7 +245,7 @@
                                         <div class="row mb-3">
                                             <div>
                                                 <div class="row">
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-6">
                                                         <label for="advert">
                                                             <p style="display:inline">Attach or drag & drop advert
                                                                 <small>(pdf, docx, image, short video)</small>
@@ -253,39 +253,93 @@
                                                         </label>
                                                     </div>
 
-                                                    <div *ngIf="currentFile" class="progress col-md-3">
-                                                        <div class="progress-bar progress-bar-info progress-bar-striped"
-                                                            role="progressbar" attr.aria-valuenow="{{ progress }}"
-                                                            aria-valuemin="0" aria-valuemax="100"
-                                                            [ngStyle]="{ width: progress + '%' }">
-                                                            {{ progress }}%
+
+                                                    <div class="milestoneProgress col-md-3">
+                                                        <div *ngIf="progressBar === 5" class="progress"
+                                                            style="height: 20px">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 5%" aria-valuenow="5" aria-valuemin="0"
+                                                                aria-valuemax="100">
+                                                                5%
+                                                            </div>
                                                         </div>
+                                                        <div *ngIf="progressBar === 15" class="progress"
+                                                            style="height: 20px">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 15%" aria-valuenow="15" aria-valuemin="0"
+                                                                aria-valuemax="100">
+                                                                15%
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="progressBar === 30" class="progress"
+                                                            style="height: 20px">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 30%" aria-valuenow="30" aria-valuemin="0"
+                                                                aria-valuemax="100">
+                                                                30%
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="progressBar === 50" class="progress"
+                                                            style="height: 20px">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                                                aria-valuemax="100">
+                                                                50%
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="progressBar === 85" class="progress"
+                                                            style="height: 20px">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 85%" aria-valuenow="85" aria-valuemin="0"
+                                                                aria-valuemax="100">
+                                                                85%
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="progressBar === 100" class="progress"
+                                                            style="height: 20px">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                style="width: 100%" aria-valuenow="100"
+                                                                aria-valuemin="0" aria-valuemax="100">
+                                                                100%
+                                                            </div>
+                                                        </div>
+                                                        {{progressBar}}
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <input type="file" accept="image/*,.docx,.pdf,.mkv, .mp4"
+                                                            class="form-control" name="advert"
+                                                            (change)="selectFile($event)" />
+
                                                     </div>
 
                                                 </div>
 
-                                                <input type="file" accept="image/*,.docx,.pdf,.mkv, .mp4"
-                                                    class="form-control" name="advert" (change)="selectFile($event)" />
 
                                             </div>
 
+                                            <div style="text-align: center;" class="mt-5">
+                                                <button class="btn btn-primary" (click)="upload()"
+                                                    [disabled]="!advertDetails.internshipTitle || !advertDetails.period || !advertDetails.domain ||!advertDetails.reportingDate || !selectedFiles || progressBar != 100">
+                                                    Upload
+                                                </button>
+                                                <div *ngIf="currentFile" class="progress col-md-3">
+                                                    <div class="progress-bar progress-bar-info progress-bar-striped"
+                                                        role="progressbar" attr.aria-valuenow="{{ progress }}"
+                                                        aria-valuemin="0" aria-valuemax="100"
+                                                        [ngStyle]="{ width: progress + '%' }">
+                                                        {{ progress }}%
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="message"
+                                                class="alert alert-dismissible alert-info fade show mt-2" role="alert">
+                                                {{message}}
 
+                                            </div>
                                         </div>
 
-                                        <div style="text-align: center;" class="mt-5">
-                                            <button class="btn btn-primary" (click)="upload()"
-                                                [disabled]="!advertDetails.internshipTitle || !advertDetails.period || !advertDetails.domain ||!advertDetails.reportingDate || !selectedFiles">
-                                                Upload
-                                            </button>
-                                        </div>
-                                        <div *ngIf="message" class="alert alert-dismissible alert-info fade show mt-2"
-                                            role="alert">
-                                            {{message}}
-
-                                        </div>
-                                    </div>
-
-                                    <!-- <div hidden class="row">
+                                        <!-- <div hidden class="row">
                                         <div class="col-md-2">
 
                                             <button class="btn btn-outline-primary form-control"
@@ -299,6 +353,7 @@
                                         </div>
                                     </div> -->
 
+                                    </div>
                                 </div>
                             </div>
                         </div>

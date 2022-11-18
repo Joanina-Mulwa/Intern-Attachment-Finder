@@ -46,6 +46,7 @@ export class ApplyInternshipService {
     formData.append('appliedBy', applicationDetails.appliedBy);
     formData.append('appliedOn', applicationDetails.appliedOn);
     formData.append('postedBy', applicationDetails.postedBy);
+    formData.append('parsedApplicationIdentifier', applicationDetails.parsedApplicationIdentifier)
     const req = new HttpRequest('POST', `${this.API_ENDPOINT}/api/createApplication`, formData,{
       reportProgress: true,
       responseType: 'json'

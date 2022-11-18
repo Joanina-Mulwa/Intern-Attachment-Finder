@@ -67,6 +67,8 @@ export class ApplyInternshipComponent implements OnInit {
     appliedOn: '',
 
     postedBy: '',
+
+    parsedApplicationIdentifier: ''
   }
   selectedFiles!: FileList;
   currentFile!: any;
@@ -74,6 +76,10 @@ export class ApplyInternshipComponent implements OnInit {
   message = '';
   fileInfos?: Observable<any>;
   today?: any;
+  progressBar?: number;
+  extractedResumeIdentifier?: any;
+
+
 
 
   ngOnInit(): void {
@@ -87,8 +93,72 @@ export class ApplyInternshipComponent implements OnInit {
   back(): void{
     window.history.back();
   }
+  url: any;
+  msg = "";
   selectFile(event: any) {
     this.selectedFiles = event.target.files;
+    
+
+
+    var reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    this.progressBar = 5;
+    reader.onload = (_event) => {
+      this.msg = "";
+      this.url = reader.result;
+      const jobData = this.url.split('base64,')[1];
+   
+      // parse the job 
+      console.log("Selected image data, ", jobData)
+      this.progressBar = 15;
+
+      const { AffindaCredential, AffindaAPI } = require("@affinda/affinda");
+
+      const credential = new AffindaCredential("02bfae960b3de66b98010fb3e18fc34ab0996c89")
+      const client = new AffindaAPI(credential)
+      this.progressBar = 30;
+
+      var arrrayBuffer = base64ToArrayBuffer(jobData); //data is the base64 encoded string
+      function base64ToArrayBuffer(base64: string) {
+        var binaryString = window.atob(base64);
+        var binaryLen = binaryString.length;
+        var bytes = new Uint8Array(binaryLen);
+        for (var i = 0; i < binaryLen; i++) {
+          var ascii = binaryString.charCodeAt(i);
+          bytes[i] = ascii;
+        }
+        return bytes;
+      }
+      var blob = new Blob([arrrayBuffer], { type: "application/pdf" });
+
+      console.log("$$$$$$$$$$$$$$$", blob);
+      this.progressBar = 50;
+
+      client.createResume({ file: blob }).then((result: any) => {
+        this.progressBar = 85;
+
+        console.log("Returned resume data:");
+        console.dir(result);
+        this.extractedResumeIdentifier = result.meta.identifier;
+        console.log("Returned job identifier:", this.extractedResumeIdentifier);
+
+        this.progressBar = 100;
+
+      }).catch((err: any) => {
+        console.log("An error occurred while creating parse:");
+        console.error(err);
+      });
+
+ 
+
+    }
+
+
+
+
+
+
+
   }
 
   submitApplication() {
@@ -96,6 +166,8 @@ export class ApplyInternshipComponent implements OnInit {
     this.currentFile = this.selectedFiles.item(0);
     this.applicationDetails.internshipId=this.currentInternshipId;
     this.applicationDetails!.appliedBy=this.currentEmail;
+    this.applicationDetails.parsedApplicationIdentifier = this.extractedResumeIdentifier;
+
     let date = new Date().toJSON().slice(0, 10);
     this.applicationDetails!.appliedOn = date;   
     console.log("About to create application", this.applicationDetails, "and resume", this.currentFile)

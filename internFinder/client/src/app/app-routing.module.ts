@@ -82,7 +82,7 @@ const routes: Routes = [
     component: ApplicationDetailComponent
   },
   {
-    path: 'reviews',
+    path: 'feedback',
     component: ReviewsComponent
   },
   {

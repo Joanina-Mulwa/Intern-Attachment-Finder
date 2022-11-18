@@ -78,6 +78,8 @@ public class UserBioDTO {
 
     private String about;
 
+    private String resumeFeedback;
+
     public UserBioDTO() {
     }
 
@@ -111,7 +113,7 @@ public class UserBioDTO {
         this.setExperienceLevel(user.getExperienceLevel());
         this.setExperience(user.getExperience());
         this.setAbout(user.getAbout());
-
+        this.setResumeFeedback(user.getResumeFeedback());
     }
 
 }

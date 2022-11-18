@@ -47,6 +47,7 @@ export class PostInternshipService {
     formData.append('internshipStatus', advertDetails.internshipStatus);
     formData.append('createdOn', advertDetails.createdOn);
     formData.append('reportingDate', advertDetails.reportingDate);
+    formData.append('parsedJobIdentifier', advertDetails.parsedJobIdentifier);
     const req = new HttpRequest('POST', `${this.apiServerURL}/api/upload`,formData,{
       reportProgress: true,
       responseType: 'json'
@@ -67,6 +68,7 @@ export class PostInternshipService {
     formData.append('internshipStatus', advertDetails.internshipStatus);
     formData.append('createdOn', advertDetails.createdOn);
     formData.append('reportingDate', advertDetails.reportingDate);
+    formData.append('parsedJobIdentifier', advertDetails.parsedJobIdentifier);
     const req = new HttpRequest('PUT', `${this.apiServerURL}/api/updateAdvert`,formData,{
       reportProgress: true,
       responseType: 'json'
@@ -85,6 +87,7 @@ export class PostInternshipService {
     formData.append('internshipStatus', advertDetails.internshipStatus);
     formData.append('createdOn', advertDetails.createdOn);
     formData.append('reportingDate', advertDetails.reportingDate);
+    formData.append('parsedJobIdentifier', advertDetails.parsedJobIdentifier);
     const req = new HttpRequest('PUT', `${this.apiServerURL}/api/updateAdvertDetails`, formData,{
       reportProgress: true,
       responseType: 'json'

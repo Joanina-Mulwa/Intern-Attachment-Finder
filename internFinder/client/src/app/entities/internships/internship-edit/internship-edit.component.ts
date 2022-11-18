@@ -52,7 +52,8 @@ export class InternshipEditComponent implements OnInit {
     internshipStatus: 'ACTIVE',
     createdOn: '',
     reportingDate: '',
-    url: ''
+    url: '',
+    parsedJobIdentifier: ''
   }
 
   companyDetails!: '';
@@ -68,6 +69,12 @@ export class InternshipEditComponent implements OnInit {
   fileInfos?: Observable<any>;
   today?: any;
   clearUploaded: boolean=false;
+
+  extractedJobDescription?: any;
+  extractedJobDescriptionSkills?: any[];
+  extractedResumeDescriptionSkills?: any;
+  extractedJobIdentifier?: any;
+  progressBar?: number;
 
 
 
@@ -94,12 +101,80 @@ export class InternshipEditComponent implements OnInit {
 
 
   }
-
+  url: any;
+  msg = "";
 
   selectFile(event: any) {
     this.clearUploaded=true;
     this.selectedFiles = event.target.files;
-    console.log("Hereeeeeeeeeeeeeeee", this.selectedFiles.length)
+    console.log("Hereeeeeeeeeeeeeeee", this.selectedFiles.length);
+    if(this.selectedFiles === undefined){
+      this.progressBar = 100;
+      console.log("Do nothing", this.progressBar);
+
+      
+    }else{
+
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      this.progressBar = 5;
+      reader.onload = (_event) => {
+        this.msg = "";
+        this.url = reader.result;
+        const jobData = this.url.split('base64,')[1];
+     
+        // parse the job 
+        console.log("Selected image data, ", jobData)
+        this.progressBar = 15;
+  
+        const { AffindaCredential, AffindaAPI } = require("@affinda/affinda");
+  
+        const credential = new AffindaCredential("02bfae960b3de66b98010fb3e18fc34ab0996c89")
+        const client = new AffindaAPI(credential)
+        this.progressBar = 30;
+  
+        var arrrayBuffer = base64ToArrayBuffer(jobData); //data is the base64 encoded string
+        function base64ToArrayBuffer(base64: string) {
+          var binaryString = window.atob(base64);
+          var binaryLen = binaryString.length;
+          var bytes = new Uint8Array(binaryLen);
+          for (var i = 0; i < binaryLen; i++) {
+            var ascii = binaryString.charCodeAt(i);
+            bytes[i] = ascii;
+          }
+          return bytes;
+        }
+        var blob = new Blob([arrrayBuffer], { type: "application/pdf" });
+  
+        console.log("$$$$$$$$$$$$$$$", blob);
+        this.progressBar = 50;
+  
+        console.time("Parse Job")
+        client.createJobDescription({ file: blob }).then((result: any) => {
+          this.progressBar = 85;
+  
+          console.log("Returned job data:");
+          console.dir(result)
+          this.extractedJobDescription = result;
+          console.log("Returned job data skills only:");
+          console.timeEnd("Parse Job")
+          this.extractedJobDescriptionSkills = result.data.skills;
+          this.extractedJobIdentifier = result.meta.identifier;
+  
+          console.log("Returned job identifier:", this.extractedJobIdentifier);
+          
+          console.dir(this.extractedJobDescriptionSkills)
+          this.progressBar = 100;
+  
+        }).catch((err: any) => {
+          console.log("An error occurred:");
+          console.error(err);
+        });
+  
+      }
+
+    
+    }
 
   }
 
@@ -107,6 +182,8 @@ export class InternshipEditComponent implements OnInit {
     //this.reset();
     this.progress = 0;
     if(this.selectedFiles === undefined){
+      console.log("About to update internship ", this.advertDetails);
+
       this.postInternshipService.updateAdvertDetails(this.internshipId, this.advertDetails).subscribe(
 
         (event: any)=>{
@@ -144,12 +221,14 @@ export class InternshipEditComponent implements OnInit {
       
     }
     else{
+      this.progress = 0;
       this.currentFile = this.selectedFiles.item(0);
     console.log("file is", this.currentFile);
     console.log("Details are ", this.advertDetails);
     this.advertDetails.companyEmail = JSON.parse(localStorage.getItem('currentUser')!).email;
     this.advertDetails.companyName = this.companyName;
     this.advertDetails.companyLogo = this.companyLogo;
+    this.advertDetails.parsedJobIdentifier = this.extractedJobIdentifier;
     this.advertDetails.id = this.internshipId;
     console.log("About to update internship ", this.currentFile, " and ", this.advertDetails);
     this.postInternshipService.updateAdvert(this.currentFile, this.advertDetails).subscribe(
@@ -250,7 +329,9 @@ export class InternshipEditComponent implements OnInit {
       internshipStatus: 'ACTIVE',
       createdOn: '',
       reportingDate: '',
-      url: ''
+      url: '',
+      parsedJobIdentifier: ''
+
     }
 
   }

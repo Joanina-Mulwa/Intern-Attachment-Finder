@@ -96,6 +96,9 @@ public class User {
 
     private String about;
 
+    private String resumeFeedback;
+
+
 
     public User() {
     }
@@ -403,6 +406,14 @@ public class User {
         this.about = about;
     }
 
+    public String getResumeFeedback() {
+        return resumeFeedback;
+    }
+
+    public void setResumeFeedback(String resumeFeedback) {
+        this.resumeFeedback = resumeFeedback;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -439,6 +450,7 @@ public class User {
                 ", experienceLevel='" + experienceLevel + '\'' +
                 ", experience='" + experience + '\'' +
                 ", about='" + about + '\'' +
+                ", resumeFeedback='" + resumeFeedback + '\'' +
                 '}';
     }
 }

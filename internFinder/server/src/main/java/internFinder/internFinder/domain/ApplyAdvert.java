@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "tbl_applications")
@@ -32,24 +33,28 @@ public class ApplyAdvert {
 
     public String status;
 
+    public String parsedApplicationIdentifier;
+
     public ApplyAdvert(String name, String type, byte[] data) {
         this.name = name;
         this.type = type;
         this.data = data;
     }
-    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy) {
+    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy, String parsedApplicationIdentifier) {
         this.internshipId=internshipId;
         this.appliedBy=appliedBy;
         this.appliedOn=appliedOn;
         this.postedBy=postedBy;
+        this.parsedApplicationIdentifier = parsedApplicationIdentifier;
     }
 
-    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy, String status) {
+    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy, String status, String parsedApplicationIdentifier) {
         this.internshipId=internshipId;
         this.appliedBy=appliedBy;
         this.appliedOn=appliedOn;
         this.postedBy=postedBy;
         this.status=status;
+        this.parsedApplicationIdentifier = parsedApplicationIdentifier;
     }
 
     public ApplyAdvert() {
@@ -60,11 +65,16 @@ public class ApplyAdvert {
     public String toString() {
         return "ApplyAdvert{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", url='" + url + '\'' +
+                ", data=" + Arrays.toString(data) +
                 ", internshipId=" + internshipId +
                 ", appliedBy='" + appliedBy + '\'' +
                 ", appliedOn='" + appliedOn + '\'' +
                 ", postedBy='" + postedBy + '\'' +
                 ", status='" + status + '\'' +
+                ", parsedApplicationIdentifier='" + parsedApplicationIdentifier + '\'' +
                 '}';
     }
 }

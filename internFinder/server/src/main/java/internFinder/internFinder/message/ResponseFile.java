@@ -28,7 +28,12 @@ public class ResponseFile {
 
     private String reportingDate;
 
-    public ResponseFile(Long id, String name, String url, String type, long size, String internshipTitle, String companyName, String companyEmail, String companyLogo, String domain, String period, String internshipStatus, String createdOn, String reportingDate) {
+    private Object parsedJob;
+
+    private String parsedJobIdentifier;
+
+
+    public ResponseFile(Long id, String name, String url, String type, long size, String internshipTitle, String companyName, String companyEmail, String companyLogo, String domain, String period, String internshipStatus, String createdOn, String reportingDate, String parsedJobIdentifier) {
         this.id=id;
         this.name = name;
         this.url = url;
@@ -43,6 +48,7 @@ public class ResponseFile {
         this.internshipStatus=internshipStatus;
         this.createdOn=createdOn;
         this.reportingDate=reportingDate;
+        this.parsedJobIdentifier = parsedJobIdentifier;
     }
 
     public Long getId() {
@@ -154,5 +160,14 @@ public class ResponseFile {
 
     public void setReportingDate(String reportingDate) {
         this.reportingDate = reportingDate;
+    }
+
+
+    public String getParsedJobIdentifier() {
+        return parsedJobIdentifier;
+    }
+
+    public void setParsedJobIdentifier(String parsedJobIdentifier) {
+        this.parsedJobIdentifier = parsedJobIdentifier;
     }
 }

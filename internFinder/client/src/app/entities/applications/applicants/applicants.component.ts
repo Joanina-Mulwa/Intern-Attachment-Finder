@@ -28,12 +28,13 @@ export class ApplicantsComponent implements OnInit {
   currentInternshipId!: number;
   currentInternshipApplications?: any[];
   applicantsEmailsOfCurrentInternship: any[] = [];
-  applicantsDetails: UserBio[] = [];
+  applicantsDetails: any[] = [];
   // shortlistedApplicantsDetails: UserBio[] = [];
   approvedApplicantsDetails: UserBio[] = [];
   rejectedApplicantsDetails: UserBio[] = [];
+  awaitingInterviewApplicantsDetails: UserBio[] = [];
   pendingApplicantsDetails: UserBio[] = [];
-  shortlistedApplicantsDetails: UserBio[] = [];
+  shortlistedApplicantsDetails: any[] = [];
   searchApplicantsDetails!: any[];
   loading: boolean = false;
   loadingShortlisted: boolean = true;
@@ -41,6 +42,7 @@ export class ApplicantsComponent implements OnInit {
   searchText: string = '';
   approvedApplicationForcurrentInternship?: ApplyInternship[] = [];
   rejectedApplicationForcurrentInternship?: ApplyInternship[] = [];
+  awaitingInterviewApplicationForcurrentInternship?: ApplyInternship[] = [];
   pendingApplicationForcurrentInternship?: ApplyInternship[] = [];
   shortlistedApplicationForcurrentInternship?: ApplyInternship[] = [];
   internshipDetails?: any;
@@ -83,12 +85,75 @@ export class ApplicantsComponent implements OnInit {
       (res) => {
         this.internshipDetails = res;
         console.log("This interenship was posted by", this.internshipDetails)
-        this.getJobDescription();
+        //this.getJobDescription();
 
       },
       (err) => { console.log("error fetching internship details") }
 
     )
+  }
+  getMatchingApplications(): void {
+    this.loadingShortlisted = true;
+    console.log("_+_+_+", this.currentInternshipApplications);
+    if (this.currentInternshipApplications?.length === 0) {
+      this.loadingShortlisted = false;
+
+    }else{
+    const { AffindaCredential, TokenCredential, AffindaAPI } = require("@affinda/affinda/");
+
+    const credential = new AffindaCredential("02bfae960b3de66b98010fb3e18fc34ab0996c89")
+    const client = new AffindaAPI(credential)
+    var itemsProcessed = 0;
+    var totalItemsToBeProcessed = this.currentInternshipApplications?.length;
+
+    this.currentInternshipApplications?.forEach(async (applicationResume) => {
+      const resumeIdentifier = applicationResume.parsedApplicationIdentifier;
+      const jobDescriptionIdentifier = this.internshipDetails.parsedJobIdentifier;
+      console.log("These are the job identifiers found :", resumeIdentifier, "and job identifier", jobDescriptionIdentifier);
+
+      //const indexName = "REPLACE_INDEX_NAME" // Optional
+
+      client.getResumeSearchMatch(resumeIdentifier, jobDescriptionIdentifier).then((result: any) => {
+        console.log("Returned match data:");
+        console.dir(result);
+        itemsProcessed++;
+        console.log("The processed number of applications is :", itemsProcessed);
+
+        if (result.score >= 0.5) {
+          this.shortlistedApplicantsArray?.push(applicationResume);
+        }
+        if (itemsProcessed === totalItemsToBeProcessed) {
+          //compare and get the top three candidates
+          console.log("These are the final students recommended", this.shortlistedApplicantsArray);
+          //get the recommended student details
+
+          this.shortlistedApplicantsArray?.forEach((recommendedStudent) => {
+
+            this.userService.findByEmail(recommendedStudent.appliedBy).subscribe(
+              (res) => {
+                this.loadingShortlisted = false;
+
+                res.resumeFeedback = recommendedStudent.status;
+
+                this.shortlistedApplicantsDetails.push(res)
+
+
+                console.log("Final recommended student applications, ", this.shortlistedApplicantsDetails)
+              },
+              (err) => { console.log("Error fetching recommednded applicants details") }
+            )
+
+          })
+
+        }
+      }).catch((err: any) => {
+        console.log("An error occurred while matching:")
+        console.error(err)
+      });
+    });
+    console.log("The final final processed number of applications is :", itemsProcessed);
+  }
+
   }
   getJobDescription(): void {
     console.log("***^^^^^^^^^^%%%%%%%%%%url to our file", this.internshipDetails.url);
@@ -207,8 +272,11 @@ export class ApplicantsComponent implements OnInit {
                 (res) => {
                   this.loadingShortlisted = false;
 
+                  res.resumeFeedback = recommendedStudent.status;
+
                   this.shortlistedApplicantsDetails.push(res)
-                
+
+
                   console.log("Final recommended student applications, ", this.shortlistedApplicantsDetails)
                 },
                 (err) => { console.log("Error fetching recommednded applicants details") }
@@ -465,28 +533,14 @@ export class ApplicantsComponent implements OnInit {
         this.loading = false;
         console.log("found the following applications", res)
         this.currentInternshipApplications = res;
-        //this.getResumeDescription();
+       // this.getMatchingApplications();
         //get emails of applicants
         this.currentInternshipApplications?.forEach((currentInternshipApplication) => {
-
-          this.applicantsEmailsOfCurrentInternship.push(currentInternshipApplication.appliedBy)
-          if (currentInternshipApplication.status === Status.APPROVED) {
-            this.approvedApplicationForcurrentInternship?.push(currentInternshipApplication)
-          }
-          else if (currentInternshipApplication.status === Status.REJECTED) {
-            this.rejectedApplicationForcurrentInternship?.push(currentInternshipApplication);
-          }
-          else {
-            this.pendingApplicationForcurrentInternship?.push(currentInternshipApplication);
-
-          }
-
-        })
-        console.log("found the following applicants emails", this.applicantsEmailsOfCurrentInternship)
-        //get details of applicants
-        this.applicantsEmailsOfCurrentInternship.forEach((applicantEmailOfCurrentInternship) => {
-          this.userService.findByEmail(applicantEmailOfCurrentInternship).subscribe(
+          //get details of applicants
+          this.userService.findByEmail(currentInternshipApplication.appliedBy).subscribe(
             (res) => {
+              res.resumeFeedback = currentInternshipApplication.status;
+
               this.applicantsDetails.push(res)
               this.applicantsDetails.forEach((applicantDetails: any) => {
                 if (applicantDetails.skills) {
@@ -496,13 +550,28 @@ export class ApplicantsComponent implements OnInit {
 
               })
 
-              console.log("Applicants details are", this.applicantsDetails)
+              console.log("All Applicants details are", this.applicantsDetails)
 
             },
             (err) => { console.log("Error fetching applicants details") }
           )
 
+          if (currentInternshipApplication.status === Status.APPROVED) {
+            this.approvedApplicationForcurrentInternship?.push(currentInternshipApplication)
+          }
+          else if (currentInternshipApplication.status === Status.REJECTED) {
+            this.rejectedApplicationForcurrentInternship?.push(currentInternshipApplication);
+          }
+          else if (currentInternshipApplication.status === Status.PENDINGINTERVIEW) {
+            this.awaitingInterviewApplicationForcurrentInternship?.push(currentInternshipApplication);
+          }
+          else {
+            this.pendingApplicationForcurrentInternship?.push(currentInternshipApplication);
+
+          }
+
         })
+
         // console.log("Approved application details are, ", this.approvedApplicationForcurrentInternship)
         // console.log("Rejected application details are, ", this.rejectedApplicationForcurrentInternship)
         // console.log("Pending application details are, ", this.pendingApplicationForcurrentInternship)
@@ -520,6 +589,20 @@ export class ApplicantsComponent implements OnInit {
               console.log("Approved Applicants details are, ", this.approvedApplicantsDetails)
             },
             (err) => { console.log("Error fetching approved applicants details") }
+          )
+        })
+        this.awaitingInterviewApplicationForcurrentInternship?.forEach((awaitingInterviewApplication) => {
+          this.userService.findByEmail(awaitingInterviewApplication.appliedBy).subscribe(
+            (res) => {
+              this.awaitingInterviewApplicantsDetails.push(res)
+              this.awaitingInterviewApplicantsDetails.forEach((awaitingInterviewApplicantDetails: any) => {
+                if (awaitingInterviewApplicantDetails.skills) {
+                  awaitingInterviewApplicantDetails.skillsList = awaitingInterviewApplicantDetails.skills.split(",");
+                }
+              })
+              console.log("Pending interview Applicants details are, ", this.awaitingInterviewApplicantsDetails)
+            },
+            (err) => { console.log("Error fetching pending interview applicants details") }
           )
         })
         this.rejectedApplicationForcurrentInternship?.forEach((rejectedApplication) => {

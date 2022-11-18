@@ -44,6 +44,9 @@ public class PostAdvert {
 
     private String reportingDate;
 
+    private String parsedJobIdentifier;
+
+
     public PostAdvert() {
     }
 
@@ -52,7 +55,7 @@ public class PostAdvert {
         this.type = type;
         this.data = data;
     }
-    public PostAdvert(String internshipTitle, String companyName, String companyEmail, String companyLogo, String domain, String period, String internshipStatus, String createdOn, String reportingDate) {
+    public PostAdvert(String internshipTitle, String companyName, String companyEmail, String companyLogo, String domain, String period, String internshipStatus, String createdOn, String reportingDate, String parsedJobIdentifier) {
         this.internshipTitle=internshipTitle;
         this.companyName=companyName;
         this.companyEmail=companyEmail;
@@ -62,8 +65,9 @@ public class PostAdvert {
         this.internshipStatus=internshipStatus;
         this.createdOn=createdOn;
         this.reportingDate=reportingDate;
+        this.parsedJobIdentifier = parsedJobIdentifier;
     }
-    public PostAdvert(Long id, String internshipTitle, String companyName, String companyEmail, String companyLogo, String domain, String period, String internshipStatus, String createdOn, String updatedOn, String reportingDate) {
+    public PostAdvert(Long id, String internshipTitle, String companyName, String companyEmail, String companyLogo, String domain, String period, String internshipStatus, String createdOn, String updatedOn, String reportingDate,String parsedJobIdentifier) {
         this.id=id;
         this.internshipTitle=internshipTitle;
         this.companyName=companyName;
@@ -75,6 +79,7 @@ public class PostAdvert {
         this.createdOn=createdOn;
         this.updatedOn=updatedOn;
         this.reportingDate=reportingDate;
+        this.parsedJobIdentifier = parsedJobIdentifier;
     }
 
     public Long getId() {
@@ -186,6 +191,24 @@ public class PostAdvert {
 
     public void setReportingDate(String reportingDate) {
         this.reportingDate = reportingDate;
+    }
+
+    public String getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(String updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
+
+
+    public String getParsedJobIdentifier() {
+        return parsedJobIdentifier;
+    }
+
+    public void setParsedJobIdentifier(String parsedJobIdentifier) {
+        this.parsedJobIdentifier = parsedJobIdentifier;
     }
 }
 

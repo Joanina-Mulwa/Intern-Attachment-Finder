@@ -76,6 +76,7 @@ public class PostAdvertService {
             fileDetails.setInternshipStatus(postAdvert.getInternshipStatus());
             fileDetails.setCreatedOn(String.valueOf(LocalDate.now()));
             fileDetails.setReportingDate(postAdvert.getReportingDate());
+            fileDetails.setParsedJobIdentifier(postAdvert.getParsedJobIdentifier());
             log.debug("About to update internship to : {} ", fileDetails);
             return postAdvertRepository.save(fileDetails);
         }else {
@@ -98,6 +99,7 @@ public class PostAdvertService {
            // fileDetails.setCreatedOn(String.valueOf(LocalDate.now()));
             fileDetails.setReportingDate(postAdvert.getReportingDate());
             fileDetails.setInternshipStatus(postAdvert.getInternshipStatus());
+            fileDetails.setParsedJobIdentifier(postAdvert.getParsedJobIdentifier());
             return postAdvertRepository.save(fileDetails);
         }
         else {

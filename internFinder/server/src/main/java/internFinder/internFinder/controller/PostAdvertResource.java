@@ -39,11 +39,13 @@ public class PostAdvertResource {
                                                       @RequestParam("period") String period,
                                                       @RequestParam("internshipStatus") String internshipStatus,
                                                       @RequestParam("createdOn") String createdOn,
-                                                      @RequestParam("reportingDate") String reportingDate) {
+                                                      @RequestParam("reportingDate") String reportingDate,
+                                                      @RequestParam("parsedJobIdentifier") String parsedJobIdentifier){
+
         String message = "";
         System.out.println("**************************Testing************************");
         try {
-            PostAdvert postAdvert = new PostAdvert(internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn, reportingDate);
+            PostAdvert postAdvert = new PostAdvert(internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn, reportingDate, parsedJobIdentifier);
             postAdvertService.store(file, postAdvert);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
@@ -89,7 +91,8 @@ public class PostAdvertResource {
                     dbFile.getPeriod(),
                     dbFile.getInternshipStatus(),
                     dbFile.getCreatedOn(),
-                    dbFile.getReportingDate());
+                    dbFile.getReportingDate(),
+                    dbFile.getParsedJobIdentifier());
 
         }).collect(Collectors.toList());
 
@@ -144,7 +147,8 @@ public class PostAdvertResource {
                     dbFile.getPeriod(),
                     dbFile.getInternshipStatus(),
                     dbFile.getCreatedOn(),
-                    dbFile.getReportingDate());
+                    dbFile.getReportingDate(),
+                    dbFile.getParsedJobIdentifier());
 
         }).collect(Collectors.toList());
 
@@ -180,7 +184,8 @@ public class PostAdvertResource {
                     dbFile.getPeriod(),
                     dbFile.getInternshipStatus(),
                     dbFile.getCreatedOn(),
-                    dbFile.getReportingDate());
+                    dbFile.getReportingDate(),
+                    dbFile.getParsedJobIdentifier());
 
         }).collect(Collectors.toList());
 
@@ -198,12 +203,14 @@ public class PostAdvertResource {
                                                         @RequestParam("period") String period,
                                                         @RequestParam("internshipStatus") String internshipStatus,
                                                         @RequestParam("createdOn") String createdOn,
-                                                        @RequestParam("reportingDate") String reportingDate){
+                                                        @RequestParam("reportingDate") String reportingDate,
+                                                        @RequestParam("parsedJobIdentifier") String parsedJobIdentifier){
+
         log.debug("Rest request to update advert {}  ", file);
         String message = "";
         try {
             String updatedOn = String.valueOf(LocalDate.now());
-            PostAdvert postAdvert = new PostAdvert(id, internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn,updatedOn, reportingDate);
+            PostAdvert postAdvert = new PostAdvert(id, internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn,updatedOn, reportingDate, parsedJobIdentifier);
             postAdvertService.updateAdvert(file, postAdvert);
             message = "updated the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
@@ -223,12 +230,15 @@ public class PostAdvertResource {
                                                                @RequestParam("period") String period,
                                                                @RequestParam("internshipStatus") String internshipStatus,
                                                                @RequestParam("createdOn") String createdOn,
-                                                               @RequestParam("reportingDate") String reportingDate){
+                                                               @RequestParam("reportingDate") String reportingDate,
+                                                               @RequestParam("parsedJobIdentifier") String parsedJobIdentifier){
+
+
         log.debug("Rest request to update advert {}  ", id);
         String message = "";
         try {
             String updatedOn = String.valueOf(LocalDate.now());
-            PostAdvert postAdvert = new PostAdvert(id, internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn, updatedOn, reportingDate);
+            PostAdvert postAdvert = new PostAdvert(id, internshipTitle, companyName, companyEmail, companyLogo, domain, period, internshipStatus, createdOn, updatedOn, reportingDate, parsedJobIdentifier);
 
             postAdvertService.updateAdvertDetails(id, postAdvert);
             message = "updated the application successfully: ";

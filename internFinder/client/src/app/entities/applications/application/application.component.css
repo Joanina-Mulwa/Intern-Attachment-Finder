@@ -9,3 +9,7 @@ p{
     height: auto;
     width: auto;
   }
+  .interview-editor{
+    width: 775px;
+    min-height: 300px;
+}

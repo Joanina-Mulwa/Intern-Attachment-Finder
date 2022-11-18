@@ -6,7 +6,6 @@ import { PostInternshipService } from 'src/app/services/post-internship.service'
 import { UserService } from 'src/app/services/user.service';
 import { Authority, UserBio } from '../users/user-bio-model';
 import { InternshipType, InternshipStatus, WorkPlaceType, MinimumQualification, ExperienceLevel, Period, Domain } from './post-internship-model';
-
 @Component({
   selector: 'app-post-internships',
   templateUrl: './post-internships.component.html',
@@ -46,13 +45,20 @@ export class PostInternshipsComponent implements OnInit {
     internshipTitle: '',
     companyName: '',
     companyEmail: '',
-    companyLogo:'',
+    companyLogo: '',
     period: '',
     domain: '',
     internshipStatus: 'ACTIVE',
     createdOn: '',
     reportingDate: '',
+    parsedJobIdentifier: ''
+
   }
+  extractedJobDescription?: any;
+  extractedJobDescriptionSkills?: any[];
+  extractedResumeDescriptionSkills?: any;
+  extractedJobIdentifier?: any;
+  progressBar?: number;
 
 
 
@@ -83,16 +89,94 @@ export class PostInternshipsComponent implements OnInit {
     //this.advertDetails.companyLogo = this.companyLogo;
     //document.getElementsByName("reportingDate")[0].setAttribute('min', today);
   }
+  url: any;
+  msg = "";
   selectFile(event: any) {
     this.selectedFiles = event.target.files;
+    var reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    this.progressBar = 5;
+    reader.onload = (_event) => {
+      this.msg = "";
+      this.url = reader.result;
+      const jobData = this.url.split('base64,')[1];
+   
+      // parse the job 
+      console.log("Selected image data, ", jobData)
+      this.progressBar = 15;
+
+      const { AffindaCredential, AffindaAPI } = require("@affinda/affinda");
+
+      const credential = new AffindaCredential("02bfae960b3de66b98010fb3e18fc34ab0996c89")
+      const client = new AffindaAPI(credential)
+      this.progressBar = 30;
+
+      var arrrayBuffer = base64ToArrayBuffer(jobData); //data is the base64 encoded string
+      function base64ToArrayBuffer(base64: string) {
+        var binaryString = window.atob(base64);
+        var binaryLen = binaryString.length;
+        var bytes = new Uint8Array(binaryLen);
+        for (var i = 0; i < binaryLen; i++) {
+          var ascii = binaryString.charCodeAt(i);
+          bytes[i] = ascii;
+        }
+        return bytes;
+      }
+      var blob = new Blob([arrrayBuffer], { type: "application/pdf" });
+
+      console.log("$$$$$$$$$$$$$$$", blob);
+      this.progressBar = 50;
+
+      console.time("Parse Job")
+      client.createJobDescription({ file: blob }).then((result: any) => {
+        this.progressBar = 85;
+
+        console.log("Returned job data:");
+        console.dir(result)
+        this.extractedJobDescription = result;
+        console.log("Returned job data skills only:");
+        console.timeEnd("Parse Job")
+        this.extractedJobDescriptionSkills = result.data.skills;
+        this.extractedJobIdentifier = result.meta.identifier;
+
+        console.log("Returned job identifier:", this.extractedJobIdentifier);
+        
+        console.dir(this.extractedJobDescriptionSkills)
+        this.progressBar = 100;
+
+      }).catch((err: any) => {
+        console.log("An error occurred:");
+        console.error(err);
+      });
+
+    }
+  }
+  getJobDescription(): void {
+
+
+    // Can also use a URL:
+
+    //  client.createJobDescription({url: "https://api.affinda.com/static/sample_job_descriptions/example.pdf"}).then((result) => {
+    //      console.log("Returned data:");
+    //      console.dir(result)
+    //  }).catch((err) => {
+    //      console.log("An error occurred:");
+    //      console.error(err);
+    //  });
+
+
+
   }
 
   upload() {
+
+
     this.progress = 0;
     this.currentFile = this.selectedFiles.item(0);
     this.advertDetails.companyEmail = JSON.parse(localStorage.getItem('currentUser')!).email;
     this.advertDetails.companyName = this.companyDetails;
     this.advertDetails.companyLogo = this.companyLogo;
+    this.advertDetails.parsedJobIdentifier = this.extractedJobIdentifier;
     console.log("About to create internship ", this.currentFile, " and ", this.advertDetails);
     this.postInternshipService.upload(this.currentFile, this.advertDetails).subscribe(
       (event: any) => {
@@ -165,12 +249,13 @@ export class PostInternshipsComponent implements OnInit {
       internshipTitle: '',
       companyName: '',
       companyEmail: '',
-      companyLogo:'',
+      companyLogo: '',
       period: '',
       domain: '',
       internshipStatus: 'ACTIVE',
       createdOn: '',
       reportingDate: '',
+      parsedJobIdentifier: ''
     }
   }
   // postinternship(): void {
@@ -215,7 +300,7 @@ export class PostInternshipsComponent implements OnInit {
         console.log("jhherrreeee company name details posting confirmation is", res);
         console.log("jhherrreeee company name details posting confirmation is", this.companyDetails);
         console.log("jhherrreeee company name details posting confirmation is", this.companyLogo);
-        
+
       },
       (err) => {
         console.log("Error fetching current user details", err)

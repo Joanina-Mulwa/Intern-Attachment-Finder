@@ -336,13 +336,13 @@ export class InternshipsComponent implements OnInit {
 
   deleteAdvert(id: any): void {
     console.log("Deleting advert of id", id);
-    // this.postInternshipService.deleteAdvert(id).subscribe(
-    //   (res) => {
-    //     console.log("Deleted advert")
-    //     window.location.reload();
-    //   },
-    //   (err) => { console.log("Error deleting advert") }
-    // )
+    this.postInternshipService.deleteAdvert(id).subscribe(
+      (res) => {
+        console.log("Deleted advert")
+        window.location.reload();
+      },
+      (err) => { console.log("Error deleting advert") }
+    )
 
   }
 

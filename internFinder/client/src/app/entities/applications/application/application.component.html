@@ -15,8 +15,8 @@
             <div class="m-3">
                 <div class="row">
                     <div class="col-md-6">
-                        <h5 >Application Letter by
-                            <a style="text-decoration: underline" href="mailto:{{applicationForcurrentInternship?.appliedBy}}">
+                        <h5>Application Letter by
+                            <a style="text-decoration: underline">
                                 {{applicationForcurrentInternship?.appliedBy}}</a>
                         </h5>
                     </div>
@@ -72,25 +72,45 @@
 
                 <div class="row m-2 ">
                     <div class="col-md-6">
+
+
+
                         <button *ngIf="applicationForcurrentInternship?.status === null"
                             class="btn btn-outline-secondary"
                             (click)="updateInternshipApplication('REJECTED')">Reject</button>
 
                     </div>
                     <div class="col-md-6 text-end">
-                        <button *ngIf="applicationForcurrentInternship?.status === null" class="btn btn-outline-primary"
-                            (click)="updateInternshipApplication('APPROVED')">Approve</button>
+                        <button *ngIf="applicationForcurrentInternship?.status === null" data-toggle="modal"
+                            data-target="#exampleModal" style="cursor: pointer;"
+                            class="myDIV btn btn-outline-primary">Approve</button>
                     </div>
-                    <div class="col-md-12 text-end">
+                    <div hidden class="col-md-12 text-end">
                         <button *ngIf="applicationForcurrentInternship?.status === 'APPROVED'"
                             class="btn btn-outline-primary" (click)="updateInternshipApplication('REJECTED')">Change to
                             Reject</button>
                     </div>
-                    <div class="col-md-6 text-end">
-                        <button *ngIf="applicationForcurrentInternship?.status === 'REJECTED'"
-                            class="btn btn-outline-primary" (click)="updateInternshipApplication('APPROVED')">Change to
+                    <div class="col-md-12 text-end">
+                        <button *ngIf="applicationForcurrentInternship?.status === 'REJECTED'" data-toggle="modal"
+                            data-target="#exampleModal" style="cursor: pointer;"
+                            class="myDIV btn btn-outline-primary">Change to
                             Approve</button>
                     </div>
+                </div>
+                <div *ngIf="applicationForcurrentInternship?.status === 'PENDINGINTERVIEW'" class="row m-2 ">
+                    <div class="col-md-6">
+
+                        <button *ngIf="applicationForcurrentInternship?.status === 'PENDINGINTERVIEW'"
+                            class="btn btn-outline-secondary"
+                            (click)="updateInternshipApplication('REJECTED')">Rejecte  interview</button>
+
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <button *ngIf="applicationForcurrentInternship?.status === 'PENDINGINTERVIEW'"
+                            (click)="updateInternshipApplication('APPROVED')"
+                            class="btn btn-outline-secondary">Approved in interview</button>
+                    </div>
+
                 </div>
 
 
@@ -99,4 +119,127 @@
         </div>
     </div>
 
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Do you want so send an interview invite?
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a innerHTML="text"
+                    href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{userBioDetails?.email}}&su=Congratulations! You have been approved for the {{internshipDetails?.internshipTitle}} by {{internshipDetails?.companyName}}&body=Hello {{userBioDetails?.name}},We extend our heartiest congratulations and best wishes to you for being shortlisted for the internship : {{internshipDetails?.internshipTitle}}. {{internshipDetails?.companyName}} had received many applications, out of which only a few were shortlisted based on the Applicant letter sent via Intern Finder system website. {{internshipDetails?.companyName}} is very honored to welcome you under our roof for an internship. Your Resume enlightens the person within you very accurately. It is compact, solid, and robust. We are very impressed with the application letter you wrote. You are the ideal intern we are looking for. {{internshipDetails?.internshipTitle}} has always been an epitome of success, fame, and producing the best-skilled personnel for the country. It is a great choice you have made for an internship in your domain. It has a lot to yield to you. We hope this internship with us will be a fruitful and rewarding one for you. We wish you all the success. Welcome to the world of {{internshipDetails?.companyName}}."
+                    target="_blank">
+                    <button class="btn btn-outline-secondary mb-5 ml-5"
+                        (click)="updateInternshipApplication('APPROVED')">
+                        No, send acceptance congratulation email for internship instead. </button>
+                </a>
+
+                <button class="btn btn-outline-primary ml-5" data-toggle="modal" data-target="#exampleModal2"
+                    style="cursor: pointer;" data-dismiss="modal">
+                    Yes, Invite the participant to an interview by filling in interview details.
+
+                </button>
+
+
+            </div>
+            <div class="modal-footer mr-auto">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 2 -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Enter the interview details
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="mode">Mode of interview *</label>
+
+                            <select autocomplete="on" style="height: 35px; width: 353px;" name="mode" type="text"
+                                [(ngModel)]="interviewDetails.mode">
+
+                                <option *ngFor="let mode of modes ;let i = index">
+                                    {{mode}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <div *ngIf="interviewDetails.mode === 'ONSITE'">
+                                <label for="location">Choose Location *</label>
+                                <input class="form-control" type="text" name="location"
+                                    [(ngModel)]="interviewDetails.location">
+                            </div>
+                            <div *ngIf="interviewDetails.mode === 'REMOTE'">
+                                <label for="link">Enter the link *</label>
+                                <input class="form-control" type="text" name="link" [(ngModel)]="interviewDetails.link">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="interviewDetails.mode === 'ONSITE'" class="mb-4">
+                        <label for="address">Enter the address *</label>
+                        <input class="form-control" type="text" name="address" [(ngModel)]="interviewDetails.address">
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="date">Choose date *</label>
+                            <input type="date" name="date" class="form-control" [(ngModel)]="interviewDetails.date">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="time">Enter time *</label>
+                            <input type="time" name="time" class="form-control" [(ngModel)]="interviewDetails.time">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="important">Enter other infor <small>( Optional )</small></label>
+                        <angular-editor class="interview-editor form-control" [placeholder]="'Enter other information'"
+                            cols="100" rows="155" style="height: auto" name="important"
+                            [(ngModel)]="interviewDetails.important">
+                        </angular-editor>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Close</button>
+
+
+                <a innerHTML="text" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{userBioDetails?.email}}&su=Call for interview by {{internshipDetails?.companyName}}&body=Hello {{userBioDetails?.name}}, Thank you for applying to the {{internshipDetails?.internshipTitle}} position at {{internshipDetails?.companyName}}. We have reviewed your application materials carefully, and we are excited to invite you to an interview for the role! We extend our heartiest congratulations and best wishes to you during the interview. Prepare adequately.
+                    The interview will be {{interviewDetails.mode}} at  {{interviewDetails.location}} {{interviewDetails.address}} {{interviewDetails.link}}. 
+                    Date and Time:
+                    {{interviewDetails.date}} at {{interviewDetails.time}}
+                    {{interviewDetails.important}}
+                     We wish you  success. For any enquiries, send your question via this email." target="_blank">
+                    <button type="button" class="btn btn-primary ml-5"
+                        (click)="updateInternshipApplication('PENDINGINTERVIEW')"
+                        [disabled]="!interviewDetails.mode || (interviewDetails.mode === 'REMOTE' && !interviewDetails.link) || (interviewDetails.mode === 'ONSITE' &&  !interviewDetails.address)  || (interviewDetails.mode === 'ONSITE' && !interviewDetails.location) || !interviewDetails.date || !interviewDetails.time">
+                        Send </button>
+                </a>
+
+            </div>
+
+        </div>
+    </div>
 </div>

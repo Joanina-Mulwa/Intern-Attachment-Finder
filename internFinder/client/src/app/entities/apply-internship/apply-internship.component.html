@@ -59,13 +59,64 @@
                         <input type="file" class="form-control" name="resume" accept=".docx,.pdf" (change)="selectFile($event)"
                             >
 
+                            <div class="milestoneProgress col-md-3 mt-3">
+                                <div *ngIf="progressBar === 5" class="progress"
+                                    style="height: 20px">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: 5%" aria-valuenow="5" aria-valuemin="0"
+                                        aria-valuemax="100">
+                                        5%
+                                    </div>
+                                </div>
+                                <div *ngIf="progressBar === 15" class="progress"
+                                    style="height: 20px">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: 15%" aria-valuenow="15" aria-valuemin="0"
+                                        aria-valuemax="100">
+                                        15%
+                                    </div>
+                                </div>
+                                <div *ngIf="progressBar === 30" class="progress"
+                                    style="height: 20px">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: 30%" aria-valuenow="30" aria-valuemin="0"
+                                        aria-valuemax="100">
+                                        30%
+                                    </div>
+                                </div>
+                                <div *ngIf="progressBar === 50" class="progress"
+                                    style="height: 20px">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                        aria-valuemax="100">
+                                        50%
+                                    </div>
+                                </div>
+                                <div *ngIf="progressBar === 85" class="progress"
+                                    style="height: 20px">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: 85%" aria-valuenow="85" aria-valuemin="0"
+                                        aria-valuemax="100">
+                                        85%
+                                    </div>
+                                </div>
+                                <div *ngIf="progressBar === 100" class="progress"
+                                    style="height: 20px">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: 100%" aria-valuenow="100"
+                                        aria-valuemin="0" aria-valuemax="100">
+                                        100%
+                                    </div>
+                                </div>
+                            </div>
+
                     </div>
 
                     <div class="mt-5">
                         <button *ngIf="!profileCompleteSuccess" class="btn btn-outline-primary"
-                            [disabled]="ifProfileComplete || !selectedFiles" (click)="submitApplication()">Submit Application</button>
+                            [disabled]="ifProfileComplete || !selectedFiles || progressBar != 100" (click)="submitApplication()">Submit Application</button>
                         <button *ngIf="profileCompleteSuccess" class="btn btn-outline-primary" 
-                        [disabled]="!selectedFiles" (click)="submitApplication()">Submit Application
+                        [disabled]="!selectedFiles || progressBar != 100" (click)="submitApplication()">Submit Application
                         </button>
                     </div>
                 </div>
