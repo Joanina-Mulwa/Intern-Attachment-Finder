@@ -32,6 +32,7 @@ import { PdfViewerModule }  from  'ng2-pdf-viewer';
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { FooterComponent } from './layouts/footer/footer.component';
+//import { ChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,6 +71,7 @@ import { FooterComponent } from './layouts/footer/footer.component';
     TabsModule.forRoot(),
     //MDBBootstrapModule.forRoot(),
     NgxDocViewerModule,
+ //   ChartsModule
     
   ],
   providers: [

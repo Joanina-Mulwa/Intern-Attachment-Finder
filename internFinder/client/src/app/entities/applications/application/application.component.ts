@@ -174,25 +174,25 @@ export class ApplicationComponent implements OnInit {
     this.applicationForcurrentInternship!.status = status as Status;
     console.log("About to application", this.applicationForcurrentInternship)
 
-    // setTimeout(() => {
-    //   window.history.back();
-    //   this.router.navigate(['/applicants', this.internshipId])
-    // }, 500)
-    // setTimeout(() => {
-    //   this.router.navigate(['/applicants', this.internshipId])
-    //   window.location.reload();
+    setTimeout(() => {
+      window.history.back();
+      this.router.navigate(['/applicants', this.internshipId])
+    }, 500)
+    setTimeout(() => {
+      this.router.navigate(['/applicants', this.internshipId])
+      window.location.reload();
 
 
-    // }, 1500)
-    // this.applicationApplied.updateApplication(this.applicationForcurrentInternship).subscribe(
-    //   (res)=>{
-    //     console.log("Updated internship to", res)
-    //     // this.router.navigate(['/applicants', this.internshipId])
+    }, 1500)
+    this.applicationApplied.updateApplication(this.applicationForcurrentInternship).subscribe(
+      (res)=>{
+        console.log("Updated internship to", res)
+        // this.router.navigate(['/applicants', this.internshipId])
 
-    //     //window.Location.reload();
-    // },
-    //   (err)=>{console.log("Error updating", err)}
-    // )
+        //window.Location.reload();
+    },
+      (err)=>{console.log("Error updating", err)}
+    )
 
   }
 

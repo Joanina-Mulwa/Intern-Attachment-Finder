@@ -102,13 +102,13 @@
 
                         <button *ngIf="applicationForcurrentInternship?.status === 'PENDINGINTERVIEW'"
                             class="btn btn-outline-secondary"
-                            (click)="updateInternshipApplication('REJECTED')">Rejecte  interview</button>
+                            (click)="updateInternshipApplication('REJECTED')">Reject, Failed interview</button>
 
                     </div>
                     <div class="col-md-6 text-end">
                         <button *ngIf="applicationForcurrentInternship?.status === 'PENDINGINTERVIEW'"
                             (click)="updateInternshipApplication('APPROVED')"
-                            class="btn btn-outline-secondary">Approved in interview</button>
+                            class="btn btn-outline-secondary">Approve, Passed interview</button>
                     </div>
 
                 </div>
