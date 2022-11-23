@@ -776,6 +776,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
+              <div class="report" id="report">
               <div class="modal-body">
                 <div class="Profile Picture Card">
                   <div style="text-align: center">
@@ -878,11 +879,12 @@
                   </div>
                 </div>
               </div>
+              </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">
                   Close
                 </button>
-                <button type="button" class="btn btn-primary ml-5">
+                <button type="button" class="btn btn-primary ml-5" (click)="savePdf()">
                   Download
                 </button>
               </div>

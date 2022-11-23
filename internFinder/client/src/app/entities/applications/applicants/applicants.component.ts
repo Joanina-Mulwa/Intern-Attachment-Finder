@@ -16,7 +16,8 @@ import { Programme, UserBio } from '../../users/user-bio-model';
 import { MatchComparisonModel } from './matchComparisonModel';
 import { ResumeSearchParameters } from '@affinda/affinda';
 import { Chart, registerables } from 'chart.js';
-
+import { jsPDF } from "jspdf";
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-applicants',
   templateUrl: './applicants.component.html',
@@ -72,9 +73,9 @@ export class ApplicantsComponent implements OnInit {
   recommendedArray: MatchComparisonModel[] = [];
   showReport: boolean = false;
   //public chart: any;
-  public chart?: any ;
-  public skillsChart?: any ;
-  public matchChart?: any ;
+  public chart?: any;
+  public skillsChart?: any;
+  public matchChart?: any;
   public totalChart?: any;
 
   resultMatch: any;
@@ -85,7 +86,7 @@ export class ApplicantsComponent implements OnInit {
   userProfile?: any;
   srcPDF!: string;
   dateToday?: any;
-  
+
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -104,18 +105,32 @@ export class ApplicantsComponent implements OnInit {
   }
   ngOnDestroy(): void {
     console.log(this.chart);
-    if(this.chart != undefined){
-//@ts-ignore
-this.chart.destroy();
+    if (this.chart != undefined) {
+      //@ts-ignore
+      this.chart.destroy();
     }
-    if(this.totalChart != undefined){
+    if (this.totalChart != undefined) {
       //@ts-ignore
       this.totalChart.destroy();
-          }
+    }
 
 
-    
-   }
+
+  }
+  savePdf() {
+    let DATA: any = document.getElementById('report');
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 208;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/*');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, '*', 0, position, fileWidth, fileHeight);
+      PDF.save('report.pdf');
+    });
+
+
+  }
   // goToApplication(navigaationArray: any[]) {
   //   //@ts-ignore
   //   this.chart.destroy();
@@ -147,7 +162,7 @@ this.chart.destroy();
     this.createChart();
     // this.createSkillsChart();
     // this.createMatchChart();
-     this.createTotalChart();
+    this.createTotalChart();
   }
 
   createChart(): void {
@@ -162,7 +177,7 @@ this.chart.destroy();
     console.log('Here are the totalMatch to be created', totalMatch);
 
     //@ts-ignore
-   this.chart= window.chart1 = new Chart('MyChart', {
+    this.chart = window.chart1 = new Chart('MyChart', {
       type: 'bar', //this denotes tha type of chart
       data: {
         // values on X-Axis
@@ -179,7 +194,7 @@ this.chart.destroy();
         aspectRatio: 2.5,
       },
     });
-    }
+  }
   createSkillsChart(): void {
     var studentLabel = this.shortlistedApplicantsArray?.map(
       (studentLabel) => studentLabel.appliedBy
@@ -258,8 +273,8 @@ this.chart.destroy();
     var totalApplicantsMatch = this.totalChartData.map(
       (totalApplicantsMatch) => totalApplicantsMatch.score
     );
-//@ts-ignore
-   this.totalChart=window.chart2 = new Chart('totalChart', {
+    //@ts-ignore
+    this.totalChart = window.chart2 = new Chart('totalChart', {
       type: 'bar', //this denotes tha type of chart
 
       data: {

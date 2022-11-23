@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
 import { PostInternshipService } from 'src/app/services/post-internship.service';
@@ -6,7 +6,8 @@ import { UserService } from 'src/app/services/user.service';
 import { ApplyInternship, Status } from '../../apply-internship/apply-internship-model';
 import { InternshipStatus, PostInternship } from '../../post-internships/post-internship-model';
 import { Authority, UserBio, UserStatus } from '../user-bio-model';
-
+import { jsPDF } from "jspdf";
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-bio-detail',
   templateUrl: './bio-detail.component.html',
@@ -29,7 +30,7 @@ export class BioDetailComponent implements OnInit {
   userEmail!: string;
   username!: string;
   isMe: boolean = false;
-  applications!: ApplyInternship[];
+  applications: ApplyInternship[] = [];
   allInternshipDetails!: PostInternship[];
   approvedInternshipsDetails?: any[] = [];
   rejectedInternshipsDetails?: any[] = [];
@@ -54,6 +55,7 @@ export class BioDetailComponent implements OnInit {
 
 
 
+
   ngOnInit(): void {
 
     this.route.params.subscribe(params => {
@@ -63,10 +65,23 @@ export class BioDetailComponent implements OnInit {
     this.checkIfMe();
     this.dateToday = new Date()
 
-     // this.getAppliedInternshipByMe();
+    // this.getAppliedInternshipByMe();
   }
 
+  savePdf() {
+    let DATA: any = document.getElementById('report');
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 208;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/*');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'image/*', 0, position, fileWidth, fileHeight);
+      PDF.save('report.pdf');
+    });
 
+
+  }
 
   // lastCompanyName = '';
   // displayCompanyName(item: any): boolean {
@@ -137,7 +152,7 @@ export class BioDetailComponent implements OnInit {
           this.loading = false;
         }
         this.applications?.forEach((application: any) => {
-          
+
           console.log("internships aplied by, ", application.appliedBy)
           this.postInternshipService.getFiles().subscribe(
             (res) => {
@@ -204,7 +219,7 @@ export class BioDetailComponent implements OnInit {
             if (internshipPostedByMe.internshipStatus === InternshipStatus.ACTIVE) {
               this.activeInternshipsPostedByMe.push(internshipPostedByMe)
               console.log("Active internships posted by me are", this.activeInternshipsPostedByMe)
-            
+
             }
             else if (internshipPostedByMe.internshipStatus === InternshipStatus.CLOSED) {
               this.closedInternshipsPostedByMe.push(internshipPostedByMe)

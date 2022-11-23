@@ -1,22 +1,28 @@
-.image-holder{
-  img,svg{
+.image-holder {
+
+  img,
+  svg {
     border: 1px solid #f1f1f1;
   }
 }
-p{
+
+p {
   font-size: 20px;
 }
+
 .hide {
   display: none;
 }
 
-.myDIV:hover + .hide {
+.myDIV:hover+.hide {
   display: inline;
   color: red;
 }
-.card-internship{
+
+.card-internship {
   min-height: 250px;
 }
+
 .table {
   thead {
     th {
@@ -47,3 +53,4 @@ p{
     }
   }
 }
+

@@ -1,58 +1,65 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import "../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+
+
 .donut-wrapper {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .donut {
-    width: 3rem;
-    height: 3rem;
-    margin: 5rem;
-    border-radius: 50%;
-    border: 0.3rem solid #4492a5;
-    /* //border-top-color: #4492a5; */
-    animation: 1.5s spin infinite linear;
-    animation-duration: 3s;
-
-   
-  }
-  .multi {
-    border-bottom-color: black;
-  }
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-    
-  }
-  .editor{
-    width: 600px;
-    min-height: 300px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.donut {
+  width: 3rem;
+  height: 3rem;
+  margin: 5rem;
+  border-radius: 50%;
+  border: 0.3rem solid #4492a5;
+  /* //border-top-color: #4492a5; */
+  animation: 1.5s spin infinite linear;
+  animation-duration: 3s;
+
+
+}
+
+.multi {
+  border-bottom-color: black;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+.editor {
+  width: 600px;
+  min-height: 300px;
+}
+
 ::ng-deep .angular-editor-textarea {
-    background: #fff!important;
-    min-height: 200px!important;
-  }
-  p{
-    font-size: 20px;
-  }
+  background: #fff !important;
+  min-height: 200px !important;
+}
 
-  label{
-    font-size: 20px;
-  }
+p {
+  font-size: 20px;
+}
 
-  .card{
-    box-shadow: 0 4px 8px 0 rgba(15, 227, 235, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 10px;
-    
-  }
- 
-  
-  
-  /* heading{
+label {
+  font-size: 20px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(15, 227, 235, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 10px;
+
+}
+
+
+
+/* heading{
     font-size: 20px;
   } */
