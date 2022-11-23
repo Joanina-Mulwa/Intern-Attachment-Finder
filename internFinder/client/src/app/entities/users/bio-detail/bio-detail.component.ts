@@ -29,7 +29,7 @@ export class BioDetailComponent implements OnInit {
   userEmail!: string;
   username!: string;
   isMe: boolean = false;
-  applications?: ApplyInternship[];
+  applications!: ApplyInternship[];
   allInternshipDetails!: PostInternship[];
   approvedInternshipsDetails?: any[] = [];
   rejectedInternshipsDetails?: any[] = [];
@@ -48,6 +48,7 @@ export class BioDetailComponent implements OnInit {
   specificApplicationId!: any;
   currentRouteUrl!: string;
   sortedInternshipDetails?: PostInternship[] = [];
+  dateToday?: any;
 
 
 
@@ -60,8 +61,11 @@ export class BioDetailComponent implements OnInit {
       console.log("We want to view profile email of ", this.userEmail)
     });
     this.checkIfMe();
+    this.dateToday = new Date()
+
      // this.getAppliedInternshipByMe();
   }
+
 
 
   // lastCompanyName = '';

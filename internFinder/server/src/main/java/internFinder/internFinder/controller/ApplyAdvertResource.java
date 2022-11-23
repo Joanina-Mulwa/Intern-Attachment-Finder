@@ -33,11 +33,12 @@ public class ApplyAdvertResource {
                                                              @RequestParam("appliedBy") String appliedBy,
                                                              @RequestParam("appliedOn") String appliedOn,
                                                              @RequestParam("postedBy") String postedBy,
-                                                             @RequestParam("parsedApplicationIdentifier") String parsedApplicationIdentifier){
+                                                             @RequestParam("parsedApplicationIdentifier") String parsedApplicationIdentifier,
+                                                             @RequestParam("parsedSkills") String parsedSkills){
         String message = "";
         System.out.println("**************************Testing************************");
         try {
-            ApplyAdvert applyAdvert = new ApplyAdvert(internshipId, appliedBy, appliedOn, postedBy, parsedApplicationIdentifier);
+            ApplyAdvert applyAdvert = new ApplyAdvert(internshipId, appliedBy, appliedOn, postedBy, parsedApplicationIdentifier, parsedSkills);
             applyAdvertService.createApplication(file, applyAdvert);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
@@ -66,7 +67,8 @@ public class ApplyAdvertResource {
                     dbFile.getAppliedOn(),
                     dbFile.getPostedBy(),
                     dbFile.getStatus(),
-                    dbFile.getParsedApplicationIdentifier());
+                    dbFile.getParsedApplicationIdentifier(),
+                    dbFile.getParsedSkills());
         }).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
@@ -163,7 +165,8 @@ public class ApplyAdvertResource {
                     dbFile.getAppliedOn(),
                     dbFile.getPostedBy(),
                     dbFile.getStatus(),
-                    dbFile.getParsedApplicationIdentifier());
+                    dbFile.getParsedApplicationIdentifier(),
+                    dbFile.getParsedSkills());
 
 
         }).collect(Collectors.toList());

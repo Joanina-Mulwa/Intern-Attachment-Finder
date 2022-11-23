@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApplyInternshipService } from 'src/app/services/apply-internship.service';
@@ -72,7 +73,7 @@ export class InternshipsComponent implements OnInit {
     this.getAdvertsPotedByMe();
     this.fileInfos = this.postInternshipService.getFiles();
 
-    
+
 
   }
   getAdvertsPotedByMe(): void {
@@ -80,7 +81,7 @@ export class InternshipsComponent implements OnInit {
     this.postInternshipService.getFiles().subscribe(
       (res) => {
         this.allPostedInternships = res;
-               this.loading = false;
+        this.loading = false;
 
         console.log("all internhsip posted are", this.allPostedInternships)
 
@@ -154,17 +155,30 @@ export class InternshipsComponent implements OnInit {
           }
         })
         console.log("Found ********88 testing ", this.internships)
-                this.loading = false;
+        this.loading = false;
 
 
         let date = new Date().toJSON().slice(0, 10);
         console.log("Found active internships ", this.internships)
+        console.log("Found active internships current date ", date)
+
         this.internships.forEach((internship: any) => {
+          console.log("Found active internships set date ", internship.reportingDate)
+
           if (internship.reportingDate === date && internship.internshipStatus === InternshipStatus.ACTIVE) {
             internship.internshipStatus = InternshipStatus.CLOSED;
+            console.log("About to update the intenship ", internship)
+
             this.postInternshipService.updateAdvertDetails(internship.internshipId, internship).subscribe(
-              (res) => {
-                console.log(" updated internship to ,", res)
+              (event: any) => {
+
+                if (event instanceof HttpResponse) {
+                  var message = event.body.message;
+                  console.log("Message");
+
+
+
+                }
               },
               (err) => {
                 console.log("error updating internship", err)

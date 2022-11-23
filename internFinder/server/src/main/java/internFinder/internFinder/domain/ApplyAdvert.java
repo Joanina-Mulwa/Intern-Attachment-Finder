@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_applications")
@@ -35,30 +37,40 @@ public class ApplyAdvert {
 
     public String parsedApplicationIdentifier;
 
+    public String parsedSkills;
+
     public ApplyAdvert(String name, String type, byte[] data) {
         this.name = name;
         this.type = type;
         this.data = data;
     }
-    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy, String parsedApplicationIdentifier) {
+    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy, String parsedApplicationIdentifier, String parsedSkills) {
         this.internshipId=internshipId;
         this.appliedBy=appliedBy;
         this.appliedOn=appliedOn;
         this.postedBy=postedBy;
         this.parsedApplicationIdentifier = parsedApplicationIdentifier;
+        this.parsedSkills = parsedSkills;
     }
 
-    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy, String status, String parsedApplicationIdentifier) {
+    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy, String status, String parsedApplicationIdentifier, String parsedSkills) {
         this.internshipId=internshipId;
         this.appliedBy=appliedBy;
         this.appliedOn=appliedOn;
         this.postedBy=postedBy;
         this.status=status;
         this.parsedApplicationIdentifier = parsedApplicationIdentifier;
+        this.parsedSkills = parsedSkills;
     }
 
     public ApplyAdvert() {
 
+    }
+    public List<String> getParsedSkillsList(){
+        if(this.parsedSkills != null){
+            return Arrays.asList(this.parsedSkills.split(","));
+        }
+        return new ArrayList<>();
     }
 
     @Override
@@ -75,6 +87,7 @@ public class ApplyAdvert {
                 ", postedBy='" + postedBy + '\'' +
                 ", status='" + status + '\'' +
                 ", parsedApplicationIdentifier='" + parsedApplicationIdentifier + '\'' +
+                ", parsedSkills='" + parsedSkills + '\'' +
                 '}';
     }
 }

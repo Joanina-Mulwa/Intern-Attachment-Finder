@@ -19,7 +19,9 @@ public class ApplicationResponseFile {
 
     public String parsedApplicationIdentifier;
 
-    public ApplicationResponseFile(Long id, String name, String url, String type, long size, Long internshipId, String appliedBy, String appliedOn, String postedBy, String status, String parsedApplicationIdentifier) {
+    public String parsedSkills;
+
+    public ApplicationResponseFile(Long id, String name, String url, String type, long size, Long internshipId, String appliedBy, String appliedOn, String postedBy, String status, String parsedApplicationIdentifier, String parsedSkills) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -31,5 +33,6 @@ public class ApplicationResponseFile {
         this.postedBy = postedBy;
         this.status = status;
         this.parsedApplicationIdentifier = parsedApplicationIdentifier;
+        this.parsedSkills=parsedSkills;
     }
 }

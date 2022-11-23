@@ -57,7 +57,7 @@ export class ApplyInternshipComponent implements OnInit {
 
 
   // }
-  applicationDetails={
+  applicationDetails: any={
     id: undefined as any,
 
     internshipId: undefined as unknown  as number,
@@ -68,7 +68,9 @@ export class ApplyInternshipComponent implements OnInit {
 
     postedBy: '',
 
-    parsedApplicationIdentifier: ''
+    parsedApplicationIdentifier: '',
+
+    parsedSkills: [],
   }
   selectedFiles!: FileList;
   currentFile!: any;
@@ -78,6 +80,7 @@ export class ApplyInternshipComponent implements OnInit {
   today?: any;
   progressBar?: number;
   extractedResumeIdentifier?: any;
+  extractedResumeSkills : any[]=[];
 
 
 
@@ -140,6 +143,13 @@ export class ApplyInternshipComponent implements OnInit {
         console.log("Returned resume data:");
         console.dir(result);
         this.extractedResumeIdentifier = result.meta.identifier;
+        result.data.skills.forEach((skill: any) => {
+
+         this.applicationDetails.parsedSkills.push(skill.name);
+
+        });
+        console.log("Returned skills:", this.applicationDetails.parsedSkills);
+
         console.log("Returned job identifier:", this.extractedResumeIdentifier);
 
         this.progressBar = 100;
@@ -177,11 +187,11 @@ export class ApplyInternshipComponent implements OnInit {
           this.progress = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
           this.message = event.body.message;
-          setTimeout(() => {
-            this.message = '';
+          // setTimeout(() => {
+          //   this.message = '';
             this.router.navigate(['/users/', this.currentEmail])
 
-          }, 3000)
+          // }, 3000)
         }
       },
       (err)=>{
