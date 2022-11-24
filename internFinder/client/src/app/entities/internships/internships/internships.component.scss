@@ -1,16 +1,52 @@
 .hide {
-    display: none;
+  display: none;
+}
+
+p {
+  font-size: 20px;
+  display: inline;
+}
+
+.card {
+  min-height: 200px;
+}
+
+.myDIV:hover+.hide {
+  display: inline;
+  color: red;
+}
+
+.card-internship {
+  min-height: 250px;
+}
+
+.table {
+  thead {
+    th {
+      background-color: #f1f1f1;
+    }
   }
-  
-  .myDIV:hover + .hide {
-    display: inline;
-    color: red;
-    
+
+  tbody {
+    td {
+      color: #5f6063;
+      font-size: 0.9rem;
+    }
+
+    .btn {
+      font-size: 0.7rem;
+      padding: 6px 12px;
+      margin: 0 5px;
+    }
+
+    .btn-view {
+      background-color: green;
+      color: #fff;
+    }
+
+    .btn-delete {
+      background-color: #d11a2a;
+      color: #fff;
+    }
   }
-  p{
-    font-size: 20px;
-    display: inline;
-  }
-  .card{
-    min-height: 200px;
-  }
+}

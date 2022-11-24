@@ -33,12 +33,13 @@ public class ApplyAdvertResource {
                                                              @RequestParam("appliedBy") String appliedBy,
                                                              @RequestParam("appliedOn") String appliedOn,
                                                              @RequestParam("postedBy") String postedBy,
+                                                             @RequestParam("postedByEmail") String postedByEmail,
                                                              @RequestParam("parsedApplicationIdentifier") String parsedApplicationIdentifier,
                                                              @RequestParam("parsedSkills") String parsedSkills){
         String message = "";
         System.out.println("**************************Testing************************");
         try {
-            ApplyAdvert applyAdvert = new ApplyAdvert(internshipId, appliedBy, appliedOn, postedBy, parsedApplicationIdentifier, parsedSkills);
+            ApplyAdvert applyAdvert = new ApplyAdvert(internshipId, appliedBy, appliedOn, postedBy, postedByEmail, parsedApplicationIdentifier, parsedSkills);
             applyAdvertService.createApplication(file, applyAdvert);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
@@ -66,6 +67,7 @@ public class ApplyAdvertResource {
                     dbFile.getAppliedBy(),
                     dbFile.getAppliedOn(),
                     dbFile.getPostedBy(),
+                    dbFile.getPostedByEmail(),
                     dbFile.getStatus(),
                     dbFile.getParsedApplicationIdentifier(),
                     dbFile.getParsedSkills());
@@ -98,7 +100,22 @@ public class ApplyAdvertResource {
         return ResponseEntity.status(HttpStatus.OK).body(files);
 
     }
+    @GetMapping("findApplicationsWith/{postedByEmail}")
+    public ResponseEntity<List<ApplyAdvert>> findApplicationsWithPostedBy(@PathVariable String postedByEmail){
+        System.out.println("Testing"+ postedByEmail);
+        List<ApplyAdvert> files = applyAdvertService.findApplicationsByPostedBy(postedByEmail);
 
+        for (ApplyAdvert file : files){
+            file.setUrl(ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/downloadApplicationById/")
+                    .path(String.valueOf(file.getId()))
+                    .toUriString());
+            System.out.println("Got file"+ file);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(files);
+
+    }
     @GetMapping("getApplicationsByInternshipId/{internshipId}")
     public ResponseEntity<List<ApplyAdvert>> findApplicationsByInternshipId(@PathVariable Long internshipId){
         List<ApplyAdvert> files = applyAdvertService.findApplicationsByInternshipId(internshipId);
@@ -164,6 +181,7 @@ public class ApplyAdvertResource {
                     dbFile.getAppliedBy(),
                     dbFile.getAppliedOn(),
                     dbFile.getPostedBy(),
+                    dbFile.getPostedByEmail(),
                     dbFile.getStatus(),
                     dbFile.getParsedApplicationIdentifier(),
                     dbFile.getParsedSkills());

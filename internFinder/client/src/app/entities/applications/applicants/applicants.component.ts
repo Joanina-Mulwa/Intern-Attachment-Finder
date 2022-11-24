@@ -131,15 +131,7 @@ export class ApplicantsComponent implements OnInit {
 
 
   }
-  // goToApplication(navigaationArray: any[]) {
-  //   //@ts-ignore
-  //   this.chart.destroy();
-  //   // //@ts-ignore
-  //   // window.chart2.destroy();
-  //   setTimeout(() => {
-  //     this.router.navigate(navigaationArray);
-  //   }, 10);
-  // }
+
   getCurrentUser(): void {
     console.log(
       'Current logged in username',
@@ -166,6 +158,11 @@ export class ApplicantsComponent implements OnInit {
   }
 
   createChart(): void {
+    console.log(this.chart);
+    if (this.chart != undefined) {
+      //@ts-ignore
+      this.chart.destroy();
+    }
     var studentLabel = this.shortlistedApplicantsArray?.map(
       (studentLabel) => studentLabel.appliedBy
     );
@@ -393,7 +390,10 @@ export class ApplicantsComponent implements OnInit {
               this.chartData.push(result);
             }
             if (this.shortlistedApplicantsArray.length === 0) {
-              this.loadingShortlisted = false;
+              setTimeout(() => {
+
+                this.loadingShortlisted = false;
+              }, 1000)
             }
 
             if (itemsProcessed === totalItemsToBeProcessed) {
@@ -403,17 +403,23 @@ export class ApplicantsComponent implements OnInit {
                 this.shortlistedApplicantsArray
               );
               //get the recommended student details
-
+              let index = 0
+              let totalIndex = this.shortlistedApplicantsArray.length;
               this.shortlistedApplicantsArray?.forEach((recommendedStudent) => {
                 this.userService
                   .findByEmail(recommendedStudent.appliedBy)
                   .subscribe(
                     (res) => {
-                      this.loadingShortlisted = false;
 
                       res.resumeFeedback = recommendedStudent.status;
 
                       this.shortlistedApplicantsDetails.push(res);
+                      index++
+                      if (index === totalIndex) {
+
+                        this.loadingShortlisted = false;
+                      }
+
                     },
                     (err) => {
                       console.log(

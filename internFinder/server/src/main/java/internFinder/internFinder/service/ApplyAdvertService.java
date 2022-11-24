@@ -80,6 +80,11 @@ public class ApplyAdvertService {
         return applyAdvertRepository.findByAppliedBy(appliedBy);
     }
 
+    public List<ApplyAdvert> findApplicationsByPostedBy(String postedByEmail) {
+        log.debug("Request to get internship applied by {} ", postedByEmail);
+        return applyAdvertRepository.findByPostedByEmail(postedByEmail);
+    }
+
     public List<ApplyAdvert> findApplicationsByInternshipId(Long internshipId) {
         log.debug("Request to find applications of internship id {} ", internshipId);
         return applyAdvertRepository.findByInternshipId(internshipId);

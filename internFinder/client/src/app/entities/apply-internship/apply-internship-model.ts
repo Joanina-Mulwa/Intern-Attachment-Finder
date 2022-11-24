@@ -4,6 +4,7 @@ export class ApplyInternship {
     appliedBy?: string;
     appliedOn?: string;
     postedBy?: string;
+    postedByEmail?: string;
     introduction?: string;
     reason?: string;
     strength?: string;
@@ -16,6 +17,7 @@ export class ApplyInternship {
         appliedBy?: string,
         appliedOn?: string,
         postedBy?: string,
+        postedByEmail?: string,
         introduction?: string,
         reason?: string,
         strength?: string,
@@ -28,6 +30,7 @@ export class ApplyInternship {
         this.appliedBy = appliedBy;
         this.appliedOn = appliedOn;
         this.postedBy = postedBy;
+        this.postedByEmail=postedByEmail;
         this.introduction = introduction;
         this.reason = reason;
         this.strength = strength;

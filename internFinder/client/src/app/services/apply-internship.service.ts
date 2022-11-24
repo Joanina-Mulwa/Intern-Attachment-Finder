@@ -10,15 +10,15 @@ export class ApplyInternshipService {
 
   constructor(
     protected httpClient: HttpClient,
-  ) { } 
+  ) { }
   private API_ENDPOINT = 'http://localhost:8080';
 
   // applyInternship(application: any): Observable<any>{
   //   return this.httpClient.post<any> (this.API_ENDPOINT + "/api/applyInternship" , application)
   // }
-  pasrseApplicationResume(file: File): Observable<any>{
+  pasrseApplicationResume(file: File): Observable<any> {
 
-    return this.httpClient.post<any>("https://api.superparser.com/parse", file )
+    return this.httpClient.post<any>("https://api.superparser.com/parse", file)
   }
 
   // updateInternshipApplication(application: any): Observable<any>{
@@ -33,9 +33,9 @@ export class ApplyInternshipService {
   //   return this.httpClient.get<any>( this.API_ENDPOINT + "/api/findApplicationById/" + id)
   // }
 
- 
 
-  searchApplicant(text?: string): Observable<any>{
+
+  searchApplicant(text?: string): Observable<any> {
     return this.httpClient.get<any>(this.API_ENDPOINT + "/api/application/search?text=" + text)
   }
 
@@ -46,10 +46,11 @@ export class ApplyInternshipService {
     formData.append('appliedBy', applicationDetails.appliedBy);
     formData.append('appliedOn', applicationDetails.appliedOn);
     formData.append('postedBy', applicationDetails.postedBy);
+    formData.append('postedByEmail', applicationDetails.postedByEmail);
     formData.append('parsedApplicationIdentifier', applicationDetails.parsedApplicationIdentifier)
     formData.append('parsedSkills', applicationDetails.parsedSkills)
 
-    const req = new HttpRequest('POST', `${this.API_ENDPOINT}/api/createApplication`, formData,{
+    const req = new HttpRequest('POST', `${this.API_ENDPOINT}/api/createApplication`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
@@ -59,28 +60,31 @@ export class ApplyInternshipService {
     return this.httpClient.get(`${this.API_ENDPOINT}/api/applications`);
   }
   getApplicationById(id: number): Observable<any> {
-    return this.httpClient.get(`${this.API_ENDPOINT}/api/getApplicationById/`+ id);
+    return this.httpClient.get(`${this.API_ENDPOINT}/api/getApplicationById/` + id);
   }
   getApplicationsByAppliedBy(appliedBy: string): Observable<any> {
-    return this.httpClient.get(`${this.API_ENDPOINT}/api/getApplicationsByAppliedBy/`+ appliedBy);
+    return this.httpClient.get(`${this.API_ENDPOINT}/api/getApplicationsByAppliedBy/` + appliedBy);
   }
-  getApplicationsByInternshipId(internshipId: number): Observable<any>{
-    return this.httpClient.get<any>( this.API_ENDPOINT + "/api/getApplicationsByInternshipId/" + internshipId)
+  getApplicationsWithPostedBy(postedBy: string): Observable<any> {
+    return this.httpClient.get(`${this.API_ENDPOINT}/api/findApplicationsWith/` + postedBy);
   }
-   // downloadApplicationById(id: number): Observable<any> {
+  getApplicationsByInternshipId(internshipId: number): Observable<any> {
+    return this.httpClient.get<any>(this.API_ENDPOINT + "/api/getApplicationsByInternshipId/" + internshipId)
+  }
+  // downloadApplicationById(id: number): Observable<any> {
   //   return this.httpClient.get(`${this.apiServerURL}/api/downloadApplicationById`+id);
   // }
- 
+
 
   updateApplication(applicationDetails: any): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('id', applicationDetails.id);
     formData.append('status', applicationDetails.status)
-    const req = new HttpRequest('PUT', `${this.API_ENDPOINT}/api/updateApplication`, formData,{
+    const req = new HttpRequest('PUT', `${this.API_ENDPOINT}/api/updateApplication`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
     return this.httpClient.request(req);
   }
- 
+
 }

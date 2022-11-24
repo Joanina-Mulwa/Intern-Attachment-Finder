@@ -33,6 +33,8 @@ public class ApplyAdvert {
 
     public String postedBy;
 
+    public String postedByEmail;
+
     public String status;
 
     public String parsedApplicationIdentifier;
@@ -44,20 +46,22 @@ public class ApplyAdvert {
         this.type = type;
         this.data = data;
     }
-    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy, String parsedApplicationIdentifier, String parsedSkills) {
+    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy, String postedByEmail, String parsedApplicationIdentifier, String parsedSkills) {
         this.internshipId=internshipId;
         this.appliedBy=appliedBy;
         this.appliedOn=appliedOn;
         this.postedBy=postedBy;
+        this.postedByEmail=postedByEmail;
         this.parsedApplicationIdentifier = parsedApplicationIdentifier;
         this.parsedSkills = parsedSkills;
     }
 
-    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy, String status, String parsedApplicationIdentifier, String parsedSkills) {
+    public ApplyAdvert(Long internshipId, String appliedBy, String appliedOn, String postedBy, String postedByEmail, String status, String parsedApplicationIdentifier, String parsedSkills) {
         this.internshipId=internshipId;
         this.appliedBy=appliedBy;
         this.appliedOn=appliedOn;
         this.postedBy=postedBy;
+        this.postedByEmail=postedByEmail;
         this.status=status;
         this.parsedApplicationIdentifier = parsedApplicationIdentifier;
         this.parsedSkills = parsedSkills;
@@ -85,6 +89,7 @@ public class ApplyAdvert {
                 ", appliedBy='" + appliedBy + '\'' +
                 ", appliedOn='" + appliedOn + '\'' +
                 ", postedBy='" + postedBy + '\'' +
+                ", postedByEmail='" + postedByEmail + '\'' +
                 ", status='" + status + '\'' +
                 ", parsedApplicationIdentifier='" + parsedApplicationIdentifier + '\'' +
                 ", parsedSkills='" + parsedSkills + '\'' +

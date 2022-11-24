@@ -5,10 +5,12 @@ import { ApplyInternshipService } from 'src/app/services/apply-internship.servic
 import { PostInternshipService } from 'src/app/services/post-internship.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
-import { ApplyInternship } from '../../apply-internship/apply-internship-model';
+import { ApplyInternship, Status } from '../../apply-internship/apply-internship-model';
 import { AdvertDetails, Domain, Period } from '../../post-internships/advert-details-model';
 import { InternshipStatus, PostInternship } from '../../post-internships/post-internship-model';
 import { Course, UserBio } from '../../users/user-bio-model';
+import { jsPDF } from "jspdf";
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-internships',
@@ -28,6 +30,8 @@ export class InternshipsComponent implements OnInit {
 
   username!: string;
   loading = true;
+  studentLoading = true;
+
   searchText: string = '';
   filterText: string = '';
 
@@ -52,6 +56,13 @@ export class InternshipsComponent implements OnInit {
   allInternships!: any[];
   applications!: ApplyInternship[];
   differenceInDays: any;
+  dateToday?: any;
+  applicationsAppliedToMe: ApplyInternship[] = [];
+  totalApplicationsAppliedToMe: ApplyInternship[] = [];
+  approvedApplicationsAppliedToMe: ApplyInternship[] = [];
+  showReport: boolean = false;
+
+
 
   deleteId: any;
   deleteTitle: any;
@@ -72,6 +83,8 @@ export class InternshipsComponent implements OnInit {
     //this.getUsername2();
     this.getAdvertsPotedByMe();
     this.fileInfos = this.postInternshipService.getFiles();
+    this.dateToday = new Date()
+
 
 
 
@@ -81,7 +94,6 @@ export class InternshipsComponent implements OnInit {
     this.postInternshipService.getFiles().subscribe(
       (res) => {
         this.allPostedInternships = res;
-        this.loading = false;
 
         console.log("all internhsip posted are", this.allPostedInternships)
 
@@ -101,16 +113,26 @@ export class InternshipsComponent implements OnInit {
             this.internshipsPostedByMe.push(internship);
             console.log("internhsip details i have posted are are", this.internshipsPostedByMe)
 
+
           }
+
+
 
 
         })
         console.log("Length of internships posted by me", this.internshipsPostedByMe.length)
         if (this.internshipsPostedByMe.length === 0) {
           console.log("You have not posted any internhsip")
+          setTimeout(() => {
+            this.loading = false;
+
+          }, 2000)
+
 
         }
         else {
+          let index = 0;
+          let totalIndex = this.internshipsPostedByMe.length;
           this.internshipsPostedByMe.forEach((internshipPostedByMe: any) => {
             if (internshipPostedByMe.internshipStatus === InternshipStatus.ACTIVE) {
 
@@ -123,8 +145,14 @@ export class InternshipsComponent implements OnInit {
 
             }
             else { console.log("No status found") }
+            index++;
+            if (index === totalIndex) {
+              this.loading = false
 
+            }
           })
+
+
         }
 
 
@@ -134,10 +162,10 @@ export class InternshipsComponent implements OnInit {
 
   }
   findAllAdverts(): void {
-    this.loading = true;
+    this.studentLoading = true;
     this.postInternshipService.getFiles().subscribe(
       (res) => {
-        this.loading = true;
+        this.studentLoading = true;
         console.log("Found all internships ", res)
         this.allInternships = res;
 
@@ -155,7 +183,7 @@ export class InternshipsComponent implements OnInit {
           }
         })
         console.log("Found ********88 testing ", this.internships)
-        this.loading = false;
+        this.studentLoading = false;
 
 
         let date = new Date().toJSON().slice(0, 10);
@@ -225,7 +253,7 @@ export class InternshipsComponent implements OnInit {
     console.log("Current logged in username and token ", this.tokenService.getUsername());
     console.log("Current logged in username", JSON.parse(localStorage.getItem('currentUser')!).email);
     this.userEmail = JSON.parse(localStorage.getItem('currentUser')!).email
-
+    this.findApplicationsAppliedToMe()
 
   }
 
@@ -359,7 +387,38 @@ export class InternshipsComponent implements OnInit {
     )
 
   }
+  findApplicationsAppliedToMe(): void {
+    this.applyInternship.getApplicationsWithPostedBy(this.userEmail).subscribe(
+      (res) => {
+        this.showReport = true;
+        console.log("These are the applications under my name", res);
+        this.applicationsAppliedToMe = res;
+        this.applicationsAppliedToMe.forEach((applicationAppliedToMe) => {
+          if (applicationAppliedToMe.status === Status.APPROVED) {
+            this.approvedApplicationsAppliedToMe.push(applicationAppliedToMe)
+          }
+        })
 
+      },
+      (err) => {
+        console.log("Error whoop whoop whoop");
+      }
+    )
+  }
+  savePdf() {
+    let DATA: any = document.getElementById('report');
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 208;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/*');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'image/*', 0, position, fileWidth, fileHeight);
+      PDF.save('report.pdf');
+    });
+
+
+  }
 
   // findAllinternships(): void {
   //   this.loading = true;

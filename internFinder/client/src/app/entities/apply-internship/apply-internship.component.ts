@@ -68,6 +68,8 @@ export class ApplyInternshipComponent implements OnInit {
 
     postedBy: '',
 
+    postedByEmail: '',
+
     parsedApplicationIdentifier: '',
 
     parsedSkills: [],
@@ -241,6 +243,7 @@ export class ApplyInternshipComponent implements OnInit {
       this.internshipDetail = res;
       console.log("Current internship was posted by this company email :", this.internshipDetail?.companyEmail);
       this.applicationDetails.postedBy=res.companyName;
+      this.applicationDetails.postedByEmail=res.companyEmail;
     },
     (err)=>{
       console.log("Error fetching current internship details", err)
