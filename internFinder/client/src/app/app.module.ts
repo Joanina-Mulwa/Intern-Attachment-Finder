@@ -58,7 +58,7 @@ import { FooterComponent } from './layouts/footer/footer.component';
     FooterComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
