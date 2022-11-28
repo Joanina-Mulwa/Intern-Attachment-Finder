@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@kolkov/angular-editor": "^3.0.0-beta.0",
-    "ng2-pdf-viewer": "^9.1.2"
-  }
-}

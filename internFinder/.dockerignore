@@ -1,0 +1,100 @@
+# flyctl launch added from .gitignore
+**/HELP.md
+**/target
+!**/.mvn/wrapper/maven-wrapper.jar
+!**/**/src/main/**/target
+!**/**/src/test/**/target
+
+### STS ###
+**/.apt_generated
+**/.classpath
+**/.factorypath
+**/.project
+**/.settings
+**/.springBeans
+**/.sts4-cache
+
+### IntelliJ IDEA ###
+**/.idea
+**/*.iws
+**/*.iml
+**/*.ipr
+
+### NetBeans ###
+nbproject/private
+nbbuild
+dist
+nbdist
+.nb-gradle
+**/build
+!**/**/src/main/**/build
+!**/**/src/test/**/build
+
+### VS Code ###
+**/.vscode
+
+# flyctl launch added from client/.gitignore
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+client/dist
+client/tmp
+client/out-tsc
+client/bazel-out
+
+# Node
+
+client/**/npm-debug.log
+client/**/yarn-error.log
+
+# IDEs and editors
+client/**/.idea
+client/**/.project
+client/**/.classpath
+client/**/.c9
+client/**/*.launch
+client/**/.settings
+client/**/*.sublime-workspace
+
+# Visual Studio Code
+client/**/.vscode/*
+!client/**/.vscode/settings.json
+!client/**/.vscode/tasks.json
+!client/**/.vscode/launch.json
+!client/**/.vscode/extensions.json
+client/**/.history/*
+
+# Miscellaneous
+client/.angular/cache
+client/**/.sass-cache
+client/connect.lock
+client/coverage
+client/libpeerconnection.log
+client/**/testem.log
+client/typings
+
+# System files
+client/**/.DS_Store
+client/**/Thumbs.db
+
+client/**/.app.yaml
+client/**/.gcloudignore
+
+# flyctl launch added from server/.idea/.gitignore
+# Default ignored files
+server/.idea/shelf
+server/.idea/workspace.xml
+# Editor-based HTTP Client requests
+server/.idea/httpRequests
+# Datasource local storage ignored files
+server/.idea/dataSources
+server/.idea/dataSources.local.xml
+server/.idea/applicatiopn.properties
+
+# flyctl launch added from server/venv/.gitignore
+# created by virtualenv automatically
+server/venv/**/*
+server/venv/**/application.properties
+server/venv/**/spring.config.import=file:application.properties
+server/venv/**/app.yaml
+server/venv/**/.gcloudignore

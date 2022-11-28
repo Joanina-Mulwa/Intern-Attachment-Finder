@@ -19,7 +19,7 @@ public class InternFinderApplication {
 	public CorsFilter corsFilter() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://127.0.0.1:9614", "https://api.superparser.com/parse","https://api.affinda.com/v2/job_descriptions","https://api.affinda.com/v2","https://api.affinda.com",  "api.superparser.com"));
+		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200","https://intern-attachment-finder.netlify.app/", "http://127.0.0.1:9614", "https://api.superparser.com/parse","https://api.affinda.com/v2/job_descriptions","https://api.affinda.com/v2","https://api.affinda.com",  "api.superparser.com"));
 		corsConfiguration.setMaxAge(5000L);
 		corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
 				"Accept", "Authorization", "Origin, Accept", "X-Requested-With","authority","x-api-key",

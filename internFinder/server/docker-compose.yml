@@ -1,0 +1,33 @@
+version: '3'
+services:
+  internfinder-db:
+    image: mysql
+    environment:
+      - STREAM_SLEEP=20
+      - JVM_OPTS=-Xmx1024m -Xms512m
+      - MYSQL_ROOT_PASSWORD=@Joaninah1
+      - MYSQL_DATABASE=internshipManager
+
+    ports:
+      - 27017:27017
+  internfinder-frontend:
+    image: internfinder-frontend:latest
+    environment:
+      PORT: 3000
+      PROXY_API: http://internfinder-backend:8080/
+    ports:
+      - 3000:3000
+  internfinder-backend:
+    image: internfinder-backend:latest
+    depends_on:
+      - internfinder-db
+    environment:
+      SPRING_APPLICATION_JSON: '{
+              "spring.datasource.url"  : "jdbc:mysql://localhost:3306/internshipManager,
+              "spring.datasource.username" : "joaninah",
+              "spring.datasource.password" : "@Joaninah1",
+              "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+              "spring.jpa.hibernate.ddl-auto" : "update"
+            }'
+    ports:
+      - 8080:8080
