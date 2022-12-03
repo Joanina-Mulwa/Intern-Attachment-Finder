@@ -320,7 +320,7 @@
                                     <div class="input-group mx-auto">
                                         <input name="passwordConfirm" [type]="showPassword ? 'text' : 'password'"
                                             class="form-control pwd-control" id="password-field" placeholder="Password"
-                                            [(ngModel)]="userConfirm.passwordConfirm">
+                                            [(ngModel)]="resetUserConfirm.passwordConfirm">
                                         <div>
                                             <i alt="show" class="far fa-eye eye-show"
                                                 (click)="showPassword = !showPassword" [class.hide]="showPassword"></i>
@@ -333,7 +333,8 @@
                         </div>
 
                         <button class="btn btn-secondary form-control mt-3 mb-3" (click)="resetPassword()"
-                            [disabled]="!resetUserLogins.email || !resetUserLogins.password">RESET PASSWORD</button>
+                            [disabled]="!resetUserLogins.email || !resetUserLogins.password || !resetUserConfirm.passwordConfirm">RESET
+                            PASSWORD</button>
                     </div>
 
                 </div>

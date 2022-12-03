@@ -504,30 +504,75 @@ export class LoginComponent implements OnInit {
           )
         }
         else {
-          result.password = this.resetUserLogins.password;
-          console.log("Now resetting to", result);
-          console.log("Now about to send to", this.resetUserLogins);
+          console.log("pass: ", this.resetUserLogins.password, " confirm:", this.resetUserConfirm.passwordConfirm);
 
+          if (this.resetUserLogins.password === this.resetUserConfirm.passwordConfirm) {
 
-          this.userService.resetPassword(this.resetUserLogins).subscribe(
-            (res) => {
-              this.resetPassSuccess = "Password successfuly reset, Login";
-              console.log("Password successfuly reset, Login");
-
+            if (this.resetUserLogins.password.length < 8) {
+              this.resetPassFailure = "Too short password(Must contain atleast 8 characters)"
               setTimeout(
                 () => {
-                  this.reset();
-                  this.resetPassSuccess = '';
-                  this.backToLogin();
 
-                }, 3000
+                  this.resetPassFailure = '';
+                }, 2000
               )
-            },
-            (err) => {
-              console.log(("Error resetting password"));
-
             }
-          )
+            else {
+              let pattern = new RegExp("^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$"); //Regex: At least 8 characters with at least 1 numericals (0-9),1 letters in Upper Case,1 Special Character (!@#$&*), 3 letters in Lower Case  "
+
+              if (pattern.test(this.resetUserLogins.password)) {
+
+
+
+                result.password = this.resetUserLogins.password;
+                console.log("Now resetting to", result);
+                console.log("Now about to send to", this.resetUserLogins);
+
+
+                this.userService.resetPassword(this.resetUserLogins).subscribe(
+                  (res) => {
+                    this.resetPassSuccess = "Password successfuly reset, Login";
+                    console.log("Password successfuly reset, Login");
+
+                    setTimeout(
+                      () => {
+                        this.reset();
+                        this.resetPassSuccess = '';
+                        this.backToLogin();
+
+                      }, 3000
+                    )
+                  },
+                  (err) => {
+                    console.log(("Error resetting password"));
+
+                  }
+                )
+              }
+              else {
+                this.resetPassFailure = "Password must contain at least 1 numerical (0-9),1 letter in Upper Case,1 Special Character (!@#$&*), 3 letters in Lower Case"
+                setTimeout(
+                  () => {
+
+                    this.resetPassFailure = '';
+                  }, 4000
+                )
+
+              }
+            }
+
+          }
+          else {
+            this.resetPassFailure = "Password mismatch";
+            setTimeout(
+              () => {
+                this.resetPassFailure = '';
+
+              }, 2000
+            )
+
+          }
+
         }
       },
       (err) => {
