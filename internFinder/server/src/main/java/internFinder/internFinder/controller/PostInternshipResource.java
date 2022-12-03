@@ -1,19 +1,12 @@
 package internFinder.internFinder.controller;
+
 import internFinder.internFinder.domain.PostInternship;
-import internFinder.internFinder.message.ResponseFile;
-import internFinder.internFinder.message.ResponseMessage;
 import internFinder.internFinder.service.PostInternshipService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController

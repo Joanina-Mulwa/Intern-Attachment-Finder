@@ -56,11 +56,14 @@ export class InternshipsComponent implements OnInit {
   allInternships!: any[];
   applications!: ApplyInternship[];
   differenceInDays: any;
+  differenceInCreationDays: any;
+
   dateToday?: any;
   applicationsAppliedToMe: ApplyInternship[] = [];
   totalApplicationsAppliedToMe: ApplyInternship[] = [];
   approvedApplicationsAppliedToMe: ApplyInternship[] = [];
   showReport: boolean = false;
+
 
 
 
@@ -165,6 +168,8 @@ export class InternshipsComponent implements OnInit {
     this.studentLoading = true;
     this.postInternshipService.getFiles().subscribe(
       (res) => {
+        let date = new Date().toJSON().slice(0, 10);
+
         this.studentLoading = true;
         console.log("Found all internships ", res)
         this.allInternships = res;
@@ -175,29 +180,14 @@ export class InternshipsComponent implements OnInit {
 
 
         this.allInternships.forEach((internship) => {
+          console.log("Testing dates", internship.reportingDate >= date && internship.internshipStatus === InternshipStatus.CLOSED);
 
 
+          if (internship.reportingDate >= date && internship.internshipStatus === InternshipStatus.CLOSED) {
+            internship.internshipStatus = InternshipStatus.ACTIVE;
+            console.log("About to update the intenship back to active ", internship)
 
-          if (internship.internshipStatus === InternshipStatus.ACTIVE) {
-            this.internships.push(internship)
-          }
-        })
-        console.log("Found ********88 testing ", this.internships)
-        this.studentLoading = false;
-
-
-        let date = new Date().toJSON().slice(0, 10);
-        console.log("Found active internships ", this.internships)
-        console.log("Found active internships current date ", date)
-
-        this.internships.forEach((internship: any) => {
-          console.log("Found active internships set date ", internship.reportingDate)
-
-          if (internship.reportingDate === date && internship.internshipStatus === InternshipStatus.ACTIVE) {
-            internship.internshipStatus = InternshipStatus.CLOSED;
-            console.log("About to update the intenship ", internship)
-
-            this.postInternshipService.updateAdvertDetails(internship.internshipId, internship).subscribe(
+            this.postInternshipService.updateAdvertDetails(internship.id, internship).subscribe(
               (event: any) => {
 
                 if (event instanceof HttpResponse) {
@@ -213,6 +203,54 @@ export class InternshipsComponent implements OnInit {
               }
             )
           }
+
+          if (internship.internshipStatus === InternshipStatus.ACTIVE) {
+            let currentDate = new Date(new Date().toJSON().slice(0, 10))
+            var createdOn = new Date(internship.createdOn);
+            // To calculate the time difference of two dates
+            var differenceInTime = currentDate.getTime() - createdOn.getTime();
+            // To calculate the no. of days between two dates
+            this.differenceInCreationDays = differenceInTime / (1000 * 3600 * 24);
+            console.log("the New creation daTE IS ", createdOn)
+            console.log("todays date is ", currentDate)
+            console.log("Difference in dayS ", this.differenceInCreationDays)
+            console.log("Difference in time ", differenceInTime)
+            internship.createdOn = this.differenceInCreationDays;
+            this.internships.push(internship)
+          }
+        })
+        console.log("Found ********88 testing ", this.internships)
+        this.studentLoading = false;
+
+
+        console.log("Found active internships ", this.internships)
+        console.log("Found active internships current date ", date)
+
+        this.internships.forEach((internship: any) => {
+          console.log("Found active internships set date ", internship.reportingDate)
+
+          if (internship.reportingDate < date && internship.internshipStatus === InternshipStatus.ACTIVE) {
+            internship.internshipStatus = InternshipStatus.CLOSED;
+            console.log("About to update the intenship to closed ", internship)
+
+            this.postInternshipService.updateAdvertDetails(internship.id, internship).subscribe(
+              (event: any) => {
+
+                if (event instanceof HttpResponse) {
+                  var message = event.body.message;
+                  console.log("Message");
+
+
+
+                }
+              },
+              (err) => {
+                console.log("error updating internship", err)
+              }
+            )
+          }
+
+
           this.applyInternship.getApplicationsByAppliedBy(this.userEmail).subscribe(
             (res) => {
               this.applications = res;
@@ -335,6 +373,7 @@ export class InternshipsComponent implements OnInit {
   }
   filterAdvert(value: string): void {
     this.loading = true;
+    this.studentLoading = true;
     this.filterText = value;
     console.log("filtering ", this.filterText)
     console.log("user course study is ", this.userBioDetail?.course)
@@ -356,6 +395,7 @@ export class InternshipsComponent implements OnInit {
     this.postInternshipService.filterAdvert(this.filterText).subscribe(
       result => {
         this.loading = false;
+        this.studentLoading = false;
         this.internships = result;
         let date = new Date().toJSON().slice(0, 10);
         this.internships.forEach((internship: any) => {

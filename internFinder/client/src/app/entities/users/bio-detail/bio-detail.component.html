@@ -177,7 +177,7 @@
         </div>
 
         <div id='tabStudent' *ngIf="isMe && userBioDetail.authority == 'STUDENT' ">
-            <div *ngIf="!loading">
+            <div *ngIf="!loading && applications.length != 0">
                 <div class="row m-3">
                     <div class="col-md-11">
 
@@ -553,39 +553,6 @@
             </div>
         </div>
 
-        <!-- <div hidden *ngIf="userBioDetail?.authority == 'STUDENT' && applications.length != 0" class="card p-3 mt-3">
-            <h4>Summary of companies sent applications to</h4>
-             
-
-            <div *ngFor="let item of internshipDetails; trackBy: trackCompanyName">
-                <h5 *ngIf="displayCompanyName(item)">{{ item.companyName }}</h5>
-                <ul>
-                    <li>
-                        <p>Application sent on request position {{item.internshipTitle}} at company
-                            {{item.companyName}} <small><a *ngIf="isMe"
-                                    [routerLink]="['/details', item.id]">see more</a></small> </p>
-                    </li>
-                </ul>
-            </div>
-         
-            <div hidden>
-                <div *ngFor="let internshipDetail of internshipDetails">
-                    <h6 *ngIf="internshipDetail.companyName">{{internshipDetail.companyName}}</h6>
-                    <ul>
-                        <li>
-                            <p>Application sent on request position {{internshipDetail.internshipTitle}} at
-                                {{internshipDetail.companyName}} <small><a
-                                        [routerLink]="['/details', internshipDetail.id]">see more</a></small> </p>
-                        </li>
-                    </ul>
-
-                </div>
-
-
-
-            </div>
-        </div> -->
-
 
         <div *ngIf="!isMe" id='tabEmployer' class="mt-3 justify-content">
             <tabset>
@@ -696,123 +663,244 @@
 
             <div type="button" data-toggle="modal" data-target="#exampleModal2" class="btn btn-danger mb-5"
                 (click)="softDeactivateAccount()">Deactivate Account</div>
+
+            <div type="button" data-toggle="modal" data-target="#exampleModal3"
+                class="btn btn-outline-secondary ml-2 mb-5">Reset
+                Password</div>
+
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Deactivate account of user {{userEmail}}
+                            <h5 class="modal-title" id="exampleModal3Label">Reset Password, You will be logged out. Use
+                                the new
+                                password in next login
                             </h5>
+
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>We are sorry to see you leave <i class="far fa-frown"></i>. Are you sure you want to
-                                deactivate your account {{userEmail}} ? </p>
-                            <p>You can later activate your account</p>
+
+
+
+
+                            <div class="mb-4">
+                                <div class="mb-4">
+                                    <div class="form-group inner-addon right-addon">
+                                        <label class="mb-2" for="password"><strong>New Password</strong></label>
+                                        <div class="input-group mx-auto">
+                                            <input name="password" [type]="showPassword ? 'text' : 'password'"
+                                                class="form-control pwd-control" id="password-field"
+                                                placeholder="Password" [(ngModel)]="resetUserLogins.password">
+                                            <div>
+                                                <i alt="show" class="far fa-eye eye-show"
+                                                    (click)="showPassword = !showPassword"
+                                                    [class.hide]="showPassword"></i>
+                                                <i alt="hide" class="far fa-eye-slash eye-hide"
+                                                    (click)="showPassword = !showPassword"
+                                                    [class.hide]="!showPassword"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="form-group inner-addon right-addon">
+                                        <label class="mb-2" for="passwordConfirm"><strong>Confirm new
+                                                Password</strong></label>
+                                        <div class="input-group mx-auto">
+                                            <input name="passwordConfirm" [type]="showPassword ? 'text' : 'password'"
+                                                class="form-control pwd-control" id="password-field"
+                                                placeholder="Password" [(ngModel)]="resetUserConfirm.passwordConfirm">
+                                            <div>
+                                                <i alt="show" class="far fa-eye eye-show"
+                                                    (click)="showPassword = !showPassword"
+                                                    [class.hide]="showPassword"></i>
+                                                <i alt="hide" class="far fa-eye-slash eye-hide"
+                                                    (click)="showPassword = !showPassword"
+                                                    [class.hide]="!showPassword"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-10">
+                                    <div *ngIf="resetPassSuccess"
+                                        class="alert alert-dismissible alert-success fade show" role="alert">
+                                        {{ resetPassSuccess }}
+                                        <button type="button" class="btn-close" aria-label="Close"
+                                            data-bs-dismiss="alert"> </button>
+                                    </div>
+                                    <div *ngIf="resetPassFailure" class="alert alert-dismissible alert-danger fade show"
+                                        role="alert">
+                                        {{ resetPassFailure }}
+                                        <button type="button" class="btn-close" aria-label="Close"
+                                            data-bs-dismiss="alert"> </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                (click)="deactivateAccount()">Deactivate</button>
+                            <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal"
+                                (click)="reset()">Cancel</button>
+                            <button type="button" class="btn btn-primary" (click)="resetPassword()"
+                                [disabled]="!resetUserLogins.password">Reset</button>
                         </div>
                     </div>
                 </div>
+
             </div>
-
-
         </div>
-        <!-- Modal -->
+    </div>
 
-        <div class="container-fluid">
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true" style="margin-left: 5px">
-                <div class="modal-dialog modal-xl" role="document">
-                    <div class="custom">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">
-                                    Here is the applied internships report
-                                </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="report" id="report">
-                                <div class="modal-body">
-                                    <div class="Profile Picture Card">
-                                        <div style="text-align: center">
-                                            <div class="image">
-                                                <img *ngIf="userBioDetail.profileImageUrl"
-                                                    [src]="userBioDetail.profileImageUrl" class="rounded-circle"
-                                                    height="150" width="150" />
-                                                <img *ngIf="!userBioDetail?.profileImageUrl" class="rounded-circle"
-                                                    height="200" width="200" src="assets/images/plain-user.png" />
-                                            </div>
-                                            <p></p>
-                                            <h6>
-                                                {{ userBioDetail.name }}
-                                            </h6>
-                                        </div>
+    <!-- Deactivate account Modal -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Deactivate account of user
+                        {{userEmail}}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>We are sorry to see you leave <i class="far fa-frown"></i>.
+                        Are you sure you want to
+                        deactivate your account
+                        {{userEmail}} ? </p>
+                    <p>You can later activate your
+                        account</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        (click)="deactivateAccount()">Deactivate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!-- Student applied internships Modal -->
+
+<div class="container-fluid">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" style="margin-left: 5px">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="custom">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Here is the applied
+                            internships report
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="report" id="report">
+                        <div class="modal-body">
+                            <div class="Profile Picture Card">
+                                <div style="text-align: center">
+                                    <div class="image">
+                                        <img *ngIf="userBioDetail?.profileImageUrl"
+                                            [src]="userBioDetail?.profileImageUrl" class="rounded-circle" height="150"
+                                            width="150" />
+                                        <img *ngIf="!userBioDetail?.profileImageUrl" class="rounded-circle" height="200"
+                                            width="200" src="assets/images/plain-user.png" />
                                     </div>
-                                    <p style="text-align: center; text-decoration: underline; text-shadow: 1em;"
-                                        *ngIf="applications.length != 0">
-
-                                        Internship report as on : {{dateToday}}
-
-                                    </p>
-
-
-
-                                    <p *ngIf="applications.length === 0" class="text-muted">No applications made</p>
-                                    <table *ngIf="applications.length !== 0" class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Internship</th>
-                                                <th>Posted By</th>
-                                                <th>Posted On</th>
-                                                <th>Status</th>
-                                                <th>Period</th>
-                                                <th>Applied On</th>
-                                                <th>Response</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let internshipDetail of internshipDetails ; let i=index">
-                                                <td>{{internshipDetail?.internshipTitle}}</td>
-                                                <td>{{internshipDetail?.companyName}}</td>
-                                                <td>{{internshipDetail?.createdOn}}</td>
-                                                <td>{{internshipDetail?.internshipStatus}}</td>
-                                                <td>{{internshipDetail?.period}}</td>
-
-                                                <td>{{applications[i].appliedOn}}</td>
-                                                <td>{{applications[i].status ? applications[i].status : 'Pending'}}</td>
-
-
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-
-
-
+                                    <p></p>
+                                    <h6>
+                                        {{
+                                        userBioDetail?.name
+                                        }}
+                                    </h6>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">
-                                    Close
-                                </button>
-                                <button type="button" class="btn btn-primary ml-5" (click)="savePdf()">
-                                    Download
-                                </button>
-                            </div>
+                            <p style="text-align: center; text-decoration: underline; text-shadow: 1em;"
+                                *ngIf="applications.length != 0">
+
+                                Internship report as on
+                                : {{dateToday}}
+
+                            </p>
+
+
+
+                            <p *ngIf="applications.length === 0" class="text-muted">No
+                                applications made</p>
+                            <table *ngIf="applications.length !== 0" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Internship
+                                        </th>
+                                        <th>Posted By
+                                        </th>
+                                        <th>Posted On
+                                        </th>
+                                        <th>Status</th>
+                                        <th>Period</th>
+                                        <th>Applied On
+                                        </th>
+                                        <th>Response
+                                        </th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let internshipDetail of internshipDetails ; let i=index">
+                                        <td>{{internshipDetail?.internshipTitle}}
+                                        </td>
+                                        <td>{{internshipDetail?.companyName}}
+                                        </td>
+                                        <td>{{internshipDetail?.createdOn}}
+                                        </td>
+                                        <td>{{internshipDetail?.internshipStatus}}
+                                        </td>
+                                        <td>{{internshipDetail?.period}}
+                                        </td>
+
+                                        <td>{{applications[i].appliedOn}}
+                                        </td>
+                                        <td>{{applications[i].status
+                                            ?
+                                            applications[i].status
+                                            :
+                                            'Pending'}}
+                                        </td>
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+
+
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-primary ml-5" data-dismiss="modal" (click)="savePdf()">
+                            Download
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
+</div>

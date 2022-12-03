@@ -1,11 +1,8 @@
 package internFinder.internFinder.service;
 
 import internFinder.internFinder.Security.UserNotFoundException;
-import internFinder.internFinder.domain.PostAdvert;
-import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.domain.User;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
-import internFinder.internFinder.domain.enumarations.InternshipStatus;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
 import internFinder.internFinder.domain.enumarations.UserStatus;
 import internFinder.internFinder.dto.UserBioDTO;
@@ -14,12 +11,13 @@ import internFinder.internFinder.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 import static internFinder.internFinder.domain.enumarations.UserPermission.*;
 
@@ -141,10 +139,12 @@ public class UserService {
     }
 
 
-    public Optional<User> resetPassword(User user){
-        log.debug("Request to reset password of user : {} ", user);
-        String email = user.getEmail();
-        String password = user.getPassword();
+    public Optional<User> resetPassword(String email, String password){
+        log.debug("Request to reset password of user : {} ", email);
+        System.out.println("Request to reset password for user "+ password);
+
+
+
         System.out.println("Request to reset password for user "+ email);
         Optional<User> userOptional = userRepository.findByEmail(email);
         if(userOptional.isPresent()){

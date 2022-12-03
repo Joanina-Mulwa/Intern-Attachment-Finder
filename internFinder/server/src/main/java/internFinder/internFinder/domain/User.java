@@ -4,10 +4,8 @@ import com.sun.istack.NotNull;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
 import internFinder.internFinder.domain.enumarations.UserStatus;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

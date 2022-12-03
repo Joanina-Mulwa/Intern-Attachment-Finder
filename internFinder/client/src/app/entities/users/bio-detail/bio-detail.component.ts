@@ -51,12 +51,29 @@ export class BioDetailComponent implements OnInit {
   sortedInternshipDetails?: PostInternship[] = [];
   dateToday?: any;
 
+  resetPassSuccess = '';
+  resetPassFailure = '';
+  resetPass = false;
+  showPassword!: boolean;
+  userDetailsReset: any;
+  resetDone = false;
+
+
+
+  resetUserLogins = {
+    email: '',
+    password: '',
+  };
+  resetUserConfirm = {
+    passwordConfirm: '',
+  }
 
 
 
 
 
   ngOnInit(): void {
+
 
     this.route.params.subscribe(params => {
       this.userEmail = params['email'];
@@ -67,10 +84,135 @@ export class BioDetailComponent implements OnInit {
 
     // this.getAppliedInternshipByMe();
   }
+  getCurrentUser(): void {
+    console.log("Current logged in username", JSON.parse(localStorage.getItem('currentUser')!).email);
+    this.userEmail = JSON.parse(localStorage.getItem('currentUser')!).email;
+    this.userService.findByEmail(this.userEmail).subscribe(
+      (res) => {
+        // window.location.reload();
+        console.log("User details is", res)
+
+
+      },
+      (err) => {
+        console.log("Error fetching current user details", err)
+      }
+    )
+
+  }
+  reset(): void {
+
+    this.resetUserLogins = {
+      email: '',
+      password: '',
+    };
+    this.resetUserConfirm = {
+      passwordConfirm: '',
+    }
+  }
+  resetPassword(): void {
+
+    if (this.resetUserLogins.password === this.resetUserConfirm.passwordConfirm) {
+
+      if (this.resetUserLogins.password.length < 8) {
+        this.resetPassFailure = "Too short password(Must contain atleast 8 characters)"
+        setTimeout(
+          () => {
+
+            this.resetPassFailure = '';
+          }, 2000
+        )
+      }
+      else {
+        let pattern = new RegExp("^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$"); //Regex: At least 8 characters with at least 1 numericals (0-9),1 letters in Upper Case,1 Special Character (!@#$&*), 3 letters in Lower Case  "
+        //other regex
+        // "^(?=(.*[a-zA-Z]){1,})(?=(.*[0-9]){2,}).{8,}$"
+        // "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"
+
+        if (pattern.test(this.resetUserLogins.password)) {
+          console.log("About to reset password")
+
+          this.userEmail = JSON.parse(localStorage.getItem('currentUser')!).email;
+          this.userService.findByEmail(this.userEmail).subscribe(
+            (res) => {
+              this.userDetailsReset = res;
+              this.userDetailsReset.password = this.resetUserLogins.password;
+              this.resetUserLogins.email = this.userEmail;
+              console.log("Got these user to reset", this.userDetailsReset);
+              console.log("Got these user to reset details", this.resetUserLogins);
+
+
+              this.userService.resetPassword(this.resetUserLogins).subscribe(
+                (res) => {
+                  this.resetPassSuccess = "Password successfuly reset, Login";
+                  setTimeout(
+                    () => {
+                      this.resetPassSuccess = '';
+                      this.logOut();
+                    }, 2000
+                  )
+                },
+                (err) => {
+                  this.resetPassFailure = "Error resetting password, Try later";
+                  setTimeout(
+                    () => {
+                      this.resetPassFailure = '';
+
+                    }, 2000
+                  )
+                }
+              )
+
+
+            },
+            (err) => {
+              console.log("Error fetching current user details", err)
+            }
+          )
+
+
+
+
+
+        }
+        else {
+          this.resetPassFailure = "Password must contain at least 1 numerical (0-9),1 letter in Upper Case,1 Special Character (!@#$&*), 3 letters in Lower Case"
+          setTimeout(
+            () => {
+
+              this.resetPassFailure = '';
+            }, 4000
+          )
+
+        }
+      }
+
+
+
+    } else {
+      this.resetPassFailure = "Password mismatch";
+      setTimeout(
+        () => {
+          this.resetPassFailure = '';
+
+        }, 2000
+      )
+
+    }
+
+
+  }
+  logOut(): void {
+    this.showNavbar = false;
+    setTimeout(function () {
+      window.location.reload();
+    }, 500);
+    this.router.navigate(['']);
+  }
 
   savePdf() {
     let DATA: any = document.getElementById('report');
-    html2canvas(DATA).then((canvas) => {
+    html2canvas(DATA, { logging: true, allowTaint: true, useCORS: true }).then((canvas) => {
       let fileWidth = 208;
       let fileHeight = (canvas.height * fileWidth) / canvas.width;
       const FILEURI = canvas.toDataURL('image/*');

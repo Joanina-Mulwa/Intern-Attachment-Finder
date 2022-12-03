@@ -72,8 +72,8 @@
                                         <h4>Activate Account</h4>
                                     </div>
                                     <div class="col-md-7">
-                                        <div *ngIf="activationFailure" class="alert alert-dismissible alert-danger fade show"
-                                            role="alert">
+                                        <div *ngIf="activationFailure"
+                                            class="alert alert-dismissible alert-danger fade show" role="alert">
                                             {{activationFailure}}
                                             <button type="button" class="btn-close" aria-label="Close"
                                                 data-bs-dismiss="alert"></button>
@@ -110,7 +110,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
 
                                     <div class="mb-4">
                                         <div class="form-group inner-addon right-addon">
@@ -240,7 +240,7 @@
                                     ACCOUNT</button>
                             </div>
 
-                            <div  *ngIf="!showActivate" >
+                            <div *ngIf="!showActivate">
                                 <div class="row p-4">
                                     <hr class="col-md-5">
                                     Or
@@ -294,41 +294,46 @@
 
                         <div class="mb-4">
                             <label class="mb-2" for="email"><strong>Email</strong></label>
-                            <input type="text" name="email" class="form-control" [(ngModel)]="userLogins.email">
+                            <input type="text" name="email" class="form-control" [(ngModel)]="resetUserLogins.email">
                         </div>
-
-
                         <div class="mb-4">
-                            <div class="form-group inner-addon right-addon">
-                                <label class="mb-2" for="password"><strong>Password</strong></label>
-                                <div class="input-group ">
-                                    <input name="password" [type]="showPassword ? 'text' : 'password'"
-                                        class="form-control pwd-control" id="password-field" placeholder="Password"
-                                        [(ngModel)]="userLogins.password">
-                                    <div>
-                                        <i alt="show" class="far fa-eye eye-show" (click)="showPassword = !showPassword"
-                                            [class.hide]="showPassword"></i>
-                                        <i alt="hide" class="far fa-eye-slash eye-hide"
-                                            (click)="showPassword = !showPassword" [class.hide]="!showPassword"></i>
+                            <div class="mb-4">
+                                <div class="form-group inner-addon right-addon">
+                                    <label class="mb-2" for="password"><strong>New Password</strong></label>
+                                    <div class="input-group mx-auto">
+                                        <input name="password" [type]="showPassword ? 'text' : 'password'"
+                                            class="form-control pwd-control" id="password-field" placeholder="Password"
+                                            [(ngModel)]="resetUserLogins.password">
+                                        <div>
+                                            <i alt="show" class="far fa-eye eye-show"
+                                                (click)="showPassword = !showPassword" [class.hide]="showPassword"></i>
+                                            <i alt="hide" class="far fa-eye-slash eye-hide"
+                                                (click)="showPassword = !showPassword" [class.hide]="!showPassword"></i>
+                                        </div>
                                     </div>
                                 </div>
-                                
                             </div>
-                            <div class="form-group inner-addon right-addon">
-                            <div class="input-group ">
-                                <input name="password"
-                                    class="form-control pwd-control" id="password-field" placeholder="Password"
-                                    >
-                                <div>
-                                    <i alt="show" class="far fa-eye eye-show" ></i>
-                                    <i alt="hide" class="far fa-eye-slash eye-hide"
-                                        ></i>
+                            <div class="mb-4">
+                                <div class="form-group inner-addon right-addon">
+                                    <label class="mb-2" for="passwordConfirm"><strong>Confirm new
+                                            Password</strong></label>
+                                    <div class="input-group mx-auto">
+                                        <input name="passwordConfirm" [type]="showPassword ? 'text' : 'password'"
+                                            class="form-control pwd-control" id="password-field" placeholder="Password"
+                                            [(ngModel)]="userConfirm.passwordConfirm">
+                                        <div>
+                                            <i alt="show" class="far fa-eye eye-show"
+                                                (click)="showPassword = !showPassword" [class.hide]="showPassword"></i>
+                                            <i alt="hide" class="far fa-eye-slash eye-hide"
+                                                (click)="showPassword = !showPassword" [class.hide]="!showPassword"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            </div>
                         </div>
+
                         <button class="btn btn-secondary form-control mt-3 mb-3" (click)="resetPassword()"
-                            [disabled]="!userLogins.email || !userLogins.password">RESET PASSWORD</button>
+                            [disabled]="!resetUserLogins.email || !resetUserLogins.password">RESET PASSWORD</button>
                     </div>
 
                 </div>

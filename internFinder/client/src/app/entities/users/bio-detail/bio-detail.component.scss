@@ -54,3 +54,21 @@ p {
   }
 }
 
+.inner-addon {
+  position: relative;
+}
+
+.inner-addon .far {
+  position: absolute;
+  padding: 10px 30px;
+  z-index: 100;
+  cursor: pointer;
+}
+
+.right-addon .far {
+  right: 0px;
+}
+
+.right-addon input {
+  padding-right: 30px;
+}

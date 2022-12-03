@@ -2,8 +2,6 @@ package internFinder.internFinder.service;
 
 import internFinder.internFinder.Security.UserNotFoundException;
 import internFinder.internFinder.domain.ApplyInternship;
-import internFinder.internFinder.domain.PostInternship;
-import internFinder.internFinder.domain.User;
 import internFinder.internFinder.repository.ApplyInternshipRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

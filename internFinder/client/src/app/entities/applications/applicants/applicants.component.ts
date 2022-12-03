@@ -119,7 +119,7 @@ export class ApplicantsComponent implements OnInit {
   }
   savePdf() {
     let DATA: any = document.getElementById('report');
-    html2canvas(DATA).then((canvas) => {
+    html2canvas(DATA, { logging: true, allowTaint: true, useCORS: true }).then((canvas) => {
       let fileWidth = 208;
       let fileHeight = (canvas.height * fileWidth) / canvas.width;
       const FILEURI = canvas.toDataURL('image/*');

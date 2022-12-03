@@ -1,11 +1,6 @@
 package internFinder.internFinder.domain;
 
-import internFinder.internFinder.message.ResponseFile;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.lang.reflect.Array;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "tbl_adverts")

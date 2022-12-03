@@ -750,7 +750,7 @@
           </tab>
         </tabset>
       </div>
-      <div *ngIf="showReport" class="col-md-1">
+      <div *ngIf="showReport && shortlistedApplicantsArray.length != 0" class="col-md-1">
         <button data-toggle="modal" data-target="#exampleModal" style="cursor: pointer" (click)="createReport()"
           class="myDIV btn btn-secondary">
           Get Report
@@ -777,51 +777,51 @@
                 </button>
               </div>
               <div class="report" id="report">
-              <div class="modal-body">
-                <div class="Profile Picture Card">
-                  <div style="text-align: center">
-                    <div class="image">
-                      <img *ngIf="userProfile?.profileImageUrl" [src]="userProfile?.profileImageUrl"
-                        class="rounded-circle" height="150" width="150" />
-                      <img *ngIf="!userProfile?.profileImageUrl" class="rounded-circle" height="200" width="200"
-                        src="assets/images/plain-user.png" />
+                <div class="modal-body">
+                  <div class="Profile Picture Card">
+                    <div style="text-align: center">
+                      <div class="image">
+                        <img *ngIf="userProfile?.profileImageUrl" [src]="userProfile?.profileImageUrl"
+                          class="rounded-circle" height="150" width="150" />
+                        <img *ngIf="!userProfile?.profileImageUrl" class="rounded-circle" height="200" width="200"
+                          src="assets/images/plain-user.png" />
+                      </div>
+                      <p></p>
+                      <h6>
+                        {{ userProfile?.name }}
+                      </h6>
                     </div>
-                    <p></p>
-                    <h6>
-                      {{ userProfile?.name }}
-                    </h6>
                   </div>
-                </div>
-                <p style="text-align: center; text-decoration: underline; text-shadow: 1em;"
-                  *ngIf="shortlistedApplicantsArray.length != 0">
+                  <p style="text-align: center; text-decoration: underline; text-shadow: 1em;"
+                    *ngIf="shortlistedApplicantsArray.length != 0">
 
-                  Reccomendation report as on, {{dateToday}}
+                    Reccomendation report as on, {{dateToday}}
 
-                </p>
-                <div class="row mb-3">
-                  <div class="col-md-5">
-                    <!-- <embed *ngIf="internshipDetails?.type == 'application/pdf'" [src]="srcPDF | safeUrl"
+                  </p>
+                  <div class="row mb-3">
+                    <div class="col-md-5">
+                      <!-- <embed *ngIf="internshipDetails?.type == 'application/pdf'" [src]="srcPDF | safeUrl"
                       type="application/pdf" class="file" /> -->
-                    <p> <strong> {{internshipDetails?.internshipTitle}}</strong></p>
-                    <p>Created on {{internshipDetails?.createdOn}} </p>
-                    <p>{{internshipDetails?.internshipStatus}}</p>
-                    <p>Applications submitted: {{currentInternshipApplications?.length}} </p>
-                    <p>Applications approved: {{approvedApplicantsDetails.length}} </p>
+                      <p> <strong> {{internshipDetails?.internshipTitle}}</strong></p>
+                      <p>Created on {{internshipDetails?.createdOn}} </p>
+                      <p>{{internshipDetails?.internshipStatus}}</p>
+                      <p>Applications submitted: {{currentInternshipApplications?.length}} </p>
+                      <p>Applications approved: {{approvedApplicantsDetails.length}} </p>
 
 
 
-                  </div>
-                  <div class="col-md-7" *ngIf="shortlistedApplicantsArray.length != 0">
-                    <h6>Recommended</h6>
-                    <div class="chart-container">
-                      <canvas id="MyChart">{{ chart }}</canvas>
                     </div>
-                  </div>
-                  <div class="col-md-6" *ngIf="shortlistedApplicantsArray.length === 0">
-                    <h6>Recommended</h6>
-                    <p class="text-muted">No recommendations made</p>
-                  </div>
-                  <!-- <div *ngIf="shortlistedApplicantsArray.length != 0" class="col-md-6">
+                    <div class="col-md-7" *ngIf="shortlistedApplicantsArray.length != 0">
+                      <h6>Recommended</h6>
+                      <div class="chart-container">
+                        <canvas id="MyChart">{{ chart }}</canvas>
+                      </div>
+                    </div>
+                    <div class="col-md-6" *ngIf="shortlistedApplicantsArray.length === 0">
+                      <h6>Recommended</h6>
+                      <p class="text-muted">No recommendations made</p>
+                    </div>
+                    <!-- <div *ngIf="shortlistedApplicantsArray.length != 0" class="col-md-6">
                                         <div class="chart-container">
                                             <canvas id="skillsChart">{{ skillsChart }}</canvas>
                                         </div>
@@ -829,56 +829,56 @@
                                             <canvas id="matchChart">{{ matchChart }}</canvas>
                                         </div>
                                     </div> -->
-                </div>
-
-
-                <div *ngIf="currentInternshipApplications?.length != 0">
-                  <h6> All Applicants</h6>
-                  <div class="chart-container">
-                    <canvas id="totalChart">{{ totalChart }}</canvas>
                   </div>
-                </div>
-                <div *ngIf="currentInternshipApplications?.length === 0">
-                  <h6>All Applicants</h6>
-                  <p class="text-muted">No applications made</p>
-                </div>
 
 
-                <div hidden class="row">
+                  <div *ngIf="currentInternshipApplications?.length != 0">
+                    <h6> All Applicants</h6>
+                    <div class="chart-container">
+                      <canvas id="totalChart">{{ totalChart }}</canvas>
+                    </div>
+                  </div>
+                  <div *ngIf="currentInternshipApplications?.length === 0">
+                    <h6>All Applicants</h6>
+                    <p class="text-muted">No applications made</p>
+                  </div>
 
 
-                  <div class="col-12 col-lg-3 col-md-6 mb-3" *ngFor="
+                  <div hidden class="row">
+
+
+                    <div class="col-12 col-lg-3 col-md-6 mb-3" *ngFor="
                         let currentInternshipApplication of currentInternshipApplications
                       ">
 
-                    <div *ngIf="
+                      <div *ngIf="
                           currentInternshipApplication.parsedSkillsList != null
                         ">
-                      {{ currentInternshipApplication.appliedBy }}
+                        {{ currentInternshipApplication.appliedBy }}
 
-                      <div *ngFor="
+                        <div *ngFor="
                             let skill of currentInternshipApplication.parsedSkillsList
                           ">
 
-                        <div class="card profile-item">
+                          <div class="card profile-item">
 
-                          <div>
+                            <div>
 
 
 
-                            <ul>
-                              <li>
-                                {{ skill }}
+                              <ul>
+                                <li>
+                                  {{ skill }}
 
-                              </li>
-                            </ul>
+                                </li>
+                              </ul>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">

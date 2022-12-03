@@ -4,17 +4,12 @@ import internFinder.internFinder.Security.IdentityProviderException;
 import internFinder.internFinder.Security.SecurityUtils;
 import internFinder.internFinder.Security.jwt.InternFinderAuthenticationManager;
 import internFinder.internFinder.Security.jwt.TokenProvider;
-import internFinder.internFinder.domain.PostAdvert;
 import internFinder.internFinder.domain.User;
-import internFinder.internFinder.domain.enumarations.Category;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
 import internFinder.internFinder.dto.UserBioDTO;
 import internFinder.internFinder.service.UserService;
-import internFinder.internFinder.vm.JWTResponseVM;
-import internFinder.internFinder.vm.LoginVM;
-import internFinder.internFinder.vm.RegisterResponseVM;
-import internFinder.internFinder.vm.RegisterUserVM;
+import internFinder.internFinder.vm.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -82,9 +77,25 @@ public class UserResource {
     }
 
     @PostMapping("/resetPassword")
-    public Optional<User> resetPassword(@RequestBody User user){
+    public ResponseEntity<ResetResponseVM> resetPassword(@RequestBody ResetPasswordVM resetPasswordVM){
+        System.out.println("REST request to reset password of user"+ resetPasswordVM);
         log.debug("REST request to reset password");
-        return userService.resetPassword(user);
+        String email = resetPasswordVM.getEmail();
+        String password = resetPasswordVM.getPassword();
+        Optional<User> userOptional = userService.findByEmail(email);
+
+        if (userOptional.isPresent()) {
+
+            this.userService.resetPassword(email, password);
+            return ResponseEntity.ok().body(new ResetResponseVM(200, "Account successfully updates password"));
+
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResetResponseVM(400, "email address for user not registered"));
+
+
+
+        }
     }
 
 

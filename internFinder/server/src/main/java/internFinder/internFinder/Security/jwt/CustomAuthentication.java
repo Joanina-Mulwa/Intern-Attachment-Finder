@@ -3,6 +3,7 @@ package internFinder.internFinder.Security.jwt;
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+
 import java.util.Collection;
 
 public class CustomAuthentication implements Authentication {
