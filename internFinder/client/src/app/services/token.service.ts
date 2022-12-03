@@ -13,8 +13,14 @@ export class TokenService {
 
   public saveToken(email: string, token: string): void {
     //localStorage.setItem(this.JWT_KEY, token);
-     // store username and jwt token in local storage to keep user logged in between page refreshes
-     localStorage.setItem('currentUser', JSON.stringify({ email:email , token: token }));
+    // store username and jwt token in local storage to keep user logged in between page refreshes
+    localStorage.setItem('currentUser', JSON.stringify({ email: email, token: token }));
+  }
+
+  public saveUserToken(user: any): void {
+    //localStorage.setItem(this.JWT_KEY, token);
+    // store username and jwt token in local storage to keep user logged in between page refreshes
+    localStorage.setItem('user', JSON.stringify({ user: user }));
   }
 
   public clearToken(): void {
@@ -27,6 +33,6 @@ export class TokenService {
 
   public getUsername(): any {
     return localStorage.getItem('currentUser');
-}
- 
+  }
+
 }

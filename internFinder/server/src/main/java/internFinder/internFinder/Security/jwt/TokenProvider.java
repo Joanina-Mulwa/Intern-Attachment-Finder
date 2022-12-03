@@ -2,17 +2,18 @@ package internFinder.internFinder.Security.jwt;
 
 import internFinder.internFinder.domain.enumarations.IdentityProvider;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
-import io.jsonwebtoken.security.Keys;
 
 @Slf4j
 @Component

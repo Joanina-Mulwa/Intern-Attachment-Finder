@@ -5,10 +5,10 @@ import internFinder.internFinder.domain.enumarations.Category;
 import internFinder.internFinder.domain.enumarations.UserAuthority;
 import internFinder.internFinder.domain.enumarations.UserStatus;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.*;
-import javax.swing.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import java.io.IOException;
 
 @Data

@@ -1,11 +1,11 @@
 package internFinder.internFinder.domain;
 
-import internFinder.internFinder.domain.enumarations.*;
+import internFinder.internFinder.domain.enumarations.InternshipStatus;
+import internFinder.internFinder.domain.enumarations.InternshipType;
+import internFinder.internFinder.domain.enumarations.WorkPlaceType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 
 @Entity

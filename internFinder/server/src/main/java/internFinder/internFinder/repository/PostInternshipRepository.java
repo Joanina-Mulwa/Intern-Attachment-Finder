@@ -1,7 +1,6 @@
 package internFinder.internFinder.repository;
 
 import internFinder.internFinder.domain.PostInternship;
-import internFinder.internFinder.domain.enumarations.InternshipStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

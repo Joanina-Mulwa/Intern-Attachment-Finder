@@ -1,7 +1,5 @@
 package internFinder.internFinder.message;
 
-import java.time.LocalDate;
-
 public class ResponseFile {
     private Long id;
 

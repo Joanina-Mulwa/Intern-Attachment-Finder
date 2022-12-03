@@ -1,11 +1,7 @@
 package internFinder.internFinder.service;
 
 import internFinder.internFinder.Security.UserNotFoundException;
-import internFinder.internFinder.domain.ApplyAdvert;
 import internFinder.internFinder.domain.PostAdvert;
-import internFinder.internFinder.domain.PostInternship;
-import internFinder.internFinder.domain.enumarations.InternshipStatus;
-import internFinder.internFinder.message.ResponseFile;
 import internFinder.internFinder.repository.PostAdvertRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

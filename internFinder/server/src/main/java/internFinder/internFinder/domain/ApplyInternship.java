@@ -1,7 +1,6 @@
 package internFinder.internFinder.domain;
 
 import javax.persistence.*;
-import java.io.File;
 
 @Entity
 @Table(name="tbl_apply_internship")

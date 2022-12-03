@@ -1,3 +1,27 @@
-p{
-    font-size: 20px;
-  }
+p {
+  font-size: 20px;
+}
+
+.about--us {
+  margin-top: 8%;
+  width: 80%;
+  margin-left: 10%;
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: 1px 2px 2px 2px#888888;
+  padding: 80px;
+}
+
+#about--h4{
+  font-size: 50px;
+}
+
+.about--us--paragraph{
+  font-size: 25px;
+}
+
+#handles--about{
+    font-size: large;
+    align-content: center;
+    margin-left: 38%;
+}

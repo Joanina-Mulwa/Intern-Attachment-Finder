@@ -1,7 +1,6 @@
 package internFinder.internFinder.controller;
 
 import internFinder.internFinder.domain.PostAdvert;
-import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.message.ResponseFile;
 import internFinder.internFinder.message.ResponseMessage;
 import internFinder.internFinder.service.PostAdvertService;

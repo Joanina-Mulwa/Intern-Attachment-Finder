@@ -3,18 +3,13 @@ package internFinder.internFinder.service;
 import internFinder.internFinder.Security.UserNotFoundException;
 import internFinder.internFinder.domain.PostInternship;
 import internFinder.internFinder.domain.enumarations.InternshipStatus;
-import internFinder.internFinder.repository.PostAdvertRepository;
 import internFinder.internFinder.repository.PostInternshipRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j

@@ -43,6 +43,13 @@ export class LoginComponent implements OnInit {
   userConfirm = {
     passwordConfirm: '',
   }
+  resetUserLogins = {
+    email: '',
+    password: '',
+  };
+  resetUserConfirm = {
+    passwordConfirm: '',
+  }
 
   showPassword!: boolean;
   authority!: Authority;
@@ -108,6 +115,13 @@ export class LoginComponent implements OnInit {
       authority: ''
     }
     this.userConfirm = {
+      passwordConfirm: '',
+    }
+    this.resetUserLogins = {
+      email: '',
+      password: '',
+    };
+    this.resetUserConfirm = {
       passwordConfirm: '',
     }
   }
@@ -207,12 +221,12 @@ export class LoginComponent implements OnInit {
     console.log("User to be logged in : ", this.userLogins);
     console.time("User Login")
     this.userService.findByEmail(this.userLogins.email).subscribe(
-      (res) => {
-        this.userDetails=res;
-    console.timeEnd("User Login")
+      (result) => {
+        this.userDetails = result;
+        console.timeEnd("User Login")
 
-        console.log("heere:,", res)
-        if (res == null) {
+        console.log("heere:,", result)
+        if (result == null) {
           this.loginFailure = "Register, user " + this.userLogins.email + " does not exist";
           setTimeout(
             () => {
@@ -223,7 +237,7 @@ export class LoginComponent implements OnInit {
           )
         }
         else {
-          if (res.userStatus === UserStatus.PASSIVE) {
+          if (result.userStatus === UserStatus.PASSIVE) {
             this.deactiveUser = "Account Deactive. Activate account first to login"
             setTimeout(
               () => {
@@ -244,6 +258,7 @@ export class LoginComponent implements OnInit {
                 this.userLogins.authority = res.authority;
                 console.log("User to be logged in with authority is : ", this.userLogins);
                 this.tokenService.saveToken(this.userLogins.email, res.bearerToken);
+                this.tokenService.saveUserToken(result)
 
                 console.log("Got token ,", res.bearerToken)
 
@@ -251,7 +266,7 @@ export class LoginComponent implements OnInit {
                 //this.router.navigate(['/internships'])
                 console.log("****************testing********", this.userDetails)
                 this.router.navigate(['internships']);
-               // this.getCategory();
+                // this.getCategory();
 
 
               },
@@ -475,10 +490,10 @@ export class LoginComponent implements OnInit {
   }
   resetPassword(): void {
     console.log("About to reset password")
-    this.userService.findByEmail(this.userLogins.email).subscribe(
-      (res) => {
-        if (res == null) {
-          this.resetPassFailure = "User" + this.userLogins.email + " is not registered in the system. Register";
+    this.userService.findByEmail(this.resetUserLogins.email).subscribe(
+      (result) => {
+        if (result == null) {
+          this.resetPassFailure = "User" + this.resetUserLogins.email + " is not registered in the system. Register";
           setTimeout(
             () => {
               this.reset();
@@ -489,9 +504,16 @@ export class LoginComponent implements OnInit {
           )
         }
         else {
-          this.userService.resetPassword(this.userLogins).subscribe(
+          result.password = this.resetUserLogins.password;
+          console.log("Now resetting to", result);
+          console.log("Now about to send to", this.resetUserLogins);
+
+
+          this.userService.resetPassword(this.resetUserLogins).subscribe(
             (res) => {
               this.resetPassSuccess = "Password successfuly reset, Login";
+              console.log("Password successfuly reset, Login");
+
               setTimeout(
                 () => {
                   this.reset();
@@ -500,12 +522,16 @@ export class LoginComponent implements OnInit {
 
                 }, 3000
               )
+            },
+            (err) => {
+              console.log(("Error resetting password"));
+
             }
           )
         }
       },
       (err) => {
-        console.log("Error reseting password")
+        console.log("Error finding user")
       }
     )
 
