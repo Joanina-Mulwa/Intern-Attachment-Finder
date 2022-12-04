@@ -100,14 +100,14 @@ export class PostInternshipsComponent implements OnInit {
       this.msg = "";
       this.url = reader.result;
       const jobData = this.url.split('base64,')[1];
-   
+
       // parse the job 
       console.log("Selected image data, ", jobData)
       this.progressBar = 15;
 
       const { AffindaCredential, AffindaAPI } = require("@affinda/affinda");
 
-      const credential = new AffindaCredential("02bfae960b3de66b98010fb3e18fc34ab0996c89")
+      const credential = new AffindaCredential("d153960084941a25474abb34ceec73d2bce6e70d")
       const client = new AffindaAPI(credential)
       this.progressBar = 30;
 
@@ -140,7 +140,7 @@ export class PostInternshipsComponent implements OnInit {
         this.extractedJobIdentifier = result.meta.identifier;
 
         console.log("Returned job identifier:", this.extractedJobIdentifier);
-        
+
         console.dir(this.extractedJobDescriptionSkills)
         this.progressBar = 100;
 

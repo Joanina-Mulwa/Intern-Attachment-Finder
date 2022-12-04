@@ -19,6 +19,7 @@ import { UsersComponent } from './entities/users/users/users.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { AboutUsComponent } from './about/about-us/about-us.component';
 import { FooterComponent } from './layouts/footer/footer.component';
+import { PageNotFoundComponent } from './layouts/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -92,7 +93,11 @@ const routes: Routes = [
   {
     path: 'footer',
     component: FooterComponent
-  }
+  },
+  {
+    path: '**', // Wildcard Route
+    component: PageNotFoundComponent,
+  },
 ];
 
 @NgModule({

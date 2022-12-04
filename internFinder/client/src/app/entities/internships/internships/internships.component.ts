@@ -57,6 +57,9 @@ export class InternshipsComponent implements OnInit {
   applications!: ApplyInternship[];
   differenceInDays: any;
   differenceInCreationDays: any;
+  differenceSearchInCreationDays: any;
+  differenceFilterInCreationDays: any;
+
 
   dateToday?: any;
   applicationsAppliedToMe: ApplyInternship[] = [];
@@ -363,6 +366,17 @@ export class InternshipsComponent implements OnInit {
             internship.skillsList = internship.skills.split(",");
             internship.internshipStatus = InternshipStatus.CLOSED;
           }
+          let currentDate = new Date(new Date().toJSON().slice(0, 10))
+          var createdOn = new Date(internship.createdOn);
+          // To calculate the time difference of two dates
+          var differenceInTime = currentDate.getTime() - createdOn.getTime();
+          // To calculate the no. of days between two dates
+          this.differenceSearchInCreationDays = differenceInTime / (1000 * 3600 * 24);
+          console.log("the New creation daTE IS ", createdOn)
+          console.log("todays date is ", currentDate)
+          console.log("Difference in dayS ", this.differenceSearchInCreationDays)
+          console.log("Difference in time ", differenceInTime)
+          internship.createdOn = this.differenceSearchInCreationDays;
         });
         console.log("Search produces internships:", this.internships)
       },
@@ -403,6 +417,17 @@ export class InternshipsComponent implements OnInit {
             internship.skillsList = internship.skills.split(",");
             internship.internshipStatus = InternshipStatus.CLOSED;
           }
+          let currentDate = new Date(new Date().toJSON().slice(0, 10))
+          var createdOn = new Date(internship.createdOn);
+          // To calculate the time difference of two dates
+          var differenceInTime = currentDate.getTime() - createdOn.getTime();
+          // To calculate the no. of days between two dates
+          this.differenceFilterInCreationDays = differenceInTime / (1000 * 3600 * 24);
+          console.log("the New creation daTE IS ", createdOn)
+          console.log("todays date is ", currentDate)
+          console.log("Difference in dayS ", this.differenceFilterInCreationDays)
+          console.log("Difference in time ", differenceInTime)
+          internship.createdOn = this.differenceFilterInCreationDays
         });
         console.log("filter produces internships:", this.internships)
       },

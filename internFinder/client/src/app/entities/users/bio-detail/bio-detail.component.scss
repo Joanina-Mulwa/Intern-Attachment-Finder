@@ -72,3 +72,15 @@ p {
 .right-addon input {
   padding-right: 30px;
 }
+
+.table {
+  tr:nth-child(even) {
+    background-color: #f1f1f177;
+  }
+
+  tr {
+    td:first-child {
+      border-right: 1px solid #e1e1e1;
+    }
+  }
+}

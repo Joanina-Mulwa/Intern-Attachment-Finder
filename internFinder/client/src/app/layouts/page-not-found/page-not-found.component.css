@@ -1,0 +1,25 @@
+.container {
+    /* height: 100vh; */
+    margin-top: 56px;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.error-page {
+    display: grid;
+    place-items: center;
+}
+
+.error-page h1 {
+    font-size: 200px;
+}
+
+.error-page button {
+    font-weight: 600;
+}
+
+img {
+    height: 500px;
+    width: 900px;
+}

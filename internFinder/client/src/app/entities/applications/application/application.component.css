@@ -1,15 +1,28 @@
-p{
-    font-size: 20px;
-  }
-  .file{
-    height: 600px;
-    width: 1200px;
-  }
-  ngx-doc-viewer{
-    height: auto;
-    width: auto;
-  }
-  .interview-editor{
-    width: 775px;
-    min-height: 300px;
+p {
+  font-size: 20px;
+}
+
+.file {
+  height: 600px;
+  width: 1200px;
+}
+
+ngx-doc-viewer {
+  height: auto;
+  width: auto;
+}
+
+.interview-editor {
+  width: 775px;
+  min-height: 300px;
+}
+
+.download {
+  color: black;
+  text-decoration: none;
+}
+
+
+.download:hover {
+  color: white;
 }

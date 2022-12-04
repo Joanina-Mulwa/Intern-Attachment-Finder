@@ -21,7 +21,9 @@
                         </h5>
                     </div>
                     <div class="col-md-6 text-end">
-                        <a href="{{applicationForcurrentInternship?.url}}">Download <i class="fas fa-download"> </i></a>
+                        <button class="btn btn-outline-secondary mb-3 text-end"> <a
+                                href="{{applicationForcurrentInternship?.url}}" class="download">Download
+                                <i class="fas fa-download"> </i></a></button>
                     </div>
                 </div>
 
@@ -36,39 +38,6 @@
                     *ngIf="applicationForcurrentInternship?.type =='application/msword' || applicationForcurrentInternship?.type.includes('application/vnd') "
                     [url]="srcDOC" viewer="mammoth">
                 </ngx-doc-viewer>
-
-
-
-
-                <!-- <div hidden>
-
-
-                    <div>
-                        <h5 class="mt-2">Personal Profile:</h5>
-
-
-                        <p>{{applicationForcurrentInternship?.introduction}}</p>
-                    </div>
-
-
-                    <p>{{applicationForcurrentInternship?.reason}}</p>
-
-                    <div *ngIf="userBioDetails?.skillsList" style="display: inline" class="mt-1 col-md-6">
-                        <h5>Skills</h5>
-
-                        <p *ngFor="let skill of userBioDetails?.skillsList" [innerHTML]="skill">
-                            {{skill}}
-                        </p>
-                    </div>
-
-                    <h5>Experience</h5>
-
-                    <h5 class="mt-2">Strengths</h5>
-                    <p>{{applicationForcurrentInternship?.strength}}</p>
-
-                    <h5 class="mt-2">Weaknesses</h5>
-                    <p>{{applicationForcurrentInternship?.weakness}}</p>
-                </div> -->
 
                 <div class="row m-2 ">
                     <div class="col-md-6">
@@ -101,14 +70,14 @@
                     <div class="col-md-6">
 
                         <button *ngIf="applicationForcurrentInternship?.status === 'PENDINGINTERVIEW'"
-                            class="btn btn-outline-secondary"
-                            (click)="updateInternshipApplication('REJECTED')">Reject, Failed interview</button>
+                            class="btn btn-outline-secondary" (click)="updateInternshipApplication('REJECTED')">Reject,
+                            Failed interview</button>
 
                     </div>
                     <div class="col-md-6 text-end">
                         <button *ngIf="applicationForcurrentInternship?.status === 'PENDINGINTERVIEW'"
-                            (click)="updateInternshipApplication('APPROVED')"
-                            class="btn btn-outline-secondary">Approve, Passed interview</button>
+                            (click)="updateInternshipApplication('APPROVED')" class="btn btn-outline-secondary">Approve,
+                            Passed interview</button>
                     </div>
 
                 </div>
@@ -120,7 +89,7 @@
     </div>
 
 </div>
-<!-- Modal -->
+<!-- Ask for interview or not Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -135,7 +104,7 @@
             </div>
             <div class="modal-body">
                 <a innerHTML="text"
-                    href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{userBioDetails?.email}}&su=Congratulations! You have been approved for the {{internshipDetails?.internshipTitle}} by {{internshipDetails?.companyName}}&body=Hello {{userBioDetails?.name}},We extend our heartiest congratulations and best wishes to you for being shortlisted for the internship : {{internshipDetails?.internshipTitle}}. {{internshipDetails?.companyName}} had received many applications, out of which only a few were shortlisted based on the Applicant letter sent via Intern Finder system website. {{internshipDetails?.companyName}} is very honored to welcome you under our roof for an internship. Your Resume enlightens the person within you very accurately. It is compact, solid, and robust. We are very impressed with the application letter you wrote. You are the ideal intern we are looking for. {{internshipDetails?.internshipTitle}} has always been an epitome of success, fame, and producing the best-skilled personnel for the country. It is a great choice you have made for an internship in your domain. It has a lot to yield to you. We hope this internship with us will be a fruitful and rewarding one for you. We wish you all the success. Welcome to the world of {{internshipDetails?.companyName}}."
+                    href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{userBioDetails?.email}}&su=Congratulations! You have been approved for the {{internshipDetails?.internshipTitle}} by {{internshipDetails?.companyName}}&body=Hello {{userBioDetails?.name}},We extend our heartiest congratulations and best wishes to you for being shortlisted for the internship : {{internshipDetails?.internshipTitle}}. {{internshipDetails?.companyName}} had received many applications, out of which only a few were shortlisted based on the Applicant letter sent via Intern Finder system website.%0A%0A{{internshipDetails?.companyName}} is very honored to welcome you under our roof for an internship. Your Resume enlightens the person within you very accurately. It is compact, solid, and robust. We are very impressed with the resume you submitted. You are the ideal intern we are looking for. {{internshipDetails?.internshipTitle}} has always been an epitome of success, fame, and producing the best-skilled personnel for the country.%0A%0AIt is a great choice you have made for an internship in your domain. It has a lot to yield to you. We hope this internship with us will be a fruitful and rewarding one for you. We wish you all the success.%0A%0AWelcome to the world of {{internshipDetails?.companyName}}."
                     target="_blank">
                     <button class="btn btn-outline-secondary mb-5 ml-5"
                         (click)="updateInternshipApplication('APPROVED')">
@@ -157,7 +126,7 @@
         </div>
     </div>
 </div>
-<!-- Modal 2 -->
+<!-- Interview Details Modal 2 -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -203,35 +172,30 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <label for="date">Choose date *</label>
+                            <label for="date">Select interview date *</label>
                             <input type="date" name="date" class="form-control" [(ngModel)]="interviewDetails.date">
                         </div>
                         <div class="col-md-6">
-                            <label for="time">Enter time *</label>
+                            <label for="time">Enter interview time *</label>
                             <input type="time" name="time" class="form-control" [(ngModel)]="interviewDetails.time">
                         </div>
                     </div>
                     <div>
-                        <label for="important">Enter other infor <small>( Optional )</small></label>
-                        <angular-editor class="interview-editor form-control" [placeholder]="'Enter other information'"
-                            cols="100" rows="155" style="height: auto" name="important"
-                            [(ngModel)]="interviewDetails.important">
-                        </angular-editor>
+                        <label for="important">Enter other important information <small>( Optional )</small></label>
+                        <!-- <angular-editor [innerHTML]="interviewDetails.important" class="interview-editor form-control"
+                            [placeholder]="'Enter other information'" cols="100" rows="155" style="height: auto"
+                            name="important" [(ngModel)]="interviewDetails.important">
+                        </angular-editor> -->
+                        <textarea [innerText]="interviewDetails.important" name="important" cols="71" rows="5"
+                            [(ngModel)]="interviewDetails.important"></textarea>
+
                     </div>
-
                 </form>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Close</button>
-
-
-                <a innerHTML="text" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{userBioDetails?.email}}&su=Call for interview by {{internshipDetails?.companyName}}&body=Hello {{userBioDetails?.name}}, Thank you for applying to the {{internshipDetails?.internshipTitle}} position at {{internshipDetails?.companyName}}. We have reviewed your application materials carefully, and we are excited to invite you to an interview for the role! We extend our heartiest congratulations and best wishes to you during the interview. Prepare adequately.
-                    The interview will be {{interviewDetails.mode}} at  {{interviewDetails.location}} {{interviewDetails.address}} {{interviewDetails.link}}. 
-                    Date and Time:
-                    {{interviewDetails.date}} at {{interviewDetails.time}}
-                    {{interviewDetails.important}}
-                     We wish you  success. For any enquiries, send your question via this email." target="_blank">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{userBioDetails?.email}}&su=Call for interview by {{internshipDetails?.companyName}}&body=Hello {{userBioDetails?.name}}, Thank you for applying to the {{internshipDetails?.internshipTitle}} position at {{internshipDetails?.companyName}}. We have reviewed your application materials carefully, and we are excited to invite you to an interview for the role! We extend our heartiest congratulations and best wishes to you during the interview. Prepare adequately.%0A%0AThe interview will be {{interviewDetails.mode}} at : %0A%0A{{interviewDetails.location}} {{interviewDetails.address}} {{interviewDetails.link}}.%0A%0ADate and Time : {{interviewDetails.date}} at {{interviewDetails.time}} (24 hour clock system) %0A%0A{{interviewDetails.important}}%0A%0AWe wish you  success. For any enquiries, send your question via this email."
+                    target="_blank">
                     <button type="button" class="btn btn-primary ml-5"
                         (click)="updateInternshipApplication('PENDINGINTERVIEW')"
                         [disabled]="!interviewDetails.mode || (interviewDetails.mode === 'REMOTE' && !interviewDetails.link) || (interviewDetails.mode === 'ONSITE' &&  !interviewDetails.address)  || (interviewDetails.mode === 'ONSITE' && !interviewDetails.location) || !interviewDetails.date || !interviewDetails.time">

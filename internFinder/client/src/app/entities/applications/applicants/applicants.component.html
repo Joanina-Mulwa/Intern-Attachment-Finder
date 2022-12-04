@@ -79,7 +79,7 @@
                             </span>
                           </div>
                         </div>
-                        <p>{{ shortlistedApplicantDetails.email }}</p>
+                        <p style="display: inline" class="company-industry">{{ shortlistedApplicantDetails.email }}</p>
 
                         <div hidden>
                           <div class="alert alert-secondary tech-secondary p-1 mx-1" *ngFor="
@@ -88,6 +88,7 @@
                             #{{ skill }}
                           </div>
                         </div>
+
                         <p style="display: inline" class="details">
                           {{ shortlistedApplicantDetails.course }}
                         </p>
@@ -101,26 +102,38 @@
                   <div class="row m-2">
                     <div class="col-md-6">
                       {{ shortlistedApplicantDetails.resumeFeedback }}
+                      <i *ngIf=" shortlistedApplicantDetails.resumeFeedback == 'APPROVED' "
+                        class="fas fa-check-double"></i>
+
                     </div>
 
                     <div class="col-md-6 text-end">
-                      <button *ngIf="
-                          shortlistedApplicantDetails.userStatus == 'PASSIVE'
-                        " class="btn btn-outline-primary view" title="User inactive" [routerLink]="[
+                      <button
+                        *ngIf="shortlistedApplicantDetails.userStatus == 'PASSIVE' && shortlistedApplicantDetails.resumeFeedback != 'PENDINGINTERVIEW'"
+                        class="btn btn-outline-primary view" title="User inactive" [routerLink]="[
                         '/applied',
                         currentInternshipId,
                         shortlistedApplicantDetails.email
                       ]">
-                        View Applicationnnn
+                        View Application
+                      </button>
+
+                      <button *ngIf="shortlistedApplicantDetails.resumeFeedback == 'PENDINGINTERVIEW'
+                    " class="btn btn-outline-primary" [routerLink]="[
+                    '/applied',
+                    currentInternshipId,
+                    shortlistedApplicantDetails.email
+                  ]">
+                        Interview feedback
                       </button>
                       <button *ngIf="
-                          shortlistedApplicantDetails.userStatus == 'ACTIVE'
+                          shortlistedApplicantDetails.userStatus == 'ACTIVE' && shortlistedApplicantDetails.resumeFeedback != 'PENDINGINTERVIEW'
                         " class="btn btn-outline-primary" [routerLink]="[
                         '/applied',
                         currentInternshipId,
                         shortlistedApplicantDetails.email
                       ]">
-                        View Applicationnn
+                        View Application
                       </button>
                     </div>
                   </div>
@@ -383,7 +396,7 @@
                           currentInternshipId,
                           awaitingInterviewApplicantsDetails.email
                         ]" title="User inactive">
-                        View Application
+                        Provide interview feedback
                       </button>
                       <button *ngIf="
                           awaitingInterviewApplicantsDetails.userStatus ==
@@ -393,7 +406,7 @@
                           currentInternshipId,
                           awaitingInterviewApplicantsDetails.email
                         ]">
-                        View Application
+                        Provide interview feedback
                       </button>
                     </div>
                   </div>
@@ -402,7 +415,7 @@
             </div>
           </tab>
           <tab>
-            <ng-template tabHeading>Pending
+            <ng-template tabHeading>Pending Response
               <span *ngIf="pendingApplicantsDetails.length != 0" class="badge badge-pill badge-secondary">{{
                 pendingApplicantsDetails.length }}</span>
             </ng-template>
@@ -697,19 +710,31 @@
                   <div class="row m-2">
                     <div class="col-md-6">
                       {{ applicantDetails.resumeFeedback }}
+                      <i *ngIf=" applicantDetails.resumeFeedback == 'APPROVED' " class="fas fa-check-double"></i>
+
                     </div>
 
                     <div class="col-md-6 text-end">
-                      <button *ngIf="applicantDetails.userStatus == 'PASSIVE'" class="btn btn-outline-primary view"
-                        [routerLink]="[
+                      <button
+                        *ngIf="applicantDetails.userStatus == 'PASSIVE' && applicantDetails.resumeFeedback != 'PENDINGINTERVIEW'"
+                        class="btn btn-outline-primary view" [routerLink]="[
                           '/applied',
                           currentInternshipId,
                           applicantDetails.email
                         ]" title="User inactive">
                         View Application
                       </button>
-                      <button *ngIf="applicantDetails.userStatus == 'ACTIVE'" class="btn btn-outline-primary"
-                        [routerLink]="[
+                      <button *ngIf="applicantDetails.resumeFeedback == 'PENDINGINTERVIEW'
+                      " class="btn btn-outline-primary" [routerLink]="[
+                      '/applied',
+                      currentInternshipId,
+                      applicantDetails.email
+                    ]">
+                        Interview feedback
+                      </button>
+                      <button
+                        *ngIf="applicantDetails.userStatus == 'ACTIVE' && applicantDetails.resumeFeedback != 'PENDINGINTERVIEW'"
+                        class="btn btn-outline-primary" [routerLink]="[
                           '/applied',
                           currentInternshipId,
                           applicantDetails.email
@@ -726,7 +751,7 @@
                             </div> -->
                     <div class="col-md-6 ml-5"></div>
                     <div class="col-md-6 text-end">
-                      <button *ngIf="applicantDetails.userStatus == 'PASSIVE'" class="btn btn-outline-primary view"
+                      <button *ngIf="applicantDetails.userStatus == 'PASSIVE' " class="btn btn-outline-primary view"
                         [routerLink]="[
                           '/applied',
                           currentInternshipId,
@@ -806,19 +831,20 @@
                       <p>Created on {{internshipDetails?.createdOn}} </p>
                       <p>{{internshipDetails?.internshipStatus}}</p>
                       <p>Applications submitted: {{currentInternshipApplications?.length}} </p>
+                      <p>Reccomended applications: {{shortlistedApplicantsDetails.length}} </p>
                       <p>Applications approved: {{approvedApplicantsDetails.length}} </p>
 
 
 
                     </div>
                     <div class="col-md-7" *ngIf="shortlistedApplicantsArray.length != 0">
-                      <h6>Recommended</h6>
+                      <h6>Recommended applicants</h6>
                       <div class="chart-container">
                         <canvas id="MyChart">{{ chart }}</canvas>
                       </div>
                     </div>
                     <div class="col-md-6" *ngIf="shortlistedApplicantsArray.length === 0">
-                      <h6>Recommended</h6>
+                      <h6>Recommended applicants</h6>
                       <p class="text-muted">No recommendations made</p>
                     </div>
                     <!-- <div *ngIf="shortlistedApplicantsArray.length != 0" class="col-md-6">
@@ -833,13 +859,13 @@
 
 
                   <div *ngIf="currentInternshipApplications?.length != 0">
-                    <h6> All Applicants</h6>
+                    <h6> Total Applicants</h6>
                     <div class="chart-container">
                       <canvas id="totalChart">{{ totalChart }}</canvas>
                     </div>
                   </div>
                   <div *ngIf="currentInternshipApplications?.length === 0">
-                    <h6>All Applicants</h6>
+                    <h6>Total Applicants</h6>
                     <p class="text-muted">No applications made</p>
                   </div>
 
@@ -884,7 +910,7 @@
                 <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">
                   Close
                 </button>
-                <button type="button" class="btn btn-primary ml-5" (click)="savePdf()">
+                <button type="button" class="btn btn-primary ml-5" data-dismiss="modal" (click)="savePdf()">
                   Download
                 </button>
               </div>

@@ -30,16 +30,16 @@ export class ApplyInternship {
         this.appliedBy = appliedBy;
         this.appliedOn = appliedOn;
         this.postedBy = postedBy;
-        this.postedByEmail=postedByEmail;
+        this.postedByEmail = postedByEmail;
         this.introduction = introduction;
         this.reason = reason;
         this.strength = strength;
         this.weakness = weakness;
         this.resume = resume;
-        this.status=status;
+        this.status = status;
     }
 }
-export enum Status{
+export enum Status {
     APPROVED = 'APPROVED',
     REJECTED = 'REJECTED',
     IGNORED = 'IGNORED',

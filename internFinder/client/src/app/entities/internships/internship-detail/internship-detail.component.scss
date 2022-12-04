@@ -1,25 +1,42 @@
-.image-holder{
-    img,svg{
-      border: 1px solid #f1f1f1;
-    }
+.image-holder {
+
+  img,
+  svg {
+    border: 1px solid #f1f1f1;
   }
-  p{
-    font-size: 20px;
-    display: inline;
-  }
-  img{
-    height: auto;
-    width: auto;
-  }
-  video{
-    height: auto;
-    width: auto;
-  }
-.file{
-    height: 600px;
-    width: auto;
-  }
-  ngx-doc-viewer{
-    height: auto;
-    width: auto;
-  }
+}
+
+p {
+  font-size: 20px;
+  display: inline;
+}
+
+img {
+  height: auto;
+  width: auto;
+}
+
+video {
+  height: auto;
+  width: auto;
+}
+
+.file {
+  height: 600px;
+  width: auto;
+}
+
+ngx-doc-viewer {
+  height: auto;
+  width: auto;
+}
+
+.download {
+  color: black;
+  text-decoration: none;
+}
+
+
+.download:hover {
+  color: white;
+}

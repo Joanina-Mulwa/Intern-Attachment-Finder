@@ -158,7 +158,7 @@ export class ApplicantsComponent implements OnInit {
   }
 
   createChart(): void {
-    console.log(this.chart);
+    console.log("chart: ", this.chart);
     if (this.chart != undefined) {
       //@ts-ignore
       this.chart.destroy();
@@ -344,7 +344,7 @@ export class ApplicantsComponent implements OnInit {
       } = require('@affinda/affinda/');
 
       const credential = new AffindaCredential(
-        '02bfae960b3de66b98010fb3e18fc34ab0996c89'
+        'd153960084941a25474abb34ceec73d2bce6e70d'
       );
       const client = new AffindaAPI(credential);
       var itemsProcessed = 0;
@@ -377,7 +377,7 @@ export class ApplicantsComponent implements OnInit {
               itemsProcessed
             );
 
-            if (result.score >= 0.1) {
+            if (result.score >= 0.2) {
               this.shortlistedApplicantsArray?.push(applicationResume);
               console.log(
                 ' final  skiill score student applications match testing, ',

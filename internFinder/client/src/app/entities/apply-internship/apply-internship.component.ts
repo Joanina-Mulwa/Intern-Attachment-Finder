@@ -18,7 +18,7 @@ export class ApplyInternshipComponent implements OnInit {
 
   constructor(
     protected userService: UserService,
-    protected applyInternship : ApplyInternshipService,
+    protected applyInternship: ApplyInternshipService,
     protected postInternshipService: PostInternshipService,
     protected router: Router,
     protected route: ActivatedRoute,
@@ -30,7 +30,7 @@ export class ApplyInternshipComponent implements OnInit {
   profileCompleteSuccess = false;
   showUpdateButton = false;
   resume!: File;
-  
+
   internshipDetail?: PostInternship
   currentInternshipId!: number;
   // application={
@@ -53,14 +53,14 @@ export class ApplyInternshipComponent implements OnInit {
   //   weakness: '',
 
   //   resume: '',
-    
+
 
 
   // }
-  applicationDetails: any={
+  applicationDetails: any = {
     id: undefined as any,
 
-    internshipId: undefined as unknown  as number,
+    internshipId: undefined as unknown as number,
 
     appliedBy: '',
 
@@ -82,7 +82,7 @@ export class ApplyInternshipComponent implements OnInit {
   today?: any;
   progressBar?: number;
   extractedResumeIdentifier?: any;
-  extractedResumeSkills : any[]=[];
+  extractedResumeSkills: any[] = [];
 
 
 
@@ -93,16 +93,16 @@ export class ApplyInternshipComponent implements OnInit {
       console.log("We want to view profile of intenrhsip of is  ", this.currentInternshipId)
     });
     this.checkIfProfileComplete();
-      this.findPostedBy();
+    this.findPostedBy();
   }
-  back(): void{
+  back(): void {
     window.history.back();
   }
   url: any;
   msg = "";
   selectFile(event: any) {
     this.selectedFiles = event.target.files;
-    
+
 
 
     var reader = new FileReader();
@@ -112,14 +112,14 @@ export class ApplyInternshipComponent implements OnInit {
       this.msg = "";
       this.url = reader.result;
       const jobData = this.url.split('base64,')[1];
-   
+
       // parse the job 
       console.log("Selected image data, ", jobData)
       this.progressBar = 15;
 
       const { AffindaCredential, AffindaAPI } = require("@affinda/affinda");
 
-      const credential = new AffindaCredential("02bfae960b3de66b98010fb3e18fc34ab0996c89")
+      const credential = new AffindaCredential("d153960084941a25474abb34ceec73d2bce6e70d")
       const client = new AffindaAPI(credential)
       this.progressBar = 30;
 
@@ -147,7 +147,7 @@ export class ApplyInternshipComponent implements OnInit {
         this.extractedResumeIdentifier = result.meta.identifier;
         result.data.skills.forEach((skill: any) => {
 
-         this.applicationDetails.parsedSkills.push(skill.name);
+          this.applicationDetails.parsedSkills.push(skill.name);
 
         });
         console.log("Returned skills:", this.applicationDetails.parsedSkills);
@@ -161,7 +161,7 @@ export class ApplyInternshipComponent implements OnInit {
         console.error(err);
       });
 
- 
+
 
     }
 
@@ -176,27 +176,27 @@ export class ApplyInternshipComponent implements OnInit {
   submitApplication() {
     this.progress = 0;
     this.currentFile = this.selectedFiles.item(0);
-    this.applicationDetails.internshipId=this.currentInternshipId;
-    this.applicationDetails!.appliedBy=this.currentEmail;
+    this.applicationDetails.internshipId = this.currentInternshipId;
+    this.applicationDetails!.appliedBy = this.currentEmail;
     this.applicationDetails.parsedApplicationIdentifier = this.extractedResumeIdentifier;
 
     let date = new Date().toJSON().slice(0, 10);
-    this.applicationDetails!.appliedOn = date;   
+    this.applicationDetails!.appliedOn = date;
     console.log("About to create application", this.applicationDetails, "and resume", this.currentFile)
-      this.applyInternship.createApplication(this.currentFile, this.applicationDetails).subscribe(
-      (event: any)=>{
+    this.applyInternship.createApplication(this.currentFile, this.applicationDetails).subscribe(
+      (event: any) => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
           this.message = event.body.message;
           // setTimeout(() => {
           //   this.message = '';
-            this.router.navigate(['/users/', this.currentEmail])
+          this.router.navigate(['/users/', this.currentEmail])
 
           // }, 3000)
         }
       },
-      (err)=>{
+      (err) => {
         console.log(err)
         this.progress = 0;
         this.message = 'Could not upload the file! Try again later.';
@@ -215,40 +215,40 @@ export class ApplyInternshipComponent implements OnInit {
         console.log("current user deatils are", res);
         this.profile = res;
         console.log("check if profile can be null", res);
-        if (this.profile.name === null || this.profile.institution === null || this.profile.programme === null || this.profile.course === null || this.profile.experienceLevel===null) {
+        if (this.profile.name === null || this.profile.institution === null || this.profile.programme === null || this.profile.course === null || this.profile.experienceLevel === null) {
           this.ifProfileComplete = false;
-          this.profileCompleteFailure="Update Profile first to apply for an internship!"
+          this.profileCompleteFailure = "Update Profile first to apply for an internship!"
           setTimeout(() => {
             this.profileCompleteFailure = '';
             this.ifProfileComplete = true;
           }, 3000);
-          this.showUpdateButton=true;
+          this.showUpdateButton = true;
         }
-        else{
-          this.profileCompleteSuccess=true;
+        else {
+          this.profileCompleteSuccess = true;
 
         }
 
-       
+
       },
       (err) => { console.log("Error fetching current user bio") }
     )
 
   }
 
-  findPostedBy(): void{
-  this.postInternshipService.findAdvertById(this.currentInternshipId).subscribe(
-    (res)=>{
-      console.log("internship details are", res)
-      this.internshipDetail = res;
-      console.log("Current internship was posted by this company email :", this.internshipDetail?.companyEmail);
-      this.applicationDetails.postedBy=res.companyName;
-      this.applicationDetails.postedByEmail=res.companyEmail;
-    },
-    (err)=>{
-      console.log("Error fetching current internship details", err)
-    }
-  )
+  findPostedBy(): void {
+    this.postInternshipService.findAdvertById(this.currentInternshipId).subscribe(
+      (res) => {
+        console.log("internship details are", res)
+        this.internshipDetail = res;
+        console.log("Current internship was posted by this company email :", this.internshipDetail?.companyEmail);
+        this.applicationDetails.postedBy = res.companyName;
+        this.applicationDetails.postedByEmail = res.companyEmail;
+      },
+      (err) => {
+        console.log("Error fetching current internship details", err)
+      }
+    )
   }
 
   // submit(): void{
@@ -264,10 +264,10 @@ export class ApplyInternshipComponent implements OnInit {
   //     },
   //     (err)=>{console.log(err)}
   //   )
-    
+
   // }
 
 
-  
+
 
 }
