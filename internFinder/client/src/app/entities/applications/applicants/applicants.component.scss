@@ -1,71 +1,81 @@
 .profile-item {
-    border: 1px solid #f1f1f1;
-    
+  border: 1px solid #f1f1f1;
 
-    &:hover {
-      border: 1px solid #3c4043;
 
-      .user-name{
-        text-decoration: underline;
-      }
+  &:hover {
+    border: 1px solid #3c4043;
 
-      .dropdown {
-        opacity: 1;
-      }
+    .user-name {
+      text-decoration: underline;
     }
 
-    img {
-      border: 1px solid #f1f1f1;
+    .dropdown {
+      opacity: 1;
     }
-
-    .company-industry {
-      font-size: 1.2rem;
-      color: #5f6063;
-    }
-
-    .company-name {
-      color: #80868b;
-      font-size: 0.9rem;
-    }
-
-    .tech-alert {
-      font-size: 0.8rem;
-      display: inline-block;
-      margin-bottom: 5px;
-    }
-    
   }
-  .tech {
+
+  img {
+    border: 1px solid #f1f1f1;
+  }
+
+  .company-industry {
+    font-size: 1.2rem;
+    color: #5f6063;
+  }
+
+  .company-name {
+    color: #80868b;
+    font-size: 0.9rem;
+  }
+
+  .tech-alert {
     font-size: 0.8rem;
     display: inline-block;
     margin-bottom: 5px;
   }
-  .view:hover{
-    border: 1px solid #888;
-    background-color: #fff3cd;
-    color: black;
-  }
+
+}
+
+.tech {
+  font-size: 0.8rem;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.view:hover {
+  border: 1px solid #888;
+  background-color: #fff3cd;
+  color: black;
+}
 
 
 @media (max-width:770px) {
 
-  .profile-item{
+  .profile-item {
     .user-name {
-      font-size: 1rem!important;
+      font-size: 1rem !important;
     }
   }
- .details{
+
+  .details {
     font-size: 1.2rem;
     color: #5f6063;
     display: inline;
   }
 
 }
+
 .custom {
-margin: 5px;
-min-height: 400px;
+  margin: 5px;
+  min-height: 400px;
 }
-.file{
+
+.file {
   height: 600px;
   width: 600px;
+}
+
+p {
+  font-size: 18px;
+
 }
