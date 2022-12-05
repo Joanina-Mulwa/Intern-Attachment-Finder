@@ -48,7 +48,7 @@ export class InternshipsComponent implements OnInit {
   // allInternships!:PostInternship[];
   // applications!: ApplyInternship[];
 
-  internshipsPostedByMe: AdvertDetails[] = [];
+  internshipsPostedByMe: any[] = [];
   activeInternshipsPostedByMe: AdvertDetails[] = [];
   closedInternshipsPostedByMe: AdvertDetails[] = [];
   internships: AdvertDetails[] = [];
@@ -60,12 +60,18 @@ export class InternshipsComponent implements OnInit {
   differenceSearchInCreationDays: any;
   differenceFilterInCreationDays: any;
 
+  datePostedOn: any;
 
   dateToday?: any;
   applicationsAppliedToMe: ApplyInternship[] = [];
   totalApplicationsAppliedToMe: ApplyInternship[] = [];
   approvedApplicationsAppliedToMe: ApplyInternship[] = [];
   showReport: boolean = false;
+  numberOfSpecificApplications?: number;
+  specificApplicationsAppliedToMeArray: any[] = [];
+  specificApprovalsAppliedToMeArray: any[] = [];
+
+
 
 
 
@@ -80,10 +86,10 @@ export class InternshipsComponent implements OnInit {
   periods = [Period.JAN, Period.MAY, Period.JULY]
 
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     //this.findAllinternships();
+    await this.getCurrentLoggedInUsername();
     this.findAllAdverts();
-    this.getCurrentLoggedInUsername();
     this.getBioDetails();
     //this.getPostedInternshipByMe();
     //this.getUsername2();
@@ -95,8 +101,7 @@ export class InternshipsComponent implements OnInit {
 
 
   }
-  getAdvertsPotedByMe(): void {
-    this.loading = true;
+  getAdvertsPotedByMe() {
     this.postInternshipService.getFiles().subscribe(
       (res) => {
         this.allPostedInternships = res;
@@ -104,6 +109,8 @@ export class InternshipsComponent implements OnInit {
         console.log("all internhsip posted are", this.allPostedInternships)
 
         this.allPostedInternships.forEach((internship: any) => {
+          //Teporary hold for created on date:
+          internship.size = internship.createdOn;
           let currentDate = new Date(new Date().toJSON().slice(0, 10))
           var createdOn = new Date(internship.createdOn);
           // To calculate the time difference of two dates
@@ -117,16 +124,24 @@ export class InternshipsComponent implements OnInit {
           internship.createdOn = this.differenceInDays;
           if (internship.companyEmail === this.userEmail) {
             this.internshipsPostedByMe.push(internship);
-            console.log("internhsip details i have posted are are", this.internshipsPostedByMe)
-
-
+            console.log("################################################################")
           }
-
-
-
-
         })
+        console.log("internhsip details internshipsPostedByMe are ", this.internshipsPostedByMe)
+        console.log("applicationsAppliedToMe details are ", this.applicationsAppliedToMe)
+
+
+
+
+        //get total applications for each internship
+        this.internshipsPostedByMe.forEach((internship: any) => {
+          internship['applicationsCount'] = this.applicationsAppliedToMe.filter(application => application.internshipId == internship.id).length
+          internship['approvedCount'] = this.applicationsAppliedToMe.filter(application => application.internshipId == internship.id).filter(application => application.status === 'APPROVED').length
+        })
+        console.log("-------------------=====================")
+        console.log(this.internshipsPostedByMe);
         console.log("Length of internships posted by me", this.internshipsPostedByMe.length)
+
         if (this.internshipsPostedByMe.length === 0) {
           console.log("You have not posted any internhsip")
           setTimeout(() => {
@@ -140,6 +155,7 @@ export class InternshipsComponent implements OnInit {
           let index = 0;
           let totalIndex = this.internshipsPostedByMe.length;
           this.internshipsPostedByMe.forEach((internshipPostedByMe: any) => {
+
             if (internshipPostedByMe.internshipStatus === InternshipStatus.ACTIVE) {
 
               this.activeInternshipsPostedByMe.push(internshipPostedByMe)
@@ -165,7 +181,6 @@ export class InternshipsComponent implements OnInit {
       },
       (err) => { console.log("error fetching all internhips", err) }
     )
-
   }
   findAllAdverts(): void {
     this.studentLoading = true;
@@ -287,15 +302,12 @@ export class InternshipsComponent implements OnInit {
 
 
 
-  getCurrentLoggedInUsername(): any {
-
-
+  async getCurrentLoggedInUsername(): Promise<void> {
     console.log("Current logged in user token", this.tokenService.getToken());
     console.log("Current logged in username and token ", this.tokenService.getUsername());
     console.log("Current logged in username", JSON.parse(localStorage.getItem('currentUser')!).email);
     this.userEmail = JSON.parse(localStorage.getItem('currentUser')!).email
-    this.findApplicationsAppliedToMe()
-
+    await this.findApplicationsAppliedToMe()
   }
 
   getBioDetails(): void {
@@ -452,27 +464,93 @@ export class InternshipsComponent implements OnInit {
     )
 
   }
-  findApplicationsAppliedToMe(): void {
-    this.applyInternship.getApplicationsWithPostedBy(this.userEmail).subscribe(
-      (res) => {
-        this.showReport = true;
-        console.log("These are the applications under my name", res);
-        this.applicationsAppliedToMe = res;
-        this.applicationsAppliedToMe.forEach((applicationAppliedToMe) => {
-          if (applicationAppliedToMe.status === Status.APPROVED) {
-            this.approvedApplicationsAppliedToMe.push(applicationAppliedToMe)
+  findTotalOccurrence(arr: any, key: any): any {
+
+    arr.forEach((x: any) => {
+
+      // Checking if there is any object in arr2
+      // which contains the key value
+      if (this.specificApplicationsAppliedToMeArray.some((val) => { return val[key] == x[key] })) {
+        // If yes! then increase the occurrence by 1
+        this.specificApplicationsAppliedToMeArray.forEach((k) => {
+          if (k[key] === x[key]) {
+            k["occurrence"]++
           }
         })
 
-      },
-      (err) => {
-        console.log("Error whoop whoop whoop");
+      } else {
+        // If not! Then create a new object initialize 
+        // it with the present iteration key's value and 
+        // set the occurrence to 1
+        let a: any = {}
+        a[key] = x[key]
+        a["occurrence"] = 1
+        this.specificApplicationsAppliedToMeArray.push(a);
       }
-    )
+    })
+
+    return this.specificApplicationsAppliedToMeArray
+  }
+  findApprovalOccurrence(arr: any, key: any): any {
+
+    arr.forEach((x: any) => {
+
+      // Checking if there is any object in arr2
+      // which contains the key value
+      if (this.specificApprovalsAppliedToMeArray.some((val) => { return val[key] == x[key] })) {
+        // If yes! then increase the occurrence by 1
+        this.specificApprovalsAppliedToMeArray.forEach((k) => {
+          if (k[key] === x[key]) {
+            k["occurrence"]++
+          }
+        })
+
+      } else {
+        // If not! Then create a new object initialize 
+        // it with the present iteration key's value and 
+        // set the occurrence to 1
+        let a: any = {}
+        a[key] = x[key]
+        a["occurrence"] = 1
+        this.specificApprovalsAppliedToMeArray.push(a);
+      }
+    })
+
+    return this.specificApprovalsAppliedToMeArray
+  }
+  findApplicationsAppliedToMe(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.applyInternship.getApplicationsWithPostedBy(this.userEmail).subscribe(
+        (res) => {
+          this.showReport = true;
+          console.log("These are the applications under my name", res);
+          let key = "internshipId"
+
+          console.log("Final count arrsy", this.findTotalOccurrence(res, key))
+
+          this.applicationsAppliedToMe = res;
+
+          this.applicationsAppliedToMe.forEach((applicationAppliedToMe) => {
+
+            if (applicationAppliedToMe.status === Status.APPROVED) {
+              this.approvedApplicationsAppliedToMe.push(applicationAppliedToMe)
+
+            }
+          })
+          console.log("These are the applications under my name", res);
+          let key2 = "internshipId"
+          console.log("Final count recommended arrsy", this.findApprovalOccurrence(this.approvedApplicationsAppliedToMe, key2))
+          resolve()
+        },
+        (err) => {
+          console.log("Error whoop whoop whoop");
+        }
+      )
+    })
   }
   savePdf() {
     let DATA: any = document.getElementById('report');
-    html2canvas(DATA).then((canvas) => {
+    html2canvas(DATA, { logging: true, allowTaint: true, useCORS: true }).then((canvas) => {
       let fileWidth = 208;
       let fileHeight = (canvas.height * fileWidth) / canvas.width;
       const FILEURI = canvas.toDataURL('image/*');

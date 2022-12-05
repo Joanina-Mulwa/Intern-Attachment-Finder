@@ -1,7 +1,8 @@
 version: '3'
 services:
   internfinder-db:
-    image: mysql
+    image: mysql/mysql-server:latest
+
     environment:
       - STREAM_SLEEP=20
       - JVM_OPTS=-Xmx1024m -Xms512m
@@ -9,25 +10,32 @@ services:
       - MYSQL_DATABASE=internshipManager
 
     ports:
-      - 27017:27017
-  internfinder-frontend:
-    image: internfinder-frontend:latest
-    environment:
-      PORT: 3000
-      PROXY_API: http://internfinder-backend:8080/
-    ports:
-      - 3000:3000
+      - 3300:3306
+
   internfinder-backend:
-    image: internfinder-backend:latest
+    image: joaninamulwa/internshipmanager:backendv1
     depends_on:
       - internfinder-db
     environment:
-      SPRING_APPLICATION_JSON: '{
-              "spring.datasource.url"  : "jdbc:mysql://localhost:3306/internshipManager,
-              "spring.datasource.username" : "joaninah",
-              "spring.datasource.password" : "@Joaninah1",
-              "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
-              "spring.jpa.hibernate.ddl-auto" : "update"
-            }'
+      - STREAM_SLEEP=20
+      - JVM_OPTS=-Xmx1024m -Xms512m
+      - SPRING_DATASOURCE_URL=jdbc:mysql://internfinder-db:3306/internshipManager
+      - MYSQL_DATABASE=internshipManager
+      - SPRING_DATASOURCE_USERNAME=joaninah
+      - SPRING_DATASOURCE_PASSWORD=@Joaninah1
+    #      SPRING_APPLICATION_JSON: '{
+    #                     "spring.datasource.url"  : "jdbc:mysql://localhost:3306/Library,
+    #                     "spring.datasource.username" : "root",
+    #                     "spring.datasource.password" : "mary@meliora",
+    #                     "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+    #                     "spring.jpa.hibernate.ddl-auto" : "update"
+    #                   }'
     ports:
-      - 8080:8080
+      - 8081:8081
+#  internfinder-frontend:
+#    image: joaninamulwa/internshipmanager:frontendv1
+#    depends_on:
+#      - internfinder-backend
+#
+#    ports:
+#      - 3000:4200
