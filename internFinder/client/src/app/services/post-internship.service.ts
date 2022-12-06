@@ -2,16 +2,16 @@ import { HttpClient, HttpRequest, HttpHeaders, HttpEvent } from '@angular/common
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { InternshipStatus, PostInternship } from '../entities/post-internships/post-internship-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostInternshipService {
 
-  private apiServerURL = 'http://localhost:8080';
+  private apiServerURL = environment.API_ENDPOINT;
+
   constructor(protected httpClient: HttpClient) { }
-  
+
   // createInternship(internship: any):Observable<any>{
   //   return this.httpClient.post<any>(this.apiServerURL + "/api/createInternship" , internship);
   // }
@@ -40,7 +40,7 @@ export class PostInternshipService {
     formData.append('file', file);
     formData.append('internshipTitle', advertDetails.internshipTitle);
     formData.append('companyName', advertDetails.companyName);
-    formData.append('companyEmail',advertDetails.companyEmail);
+    formData.append('companyEmail', advertDetails.companyEmail);
     formData.append('companyLogo', advertDetails.companyLogo)
     formData.append('domain', advertDetails.domain)
     formData.append('period', advertDetails.period)
@@ -48,7 +48,7 @@ export class PostInternshipService {
     formData.append('createdOn', advertDetails.createdOn);
     formData.append('reportingDate', advertDetails.reportingDate);
     formData.append('parsedJobIdentifier', advertDetails.parsedJobIdentifier);
-    const req = new HttpRequest('POST', `${this.apiServerURL}/api/upload`,formData,{
+    const req = new HttpRequest('POST', `${this.apiServerURL}/api/upload`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
@@ -61,7 +61,7 @@ export class PostInternshipService {
     formData.append('id', advertDetails.id)
     formData.append('internshipTitle', advertDetails.internshipTitle);
     formData.append('companyName', advertDetails.companyName);
-    formData.append('companyEmail',advertDetails.companyEmail);
+    formData.append('companyEmail', advertDetails.companyEmail);
     formData.append('companyLogo', advertDetails.companyLogo)
     formData.append('domain', advertDetails.domain)
     formData.append('period', advertDetails.period)
@@ -69,7 +69,7 @@ export class PostInternshipService {
     formData.append('createdOn', advertDetails.createdOn);
     formData.append('reportingDate', advertDetails.reportingDate);
     formData.append('parsedJobIdentifier', advertDetails.parsedJobIdentifier);
-    const req = new HttpRequest('PUT', `${this.apiServerURL}/api/updateAdvert`,formData,{
+    const req = new HttpRequest('PUT', `${this.apiServerURL}/api/updateAdvert`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
@@ -80,7 +80,7 @@ export class PostInternshipService {
     formData.append('id', id);
     formData.append('internshipTitle', advertDetails.internshipTitle);
     formData.append('companyName', advertDetails.companyName);
-    formData.append('companyEmail',advertDetails.companyEmail);
+    formData.append('companyEmail', advertDetails.companyEmail);
     formData.append('companyLogo', advertDetails.companyLogo)
     formData.append('domain', advertDetails.domain)
     formData.append('period', advertDetails.period)
@@ -88,7 +88,7 @@ export class PostInternshipService {
     formData.append('createdOn', advertDetails.createdOn);
     formData.append('reportingDate', advertDetails.reportingDate);
     formData.append('parsedJobIdentifier', advertDetails.parsedJobIdentifier);
-    const req = new HttpRequest('PUT', `${this.apiServerURL}/api/updateAdvertDetails`, formData,{
+    const req = new HttpRequest('PUT', `${this.apiServerURL}/api/updateAdvertDetails`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
@@ -100,18 +100,18 @@ export class PostInternshipService {
   }
 
   findAdvertById(id: number): Observable<any> {
-    return this.httpClient.get(`${this.apiServerURL}/api/findAdvertById/`+id);
+    return this.httpClient.get(`${this.apiServerURL}/api/findAdvertById/` + id);
   }
-  searchAdvert(text?: string): Observable<any>{
+  searchAdvert(text?: string): Observable<any> {
     return this.httpClient.get<any>(this.apiServerURL + "/api/advert/search?text=" + text)
-   
+
   }
-  filterAdvert(text?: string): Observable<any>{
+  filterAdvert(text?: string): Observable<any> {
     return this.httpClient.get<any>(this.apiServerURL + "/api/advert/filter?text=" + text)
-   
+
   }
-  deleteAdvert(id: number): Observable<any>{
-    return this.httpClient.delete<any>( this.apiServerURL + "/api/deleteAdvert/" + id);
+  deleteAdvert(id: number): Observable<any> {
+    return this.httpClient.delete<any>(this.apiServerURL + "/api/deleteAdvert/" + id);
   }
   // downloadAdvertById(id: number): Observable<any> {
   //   return this.httpClient.get(`${this.apiServerURL}/api/file/`+id);

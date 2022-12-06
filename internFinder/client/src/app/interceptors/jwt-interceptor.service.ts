@@ -8,7 +8,7 @@ import { TokenService } from '../services/token.service';
   providedIn: 'root'
 })
 export class JwtInterceptorService {
-  private apiServerURL = 'http://localhost:8080';
+  private apiServerURL = 'https://6507-2c0f-fe38-232b-656f-33e8-dd8c-418-a189.ap.ngrok.io';
 
   constructor(
     private tokenService: TokenService

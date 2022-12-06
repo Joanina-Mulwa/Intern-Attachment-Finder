@@ -16,7 +16,7 @@ export class AuthService {
   constructor(
     private http: HttpClient
   ) { }
-  private apiServerURL = 'http://localhost:8080';
+  private apiServerURL = environment.API_ENDPOINT;
 
 
   authenticateGoogleUser(googleAuthDTO: any): Observable<any> {

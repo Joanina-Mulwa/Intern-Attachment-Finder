@@ -33,6 +33,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable()
+                .cors() //added
+                .and()
                 .headers()
                 .frameOptions()
                 .disable()
@@ -47,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").permitAll()
                 .and()
                 .apply(securityConfigurerAdapter());
+        http.cors();
     }
 
     @Bean

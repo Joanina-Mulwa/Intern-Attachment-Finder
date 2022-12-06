@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
 
-  private apiServerURL = 'http://localhost:8080';
+  private apiServerURL = environment.API_ENDPOINT;
   USER_KEY = "user";
   constructor(protected httpClient: HttpClient) { }
 
