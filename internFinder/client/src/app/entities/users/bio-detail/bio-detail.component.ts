@@ -30,13 +30,14 @@ export class BioDetailComponent implements OnInit {
   userEmail!: string;
   username!: string;
   isMe: boolean = false;
-  applications: ApplyInternship[] = [];
+  applications: any[] = [];
   allInternshipDetails!: PostInternship[];
   approvedInternshipsDetails?: any[] = [];
   rejectedInternshipsDetails?: any[] = [];
   pendingInternshipsDetails?: any[] = [];
   internshipDetails: any[] = [];
   loading = false
+  filterLoading = false;
   internships!: PostInternship[];
   companyInternships!: PostInternship[];
   internshipsPostedByMe: PostInternship[] = [];
@@ -67,6 +68,18 @@ export class BioDetailComponent implements OnInit {
   resetUserConfirm = {
     passwordConfirm: '',
   }
+  reportFilterDateRange = {
+    startDate: '',
+    endDate: ''
+  }
+  reloadedApplications: any[] = [];
+  filteredInternshipDetails: any[] = [];
+  // filteredApplications: any[] = [];
+
+
+
+
+  today?: any;
 
 
 
@@ -81,6 +94,8 @@ export class BioDetailComponent implements OnInit {
     });
     this.checkIfMe();
     this.dateToday = new Date()
+    this.today = new Date().toISOString().split('T')[0];
+
 
     // this.getAppliedInternshipByMe();
   }
@@ -289,6 +304,7 @@ export class BioDetailComponent implements OnInit {
     this.applyInternship.getApplicationsByAppliedBy(this.loggedInUserEmail).subscribe(
       (res) => {
         this.applications = res;
+        this.reloadedApplications = this.applications;
         console.log("I have aplied for this internships, ", this.applications)
         if (this.applications?.length === 0) {
           this.loading = false;
@@ -303,6 +319,7 @@ export class BioDetailComponent implements OnInit {
                 if (application.internshipId === allInternshipDetail.id) {
                   this.internshipDetails?.push(allInternshipDetail)
                   console.log("internhsip details are", this.internshipDetails)
+                  this.filteredInternshipDetails = this.internshipDetails;
                   console.log("specific internhsip details are", application.id)
                   // this.sortedInternshipDetails = this.internshipDetails?.sort((a?: PostInternship, b?: PostInternship) => a?.createdBy > b?.companyName ? 1 : -1);
                   if (application.status === Status.APPROVED) {
@@ -457,7 +474,50 @@ export class BioDetailComponent implements OnInit {
 
   }
 
+  filterReportByDate(): void {
+    this.loading = true;
+    this.filterLoading = true
 
+    console.log("We will be filtering reportfor these,  ", this.applications);
+
+
+    // Define the start and end dates for the date range
+    const startDate = this.reportFilterDateRange.startDate;
+    const endDate = this.reportFilterDateRange.endDate;
+    console.log("We will be filtering reportfor these dates,  ", startDate, " and end", endDate);
+    // Filter the array of report objects using the `Array.prototype.filter()` method
+    this.reloadedApplications = this.applications.filter(report => {
+      // Check if the date of the current report falls within the specified date range
+      return report?.appliedOn >= startDate && report.appliedOn <= endDate;
+    });
+    console.log("These are the filtered matches", this.reloadedApplications);
+    console.log("These are the filter loading lastt", this.filterLoading);
+
+    this.reloadedApplications.forEach(application => {
+      this.filteredInternshipDetails = this.internshipDetails.filter(advert => {
+        return application.internshipId === advert.id
+      })
+    })
+
+    this.loading = false;
+    this.filterLoading = false
+    console.log("These are the filter loading lastttttttttttttt", this.filterLoading);
+
+  }
+  reloadAllAppliedAdvertsByMe(): void {
+    this.reset2();
+    console.log("What about", this.reloadedApplications);
+    this.reloadedApplications = this.applications;
+    this.filteredInternshipDetails = this.internshipDetails;
+
+  }
+  reset2(): void {
+    this.reportFilterDateRange = {
+      startDate: '',
+      endDate: ''
+    }
+
+  }
 
 
 

@@ -31,6 +31,8 @@ export class InternshipsComponent implements OnInit {
   username!: string;
   loading = true;
   studentLoading = true;
+  filterLoading = false;
+
 
   searchText: string = '';
   filterText: string = '';
@@ -72,6 +74,14 @@ export class InternshipsComponent implements OnInit {
   specificApprovalsAppliedToMeArray: any[] = [];
 
 
+  reportFilterDateRange = {
+    startDate: '',
+    endDate: ''
+  }
+  reloadedInternships: any[] = [];
+
+
+  today?: any;
 
 
 
@@ -96,11 +106,11 @@ export class InternshipsComponent implements OnInit {
     this.getAdvertsPotedByMe();
     this.fileInfos = this.postInternshipService.getFiles();
     this.dateToday = new Date()
-
-
+    this.today = new Date().toISOString().split('T')[0];
 
 
   }
+
   getAdvertsPotedByMe() {
     this.postInternshipService.getFiles().subscribe(
       (res) => {
@@ -110,7 +120,8 @@ export class InternshipsComponent implements OnInit {
 
         this.allPostedInternships.forEach((internship: any) => {
           //Teporary hold for created on date:
-          internship.size = internship.createdOn;
+          internship['createdOnDate'] = internship.createdOn;
+          // internship.size = internship.createdOn;
           let currentDate = new Date(new Date().toJSON().slice(0, 10))
           var createdOn = new Date(internship.createdOn);
           // To calculate the time difference of two dates
@@ -141,6 +152,7 @@ export class InternshipsComponent implements OnInit {
         console.log("-------------------=====================")
         console.log(this.internshipsPostedByMe);
         console.log("Length of internships posted by me", this.internshipsPostedByMe.length)
+        this.reloadedInternships = this.internshipsPostedByMe;
 
         if (this.internshipsPostedByMe.length === 0) {
           console.log("You have not posted any internhsip")
@@ -560,6 +572,45 @@ export class InternshipsComponent implements OnInit {
       PDF.save('report.pdf');
     });
 
+
+  }
+  filterReportByDate(): void {
+    this.loading = true;
+    this.studentLoading = true;
+    this.filterLoading = true
+
+    console.log("We will be filtering reportfor these,  ", this.internshipsPostedByMe);
+
+
+    // Define the start and end dates for the date range
+    const startDate = this.reportFilterDateRange.startDate;
+    const endDate = this.reportFilterDateRange.endDate;
+    console.log("We will be filtering reportfor these dates,  ", startDate, " and end", endDate);
+    // Filter the array of report objects using the `Array.prototype.filter()` method
+    this.reloadedInternships = this.internshipsPostedByMe.filter(report => {
+      // Check if the date of the current report falls within the specified date range
+      return report.createdOnDate >= startDate && report.createdOnDate <= endDate;
+    });
+    console.log("These are the filtered matches", this.reloadedInternships);
+    console.log("These are the filter loading lastt", this.filterLoading);
+
+    this.loading = false;
+    this.studentLoading = false;
+    this.filterLoading = false
+    console.log("These are the filter loading lastttttttttttttt", this.filterLoading);
+
+  }
+  reloadAllPostedAdvertsByMe(): void {
+    this.reset();
+    console.log("What about", this.reloadedInternships);
+    this.reloadedInternships = this.internshipsPostedByMe;
+
+  }
+  reset(): void {
+    this.reportFilterDateRange = {
+      startDate: '',
+      endDate: ''
+    }
 
   }
 

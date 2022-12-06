@@ -482,7 +482,7 @@
                                                     <div class="hide">DELETE</div>
 
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
 
 
 
@@ -583,20 +583,59 @@
                                             </div>
                                         </div>
                                         <h5 style="text-align: center; text-decoration: underline; text-shadow: 1em;"
-                                            class="title" *ngIf="internshipsPostedByMe?.length != 0">
+                                            class="title" *ngIf="reloadedInternships?.length != 0">
 
                                             Posted Internships report as on
                                             : {{dateToday}}
 
                                         </h5>
 
-                                        <div></div>
+                                        <div *ngIf="reloadedInternships.length !== 0" data-html2canvas-ignore="true"
+                                            class="mb-2">
+
+                                            <!-- <h4 style="display: inline;">Filter: </h4> -->
+
+                                            <div class="row ">
+
+                                                <div class="col-md-3">
+                                                    <label for="startDate" class="ml-5">&nbsp;&nbsp;Start date</label>
+                                                    <input type="date" class="form-control" name="startDate"
+                                                        [(ngModel)]="reportFilterDateRange.startDate" max="{{today}}">
+
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="endDate" class="ml-5">&nbsp;&nbsp;End Date</label>
+                                                    <input type="date" name="endDate" class="form-control"
+                                                        [(ngModel)]="reportFilterDateRange.endDate" max="{{today}}">
+
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="">&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                    <button class="btn btn-secondary form-control"
+                                                        [disabled]="!reportFilterDateRange.startDate || !reportFilterDateRange.endDate"
+                                                        (click)="filterReportByDate()">Filter</button>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="">&nbsp;&nbsp;</label>
+                                                    <button class="btn btn-outline-secondary form-control"
+                                                        [disabled]="!reportFilterDateRange.endDate || !reportFilterDateRange.startDate"
+                                                        (click)="reloadAllPostedAdvertsByMe()">Clear Filter</button>
+                                                </div>
 
 
 
-                                        <p *ngIf="internshipsPostedByMe?.length === 0" class="text-muted">No
+                                            </div>
+                                        </div>
+
+
+
+                                        <p *ngIf="reloadedInternships?.length === 0" class="text-muted">No
                                             internships posted</p>
-                                        <table *ngIf="internshipsPostedByMe.length !== 0" class="table">
+                                        <div class="donut-wrapper" *ngIf="filterLoading">
+                                            <div class="donut multi"></div>
+                                        </div>
+                                        <table *ngIf="reloadedInternships.length !== 0 && !filterLoading" class="table">
                                             <thead>
                                                 <tr>
                                                     <!-- <th>id
@@ -619,27 +658,27 @@
                                             </thead>
                                             <tbody>
                                                 <tr
-                                                    *ngFor="let internshipPostedByMe of internshipsPostedByMe ; let i=index">
+                                                    *ngFor="let reloadedInternship of reloadedInternships ; let i=index">
                                                     <!-- <td>{{internshipPostedByMe.id}}
                                                     </td> -->
-                                                    <td>{{internshipPostedByMe.internshipTitle}}
+                                                    <td>{{reloadedInternship.internshipTitle}}
                                                     </td>
 
-                                                    <td>{{internshipPostedByMe.size}} ,
-                                                        {{internshipPostedByMe.createdOn}} days ago
+                                                    <td>{{reloadedInternship.createdOnDate}} ,
+                                                        {{reloadedInternship.createdOn}} days ago
                                                     </td>
-                                                    <td>{{internshipPostedByMe.reportingDate}}
+                                                    <td>{{reloadedInternship.reportingDate}}
                                                     </td>
 
-                                                    <td>{{internshipPostedByMe.internshipStatus}}
+                                                    <td>{{reloadedInternship.internshipStatus}}
                                                     </td>
-                                                    <td>{{internshipPostedByMe.period}}
+                                                    <td>{{reloadedInternship.period}}
                                                     </td>
                                                     <td>
-                                                        {{internshipPostedByMe.applicationsCount}}
+                                                        {{reloadedInternship.applicationsCount}}
 
                                                     <td>
-                                                        {{internshipPostedByMe.approvedCount}}
+                                                        {{reloadedInternship.approvedCount}}
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -651,11 +690,12 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">
+                                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal"
+                                        (click)="reloadAllPostedAdvertsByMe()">
                                         Close
                                     </button>
-                                    <button type="button" class="btn btn-primary ml-5" data-dismiss="modal"
-                                        (click)="savePdf()">
+                                    <button type="button" class="btn btn-primary ml-5"
+                                        (click)="savePdf(); reloadAllPostedAdvertsByMe()">
                                         Download
                                     </button>
                                 </div>

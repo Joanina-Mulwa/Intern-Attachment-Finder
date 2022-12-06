@@ -838,7 +838,7 @@
                                 </div>
                             </div>
                             <p style="text-align: center; text-decoration: underline; text-shadow: 1em;"
-                                *ngIf="applications.length != 0">
+                                *ngIf="reloadedApplications.length != 0">
 
                                 Internship report as on
                                 : {{dateToday}}
@@ -847,9 +847,45 @@
 
 
 
-                            <p *ngIf="applications.length === 0" class="text-muted">No
+                            <p *ngIf="reloadedApplications.length === 0" class="text-muted">No
                                 applications made</p>
-                            <table *ngIf="applications.length !== 0" class="table">
+                            <div *ngIf="reloadedApplications.length !== 0" data-html2canvas-ignore="true" class="mb-2">
+
+                                <!-- <h4 style="display: inline;">Filter: </h4> -->
+
+                                <div class="row ">
+
+                                    <div class="col-md-3">
+                                        <label for="startDate" class="ml-5">&nbsp;&nbsp;Start date</label>
+                                        <input type="date" class="form-control" name="startDate"
+                                            [(ngModel)]="reportFilterDateRange.startDate" max="{{today}}">
+
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="endDate" class="ml-5">&nbsp;&nbsp;End Date</label>
+                                        <input type="date" name="endDate" class="form-control"
+                                            [(ngModel)]="reportFilterDateRange.endDate" max="{{today}}">
+
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="">&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <button class="btn btn-secondary form-control"
+                                            [disabled]="!reportFilterDateRange.startDate || !reportFilterDateRange.endDate"
+                                            (click)="filterReportByDate()">Filter</button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="">&nbsp;&nbsp;</label>
+                                        <button class="btn btn-outline-secondary form-control"
+                                            [disabled]="!reportFilterDateRange.endDate || !reportFilterDateRange.startDate"
+                                            (click)="reloadAllAppliedAdvertsByMe()">Clear Filter</button>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                            <table *ngIf="reloadedApplications.length !== 0" class="table">
                                 <thead>
                                     <tr>
                                         <th>Internship
@@ -866,23 +902,24 @@
                                         </th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let internshipDetail of internshipDetails ; let i=index">
-                                        <td>{{internshipDetail?.internshipTitle}}
+                                    <tr
+                                        *ngFor="let filteredInternshipDetail of filteredInternshipDetails ; let i=index">
+                                        <td>{{filteredInternshipDetail?.internshipTitle}}
                                         </td>
-                                        <td>{{internshipDetail?.companyName}}
+                                        <td>{{filteredInternshipDetail?.companyName}}
                                         </td>
-                                        <td>{{internshipDetail?.createdOn}}
+                                        <td>{{filteredInternshipDetail?.createdOn}}
                                         </td>
-                                        <td>{{internshipDetail?.internshipStatus}}
+                                        <td>{{filteredInternshipDetail?.internshipStatus}}
                                         </td>
-                                        <td>{{internshipDetail?.period}}
+                                        <td>{{filteredInternshipDetail?.period}}
                                         </td>
 
-                                        <td>{{applications[i].appliedOn}}
+                                        <td>{{reloadedApplications[i].appliedOn}}
                                         </td>
-                                        <td>{{applications[i].status
+                                        <td>{{reloadedApplications[i].status
                                             ?
-                                            applications[i].status
+                                            reloadedApplications[i].status
                                             :
                                             'Pending'}}
                                         </td>
@@ -898,10 +935,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">
+                        <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal"
+                            (click)="reloadAllAppliedAdvertsByMe()">
                             Close
                         </button>
-                        <button type="button" class="btn btn-primary ml-5" data-dismiss="modal" (click)="savePdf()">
+                        <button type="button" class="btn btn-primary ml-5" data-dismiss="modal"
+                            (click)="savePdf(); reloadAllAppliedAdvertsByMe()">
                             Download
                         </button>
                     </div>

@@ -196,52 +196,6 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <div class=" row mb-3">
-                                            <div class="col-md-6">
-                                                <label for="internshipTitle">
-                                                    <p style="display:inline">Internship title *</p>
-                                                </label>
-                                                <input type="text" class="form-control" name="internshipTitle"
-                                                    [(ngModel)]="advertDetails.internshipTitle">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="period">
-                                                    <p style="display:inline"> Duration *</p>
-                                                </label>
-                                                <select autocomplete="on" type="text"
-                                                    style="height: 37px; width: 588px;" name="period"
-                                                    [(ngModel)]="advertDetails.period">
-
-                                                    <option *ngFor="let period of periods">
-                                                        {{period}}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <label for="domain">
-                                                    <p style="display:inline">Domain *</p>
-                                                </label>
-
-                                                <select autocomplete="on" type="text"
-                                                    style="height: 37px; width: 588px;" name="domain"
-                                                    [(ngModel)]="advertDetails.domain">
-
-                                                    <option *ngFor="let domain of domains">
-                                                        {{domain}}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="reportingDate"> Submission Deadline * </label>
-                                                <input type="date" class="form-control" name="reportingDate"
-                                                    min="{{today}}" [(ngModel)]="advertDetails.reportingDate">
-                                            </div>
-
-
-
-                                        </div>
                                         <div class="row mb-3">
                                             <div>
                                                 <div class="row">
@@ -317,26 +271,84 @@
 
                                             </div>
 
-                                            <div style="text-align: center;" class="mt-5">
-                                                <button class="btn btn-primary" (click)="upload()"
-                                                    [disabled]="!advertDetails.internshipTitle || !advertDetails.period || !advertDetails.domain ||!advertDetails.reportingDate || !selectedFiles || progressBar != 100">
-                                                    Upload
-                                                </button>
-                                                <div *ngIf="currentFile" class="progress col-md-3">
-                                                    <div class="progress-bar progress-bar-info progress-bar-striped"
-                                                        role="progressbar" attr.aria-valuenow="{{ progress }}"
-                                                        aria-valuemin="0" aria-valuemax="100"
-                                                        [ngStyle]="{ width: progress + '%' }">
-                                                        {{ progress }}%
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div *ngIf="message"
-                                                class="alert alert-dismissible alert-info fade show mt-2" role="alert">
-                                                {{message}}
 
+                                        </div>
+                                        <div class=" row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="internshipTitle">
+                                                    <p style="display:inline">Internship title *</p>
+                                                </label>
+                                                <input type="text" class="form-control" name="internshipTitle"
+                                                    [(ngModel)]="advertDetails.internshipTitle">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="period">
+                                                    <p style="display:inline"> Duration *</p>
+                                                </label>
+                                                <select autocomplete="on" type="text"
+                                                    style="height: 37px; width: 588px;" name="period"
+                                                    [(ngModel)]="advertDetails.period">
+
+                                                    <option *ngFor="let period of periods">
+                                                        {{period}}
+                                                    </option>
+                                                </select>
                                             </div>
                                         </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="domain">
+                                                    <p style="display:inline">Domain *</p>
+                                                </label>
+
+                                                <select autocomplete="on" type="text"
+                                                    style="height: 37px; width: 588px;" name="domain"
+                                                    [(ngModel)]="advertDetails.domain">
+
+                                                    <option *ngFor="let domain of domains">
+                                                        {{domain}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="reportingDate"> Submission Deadline * </label>
+                                                <input type="date" class="form-control" name="reportingDate"
+                                                    min="{{today}}" [(ngModel)]="advertDetails.reportingDate">
+                                            </div>
+
+
+
+                                        </div>
+
+                                        <div style="text-align: center;" class="mt-3">
+                                            <div *ngIf="currentFile" class="row mb-2">
+                                                <div class="col-md-6"></div>
+                                                <div class="col-md-3">
+                                                    <div class="progress">
+
+                                                        <div class="progress-bar progress-bar-info progress-bar-striped"
+                                                            role="progressbar" attr.aria-valuenow="{{ progress }}"
+                                                            aria-valuemin="0" aria-valuemax="100"
+                                                            [ngStyle]="{ width: progress + '%' }">
+                                                            {{ progress }}%
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <button class="btn btn-primary" (click)="upload()"
+                                                [disabled]="!advertDetails.internshipTitle || !advertDetails.period || !advertDetails.domain ||!advertDetails.reportingDate || !selectedFiles || progressBar != 100">
+                                                Upload
+                                            </button>
+
+                                        </div>
+                                        <div *ngIf="message" class="alert alert-dismissible alert-info fade show mt-2"
+                                            role="alert">
+                                            {{message}}
+
+                                        </div>
+
 
                                         <!-- <div hidden class="row">
                                         <div class="col-md-2">
