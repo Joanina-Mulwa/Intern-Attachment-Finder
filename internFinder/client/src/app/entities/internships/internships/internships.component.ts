@@ -99,11 +99,11 @@ export class InternshipsComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     //this.findAllinternships();
     await this.getCurrentLoggedInUsername();
+    this.getAdvertsPotedByMe();
     this.findAllAdverts();
     this.getBioDetails();
     //this.getPostedInternshipByMe();
     //this.getUsername2();
-    this.getAdvertsPotedByMe();
     this.fileInfos = this.postInternshipService.getFiles();
     this.dateToday = new Date()
     this.today = new Date().toISOString().split('T')[0];
@@ -213,26 +213,26 @@ export class InternshipsComponent implements OnInit {
           console.log("Testing dates", internship.reportingDate >= date && internship.internshipStatus === InternshipStatus.CLOSED);
 
 
-          if (internship.reportingDate >= date && internship.internshipStatus === InternshipStatus.CLOSED) {
-            internship.internshipStatus = InternshipStatus.ACTIVE;
-            console.log("About to update the intenship back to active ", internship)
+          // if (internship.reportingDate >= date && internship.internshipStatus === InternshipStatus.CLOSED) {
+          //   internship.internshipStatus = InternshipStatus.ACTIVE;
+          //   console.log("About to update the intenship back to active ", internship)
 
-            this.postInternshipService.updateAdvertDetails(internship.id, internship).subscribe(
-              (event: any) => {
+          //   this.postInternshipService.updateAdvertDetails(internship.id, internship).subscribe(
+          //     (event: any) => {
 
-                if (event instanceof HttpResponse) {
-                  var message = event.body.message;
-                  console.log("Message");
+          //       if (event instanceof HttpResponse) {
+          //         var message = event.body.message;
+          //         console.log("Message");
 
 
 
-                }
-              },
-              (err) => {
-                console.log("error updating internship", err)
-              }
-            )
-          }
+          //       }
+          //     },
+          //     (err) => {
+          //       console.log("error updating internship", err)
+          //     }
+          //   )
+          // }
 
           if (internship.internshipStatus === InternshipStatus.ACTIVE) {
             let currentDate = new Date(new Date().toJSON().slice(0, 10))
